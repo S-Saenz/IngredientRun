@@ -11,9 +11,17 @@ namespace IngredientRun
 
         public Game1()
         {
+            this.Window.Title = "Ramen Run";
+            this.IsMouseVisible = true;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+
+
+            _graphics.PreferredBackBufferWidth = 1239;//1241;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = 800;   // set this value to the desired height of your window
+            _graphics.ApplyChanges();
+
         }
 
         protected override void Initialize()

@@ -7380,11 +7380,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Programs\\Visual Studio\\IngredientRun\\IngredientRun.csproj",
+      "projectUniqueName": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
       "projectName": "IngredientRun",
-      "projectPath": "D:\\Programs\\Visual Studio\\IngredientRun\\IngredientRun.csproj",
+      "projectPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
       "packagesPath": "C:\\Users\\Oreen\\.nuget\\packages\\",
-      "outputPath": "D:\\Programs\\Visual Studio\\IngredientRun\\obj\\",
+      "outputPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
