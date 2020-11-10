@@ -11,7 +11,7 @@ namespace IngredientRun
 
         public Game1()
         {
-            this.Window.Title = "Ramen Run";
+            this.Window.Title = "Ingredient Time";
             this.IsMouseVisible = true;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
