@@ -71,3 +71,5 @@ C:\Users\shui\Source\Repos\S-Saenz\IngredientRun\obj\Debug\netcoreapp3.1\Ingredi
 C:\Users\shui\Source\Repos\S-Saenz\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.dll
 C:\Users\shui\Source\Repos\S-Saenz\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.pdb
 C:\Users\shui\Source\Repos\S-Saenz\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.genruntimeconfig.cache
+C:\Users\shui\source\repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\Character Assets\character 2-1.png.xnb
+C:\Users\shui\source\repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\chars\refugee.xnb

@@ -4,9 +4,13 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/shui/Source/Repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png</File>
+    <File>C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png</File>
+    <File>C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/Character Assets/character 2-1.png.png</File>
+    <File>C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/chars/refugee.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

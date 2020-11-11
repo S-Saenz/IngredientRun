@@ -1,2 +1,4 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/shui/Source/Repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png","C:/Users/shui/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/bg/Ingredient Run Camp.xnb","TextureProcessor","Texture2DContent",67215,6718549,0.5380504
+"C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png","C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/bg/Ingredient Run Camp.xnb","TextureProcessor","Texture2DContent",67215,6718549,0.7239728
+"C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/Character Assets/character 2-1.png.png","C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/Character Assets/character 2-1.png.xnb","TextureProcessor","Texture2DContent",8331,802901,0.0535798
+"C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/chars/refugee.png","C:/Users/shui/source/repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/chars/refugee.xnb","TextureProcessor","Texture2DContent",4239,331861,0.1203685
