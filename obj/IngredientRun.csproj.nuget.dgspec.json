@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\shui\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {}
+    "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {}
   },
   "projects": {
-    "C:\\Users\\shui\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {
+    "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\shui\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
+        "projectUniqueName": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
         "projectName": "IngredientRun",
-        "projectPath": "C:\\Users\\shui\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
-        "packagesPath": "C:\\Users\\shui\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\shui\\Source\\Repos\\S-Saenz\\IngredientRun\\obj\\",
+        "projectPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
+        "packagesPath": "C:\\Users\\Oreen\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\shui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Oreen\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
