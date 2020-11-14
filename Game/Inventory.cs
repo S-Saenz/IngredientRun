@@ -15,9 +15,10 @@ namespace IngredientRun
 {
     class Inventory
     {
-        Texture2D inventorySq;
+        Texture2D inventorySq, acorn, apple, fish;
         bool showInv = false;
         KeyboardState oldKeyState;
+
 
         public Inventory()
         {
@@ -27,10 +28,16 @@ namespace IngredientRun
         {
 
             inventorySq = Content.Load<Texture2D>("ui/paper");
+            acorn = Content.Load<Texture2D>("Ingredient/acorn");
+            apple = Content.Load<Texture2D>("Ingredient/apple");
+            fish = Content.Load<Texture2D>("Ingredient/fish");
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
         {
+            //use mouse to move objects
+
+            //press E for inventory
             if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E))
             {
                 showInv = !showInv;
@@ -41,7 +48,15 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             if(showInv)
-                spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.4f);
+            spriteBatch.Draw(acorn, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(apple, new Vector2(250, 20), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(fish, new Vector2(250, 70), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+        }
+
+        bool IsPointOver(float x, float y, Texture2D sprite)
+        {
+            return (sprite.Bounds.Contains(x, y));
         }
     }
 }
