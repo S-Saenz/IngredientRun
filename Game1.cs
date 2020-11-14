@@ -109,7 +109,8 @@ namespace IngredientRun
 
             //class draws
 
-            inventory.Draw(_spriteBatch);
+            if(inventory.showInv)
+                inventory.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

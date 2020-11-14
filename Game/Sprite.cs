@@ -18,7 +18,7 @@ namespace IngredientRun
         Texture2D img;
         Vector2 pos;
 
-        Sprite(Texture2D image, Vector2 position) {
+        public Sprite(Texture2D image, Vector2 position) {
             img = image;
             pos = position;
         }
@@ -30,6 +30,7 @@ namespace IngredientRun
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
 
         }
     }

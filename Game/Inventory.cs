@@ -15,8 +15,9 @@ namespace IngredientRun
 {
     class Inventory
     {
-        Texture2D inventorySq, acorn, apple, fish;
-        bool showInv = false;
+        Texture2D inventorySq, acornT, appleT, fishT;
+        Sprite acorn, apple, fish;
+        public bool showInv = false;
         KeyboardState oldKeyState;
 
 
@@ -28,9 +29,13 @@ namespace IngredientRun
         {
 
             inventorySq = Content.Load<Texture2D>("ui/paper");
-            acorn = Content.Load<Texture2D>("Ingredient/acorn");
-            apple = Content.Load<Texture2D>("Ingredient/apple");
-            fish = Content.Load<Texture2D>("Ingredient/fish");
+            acornT = Content.Load<Texture2D>("Ingredient/acorn");
+            appleT = Content.Load<Texture2D>("Ingredient/apple");
+            fishT = Content.Load<Texture2D>("Ingredient/fish");
+
+            acorn = new Sprite(acornT, new Vector2(200, 50));
+            apple = new Sprite(appleT, new Vector2(250, 80));
+            fish = new Sprite(fishT, new Vector2(200, 100));
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
@@ -47,11 +52,10 @@ namespace IngredientRun
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if(showInv)
-                spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.4f);
-            spriteBatch.Draw(acorn, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
-            spriteBatch.Draw(apple, new Vector2(250, 20), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
-            spriteBatch.Draw(fish, new Vector2(250, 70), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.4f);
+            acorn.Draw(spriteBatch);
+            apple.Draw(spriteBatch);
+            fish.Draw(spriteBatch);
         }
 
         bool IsPointOver(float x, float y, Texture2D sprite)
