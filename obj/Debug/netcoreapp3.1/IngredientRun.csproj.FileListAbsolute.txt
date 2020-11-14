@@ -112,3 +112,4 @@ C:\Users\Oreen\Source\Repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Conten
 C:\Users\Oreen\Source\Repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\ingredient\waterjug.xnb
 C:\Users\Oreen\Source\Repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\ingredient\wood.xnb
 C:\Users\Oreen\Source\Repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\monsters\monster.xnb
+C:\Users\Oreen\Source\Repos\S-Saenz\IngredientRun\bin\Debug\netcoreapp3.1\Content\ui\paper.xnb

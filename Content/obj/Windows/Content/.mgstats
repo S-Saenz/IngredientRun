@@ -1,4 +1,5 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/Cave Map.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/bg/Cave Map.xnb","TextureProcessor","Texture2DContent",200736,26873941,1.5795853
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/bg/Ingredient Run Camp.xnb","TextureProcessor","Texture2DContent",67215,6718549,0.3161383
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/riverscene.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/bg/riverscene.xnb","TextureProcessor","Texture2DContent",229227,16257109,0.6988979
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/chars/chara1.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/chars/chara1.xnb","TextureProcessor","Texture2DContent",8331,802901,0.0547907
@@ -17,3 +18,4 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ingredient/waterjug.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/ingredient/waterjug.xnb","TextureProcessor","Texture2DContent",8331,802901,0.0268167
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ingredient/wood.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/ingredient/wood.xnb","TextureProcessor","Texture2DContent",3435,282325,0.0107261
 "C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/monsters/monster.gif","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/monsters/monster.xnb","TextureProcessor","Texture2DContent",74418,3211349,0.0983925
+"C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ui/paper.png","C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/ui/paper.xnb","TextureProcessor","Texture2DContent",5196,3740085,0.3797267

@@ -4,6 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/Cave Map.png</File>
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/Ingredient Run Camp.png</File>
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bg/riverscene.png</File>
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/chars/chara1.png</File>
@@ -22,8 +23,11 @@
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ingredient/waterjug.png</File>
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ingredient/wood.png</File>
     <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/monsters/monster.gif</File>
+    <File>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/ui/paper.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

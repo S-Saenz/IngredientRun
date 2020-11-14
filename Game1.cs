@@ -22,6 +22,11 @@ namespace IngredientRun
         Vector2 chara2Pos;
         Vector2 chara3Pos;
         Vector2 chara4Pos;
+
+        //classes
+        Inventory inventory = new Inventory();
+
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -68,6 +73,10 @@ namespace IngredientRun
             chara2 = Content.Load<Texture2D>("chars/chara2");
             chara3 = Content.Load<Texture2D>("chars/chara3");
             chara4 = Content.Load<Texture2D>("chars/chara4");
+
+            //class loads
+            inventory.Load(Content);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -76,6 +85,7 @@ namespace IngredientRun
                 Exit();
 
             // TODO: Add your update logic here
+            inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
             base.Update(gameTime);
         }
@@ -94,9 +104,13 @@ namespace IngredientRun
             _spriteBatch.Draw(chara4, chara4Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             //player
             _spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
-         
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+
+            //class draws
+
+            inventory.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
