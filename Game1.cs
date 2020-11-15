@@ -16,6 +16,8 @@ namespace IngredientRun
         Texture2D chara3;
         Texture2D chara4;
 
+        Player player;
+
 
 
         Vector2 refugeePos;
@@ -50,7 +52,7 @@ namespace IngredientRun
         {
             // TODO: Add your initialization logic here
             //positions of characters
-            refugeePos = new Vector2(_graphics.PreferredBackBufferWidth / 2, 800 );
+            refugeePos = new Vector2(40, 60 );
 
             chara1Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 310, 800);
             chara2Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 240, 800);
@@ -67,6 +69,7 @@ namespace IngredientRun
             // TODO: use this.Content to load your game content here
             //backgrounds
             background = Content.Load<Texture2D>("bg/Ingredient Run Camp");
+            caveBG = Content.Load<Texture2D>("bg/caveMapPlan");
             //player
             refugee = Content.Load<Texture2D>("chars/refugee");
             //characters
@@ -74,6 +77,9 @@ namespace IngredientRun
             chara2 = Content.Load<Texture2D>("chars/chara2");
             chara3 = Content.Load<Texture2D>("chars/chara3");
             chara4 = Content.Load<Texture2D>("chars/chara4");
+
+            player = new Player();
+            player.Load(Content);
 
             //class loads
             inventory.Load(Content);
@@ -88,6 +94,8 @@ namespace IngredientRun
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
+            player.Update(Mouse.GetState(), Keyboard.GetState());
+
             base.Update(gameTime);
         }
 
@@ -97,14 +105,15 @@ namespace IngredientRun
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(background, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.9f);
+            _spriteBatch.Draw(caveBG, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             _spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara2, chara2Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara3, chara3Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara4, chara4Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             //player
-            _spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            player.Draw(_spriteBatch);
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
 

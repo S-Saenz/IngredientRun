@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:bg/Cave Map.png
 
+#begin bg/caveMapPlan.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg/caveMapPlan.png
+
 #begin bg/Ingredient Run Camp.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -252,4 +264,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/paper.png
+
+#begin ui/visionFade.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/visionFade.png
+
+#begin ui/visionFadeTriangle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/visionFadeTriangle.png
 

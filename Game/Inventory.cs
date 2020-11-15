@@ -62,9 +62,9 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.4f);
-            acorn.Draw(spriteBatch);
-            apple.Draw(spriteBatch);
-            fish.Draw(spriteBatch);
+            acorn.Draw(spriteBatch,1);
+            apple.Draw(spriteBatch,1);
+            fish.Draw(spriteBatch,1);
         }
 
         bool IsPointOver(Point xy, Sprite sprite)
