@@ -10,6 +10,7 @@ namespace IngredientRun
     {
         Texture2D refugee;
         Texture2D background;
+        Texture2D caveBG;
         Texture2D chara1;
         Texture2D chara2;
         Texture2D chara3;
