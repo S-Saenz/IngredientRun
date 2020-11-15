@@ -21,6 +21,8 @@ namespace IngredientRun
 
 
 
+
+
         Vector2 refugeePos;
         Vector2 chara1Pos;
         Vector2 chara2Pos;
