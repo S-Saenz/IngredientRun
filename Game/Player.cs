@@ -71,7 +71,8 @@ namespace IngredientRun
                 Color = Color.White,
                 Rotation = 0f,
                 Scale = 1f,
-                Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y)
+                Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
+                Depth = 0.1f
             };
         }
 

@@ -17,6 +17,7 @@ namespace IngredientRun
         Texture2D chara4;
 
         Player player;
+        Enemy enemy1;
 
 
 
@@ -77,6 +78,7 @@ namespace IngredientRun
             chara2 = Content.Load<Texture2D>("chars/chara2");
             chara3 = Content.Load<Texture2D>("chars/chara3");
             chara4 = Content.Load<Texture2D>("chars/chara4");
+            enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"));
 
             player = new Player();
             player.Load(Content);
@@ -113,6 +115,7 @@ namespace IngredientRun
             _spriteBatch.Draw(chara4, chara4Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             //player
             //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            enemy1.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);

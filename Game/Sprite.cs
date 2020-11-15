@@ -25,6 +25,7 @@ namespace IngredientRun
 
         public Vector2 Origin { get; set; }
         public Color Color { get; set; }
+        public float Depth { get; set; }
 
         public Sprite() { }
 
@@ -43,7 +44,7 @@ namespace IngredientRun
                              this.Origin,
                              this.Scale,
                              SpriteEffects.None,
-                             0f);
+                             this.Depth);
         }
 
 
