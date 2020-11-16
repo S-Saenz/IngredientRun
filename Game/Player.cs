@@ -47,6 +47,22 @@ namespace IngredientRun
         public void Update( MouseState mouseState, KeyboardState keyState)
         {
             //do movement here
+            if(Keyboard.GetState().IsKeyDown(Keys.Right))
+            {
+                pos.X += 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            {
+                pos.X -=1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            {
+                pos.Y -= 1;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            {
+                pos.Y += 1;
+            }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = pos;
