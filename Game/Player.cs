@@ -18,7 +18,7 @@ namespace IngredientRun
     class Player
     {
         private Texture2D texture, FOW, FOWT;
-        private Vector2 pos = new Vector2(100, 500);
+        private Vector2 pos = new Vector2(40, 190);
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
@@ -49,19 +49,19 @@ namespace IngredientRun
             //do movement here
             if( Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) )
             {
-                pos.X += 1;
+                pos.X += speed;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A) )
             {
-                pos.X -=1;
+                pos.X -=speed;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) )
             {
-                pos.Y -= 1;
+                pos.Y -= speed;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S) )
             {
-                pos.Y += 1;
+                pos.Y += speed;
             }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);

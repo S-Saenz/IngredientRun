@@ -1,0 +1,52 @@
+D:\Programs\IngredientRun.exe
+D:\Programs\Content/bg\Cave Map.xnb
+D:\Programs\Content/bg\caveMapPlan.xnb
+D:\Programs\Content/bg\Ingredient Run Camp.xnb
+D:\Programs\Content/bg\riverscene.xnb
+D:\Programs\Content/Character Assets\character 2-1.png.xnb
+D:\Programs\Content/chars\char3.xnb
+D:\Programs\Content/chars\chara1.xnb
+D:\Programs\Content/chars\chara2.xnb
+D:\Programs\Content/chars\chara3.xnb
+D:\Programs\Content/chars\chara4.xnb
+D:\Programs\Content/chars\refugee.xnb
+D:\Programs\Content/ingredient\acorn.xnb
+D:\Programs\Content/ingredient\apple.xnb
+D:\Programs\Content/ingredient\egg.xnb
+D:\Programs\Content/ingredient\evergreen.xnb
+D:\Programs\Content/ingredient\fish.xnb
+D:\Programs\Content/ingredient\gooseberry.xnb
+D:\Programs\Content/ingredient\meat.xnb
+D:\Programs\Content/ingredient\mouse melons.xnb
+D:\Programs\Content/ingredient\waterjug.xnb
+D:\Programs\Content/ingredient\wood.xnb
+D:\Programs\Content/monsters\monster.xnb
+D:\Programs\Content/ui\paper.xnb
+D:\Programs\Content/ui\visionFade.xnb
+D:\Programs\Content/ui\visionFadeTriangle.xnb
+D:\Programs\IngredientRun.dll
+D:\Programs\IngredientRun.deps.json
+D:\Programs\IngredientRun.runtimeconfig.json
+D:\Programs\IngredientRun.pdb
+D:\Programs\Microsoft.CodeAnalysis.dll
+D:\Programs\Microsoft.CodeAnalysis.CSharp.dll
+D:\Programs\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Programs\Microsoft.VisualBasic.dll
+D:\Programs\MonoGame.Framework.dll
+D:\Programs\SharpDX.dll
+D:\Programs\SharpDX.Direct2D1.dll
+D:\Programs\SharpDX.Direct3D11.dll
+D:\Programs\SharpDX.Direct3D9.dll
+D:\Programs\SharpDX.DXGI.dll
+D:\Programs\SharpDX.Mathematics.dll
+D:\Programs\SharpDX.MediaFoundation.dll
+D:\Programs\SharpDX.XAudio2.dll
+D:\Programs\SharpDX.XInput.dll
+D:\Programs\runtimes\debian-x64\native\libuv.so
+D:\Programs\runtimes\fedora-x64\native\libuv.so
+D:\Programs\runtimes\opensuse-x64\native\libuv.so
+D:\Programs\runtimes\osx\native\libuv.dylib
+D:\Programs\runtimes\rhel-x64\native\libuv.so
+D:\Programs\runtimes\win7-arm\native\libuv.dll
+D:\Programs\runtimes\win7-x64\native\libuv.dll
+D:\Programs\runtimes\win7-x86\native\libuv.dll
