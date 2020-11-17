@@ -28,6 +28,7 @@ namespace IngredientRun
         Vector2 chara2Pos;
         Vector2 chara3Pos;
         Vector2 chara4Pos;
+        Vector2 bgPos = new Vector2(0,0);
 
         //classes
         Inventory inventory = new Inventory();
@@ -82,7 +83,7 @@ namespace IngredientRun
             chara4 = Content.Load<Texture2D>("chars/chara4");
             enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"));
 
-            player = new Player();
+            player = new Player(_graphics);
             player.Load(Content);
 
             //class loads
@@ -98,7 +99,7 @@ namespace IngredientRun
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
-            player.Update(Mouse.GetState(), Keyboard.GetState());
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
 
             base.Update(gameTime);
         }
@@ -109,7 +110,7 @@ namespace IngredientRun
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(caveBG, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
+            _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             _spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara2, chara2Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
