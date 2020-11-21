@@ -51,7 +51,7 @@ namespace IngredientRun
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState)
         {
-            //do movement here
+            //Movement
             if( Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) )
             {
                 if (pos.X < mapMoveBorder.Right)

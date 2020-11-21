@@ -48,7 +48,6 @@ namespace IngredientRun
 
             spriteBatch.Draw(texture, new Vector2(1000, 250), null, Color.White, 0.0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
 
-            //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
 
 
         }

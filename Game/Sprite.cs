@@ -17,7 +17,7 @@ namespace IngredientRun
     {
         public Texture2D img { get; set; }
         public Vector2 pos { get; set; }
-        float scale = 0.5f;
+        public float scale = 0.5f;
 
 
         public float Rotation { get; set; }
@@ -59,12 +59,14 @@ namespace IngredientRun
         }
 
         public void SetPosByMouse(Point p) {
-            pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
+            //pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
+            pos = new Vector2(p.X, p.Y);
         }
 
         public void Draw(SpriteBatch spriteBatch, int i)
         {
-            spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
+            //spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 0.5f);
 
         }
     }
