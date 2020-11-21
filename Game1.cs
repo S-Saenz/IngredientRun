@@ -2,6 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
+using System.Diagnostics;
+
 //hi
 //123
 namespace IngredientRun
@@ -92,6 +94,8 @@ namespace IngredientRun
 
         protected override void Update(GameTime gameTime)
         {
+            //Debug.WriteLine();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
@@ -99,6 +103,10 @@ namespace IngredientRun
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
             player.Update(Mouse.GetState(), Keyboard.GetState());
+
+
+            
+
 
             base.Update(gameTime);
         }

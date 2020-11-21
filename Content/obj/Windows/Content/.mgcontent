@@ -25,10 +25,12 @@
     <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ingredient/wood.png</File>
     <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/monsters/monster.gif</File>
     <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/paper.png</File>
+    <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/Temp Inventory.png</File>
     <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/visionFade.png</File>
     <File>C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/visionFadeTriangle.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

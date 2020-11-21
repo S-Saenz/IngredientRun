@@ -177,3 +177,4 @@ C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\Ingredient
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.dll
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.pdb
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.genruntimeconfig.cache
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\ui\Temp Inventory.xnb

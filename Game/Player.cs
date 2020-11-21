@@ -46,14 +46,14 @@ namespace IngredientRun
 
         public void Update( MouseState mouseState, KeyboardState keyState)
         {
-            //do movement here
+            //Movement
             if( Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) )
             {
                 pos.X += 1;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A) )
             {
-                pos.X -=1;
+                pos.X -= 1;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) )
             {
