@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {}
+    "C:\\Users\\shui\\source\\repos\\IngredientRun\\IngredientRun.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj": {
+    "C:\\Users\\shui\\source\\repos\\IngredientRun\\IngredientRun.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
+        "projectUniqueName": "C:\\Users\\shui\\source\\repos\\IngredientRun\\IngredientRun.csproj",
         "projectName": "IngredientRun",
-        "projectPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\IngredientRun.csproj",
-        "packagesPath": "C:\\Users\\Oreen\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Oreen\\Source\\Repos\\S-Saenz\\IngredientRun\\obj\\",
+        "projectPath": "C:\\Users\\shui\\source\\repos\\IngredientRun\\IngredientRun.csproj",
+        "packagesPath": "C:\\Users\\shui\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\shui\\source\\repos\\IngredientRun\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Oreen\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\shui\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -30,7 +30,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -42,7 +41,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "MonoGame.Content.Builder.Task": {
               "target": "Package",
@@ -71,7 +69,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
         }
       }
     }
