@@ -105,8 +105,18 @@ namespace IngredientRun
                 FOWPosVec.Y
                 )));
             return mapPos;
-
-
+            /*
+            //overlap
+            if (Player.Intersects(Ingredient))
+            {
+                isColliding = true;
+            else
+                isColliding = false;
+            }
+            //if overlap pick up and ingredient is invisible     
+            if (Keyboard.GetState().IsKeyDown(Keys.Space && bool isColliding = true))
+              this.ingredient.Visible = false;
+            */
         }
 
         public void Load(ContentManager Content)

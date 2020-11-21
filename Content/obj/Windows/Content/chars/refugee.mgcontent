@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/chars/refugee.png</SourceFile>
-  <SourceTime>2020-11-13T22:57:05.7368536-08:00</SourceTime>
-  <DestFile>C:/Users/Oreen/Source/Repos/S-Saenz/IngredientRun/Content/bin/Windows/Content/chars/refugee.xnb</DestFile>
-  <DestTime>2020-11-15T21:02:19.3663974-08:00</DestTime>
+  <SourceFile>C:/Users/shui/source/repos/IngredientRun/Content/chars/refugee.png</SourceFile>
+  <SourceTime>2020-11-20T14:54:50.0140329-08:00</SourceTime>
+  <DestFile>C:/Users/shui/source/repos/IngredientRun/Content/bin/Windows/Content/chars/refugee.xnb</DestFile>
+  <DestTime>2020-11-20T14:56:24.9677166-08:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T16:17:54-07:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
