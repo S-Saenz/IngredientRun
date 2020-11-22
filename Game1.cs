@@ -11,6 +11,7 @@ namespace IngredientRun
     public class Game1 : Game
     {
         Texture2D refugee;
+        Texture2D acornT, appleT, fishT, meatT, woodT;
         Texture2D background;
         Texture2D caveBG;
         Texture2D chara1;
@@ -34,6 +35,8 @@ namespace IngredientRun
 
         //classes
         Inventory inventory = new Inventory();
+
+        PickUpable pickUp1;
 
 
         private GraphicsDeviceManager _graphics;
@@ -85,6 +88,15 @@ namespace IngredientRun
             chara4 = Content.Load<Texture2D>("chars/chara4");
             enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"));
 
+
+            acornT = Content.Load<Texture2D>("Ingredient/acorn");
+            appleT = Content.Load<Texture2D>("Ingredient/apple");
+            fishT = Content.Load<Texture2D>("Ingredient/fish");
+            meatT = Content.Load<Texture2D>("Ingredient/meat");
+            woodT = Content.Load<Texture2D>("Ingredient/wood");
+
+            pickUp1 = new PickUpable(acornT);
+
             player = new Player(_graphics);
             player.Load(Content);
 
@@ -104,6 +116,7 @@ namespace IngredientRun
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
+            pickUp1.Update(bgPos);
 
 
             
@@ -120,10 +133,11 @@ namespace IngredientRun
             _spriteBatch.Begin();
             _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
-            _spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
+            /*_spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara2, chara2Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara3, chara3Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara4, chara4Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
+            */
             //player
             //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
             enemy1.Draw(_spriteBatch);
@@ -132,6 +146,7 @@ namespace IngredientRun
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
 
             //class draws
+            pickUp1.Draw(_spriteBatch);
 
             if(inventory.showInv)
                 inventory.Draw(_spriteBatch);

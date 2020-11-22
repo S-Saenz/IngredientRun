@@ -124,6 +124,8 @@ namespace IngredientRun
 
         }
 
+        
+
         public void Load(ContentManager Content)
         {
             texture = Content.Load<Texture2D>("chars/refugee");

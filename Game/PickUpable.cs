@@ -1,6 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
 
 namespace IngredientRun
 {
@@ -8,9 +18,10 @@ namespace IngredientRun
     {
         private Texture2D texture;
         private Vector2 pos = new Vector2(100, 200);
+        private Vector2 staticPos = new Vector2(100, 200);
         private Rectangle hitBox;
 
-        public Enemy(Texture2D img)
+        public PickUpable(Texture2D img)
         {
             texture = img;
         }
@@ -21,15 +32,16 @@ namespace IngredientRun
         }
 
 
-        public void Update(KeyboardState keyState, KeyboardState oldKeyState)
+        public void Update( Vector2 mapPos)
         {
-            hitBox = new Rectangle(new Point(pos.X, pos.Y), new Point(texture.Height, texture.Width));
+            pos = mapPos+staticPos;
+            hitBox = new Rectangle(new Point((int)(mapPos.X + pos.X), (int)(mapPos.Y + pos.Y)), new Point(texture.Height, texture.Width));
 
         }
 
         public void Load(ContentManager Content)
         {
-            hitBox = new Rectangle(new Point(pos.X, pos.Y), new Point(texture.Height, texture.Width));
+            hitBox = new Rectangle(new Point((int)(pos.X), (int)(pos.Y)), new Point(texture.Height, texture.Width));
         }
 
 
