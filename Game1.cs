@@ -86,7 +86,7 @@ namespace IngredientRun
             chara2 = Content.Load<Texture2D>("chars/chara2");
             chara3 = Content.Load<Texture2D>("chars/chara3");
             chara4 = Content.Load<Texture2D>("chars/chara4");
-            enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"));
+            enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"), new Vector2(500,600));
 
 
             acornT = Content.Load<Texture2D>("Ingredient/acorn");
@@ -95,7 +95,7 @@ namespace IngredientRun
             meatT = Content.Load<Texture2D>("Ingredient/meat");
             woodT = Content.Load<Texture2D>("Ingredient/wood");
 
-            pickUp1 = new PickUpable(acornT);
+            pickUp1 = new PickUpable(acornT, new Vector2(1500, 230));
 
             player = new Player(_graphics);
             player.Load(Content);
@@ -117,6 +117,7 @@ namespace IngredientRun
 
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
             pickUp1.Update(bgPos);
+            enemy1.Update(bgPos);
             if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
                 pickUp1.visible = false;
                 inventory.addIng(new Ingredient(pickUp1.texture,inventory.randomBox()));
@@ -144,12 +145,12 @@ namespace IngredientRun
             //player
             //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
             enemy1.Draw(_spriteBatch);
+            pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
 
             //class draws
-            pickUp1.Draw(_spriteBatch);
 
             if(inventory.showInv)
                 inventory.Draw(_spriteBatch);

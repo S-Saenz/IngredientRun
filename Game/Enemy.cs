@@ -17,11 +17,13 @@ namespace IngredientRun
     class Enemy
     {
         private Texture2D texture;
-        private Vector2 pos = new Vector2(100, 200);
+        private Vector2 pos;
+        private Vector2 staticPos;
         private Rectangle hitBox;
 
-        public Enemy(Texture2D img)
+        public Enemy(Texture2D img, Vector2 position)
         {
+            pos = staticPos = position;
             texture = img;
         }
 
@@ -30,10 +32,10 @@ namespace IngredientRun
             return pos;
         }
 
-
-        public void Update(KeyboardState keyState, KeyboardState oldKeyState)
+        public void Update(Vector2 mapPos)
         {
-
+            pos = mapPos + staticPos;
+            hitBox = new Rectangle(new Point((int)(mapPos.X + pos.X), (int)(mapPos.Y + pos.Y)), new Point(texture.Height, texture.Width));
 
         }
 
@@ -46,7 +48,7 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, new Vector2(1000, 250), null, Color.White, 0.0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(texture, pos, null, Color.White, 0.0f, Vector2.Zero, 0.5f, SpriteEffects.None, 0.5f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
 

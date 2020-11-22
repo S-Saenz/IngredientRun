@@ -22,9 +22,11 @@ namespace IngredientRun
         public Rectangle hitBox;
         public bool visible = true;
 
-        public PickUpable(Texture2D img)
+        public PickUpable(Texture2D img, Vector2 position)
         {
+            pos = staticPos = position;
             texture = img;
+                ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
         }
 
         public Vector2 GetPos()
