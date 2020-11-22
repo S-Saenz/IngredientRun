@@ -18,13 +18,19 @@ namespace IngredientRun
     class Player
     {
         private Texture2D texture, FOW, FOWT;
-        private Vector2 pos = new Vector2(100, 500);
+        private Vector2 pos = new Vector2(40, 190);
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
+        Rectangle mapMoveBorder;
+        Vector2 mapPos = Vector2.Zero;
+        GraphicsDeviceManager graphics;
 
-        public Player()
+        public Player(GraphicsDeviceManager graphic)
         {
+            graphics = graphic;
+            mapMoveBorder = new Rectangle(new Point((graphics.PreferredBackBufferWidth / 2) - 150,
+                (graphics.PreferredBackBufferHeight / 2) - 150), new Point(300, 300));
 
         }
 
@@ -44,24 +50,52 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public void Update( MouseState mouseState, KeyboardState keyState)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState)
         {
             //Movement
-            if( Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                pos.X += 1;
+                if (pos.X < mapMoveBorder.Right)
+                {
+                    pos.X += speed;
+                }
+                else
+                {
+                    mapPos.X -= speed;
+                }
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                pos.X -= 1;
+                if (pos.X > mapMoveBorder.Left)
+                {
+                    pos.X -= speed;
+                }
+                else
+                {
+                    mapPos.X += speed;
+                }
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                pos.Y -= 1;
+                if (pos.Y > mapMoveBorder.Top)
+                {
+                    pos.Y -= speed;
+                }
+                else
+                {
+                    mapPos.Y += speed;
+                }
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                pos.Y += 1;
+                if (pos.Y < mapMoveBorder.Bottom)
+                {
+                    pos.Y += speed;
+                }
+                else
+                {
+                    mapPos.Y -= speed;
+                }
             }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
@@ -71,7 +105,7 @@ namespace IngredientRun
                 FOWPosVec.X,
                 FOWPosVec.Y
                 )));
-
+            return mapPos;
 
 
         }
