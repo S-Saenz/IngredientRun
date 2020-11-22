@@ -105,6 +105,20 @@ namespace IngredientRun
                 FOWPosVec.X,
                 FOWPosVec.Y
                 )));
+
+
+            //overlap
+            /*if (RectCollision(pos,))
+            {
+                isColliding = true;
+            else
+                isColliding = false;
+            }
+            //if overlap pick up and ingredient is invisible     
+            if (Keyboard.GetState().IsKeyDown(Keys.Space && bool isColliding = true))
+              this.ingredient.Visible = false;
+            */
+
             return mapPos;
 
 
@@ -136,6 +150,25 @@ namespace IngredientRun
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
 
 
+        }
+
+
+        bool RectCollision(Vector2 objPos, Rectangle rect)
+        {
+            if (objPos.X > rect.Left && objPos.X < rect.Right && objPos.Y > rect.Top && objPos.Y < rect.Bottom)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        bool RectRectCollision(Rectangle rect1, Rectangle rect2)
+        {
+            if (rect1.Right > rect2.Left && rect1.Right < rect2.Right && rect1.Top > rect2.Top && rect1.Bottom < rect2.Bottom)
+            {
+                return true;
+            }
+            return false;
         }
     }
 
