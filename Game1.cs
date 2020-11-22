@@ -117,7 +117,10 @@ namespace IngredientRun
 
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
             pickUp1.Update(bgPos);
-
+            if (player.RectCollision(pickUp1.hitBox)) {
+                pickUp1.visible = false;
+                inventory.addIng(new Ingredient(pickUp1.texture,Vector2.Zero));
+            }
 
             
 

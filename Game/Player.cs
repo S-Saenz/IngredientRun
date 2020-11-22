@@ -124,7 +124,6 @@ namespace IngredientRun
 
         }
 
-        
 
         public void Load(ContentManager Content)
         {
@@ -155,9 +154,9 @@ namespace IngredientRun
         }
 
 
-        bool RectCollision(Vector2 objPos, Rectangle rect)
+        public bool RectCollision(Rectangle rect)
         {
-            if (objPos.X > rect.Left && objPos.X < rect.Right && objPos.Y > rect.Top && objPos.Y < rect.Bottom)
+            if (pos.X > rect.Left && pos.X < rect.Right && pos.Y > rect.Top && pos.Y < rect.Bottom)
             {
                 return true;
             }
