@@ -243,6 +243,7 @@ namespace IngredientRun
 
         public void addIng(Ingredient ing) {
             ings.Add(ing);
+            ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
         }
 
         public void addBox(Vector2 coordinate)
