@@ -24,6 +24,7 @@ namespace IngredientRun
         KeyboardState oldKeyState;
 
         List<Vector2> boxes = new List<Vector2>();
+        Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //for timing how fast items fall down inventory
         float timeSinceLastDrop = 0f;
@@ -36,9 +37,31 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
+            //add in boxes to dictionary, boxDict
+            int gridWidth = 9;
+            int gridHeight = 3;
+            float gridWidthMargin = 100;
+            float gridHeightMargin = 100;
+            Vector2 topLeft = new Vector2(250, 162);
+
+            for(int i = 0; i < gridWidth; i++) //space out columns 
+            {
+                for(int j = 0; j < gridHeight; j++) //space out rows 
+                {
+                    Vector2 gridIndex = new Vector2(i, j);
+
+                    float boxPosX = topLeft.X + (i * gridWidthMargin); 
+                    float boxPosY = topLeft.Y + (j * gridHeightMargin);
+                    Vector2 boxPos = new Vector2(boxPosX, boxPosY);
+
+                    //Debug.WriteLine($"{gridIndex}  {boxPos}");
+                    boxDict.Add(gridIndex, boxPos);
+                }
+            }
+
             //manually add in box coordinates
             //row 1
-            addBox(new Vector2(250, 162));
+            addBox(new Vector2(250, 162));    
             addBox(new Vector2(350, 162));
             addBox(new Vector2(450, 162));
             addBox(new Vector2(550, 162));
@@ -93,6 +116,7 @@ namespace IngredientRun
             ings.Add(fish);
             ings.Add(meat);
             ings.Add(wood);
+            shakeBag();
 
             foreach(Ingredient ing in ings)
             {
@@ -230,7 +254,10 @@ namespace IngredientRun
                 ing.holding = false;
 
                 //snap ingredient to grid
-                ing.pos = closestBox(ing);
+
+                //make sure the box is empty
+                ////////////////////////////
+                ing.pos = closestEmptyBox(ing);
                 Debug.WriteLine(canIngredientFall(ing));
 
             }
@@ -268,30 +295,115 @@ namespace IngredientRun
             return highest;
         }
 
-        //calculate closest box to ingredient 
-        public Vector2 closestBox(Ingredient ingredient)
+        //calculate closest, empty box to ingredient 
+        public Vector2 closestEmptyBox(Ingredient ingredient)
         {
-            Vector2 closestBoxCoordinate;
-            float shortestDistance;
+            //create a dictionary of boxes by distance 
+            Dictionary<Vector2, float> boxDistanceDictionary = new Dictionary<Vector2, float>(); 
 
-            //arbitrary initialization
-            closestBoxCoordinate = boxes[1];
-            shortestDistance = Vector2.Distance(ingredient.pos, closestBoxCoordinate);
-
-            foreach(Vector2 boxCoordinate in boxes)
+            //add box coordinate and distance pair to boxDistanceDictionary
+            foreach(Vector2 box in boxes)
             {
-                //calc distance between ingredient and given box
-                float distance = Vector2.Distance(boxCoordinate, ingredient.pos);
-                
-                //closer box is found!
-                if (distance < shortestDistance )
-                {
-                    shortestDistance = distance;
-                    closestBoxCoordinate = boxCoordinate;
-                }
+                float distance = Vector2.Distance(ingredient.pos, box); //distance between ingredient and given box
+                boxDistanceDictionary.Add(box, distance);
             }
 
-            return closestBoxCoordinate;
+            //sort the dictionary using LINQ to specify sorting by value
+            var sortedBoxes = from pair in boxDistanceDictionary
+                              orderby pair.Value ascending
+                              select pair;
+
+            foreach(KeyValuePair<Vector2, float> pair in sortedBoxes)
+            {
+                //Debug.WriteLine("{0}: {1}", pair.Key, pair.Value);
+                
+                //we are going to be printing the gridIndex and distance 
+                foreach(KeyValuePair<Vector2, Vector2> box in boxDict)
+                {
+                    if(pair.Key == box.Value)
+                    {
+                        Debug.WriteLine($"{box.Key}: {pair.Value}");
+                    }
+                }
+            }
+            
+
+            bool assigned = false; //flag for when ingredient has been assigned
+            int skip = 0;          //when closest box(es) occupied, skip index by value
+            Vector2 closestBox = new Vector2(-1, -1);    //this variable will carry the answer (given a random initialization)
+
+            //this while loop will try each box starting with the closest
+            while(!assigned)
+            {
+                closestBox = sortedBoxes.ElementAt(skip).Key;
+
+
+                //find grid index of closestBox in boxDict
+                Vector2 gridIndex = new Vector2(-1, -1); //random initialization
+                foreach (KeyValuePair<Vector2, Vector2> pair in boxDict)
+                {
+                    if (pair.Value == closestBox)
+                    {
+                        //a match in pos coordinates has been found!
+                        //Debug.WriteLine(pair.Key + "is empty and closest!");
+                        gridIndex = pair.Key;
+                    }
+                }
+
+
+                //this is where the magic happens
+                if ( isSquareEmpty(closestBox) )
+                {
+                    //closestBox is empty!
+                    assigned = true; //exit the loop
+
+                    //ingredient.pos = closestBox; //snap ingredient to that box
+                    //return closestBox;
+                    //Debug.WriteLine(closestBox + " is empty and closest!");
+                    Debug.WriteLine(gridIndex + "is empty and closest!");
+
+
+                }
+                else
+                {
+                    skip ++; //make loop check the next box in sortedBoxes
+
+                    //Debug.WriteLine(closestBox + " is not empty!");
+                    Debug.WriteLine(gridIndex + "is not empty! Moving on!");
+                }
+
+                
+            }
+
+
+            return closestBox; //final answer
+
+            ///////////////////////////////////////// LEGACY CODE //////////////////////////////////
+            //didn't account if closestBox already had an ingredient in it
+
+            //Vector2 closestBoxCoordinate;
+            //float shortestDistance;
+
+            ////arbitrary initialization
+            //closestBoxCoordinate = boxes[1];
+            //shortestDistance = Vector2.Distance(ingredient.pos, closestBoxCoordinate);
+
+
+
+            //foreach(Vector2 boxCoordinate in boxes)
+            //{
+            //    //calc distance between ingredient and given box
+            //    float distance = Vector2.Distance(boxCoordinate, ingredient.pos);
+
+            //    //closer box is found!
+            //    if (distance < shortestDistance )
+            //    {
+            //        shortestDistance = distance;
+            //        closestBoxCoordinate = boxCoordinate;
+            //    }
+            //}
+
+            //return closestBoxCoordinate;
         }
 
         //drop ingredient down grid
@@ -367,8 +479,63 @@ namespace IngredientRun
         {
             foreach(Ingredient ingredient in ings)
             {
-                ingredient.pos = randomBox();
+                assignDistinctSpace(ingredient);
             }
+        }
+
+        //put an ingredient in a random inventory square, but assure it is empty before placing it
+        public void assignDistinctSpace(Ingredient ingredient)
+        {
+            //ingredient.pos = randomBox(); //assign ingredient to a random square within the grid 
+
+            //int count = 0;
+            //foreach (Ingredient duplicate in ings) //iterate through all ingredients to look for duplicates
+            //{
+            //    //if an ingredient in the collection matches the randomBox, increment count (including the initial ingredient argument)
+            //    if(ingredient.pos == duplicate.pos)
+            //    {
+            //        count++;
+            //        if(count >= 2)
+            //        {
+            //            //if there are two ingredients that share a box, reassign initial ingredient argument
+            //            assignDistinctSpace(ingredient);
+            //        }
+            //    }
+            //}
+
+            Vector2 randBox = randomBox();
+            bool empty = true;
+
+            foreach(Ingredient single in ings)
+            {
+                if(single.pos == randBox)
+                {
+                    //there is already an ingredient in the random box! 
+                    empty = false;
+                }
+            }
+
+            if(empty)
+            {
+                ingredient.pos = randBox; //assign ingredient to empty box in inventory
+            }
+            else
+            {
+                assignDistinctSpace(ingredient); //try again
+            }
+        }
+
+        //check if square has an ingredient in it 
+        public bool isSquareEmpty(Vector2 coordinate)
+        {
+            foreach (Ingredient ingredient in ings)
+            {
+                if (ingredient.pos == coordinate)
+                {
+                    return false; //ingredient found in square!
+                }
+            }
+            return true; //it's empty!
         }
 
     }
