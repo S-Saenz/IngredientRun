@@ -178,3 +178,12 @@ C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\Ingredient
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.pdb
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\obj\Debug\netcoreapp3.1\IngredientRun.genruntimeconfig.cache
 C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\ui\Temp Inventory.xnb
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\tileMaps\Map Prototype.xnb
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\tileMaps\MapPrototype.xnb
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Autofac.dll
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\MonoGame.Extended.dll
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\MonoGame.Extended.Graphics.dll
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\MonoGame.Extended.Tiled.dll
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\ui\Inventory\Inventory Backpack and Grid.xnb
+C:\Users\iziff\OneDrive\Desktop\IngredientRun\bin\Debug\netcoreapp3.1\Content\ui\Inventory\Inventory Prototype Square Filled.xnb

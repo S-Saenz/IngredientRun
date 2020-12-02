@@ -18,9 +18,10 @@ namespace IngredientRun
         public bool holding = false;
         //public float Rotation;
         Vector2 Origin;
-        Vector2 coordinate;
+        public Vector2 index = new Vector2(1, 0);
+        public bool falling = false;
         //public Vector2 pos;
-        public bool highest = false;
+        //public bool highest = false;
         //public float Scale = 1f;
 
         //for timing how fast items fall down inventory

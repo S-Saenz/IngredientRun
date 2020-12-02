@@ -3,6 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
+using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Renderers;
+
 
 //hi
 //123
@@ -38,6 +42,15 @@ namespace IngredientRun
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        ///////////////////////////////////////////////////////
+        // The tile map
+        //private TiledMap map;
+        //// The renderer for the map
+        //private TiledMapRenderer mapRenderer;
+
+        //private Camera2D camera;
+        /// ////////////////////////////////////////////////////
+
         public Game1()
         {
             this.Window.Title = "Ingredient Time";
@@ -65,6 +78,15 @@ namespace IngredientRun
             chara4Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 100, 800);
 
             base.Initialize();
+
+            ////////////////////////////////////////////////////////////////////////
+            //trying to figure out the tile map
+            // Load the compiled map
+            //map = Content.Load<TiledMap>("tileMaps/MapPrototypeTileset");
+            //map = Content.Load<TiledMap>("tileMaps/MapPrototype");
+            //// Create the map renderer
+            //mapRenderer = new TiledMapRenderer(GraphicsDevice);
+            ////////////////////////////////////////////////////////////////////////
         }
 
         protected override void LoadContent()
@@ -105,8 +127,12 @@ namespace IngredientRun
             player.Update(Mouse.GetState(), Keyboard.GetState());
 
 
-            
-
+            //////////////////////////////////////////////////////////
+            // Update the map
+            // map Should be the `TiledMap`
+            //mapRenderer.Update(map, gameTime);
+            //mapRenderer.Update(gameTime);
+            ///////////////////////////////////////////////////
 
             base.Update(gameTime);
         }
@@ -114,6 +140,20 @@ namespace IngredientRun
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Clear the screen
+            GraphicsDevice.Clear(Color.Pink);
+
+            // Transform matrix is only needed if you have a Camera2D
+            // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
+            //_spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
+
+            // map Should be the `TiledMap`
+            // Once again, the transform matrix is only needed if you have a Camera2D
+            //mapRenderer.Draw(map, camera.GetViewMatrix());
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
