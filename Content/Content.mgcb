@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:tools\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -252,6 +253,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:monsters/monster.gif
+
+#begin tilemaps/prototype/MapPrototypeTiledCollider.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/prototype/MapPrototypeTiledCollider.tmx
+
+#begin tilemaps/prototype/MapPrototypeTileset.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tilemaps/prototype/MapPrototypeTileset.tsx
+
+#begin tilemaps/prototype/PrototypeTileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tilemaps/prototype/PrototypeTileset.png
 
 #begin ui/paper.png
 /importer:TextureImporter
