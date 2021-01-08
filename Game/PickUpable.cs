@@ -26,7 +26,7 @@ namespace IngredientRun
         {
             pos = staticPos = position;
             texture = img;
-                ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
+            // ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
         }
 
         public Vector2 GetPos()
