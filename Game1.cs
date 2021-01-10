@@ -32,7 +32,7 @@ namespace IngredientRun
         Vector2 chara2Pos;
         Vector2 chara3Pos;
         Vector2 chara4Pos;
-        Vector2 bgPos = new Vector2(0,0);
+        Vector2 bgPos;
         Vector2 screenDimensions;
 
         //classes
@@ -61,10 +61,13 @@ namespace IngredientRun
             _graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
+            // Set start location
+            bgPos = new Vector2(0, 0);
+
             // Set up camera and viewport
             _viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
             _camera = new OrthographicCamera(_viewportAdapter);
-            _camera.Zoom = 4;
+            _camera.Zoom = 6;
         }
 
         protected override void Initialize()
@@ -128,8 +131,8 @@ namespace IngredientRun
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
-            _camera.LookAt(bgPos * -1 / 4);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState()) - screenDimensions / 2;
+            _camera.LookAt(bgPos * -1 / _camera.Zoom);
             pickUp1.Update(bgPos);
             enemy1.Update(bgPos);
             if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
@@ -161,8 +164,8 @@ namespace IngredientRun
             */
             //player
             //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
-            enemy1.Draw(_spriteBatch);
-            pickUp1.Draw(_spriteBatch);
+            // enemy1.Draw(_spriteBatch);
+            // pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
