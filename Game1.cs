@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
 
+using MonoGame.Extended;
+
 //hi
 //123
 namespace IngredientRun
@@ -13,7 +15,7 @@ namespace IngredientRun
         Texture2D refugee;
         Texture2D acornT, appleT, fishT, meatT, woodT;
         Texture2D background;
-        Texture2D caveBG;
+        // Texture2D caveBG;
         Texture2D chara1;
         Texture2D chara2;
         Texture2D chara3;
@@ -22,9 +24,7 @@ namespace IngredientRun
         Player player;
         Enemy enemy1;
 
-
-
-
+        TileMap caveMapBackground;
 
         Vector2 refugeePos;
         Vector2 chara1Pos;
@@ -41,6 +41,8 @@ namespace IngredientRun
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        private OrthographicCamera _camera;
 
         public Game1()
         {
@@ -78,7 +80,10 @@ namespace IngredientRun
             // TODO: use this.Content to load your game content here
             //backgrounds
             background = Content.Load<Texture2D>("bg/Ingredient Run Camp");
-            caveBG = Content.Load<Texture2D>("bg/caveMapPlan");
+            // caveBG = Content.Load<Texture2D>("bg/caveMapPlan");
+
+            caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+
             //player
             refugee = Content.Load<Texture2D>("chars/refugee");
             //characters
@@ -123,7 +128,7 @@ namespace IngredientRun
                 inventory.addIng(new Ingredient(pickUp1.texture,inventory.randomBox()));
             }
 
-            
+            caveMapBackground.Update(gameTime);
 
 
             base.Update(gameTime);
@@ -135,7 +140,8 @@ namespace IngredientRun
 
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
+            caveMapBackground.Draw();
+            // _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             /*_spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
             _spriteBatch.Draw(chara2, chara2Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
