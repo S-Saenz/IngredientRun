@@ -152,9 +152,10 @@ namespace IngredientRun
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
 
+            // Draw tilemap background
+            caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix);
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            caveMapBackground.Draw(_camera.GetViewMatrix(), projectionMatrix);
             // _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             /*_spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);

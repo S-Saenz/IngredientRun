@@ -33,9 +33,11 @@ namespace IngredientRun
             _renderer.Update(gameTime);
         }
 
-        public void Draw(Matrix viewMatrix, Matrix projMatrix)
+        public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
         {
+            spriteBatch.Begin();
             _renderer.Draw(viewMatrix, projMatrix);
+            spriteBatch.End();
         }
     }
 }
