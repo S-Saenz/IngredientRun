@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
@@ -32,9 +33,9 @@ namespace IngredientRun
             _renderer.Update(gameTime);
         }
 
-        public void Draw()
+        public void Draw(Matrix viewMatrix, Matrix projMatrix)
         {
-            _renderer.Draw();
+            _renderer.Draw(viewMatrix, projMatrix);
         }
     }
 }

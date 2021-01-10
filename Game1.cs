@@ -5,6 +5,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
 
 using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 //hi
 //123
@@ -32,6 +33,7 @@ namespace IngredientRun
         Vector2 chara3Pos;
         Vector2 chara4Pos;
         Vector2 bgPos = new Vector2(0,0);
+        Vector2 screenDimensions;
 
         //classes
         Inventory inventory = new Inventory();
@@ -43,6 +45,7 @@ namespace IngredientRun
         private SpriteBatch _spriteBatch;
 
         private OrthographicCamera _camera;
+        private DefaultViewportAdapter _viewportAdapter;
 
         public Game1()
         {
@@ -51,12 +54,17 @@ namespace IngredientRun
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            screenDimensions = new Vector2(1728, 972);
 
             
-            _graphics.PreferredBackBufferWidth = 1728;//1241;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 972;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth = (int)screenDimensions.X;//1241;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
+            // Set up camera and viewport
+            _viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            _camera = new OrthographicCamera(_viewportAdapter);
+            _camera.Zoom = 4;
         }
 
         protected override void Initialize()
@@ -121,6 +129,7 @@ namespace IngredientRun
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState());
+            _camera.LookAt(bgPos * -1 / 4);
             pickUp1.Update(bgPos);
             enemy1.Update(bgPos);
             if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
@@ -138,9 +147,11 @@ namespace IngredientRun
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
+
             // TODO: Add your drawing code here
             _spriteBatch.Begin();
-            caveMapBackground.Draw();
+            caveMapBackground.Draw(_camera.GetViewMatrix(), projectionMatrix);
             // _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             /*_spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
