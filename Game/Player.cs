@@ -10,12 +10,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using IngredientRun.Game;
 
 namespace IngredientRun
 {
 
 
-    class Player
+    class Player : BaseCharacter
     {
         private Texture2D texture, FOW, FOWT;
         private Vector2 pos = new Vector2(40, 190);

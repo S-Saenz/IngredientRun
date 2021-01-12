@@ -10,11 +10,11 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using IngredientRun.Game;
 
 namespace IngredientRun
 {
-    class Enemy
+    class Enemy : BaseCharacter
     {
         private Texture2D texture;
         private Vector2 pos;
