@@ -21,7 +21,7 @@ namespace IngredientRun.Game
             y = y_;
         }
 
-        public chooseAnimation(int idx)
+        public Animation getAnimation(int idx)
         {
             //code here
         }
