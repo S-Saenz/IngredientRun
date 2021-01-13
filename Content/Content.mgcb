@@ -254,6 +254,11 @@
 /processorParam:TextureFormat=Color
 /build:monsters/monster.gif
 
+#begin tilemaps/prototype/collisionTestMap.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/prototype/collisionTestMap.tmx
+
 #begin tilemaps/prototype/MapPrototypeTiledCollider.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
