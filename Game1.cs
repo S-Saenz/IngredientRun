@@ -141,7 +141,6 @@ namespace IngredientRun
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera) - screenDimensions / 2;
             _camera.Position = bgPos;
-            Debug.WriteLine(bgPos + " " + _camera.Position);
             // pickUp1.Update(bgPos);
             enemy1.Update(bgPos);
             // if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
