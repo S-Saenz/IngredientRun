@@ -45,7 +45,6 @@ namespace IngredientRun
         private SpriteBatch _spriteBatch;
 
         private OrthographicCamera _camera;
-        private DefaultViewportAdapter _viewportAdapter;
 
         public Game1()
         {
@@ -65,21 +64,21 @@ namespace IngredientRun
             bgPos = new Vector2(0, 0);
 
             // Set up camera and viewport
-            _viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
-            _camera = new OrthographicCamera(_viewportAdapter);
-            _camera.Zoom = 6;
+            DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            _camera = new OrthographicCamera(viewportAdapter);
+            _camera.Zoom = 4;
         }
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             //positions of characters
-            refugeePos = new Vector2(40, 60 );
-
-            chara1Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 310, 800);
-            chara2Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 240, 800);
-            chara3Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 170, 800);
-            chara4Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 100, 800);
+            // refugeePos = new Vector2(40, 60 );
+            // 
+            // chara1Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 310, 800);
+            // chara2Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 240, 800);
+            // chara3Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 170, 800);
+            // chara4Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 100, 800);
 
             base.Initialize();
         }
@@ -93,27 +92,28 @@ namespace IngredientRun
             background = Content.Load<Texture2D>("bg/Ingredient Run Camp");
             // caveBG = Content.Load<Texture2D>("bg/caveMapPlan");
 
-            caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+            // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice);
 
             //player
-            refugee = Content.Load<Texture2D>("chars/refugee");
+            refugee = Content.Load<Texture2D>("chars/refugeeLowres");
             //characters
-            chara1 = Content.Load<Texture2D>("chars/chara1");
-            chara2 = Content.Load<Texture2D>("chars/chara2");
-            chara3 = Content.Load<Texture2D>("chars/chara3");
-            chara4 = Content.Load<Texture2D>("chars/chara4");
-            enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"), new Vector2(500,600));
+            // chara1 = Content.Load<Texture2D>("chars/chara1");
+            // chara2 = Content.Load<Texture2D>("chars/chara2");
+            // chara3 = Content.Load<Texture2D>("chars/chara3");
+            // chara4 = Content.Load<Texture2D>("chars/chara4");
+            // enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"), new Vector2(500,600));
 
 
-            acornT = Content.Load<Texture2D>("Ingredient/acorn");
-            appleT = Content.Load<Texture2D>("Ingredient/apple");
-            fishT = Content.Load<Texture2D>("Ingredient/fish");
-            meatT = Content.Load<Texture2D>("Ingredient/meat");
-            woodT = Content.Load<Texture2D>("Ingredient/wood");
+            // acornT = Content.Load<Texture2D>("Ingredient/acorn");
+            // appleT = Content.Load<Texture2D>("Ingredient/apple");
+            // fishT = Content.Load<Texture2D>("Ingredient/fish");
+            // meatT = Content.Load<Texture2D>("Ingredient/meat");
+            // woodT = Content.Load<Texture2D>("Ingredient/wood");
 
-            pickUp1 = new PickUpable(acornT, new Vector2(1500, 230));
+            // pickUp1 = new PickUpable(acornT, new Vector2(1500, 230));
 
-            player = new Player(_graphics);
+            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerStart"));
             player.Load(Content);
 
             //class loads
@@ -131,14 +131,16 @@ namespace IngredientRun
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState()) - screenDimensions / 2;
-            _camera.LookAt(bgPos * -1 / _camera.Zoom);
-            pickUp1.Update(bgPos);
-            enemy1.Update(bgPos);
-            if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
-                pickUp1.visible = false;
-                inventory.addIng(new Ingredient(pickUp1.texture,inventory.randomBox()));
-            }
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera) - screenDimensions / 2;
+            _camera.Position = bgPos;
+            Debug.WriteLine(bgPos + " " + _camera.Position);
+            // pickUp1.Update(bgPos);
+            // enemy1.Update(bgPos);
+            // if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
+            //     pickUp1.visible = false;
+            //     inventory.addIng(new Ingredient(pickUp1.texture,inventory.randomBox()));
+            // }
 
             caveMapBackground.Update(gameTime);
 
@@ -155,7 +157,7 @@ namespace IngredientRun
             // Draw tilemap background
             caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix);
             // TODO: Add your drawing code here
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             // _spriteBatch.Draw(caveBG, bgPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
             //characters 1-4
             /*_spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);

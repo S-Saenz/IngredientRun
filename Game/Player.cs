@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using MonoGame.Extended;
 
 namespace IngredientRun
 {
@@ -18,31 +19,30 @@ namespace IngredientRun
     class Player
     {
         private Texture2D texture, FOW, FOWT;
-        private Vector2 pos = new Vector2(40, 190);
+        private Vector2 _pos;
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
         Rectangle mapMoveBorder;
-        Vector2 mapPos = Vector2.Zero;
         GraphicsDeviceManager graphics;
 
-        public Player(GraphicsDeviceManager graphic)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos)
         {
             graphics = graphic;
             mapMoveBorder = new Rectangle(new Point((graphics.PreferredBackBufferWidth / 2) - 150,
                 (graphics.PreferredBackBufferHeight / 2) - 150), new Point(300, 300));
-
+            _pos = pos;
         }
 
         public Vector2 GetPos()
         {
-            return pos;
+            return _pos;
         }
 
         public void Shake()
         {
-            pos.X += 10;
-            pos.Y += 10;
+            _pos.X += 10;
+            _pos.Y += 10;
         }
 
         public void DoDMG(int dmg)
@@ -50,57 +50,29 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
         {
             //Movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                if (pos.X < mapMoveBorder.Right)
-                {
-                    pos.X += speed;
-                }
-                else
-                {
-                    mapPos.X -= speed;
-                }
+                _pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (pos.X > mapMoveBorder.Left)
-                {
-                    pos.X -= speed;
-                }
-                else
-                {
-                    mapPos.X += speed;
-                }
+                _pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                if (pos.Y > mapMoveBorder.Top)
-                {
-                    pos.Y -= speed;
-                }
-                else
-                {
-                    mapPos.Y += speed;
-                }
+                _pos.Y -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (pos.Y < mapMoveBorder.Bottom)
-                {
-                    pos.Y += speed;
-                }
-                else
-                {
-                    mapPos.Y -= speed;
-                }
+                _pos.Y += speed;
             }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            FOWTSprite.pos = pos;
-            Vector2 FOWPosVec = pos - mousePosition;
+            FOWTSprite.pos = _pos;
+            Vector2 FOWPosVec = camera.WorldToScreen(_pos) - mousePosition;
             FOWTSprite.Rotation = (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
@@ -119,8 +91,7 @@ namespace IngredientRun
               this.ingredient.Visible = false;
             */
 
-            return mapPos;
-
+            return _pos;
 
         }
 
@@ -135,17 +106,19 @@ namespace IngredientRun
                 pos = new Vector2(100, 100),
                 Color = Color.White,
                 Rotation = 0f,
-                Scale = 1f,
+                Scale = .15f,
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
+
+            _pos.Y -= texture.Height / 2;
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), 0.8f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), 1.5f, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
@@ -156,7 +129,7 @@ namespace IngredientRun
 
         public bool RectCollision(Rectangle rect)
         {
-            if (pos.X > rect.Left && pos.X < rect.Right && pos.Y > rect.Top && pos.Y < rect.Bottom)
+            if (_pos.X > rect.Left && _pos.X < rect.Right && _pos.Y > rect.Top && _pos.Y < rect.Bottom)
             {
                 return true;
             }
