@@ -96,14 +96,14 @@ namespace IngredientRun
             caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice);
 
             //player
-            refugee = Content.Load<Texture2D>("chars/refugeeLowres");
+            // refugee = Content.Load<Texture2D>("chars/refugee");
+
             //characters
             // chara1 = Content.Load<Texture2D>("chars/chara1");
             // chara2 = Content.Load<Texture2D>("chars/chara2");
             // chara3 = Content.Load<Texture2D>("chars/chara3");
             // chara4 = Content.Load<Texture2D>("chars/chara4");
-            // enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"), new Vector2(500,600));
-
+            // enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
 
             // acornT = Content.Load<Texture2D>("Ingredient/acorn");
             // appleT = Content.Load<Texture2D>("Ingredient/apple");
@@ -111,10 +111,17 @@ namespace IngredientRun
             // meatT = Content.Load<Texture2D>("Ingredient/meat");
             // woodT = Content.Load<Texture2D>("Ingredient/wood");
 
-            // pickUp1 = new PickUpable(acornT, new Vector2(1500, 230));
+            // pickup
+            pickUp1 = new PickUpable(Content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
+            pickUp1.Load(Content);
 
-            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerStart"));
+            // player
+            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"));
             player.Load(Content);
+
+            // enemy
+            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
+            enemy1.Load(Content);
 
             //class loads
             inventory.Load(Content);
@@ -136,7 +143,7 @@ namespace IngredientRun
             _camera.Position = bgPos;
             Debug.WriteLine(bgPos + " " + _camera.Position);
             // pickUp1.Update(bgPos);
-            // enemy1.Update(bgPos);
+            enemy1.Update(bgPos);
             // if (player.RectCollision(pickUp1.hitBox) && pickUp1.visible) {
             //     pickUp1.visible = false;
             //     inventory.addIng(new Ingredient(pickUp1.texture,inventory.randomBox()));
@@ -167,8 +174,8 @@ namespace IngredientRun
             */
             //player
             //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
-            // enemy1.Draw(_spriteBatch);
-            // pickUp1.Draw(_spriteBatch);
+            enemy1.Draw(_spriteBatch);
+            pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch);
             //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
             //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);

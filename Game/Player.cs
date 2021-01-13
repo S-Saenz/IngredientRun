@@ -19,6 +19,7 @@ namespace IngredientRun
     class Player
     {
         private Texture2D texture, FOW, FOWT;
+        private float _scale = 1.5f;
         private Vector2 _pos;
         private int hp = 10;
         private Sprite FOWTSprite;
@@ -111,14 +112,14 @@ namespace IngredientRun
                 Depth = 0.1f
             };
 
-            _pos.Y -= texture.Height / 2;
+            _pos.Y -= texture.Height * _scale / 2;
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), 1.5f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
