@@ -242,7 +242,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/wood.png
 
-#begin monsters/monster.gif
+#begin monsters/monster.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -252,7 +252,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:monsters/monster.gif
+/build:monsters/monster.png
 
 #begin tilemaps/prototype/collisionTestMap.tmx
 /importer:TiledMapImporter
