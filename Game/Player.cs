@@ -8,13 +8,12 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-
-
     class Player
     {
         private Texture2D texture, FOW, FOWT;
         private float _scale = 1.5f;
         private Vector2 _pos;
+        private Vector2 _FOWTPos;
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
@@ -76,8 +75,8 @@ namespace IngredientRun
             _collisionBox.Update(_pos);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            FOWTSprite.pos = _pos;
-            Vector2 FOWPosVec = camera.WorldToScreen(_pos) - mousePosition;
+            FOWTSprite.pos = _pos + _FOWTPos;
+            Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
             FOWTSprite.Rotation = (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
@@ -102,12 +101,13 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
+            _FOWTPos = new Vector2(texture.Width / 2 * _scale, texture.Height / 2 * _scale);
 
             _pos.Y -= texture.Height * _scale;
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
-                onCollision, onOverlap, collisionHandler);
+                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)), 
+                collisionHandler, onCollision, onOverlap);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
@@ -124,7 +124,7 @@ namespace IngredientRun
 
         public void onCollision(CollisionInfo info)
         {
-            Debug.WriteLine("Hit");
+            // Debug.WriteLine("Hit");
         }
 
         public void onOverlap(CollisionInfo info)
