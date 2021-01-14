@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended;
 
 namespace IngredientRun
@@ -24,14 +18,11 @@ namespace IngredientRun
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
-        Rectangle mapMoveBorder;
         GraphicsDeviceManager graphics;
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos)
         {
             graphics = graphic;
-            mapMoveBorder = new Rectangle(new Point((graphics.PreferredBackBufferWidth / 2) - 150,
-                (graphics.PreferredBackBufferHeight / 2) - 150), new Point(300, 300));
             _pos = pos;
         }
 
@@ -79,19 +70,6 @@ namespace IngredientRun
                 FOWPosVec.Y
                 )));
 
-
-            //overlap
-            /*if (RectCollision(pos,))
-            {
-                isColliding = true;
-            else
-                isColliding = false;
-            }
-            //if overlap pick up and ingredient is invisible     
-            if (Keyboard.GetState().IsKeyDown(Keys.Space && bool isColliding = true))
-              this.ingredient.Visible = false;
-            */
-
             return _pos;
 
         }
@@ -121,9 +99,6 @@ namespace IngredientRun
 
             spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
-
-            //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
-
 
         }
 
