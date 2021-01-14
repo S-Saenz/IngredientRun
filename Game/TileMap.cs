@@ -27,7 +27,7 @@ namespace IngredientRun
                 {
                     collisionHandler.AddObject("Walls", new CollisionBox(
                         new RectangleF(tile.X * _map.TileWidth, tile.Y * _map.TileHeight, _map.TileWidth, _map.TileHeight),
-                        null, null, collisionHandler));
+                        collisionHandler));
                 }
             }
         }

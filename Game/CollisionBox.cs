@@ -12,12 +12,18 @@ namespace IngredientRun
         public string _label { get; set; }
         CollisionHandler _collisionHandler;
 
-        // Events
+        // Blocked information
+        public bool _upBlocked { get; set; }
+        public bool _downBlocked { get; set; }
+        public bool _leftBlocked { get; set; }
+        public bool _rightBlocked { get; set; }
 
+        // Events
         public event CollisionEventHandler _onCollision;
         public event CollisionEventHandler _onOverlap;
 
-        public CollisionBox(RectangleF bounds, CollisionEventHandler onCollision, CollisionEventHandler onOverlap, CollisionHandler collisionHandler)
+        public CollisionBox(RectangleF bounds, CollisionHandler collisionHandler, CollisionEventHandler onCollision = null, 
+                            CollisionEventHandler onOverlap = null)
         {
             _bounds = bounds;
 
@@ -35,6 +41,7 @@ namespace IngredientRun
 
         public Vector2 Move(Vector2 pos)
         {
+            _upBlocked = _downBlocked = _leftBlocked = _rightBlocked = false;
             return _collisionHandler.TryMove(this, pos);
         }
 
