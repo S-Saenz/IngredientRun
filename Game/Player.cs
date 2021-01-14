@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,10 +20,20 @@ namespace IngredientRun
         private int speed = 5;
         GraphicsDeviceManager graphics;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos)
+        public RectangleF _overlap;
+
+        CollisionBox _collisionBox;
+
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, CollisionHandler collisionHandler)
         {
             graphics = graphic;
             _pos = pos;
+
+            collisionHandler.AddLayer("Player");
+            collisionHandler.SetOverlap("Player", "Walls");
+            collisionHandler.SetCollision("Player", "Walls");
+
+            _overlap = new RectangleF();
         }
 
         public Vector2 GetPos()
@@ -45,22 +55,25 @@ namespace IngredientRun
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
         {
             //Movement
+            Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _pos.X += speed;
+                pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                _pos.X -= speed;
+                pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                _pos.Y -= speed;
+                pos.Y -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                _pos.Y += speed;
+                pos.Y += speed;
             }
+            _pos = _collisionBox.Move(pos);
+            _collisionBox.Update(_pos);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos;
@@ -75,7 +88,7 @@ namespace IngredientRun
         }
 
 
-        public void Load(ContentManager Content)
+        public void Load(ContentManager Content, CollisionHandler collisionHandler)
         {
             texture = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
@@ -90,37 +103,33 @@ namespace IngredientRun
                 Depth = 0.1f
             };
 
-            _pos.Y -= texture.Height * _scale / 2;
+            _pos.Y -= texture.Height * _scale;
+
+            _collisionBox = new CollisionBox(new RectangleF(_pos,
+                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                onCollision, onOverlap, collisionHandler);
+            collisionHandler.AddObject("Player", _collisionBox);
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
 
+            // _collisionBox.Draw(spriteBatch);
+            // spriteBatch.DrawRectangle(_overlap, Color.Red);
         }
 
-
-        public bool RectCollision(Rectangle rect)
+        public void onCollision(CollisionInfo info)
         {
-            if (_pos.X > rect.Left && _pos.X < rect.Right && _pos.Y > rect.Top && _pos.Y < rect.Bottom)
-            {
-                return true;
-            }
-            return false;
+            Debug.WriteLine("Hit");
         }
 
-        bool RectRectCollision(Rectangle rect1, Rectangle rect2)
+        public void onOverlap(CollisionInfo info)
         {
-            if (rect1.Right > rect2.Left && rect1.Right < rect2.Right && rect1.Top > rect2.Top && rect1.Bottom < rect2.Bottom)
-            {
-                return true;
-            }
-            return false;
+            // _overlap = info._overlapRect;
         }
     }
-
-
 }

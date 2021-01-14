@@ -30,6 +30,8 @@ namespace IngredientRun
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        private CollisionHandler _collisionHandler;
+
         private OrthographicCamera _camera;
 
         public Game1()
@@ -40,6 +42,8 @@ namespace IngredientRun
             Content.RootDirectory = "Content";
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             screenDimensions = new Vector2(1728, 972);
+
+            _collisionHandler = new CollisionHandler();
 
             
             _graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
@@ -66,15 +70,15 @@ namespace IngredientRun
 
             //backgrounds
             // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice);
+            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice, _collisionHandler);
 
             // pickup
             pickUp1 = new PickUpable(Content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
             pickUp1.Load(Content);
 
             // player
-            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"));
-            player.Load(Content);
+            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player.Load(Content, _collisionHandler);
 
             // enemy
             enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));

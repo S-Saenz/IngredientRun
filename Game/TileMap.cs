@@ -2,23 +2,34 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 
 namespace IngredientRun
 {
-    public class TileMap
+    class TileMap
     {
         TiledMap _map;
         TiledMapRenderer _renderer;
         TiledMapTileLayer _collision;
 
-        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics)
+        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, CollisionHandler collisionHandler)
         {
             _map = content.Load<TiledMap>(mapPath);
             _renderer = new TiledMapRenderer(graphics, _map);
 
             _collision = _map.GetLayer<TiledMapTileLayer>("Walls");
+            collisionHandler.AddLayer("Walls");
+            foreach(TiledMapTile tile in _collision.Tiles)
+            {
+                if (!tile.IsBlank)
+                {
+                    collisionHandler.AddObject("Walls", new CollisionBox(
+                        new RectangleF(tile.X * _map.TileWidth, tile.Y * _map.TileHeight, _map.TileWidth, _map.TileHeight),
+                        null, null, collisionHandler));
+                }
+            }
         }
 
         public void Update(GameTime gameTime)
