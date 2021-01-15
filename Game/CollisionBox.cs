@@ -9,6 +9,7 @@ namespace IngredientRun
     class CollisionBox
     {
         public RectangleF _bounds;
+        IPhysicsObject _parent;
         public string _label { get; set; }
         CollisionHandler _collisionHandler;
 
@@ -23,7 +24,7 @@ namespace IngredientRun
         public event CollisionEventHandler _onOverlap;
 
         public CollisionBox(RectangleF bounds, CollisionHandler collisionHandler, CollisionEventHandler onCollision = null, 
-                            CollisionEventHandler onOverlap = null)
+                            CollisionEventHandler onOverlap = null, IPhysicsObject parent = null)
         {
             _bounds = bounds;
 

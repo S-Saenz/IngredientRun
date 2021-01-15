@@ -31,6 +31,14 @@ namespace IngredientRun
             }
         }
 
+        public void Draw(SpriteBatch spriteBatch, string layer)
+        {
+            foreach (CollisionBox box in _layers[layer])
+            {
+                box.Draw(spriteBatch);
+            }
+        }
+
         public Vector2 TryMove(CollisionBox box, Vector2 newPos)
         {
             // Check collision
@@ -134,6 +142,7 @@ namespace IngredientRun
 
     class CollisionInfo
     {
+        public IPhysicsObject _other { get; } // other object hit
         public string _otherLabel { get; } // label(type/mask) of contact object
         public Vector2 _loc { get; }  // center point of contact on edge of other
         public Vector2 _hitDir { get; set; } // direction vector of collision (points to side collided)
@@ -178,6 +187,7 @@ namespace IngredientRun
                 overlapDist = overlapRect.Width;
             }
 
+            
             _otherLabel = otherLabel;
             _loc = loc;
             _hitDir = hitDir;

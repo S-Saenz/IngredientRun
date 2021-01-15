@@ -8,11 +8,12 @@ using MonoGame.Extended.Tiled.Renderers;
 
 namespace IngredientRun
 {
-    class TileMap
+    class TileMap : IPhysicsObject
     {
         TiledMap _map;
         TiledMapRenderer _renderer;
         TiledMapTileLayer _collision;
+        CollisionHandler _collisionHandler;
 
         public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, CollisionHandler collisionHandler)
         {
@@ -27,9 +28,10 @@ namespace IngredientRun
                 {
                     collisionHandler.AddObject("Walls", new CollisionBox(
                         new RectangleF(tile.X * _map.TileWidth, tile.Y * _map.TileHeight, _map.TileWidth, _map.TileHeight),
-                        collisionHandler));
+                        collisionHandler, parent: this));
                 }
             }
+            _collisionHandler = collisionHandler;
         }
 
         public void Update(GameTime gameTime)
@@ -37,10 +39,14 @@ namespace IngredientRun
             _renderer.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
+        public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, bool isDebug = false)
         {
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _renderer.Draw(viewMatrix, projMatrix);
+            if(isDebug)
+            {
+                _collisionHandler.Draw(spriteBatch, "Walls");
+            }
             spriteBatch.End();
         }
 

@@ -8,7 +8,7 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class Player
+    class Player : IPhysicsObject
     {
         private Texture2D texture, FOW, FOWT;
         private float _scale = 1.5f;
@@ -106,17 +106,24 @@ namespace IngredientRun
             _pos.Y -= texture.Height * _scale;
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)), 
-                collisionHandler, onCollision, onOverlap);
+                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                collisionHandler, onCollision, onOverlap, this);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
 
             spriteBatch.Draw(texture, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
-            FOWTSprite.Draw(spriteBatch);
+            if (!isDebug)
+            {
+                FOWTSprite.Draw(spriteBatch);
+            }
+            else
+            {
+                _collisionBox.Draw(spriteBatch);
+            }
 
             // _collisionBox.Draw(spriteBatch);
             // spriteBatch.DrawRectangle(_overlap, Color.Red);

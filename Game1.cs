@@ -26,6 +26,9 @@ namespace IngredientRun
 
         PickUpable pickUp1;
 
+        // Debug mode
+        bool _isDebug = false;
+        bool _ctrlPrevDown = false;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -92,6 +95,16 @@ namespace IngredientRun
         protected override void Update(GameTime gameTime)
         {
             //Debug.WriteLine();
+            // Print collision boxes, remove FOWT sprite
+            if(Keyboard.GetState().IsKeyDown(Keys.LeftControl) && !_ctrlPrevDown)
+            {
+                _isDebug = !_isDebug;
+                _ctrlPrevDown = true;
+            }
+            else if(!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+            {
+                _ctrlPrevDown = false;
+            }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -118,14 +131,14 @@ namespace IngredientRun
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
 
             // Draw tilemap background
-            caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix);
+            caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);
-            player.Draw(_spriteBatch);
+            player.Draw(_spriteBatch, _isDebug);
 
             //class draws
 
