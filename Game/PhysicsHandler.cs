@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IngredientRun
 {
@@ -47,35 +48,37 @@ namespace IngredientRun
             foreach (string layer in _collisionMask[box._label])
             {
                 List<CollisionBox> other = _layers[layer];
-                if (origPos.X < newPos.X && origPos.Y < newPos.Y)
+                List<Vector2> priority = new List<Vector2>(); // x = index of box, y = priority
+                RectangleF overlapRect;
+                for (int i = 0; i < other.Count; ++i)
                 {
-                    for (int i = 0; i < other.Count; ++i)
+                    RectangleF.Intersection(ref box._bounds, ref other[i]._bounds, out overlapRect);
+                    if (!overlapRect.IsEmpty)
                     {
-                        RectangleF overlapRect;
-                        RectangleF.Intersection(ref box._bounds, ref other[i]._bounds, out overlapRect);
-
-                        if (!overlapRect.IsEmpty)
-                        {
-                            CollisionInfo info = new CollisionInfo(box, other[i], ref overlapRect);
-                            box.CallCollision(info);
-                            box._bounds.Position = movePos -= info._overlapDist * info._hitDir;
-                        }
+                        priority.Add(new Vector2(i, Math.Abs(Vector2.Distance(box._bounds.Center, other[i]._bounds.Center))));
                     }
                 }
-                else
+                priority.Sort(delegate(Vector2 obj1, Vector2 obj2)
                 {
-                    for (int i = other.Count - 1; i >= 0; --i)
+                    if (obj1.Y > obj2.Y)
                     {
-                        RectangleF overlapRect;
-                        RectangleF.Intersection(ref box._bounds, ref other[i]._bounds, out overlapRect);
-
-                        if (!overlapRect.IsEmpty)
-                        {
-                            CollisionInfo info = new CollisionInfo(box, other[i], ref overlapRect);
-                            box.CallCollision(info);
-                            box._bounds.Position = movePos -= info._overlapDist * info._hitDir;
-                        }
+                        return 1;
                     }
+                    else if (obj1.Y == obj2.Y)
+                    {
+                        return 0;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                });
+                foreach(Vector2 obj in priority)
+                {
+                    RectangleF.Intersection(ref box._bounds, ref other[(int)obj.X]._bounds, out overlapRect);
+                    CollisionInfo info = new CollisionInfo(box, other[(int)obj.X], ref overlapRect);
+                    box.CallCollision(info);
+                    box._bounds.Position = movePos -= info._overlapDist * info._hitDir;
                 }
             }
 
