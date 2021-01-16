@@ -13,9 +13,9 @@ namespace IngredientRun
         TiledMap _map;
         TiledMapRenderer _renderer;
         TiledMapTileLayer _collision;
-        CollisionHandler _collisionHandler;
+        PhysicsHandler _collisionHandler;
 
-        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, CollisionHandler collisionHandler)
+        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, PhysicsHandler collisionHandler)
         {
             _map = content.Load<TiledMap>(mapPath);
             _renderer = new TiledMapRenderer(graphics, _map);

@@ -6,13 +6,13 @@ using System.Collections.Generic;
 
 namespace IngredientRun
 {
-    class CollisionHandler
+    class PhysicsHandler
     {
         protected Dictionary<string,List<CollisionBox>> _layers;
         protected Dictionary<string, List<string>> _collisionMask;
         protected Dictionary<string, List<string>> _overlapMask;
 
-        public CollisionHandler()
+        public PhysicsHandler()
         {
             _layers = new Dictionary<string, List<CollisionBox>>();
             _collisionMask = new Dictionary<string, List<string>>();
@@ -187,7 +187,7 @@ namespace IngredientRun
                 overlapDist = overlapRect.Width;
             }
 
-            
+            _other = box2._parent;
             _otherLabel = otherLabel;
             _loc = loc;
             _hitDir = hitDir;

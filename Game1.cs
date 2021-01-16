@@ -33,7 +33,7 @@ namespace IngredientRun
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private CollisionHandler _collisionHandler;
+        private PhysicsHandler _collisionHandler;
 
         private OrthographicCamera _camera;
 
@@ -46,7 +46,7 @@ namespace IngredientRun
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
             screenDimensions = new Vector2(1728, 972);
 
-            _collisionHandler = new CollisionHandler();
+            _collisionHandler = new PhysicsHandler();
 
             
             _graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window

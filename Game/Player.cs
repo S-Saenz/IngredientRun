@@ -23,7 +23,7 @@ namespace IngredientRun
 
         CollisionBox _collisionBox;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos, CollisionHandler collisionHandler)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler)
         {
             graphics = graphic;
             _pos = pos;
@@ -87,7 +87,7 @@ namespace IngredientRun
         }
 
 
-        public void Load(ContentManager Content, CollisionHandler collisionHandler)
+        public void Load(ContentManager Content, PhysicsHandler collisionHandler)
         {
             texture = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
