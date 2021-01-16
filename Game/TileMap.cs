@@ -15,6 +15,8 @@ namespace IngredientRun
         TiledMapTileLayer _collision;
         PhysicsHandler _collisionHandler;
 
+        public RectangleF _mapBounds { get; }
+
         public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, PhysicsHandler collisionHandler)
         {
             _map = content.Load<TiledMap>(mapPath);
@@ -32,6 +34,7 @@ namespace IngredientRun
                 }
             }
             _collisionHandler = collisionHandler;
+            _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
         }
 
         public void Update(GameTime gameTime)

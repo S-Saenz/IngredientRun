@@ -87,7 +87,7 @@ namespace IngredientRun
         }
 
 
-        public void Load(ContentManager Content, PhysicsHandler collisionHandler)
+        public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
             texture = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
@@ -107,7 +107,7 @@ namespace IngredientRun
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this);
+                collisionHandler, onCollision, onOverlap, this, worldBounds);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 

@@ -81,7 +81,7 @@ namespace IngredientRun
 
             // player
             player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
-            player.Load(Content, _collisionHandler);
+            player.Load(Content, _collisionHandler, caveMapBackground._mapBounds);
 
             // enemy
             enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));

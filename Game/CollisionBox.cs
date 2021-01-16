@@ -11,10 +11,12 @@ namespace IngredientRun
     {
         public RectangleF _bounds;
         public IPhysicsObject _parent { get; set; }
-        public string _label { get; set; }
-        public float _drag { get; set; }
-        public float _friction { get; set; }
-        public float _mass { get; set; }
+        public string _label;
+        public float _drag;
+        public float _friction;
+        public float _mass;
+        public Vector2 _direction;
+        public RectangleF _worldBounds;
 
         PhysicsHandler _collisionHandler;
 
@@ -29,7 +31,7 @@ namespace IngredientRun
         public event CollisionEventHandler _onOverlap;
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, CollisionEventHandler onCollision = null, 
-                            CollisionEventHandler onOverlap = null, IPhysicsObject parent = null)
+                            CollisionEventHandler onOverlap = null, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF())
         {
             _bounds = bounds;
 
@@ -43,8 +45,8 @@ namespace IngredientRun
             }
 
             _collisionHandler = collisionHandler;
-
             _parent = parent;
+            _worldBounds = worldBounds;
         }
 
         public Vector2 Move(Vector2 pos)

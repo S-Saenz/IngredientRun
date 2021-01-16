@@ -44,11 +44,11 @@ namespace IngredientRun
             // Check collision
             Vector2 origPos = box._bounds.Position;
             Vector2 movePos = box._bounds.Position = newPos;
+            RectangleF overlapRect;
             foreach (string layer in _collisionMask[box._label])
             {
                 List<CollisionBox> other = _layers[layer];
                 List<Vector2> priority = new List<Vector2>(); // x = index of box, y = priority
-                RectangleF overlapRect;
                 for (int i = 0; i < other.Count; ++i)
                 {
                     RectangleF.Intersection(ref box._bounds, ref other[i]._bounds, out overlapRect);
@@ -86,7 +86,6 @@ namespace IngredientRun
             {
                 foreach(CollisionBox other in _layers[layer])
                 {
-                    RectangleF overlapRect;
                     RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
 
                     if (!overlapRect.IsEmpty)
@@ -94,6 +93,28 @@ namespace IngredientRun
                         CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
                         box.CallOverlap(info);
                     }
+                }
+            }
+
+            // Check world bounds
+            if(!(box._worldBounds.Width == 0 || box._worldBounds.Height == 0))
+            {
+                RectangleF.Intersection(ref box._bounds, ref box._worldBounds, out overlapRect);
+                if (box._worldBounds.Top > movePos.Y) // out top
+                {
+                    movePos.Y += box._bounds.Height - overlapRect.Height;
+                }
+                if(box._worldBounds.Bottom < movePos.Y + box._bounds.Height) // out bottom
+                {
+                    movePos.Y -= box._bounds.Height - overlapRect.Height;
+                }
+                if(box._worldBounds.Left > movePos.X) // out left
+                {
+                    movePos.X += box._bounds.Width - overlapRect.Width;
+                }
+                if(box._worldBounds.Right < movePos.X + box._bounds.Width) // out right
+                {
+                    movePos.X -= box._bounds.Width - overlapRect.Width;
                 }
             }
 
