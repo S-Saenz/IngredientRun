@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using System.Diagnostics;
 
 namespace IngredientRun
 {
@@ -55,6 +56,7 @@ namespace IngredientRun
         public void Update(Vector2 pos)
         {
             _bounds.Position = pos;
+            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
         }
 
         public void Draw(SpriteBatch spriteBatch)

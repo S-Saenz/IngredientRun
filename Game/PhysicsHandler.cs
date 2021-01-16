@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace IngredientRun
 {
@@ -165,12 +164,18 @@ namespace IngredientRun
                 if (box1._bounds.Center.Y > box2._bounds.Center.Y) // Top
                 {
                     loc.Y -= overlapRect.Height / 2;
-                    box1._upBlocked = true;
+                    if(!(overlapRect.Width == 0 && overlapRect.Height == 0))
+                    {
+                        box1._upBlocked = true;
+                    }
                 }
                 else // Bottom
                 {
                     loc.Y += overlapRect.Height / 2;
-                    box1._downBlocked = true;
+                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
+                    {
+                        box1._downBlocked = true;
+                    }
                 }
                 overlapDist = overlapRect.Height;
             }
@@ -180,12 +185,18 @@ namespace IngredientRun
                 if (box1._bounds.Center.X > box2._bounds.Center.X) // Left
                 {
                     loc.X -= overlapRect.Width / 2;
-                    box1._leftBlocked = true;
+                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
+                    {
+                        box1._leftBlocked = true;
+                    }
                 }
                 else // Right
                 {
                     loc.X += overlapRect.Width / 2;
-                    box1._rightBlocked = true;
+                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
+                    {
+                        box1._rightBlocked = true;
+                    }
                 }
                 overlapDist = overlapRect.Width;
             }
