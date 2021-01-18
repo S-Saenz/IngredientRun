@@ -10,24 +10,18 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using IngredientRun.Game;
+using MonoGame.Extended;
 
 namespace IngredientRun
 {
 
 
-    public class Player : BaseCharacter
+    public class Player /*: BaseCharacter*/
     {
-<<<<<<< Updated upstream
         private Texture2D idle, runRight, FOW, FOWT;
-        private Animation runRightAnimation;
-        private Vector2 pos = new Vector2(40, 190);
-=======
-        private Texture2D texture, runRight, FOW, FOWT;
         private Animation runRightAnimation;
         private float _scale = 1.5f;
         private Vector2 _pos;
->>>>>>> Stashed changes
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
@@ -45,13 +39,13 @@ namespace IngredientRun
 
         public Vector2 GetPos()
         {
-            return pos;
+            return _pos;
         }
 
         public void Shake()
         {
-            pos.X += 10;
-            pos.Y += 10;
+            _pos.X += 10;
+            _pos.Y += 10;
         }
 
         public void DoDMG(int dmg)
@@ -59,62 +53,30 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState)
+        public Vector2 Update(MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
         {
             //Movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 runRightAnimation.Update();
-<<<<<<< Updated upstream
-                if (pos.X < mapMoveBorder.Right)
-                {
-                    pos.X += speed;
-                }
-                else
-                {
-                    mapPos.X -= speed;
-                }
-=======
                 _pos.X += speed;
->>>>>>> Stashed changes
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                if (pos.X > mapMoveBorder.Left)
-                {
-                    pos.X -= speed;
-                }
-                else
-                {
-                    mapPos.X += speed;
-                }
+                _pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                if (pos.Y > mapMoveBorder.Top)
-                {
-                    pos.Y -= speed;
-                }
-                else
-                {
-                    mapPos.Y += speed;
-                }
+                _pos.Y -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (pos.Y < mapMoveBorder.Bottom)
-                {
-                    pos.Y += speed;
-                }
-                else
-                {
-                    mapPos.Y -= speed;
-                }
+                _pos.Y += speed;
             }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            FOWTSprite.pos = pos;
-            Vector2 FOWPosVec = pos - mousePosition;
+            FOWTSprite.pos = _pos;
+            Vector2 FOWPosVec = camera.WorldToScreen(_pos) - mousePosition;
             FOWTSprite.Rotation = (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
@@ -141,14 +103,9 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
-<<<<<<< Updated upstream
             idle = Content.Load<Texture2D>("chars/refugee");
-            runRight = Content.Load<Texture2D>("animations/main_character_run_right");
-=======
-            texture = Content.Load<Texture2D>("chars/refugee");
             runRight = Content.Load<Texture2D>("chars/runRight");
             runRightAnimation = new Animation(runRight, 1, 11);
->>>>>>> Stashed changes
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -167,7 +124,7 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), 0.8f, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
@@ -178,7 +135,7 @@ namespace IngredientRun
 
         public bool RectCollision(Rectangle rect)
         {
-            if (pos.X > rect.Left && pos.X < rect.Right && pos.Y > rect.Top && pos.Y < rect.Bottom)
+            if (_pos.X > rect.Left && _pos.X < rect.Right && _pos.Y > rect.Top && _pos.Y < rect.Bottom)
             {
                 return true;
             }
