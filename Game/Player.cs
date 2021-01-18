@@ -18,7 +18,7 @@ namespace IngredientRun
 
     class Player
     {
-        private Texture2D texture, FOW, FOWT;
+        private Texture2D idle, FOW, FOWT;
         private float _scale = 1.5f;
         private Vector2 _pos;
         private int hp = 10;
@@ -99,7 +99,7 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
-            texture = Content.Load<Texture2D>("chars/refugee");
+            idle = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -112,14 +112,14 @@ namespace IngredientRun
                 Depth = 0.1f
             };
 
-            _pos.Y -= texture.Height * _scale / 2;
+            _pos.Y -= idle.Height * _scale / 2;
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
             FOWTSprite.Draw(spriteBatch);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
