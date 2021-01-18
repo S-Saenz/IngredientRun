@@ -8,13 +8,13 @@ namespace IngredientRun
 {
     class PhysicsHandler
     {
-        protected Dictionary<string,List<CollisionBox>> _layers;
+        protected Dictionary<string, CellGrid> _layers;
         protected Dictionary<string, List<string>> _collisionMask;
         protected Dictionary<string, List<string>> _overlapMask;
 
         public PhysicsHandler()
         {
-            _layers = new Dictionary<string, List<CollisionBox>>();
+            _layers = new Dictionary<string, CellGrid>();
             _collisionMask = new Dictionary<string, List<string>>();
             _overlapMask = new Dictionary<string, List<string>>();
         }
@@ -22,9 +22,9 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             // Check possible collision interactions
-            foreach (List<CollisionBox> layer in _layers.Values)
+            foreach (CellGrid layer in _layers.Values)
             {
-                foreach (CollisionBox box in layer)
+                foreach (CollisionBox box in layer.getList())
                 {
                     box.Draw(spriteBatch);
                 } 
@@ -33,7 +33,7 @@ namespace IngredientRun
 
         public void Draw(SpriteBatch spriteBatch, string layer)
         {
-            foreach (CollisionBox box in _layers[layer])
+            foreach (CollisionBox box in _layers[layer].getList())
             {
                 box.Draw(spriteBatch);
             }
@@ -47,7 +47,7 @@ namespace IngredientRun
             RectangleF overlapRect;
             foreach (string layer in _collisionMask[box._label])
             {
-                List<CollisionBox> other = _layers[layer];
+                List<CollisionBox> other = _layers[layer].getNeighbors(box);
                 List<Vector2> priority = new List<Vector2>(); // x = index of box, y = priority
                 for (int i = 0; i < other.Count; ++i)
                 {
@@ -84,7 +84,7 @@ namespace IngredientRun
             // Check overlap
             foreach (string layer in _overlapMask[box._label])
             {
-                foreach(CollisionBox other in _layers[layer])
+                foreach(CollisionBox other in _layers[layer].getNeighbors(box))
                 {
                     RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
 
@@ -118,6 +118,7 @@ namespace IngredientRun
                 }
             }
 
+            _layers[box._label].checkBox(box, origPos);
             return movePos;
         }
 
@@ -125,7 +126,7 @@ namespace IngredientRun
         {
             if(!_layers.ContainsKey(layerLabel))
             {
-                _layers.Add(layerLabel, new List<CollisionBox>());
+                _layers.Add(layerLabel, new CellGrid());
                 _collisionMask.Add(layerLabel, new List<string>());
                 _overlapMask.Add(layerLabel, new List<string>());
             }
@@ -135,7 +136,7 @@ namespace IngredientRun
         {
             if(_layers.ContainsKey(layerLabel))
             {
-                _layers[layerLabel].Add(obj);
+                _layers[layerLabel].addElement(obj);
                 obj._label = layerLabel;
                 return true;
             }
