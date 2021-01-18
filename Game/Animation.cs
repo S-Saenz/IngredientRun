@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace IngredientRun.Game
+namespace IngredientRun
 {
     public class Animation
     {
