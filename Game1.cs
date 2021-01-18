@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
 
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
+
 //hi
 //123
 namespace IngredientRun
