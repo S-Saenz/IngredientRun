@@ -18,7 +18,8 @@ namespace IngredientRun
 
     class Player
     {
-        private Texture2D idle, FOW, FOWT;
+        private Texture2D idle, runRight, FOW, FOWT;
+        private Animation runRightAnimation;
         private float _scale = 1.5f;
         private Vector2 _pos;
         private int hp = 10;
@@ -56,6 +57,7 @@ namespace IngredientRun
             //Movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                runRightAnimation.Update();
                 _pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
@@ -100,6 +102,8 @@ namespace IngredientRun
         public void Load(ContentManager Content)
         {
             idle = Content.Load<Texture2D>("chars/refugee");
+            runRight = Content.Load<Texture2D>("animations/main_character_run_right");//WHY ISN'T THIS WORKING?????
+            runRightAnimation = new Animation(runRight, 1, 11);
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
