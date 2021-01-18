@@ -18,9 +18,16 @@ namespace IngredientRun
 
     public class Player : BaseCharacter
     {
+<<<<<<< Updated upstream
         private Texture2D idle, runRight, FOW, FOWT;
         private Animation runRightAnimation;
         private Vector2 pos = new Vector2(40, 190);
+=======
+        private Texture2D texture, runRight, FOW, FOWT;
+        private Animation runRightAnimation;
+        private float _scale = 1.5f;
+        private Vector2 _pos;
+>>>>>>> Stashed changes
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
@@ -58,6 +65,7 @@ namespace IngredientRun
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 runRightAnimation.Update();
+<<<<<<< Updated upstream
                 if (pos.X < mapMoveBorder.Right)
                 {
                     pos.X += speed;
@@ -66,6 +74,9 @@ namespace IngredientRun
                 {
                     mapPos.X -= speed;
                 }
+=======
+                _pos.X += speed;
+>>>>>>> Stashed changes
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
@@ -130,8 +141,14 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
+<<<<<<< Updated upstream
             idle = Content.Load<Texture2D>("chars/refugee");
             runRight = Content.Load<Texture2D>("animations/main_character_run_right");
+=======
+            texture = Content.Load<Texture2D>("chars/refugee");
+            runRight = Content.Load<Texture2D>("chars/runRight");
+            runRightAnimation = new Animation(runRight, 1, 11);
+>>>>>>> Stashed changes
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
