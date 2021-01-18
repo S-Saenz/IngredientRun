@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IngredientRun.Game
+namespace IngredientRun
 {
     public class NPC : BaseCharacter
     {
