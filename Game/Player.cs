@@ -16,9 +16,10 @@ namespace IngredientRun
 {
 
 
-    class Player : BaseCharacter
+    public class Player : BaseCharacter
     {
-        private Texture2D texture, FOW, FOWT;
+        private Texture2D idle, runRight, FOW, FOWT;
+        private Animation runRightAnimation;
         private Vector2 pos = new Vector2(40, 190);
         private int hp = 10;
         private Sprite FOWTSprite;
@@ -56,6 +57,7 @@ namespace IngredientRun
             //Movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                runRightAnimation.Update();
                 if (pos.X < mapMoveBorder.Right)
                 {
                     pos.X += speed;
@@ -128,7 +130,8 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
-            texture = Content.Load<Texture2D>("chars/refugee");
+            idle = Content.Load<Texture2D>("chars/refugee");
+            runRight = Content.Load<Texture2D>("animations/main_character_run_right");
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -140,6 +143,7 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
+            runRightAnimation = new Animation(runRight, 1, 11);
         }
 
 

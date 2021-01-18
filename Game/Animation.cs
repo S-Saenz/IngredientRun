@@ -7,13 +7,15 @@ using Microsoft.Xna.Framework;
 
 namespace IngredientRun.Game
 {
-    class Animation
+    public class Animation
     {
         public Texture2D texture { get; set; }
         public int rows { get; set; }
         public int columns { get; set; }
         private int currentFrame;
         private int totalFrames;
+
+        //slow down frame animation
 
         public Animation(Texture2D texture_, int rows_, int columns_)
         {

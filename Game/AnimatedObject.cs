@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace IngredientRun.Game
 {
-    class AnimatedObject
+    public class AnimatedObject
     {
         public List<Animation> animationList;
         public string name;

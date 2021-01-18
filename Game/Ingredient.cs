@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace IngredientRun
 {
-    class Ingredient : Sprite
+    public class Ingredient : Sprite
     {
         public bool holding = false;
         //public float Rotation;

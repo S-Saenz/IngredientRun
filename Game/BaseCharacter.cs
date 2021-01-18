@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IngredientRun.Game
 {
-    class BaseCharacter : AnimatedObject
+    public class BaseCharacter : AnimatedObject
     {
         //do collision and movement stuff here
         public BaseCharacter()

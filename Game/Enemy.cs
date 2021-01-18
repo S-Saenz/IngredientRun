@@ -14,7 +14,7 @@ using IngredientRun.Game;
 
 namespace IngredientRun
 {
-    class Enemy : BaseCharacter
+    public class Enemy : BaseCharacter
     {
         private Texture2D texture;
         private Vector2 pos;

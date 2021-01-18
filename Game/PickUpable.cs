@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace IngredientRun
 {
-    class PickUpable
+    public class PickUpable
     {
         public Texture2D texture;
         private Vector2 pos = new Vector2(100, 200);
