@@ -140,11 +140,11 @@ namespace IngredientRun
             pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
 
-            //class draws
+            _spriteBatch.End();
 
-            if(inventory.showInv)
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            if (inventory.showInv)
                 inventory.Draw(_spriteBatch);
-
             _spriteBatch.End();
 
             base.Draw(gameTime);
