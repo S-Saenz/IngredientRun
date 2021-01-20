@@ -101,12 +101,12 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(texture.Width / 2 * _scale, texture.Height / 2 * _scale);
+            _FOWTPos = new Vector2(idle.Width / 2 * _scale, idle.Height / 2 * _scale);
 
-            _pos.Y -= texture.Height * _scale;
+            _pos.Y -= idle.Height * _scale;
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
                 collisionHandler, onCollision, onOverlap, this, worldBounds);
             collisionHandler.AddObject("Player", _collisionBox);
         }
