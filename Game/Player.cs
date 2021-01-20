@@ -1,38 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using MonoGame.Extended;
 
 namespace IngredientRun
 {
-
-
-    class Player
+    class Player : IPhysicsObject
     {
         private Texture2D idle, FOW, FOWT;
         private float _scale = 1.5f;
         private Vector2 _pos;
+        private Vector2 _FOWTPos;
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
-        Rectangle mapMoveBorder;
         GraphicsDeviceManager graphics;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos)
+        public RectangleF _overlap;
+
+        CollisionBox _collisionBox;
+
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler)
         {
             graphics = graphic;
-            mapMoveBorder = new Rectangle(new Point((graphics.PreferredBackBufferWidth / 2) - 150,
-                (graphics.PreferredBackBufferHeight / 2) - 150), new Point(300, 300));
             _pos = pos;
+
+            collisionHandler.AddLayer("Player");
+            collisionHandler.SetOverlap("Player", "Walls");
+            collisionHandler.SetCollision("Player", "Walls");
+
+            _overlap = new RectangleF();
         }
 
         public Vector2 GetPos()
@@ -54,50 +54,40 @@ namespace IngredientRun
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
         {
             //Movement
+            Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _pos.X += speed;
+                pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                _pos.X -= speed;
+                pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                _pos.Y -= speed;
+                pos.Y -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                _pos.Y += speed;
+                pos.Y += speed;
             }
+            _pos = _collisionBox.Move(pos);
+            _collisionBox.Update(_pos);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            FOWTSprite.pos = _pos;
-            Vector2 FOWPosVec = camera.WorldToScreen(_pos) - mousePosition;
+            FOWTSprite.pos = _pos + _FOWTPos;
+            Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
             FOWTSprite.Rotation = (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
                 )));
-
-
-            //overlap
-            /*if (RectCollision(pos,))
-            {
-                isColliding = true;
-            else
-                isColliding = false;
-            }
-            //if overlap pick up and ingredient is invisible     
-            if (Keyboard.GetState().IsKeyDown(Keys.Space && bool isColliding = true))
-              this.ingredient.Visible = false;
-            */
 
             return _pos;
 
         }
 
 
-        public void Load(ContentManager Content)
+        public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
             idle = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
@@ -111,41 +101,42 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
+            _FOWTPos = new Vector2(texture.Width / 2 * _scale, texture.Height / 2 * _scale);
 
-            _pos.Y -= idle.Height * _scale / 2;
+            _pos.Y -= texture.Height * _scale;
+
+            _collisionBox = new CollisionBox(new RectangleF(_pos,
+                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                collisionHandler, onCollision, onOverlap, this, worldBounds);
+            collisionHandler.AddObject("Player", _collisionBox);
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
 
-            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
-            FOWTSprite.Draw(spriteBatch);
-
-            //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
-
-
-        }
-
-
-        public bool RectCollision(Rectangle rect)
-        {
-            if (_pos.X > rect.Left && _pos.X < rect.Right && _pos.Y > rect.Top && _pos.Y < rect.Bottom)
+            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
+            if (!isDebug)
             {
-                return true;
+                FOWTSprite.Draw(spriteBatch);
             }
-            return false;
+            else
+            {
+                _collisionBox.Draw(spriteBatch);
+            }
+
+            // _collisionBox.Draw(spriteBatch);
+            // spriteBatch.DrawRectangle(_overlap, Color.Red);
         }
 
-        bool RectRectCollision(Rectangle rect1, Rectangle rect2)
+        public void onCollision(CollisionInfo info)
         {
-            if (rect1.Right > rect2.Left && rect1.Right < rect2.Right && rect1.Top > rect2.Top && rect1.Bottom < rect2.Bottom)
-            {
-                return true;
-            }
-            return false;
+            // Debug.WriteLine("Hit");
+        }
+
+        public void onOverlap(CollisionInfo info)
+        {
+            // _overlap = info._overlapRect;
         }
     }
-
-
 }
