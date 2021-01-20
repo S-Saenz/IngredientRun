@@ -84,7 +84,7 @@ namespace IngredientRun
             player.Load(Content, _collisionHandler, caveMapBackground._mapBounds);
 
             // enemy
-            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
+            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
             enemy1.Load(Content);
 
             //class loads

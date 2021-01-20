@@ -10,22 +10,29 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class Enemy
+    class Enemy : IPhysicsObject
     {
         private Texture2D texture;
         private float _scale = 1.5f;
         private Vector2 pos;
         private Vector2 staticPos;
-        private Rectangle hitBox;
+        private CollisionBox _collisionBox;
+        private PhysicsHandler _collisionHandler;
 
-        public Enemy(Texture2D img, Vector2 position)
+        public Enemy(Texture2D img, Vector2 position, PhysicsHandler collisionHandler)
         {
             pos = staticPos = position;
             texture = img;
+
+            _collisionHandler = collisionHandler;
+
+            collisionHandler.AddLayer("Enemy");
+            collisionHandler.SetCollision("Enemy", "Walls");
+            collisionHandler.SetCollision("Player", "Enemy");
         }
 
         public Vector2 GetPos()
@@ -45,6 +52,11 @@ namespace IngredientRun
             // hitBox = new Rectangle(new Point(100, 200), new Point(texture.Height, texture.Width));
             pos.Y -= texture.Height * _scale;
             pos.X -= texture.Width * _scale / 2;
+
+            _collisionBox = new CollisionBox(new RectangleF(pos,
+                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                _collisionHandler, null, null, this);
+            _collisionHandler.AddObject("Enemy", _collisionBox);
         }
 
 

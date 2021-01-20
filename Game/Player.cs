@@ -19,6 +19,8 @@ namespace IngredientRun
         private int speed = 5;
         GraphicsDeviceManager graphics;
 
+        PhysicsHandler _collisionHandler;
+
         public RectangleF _overlap;
 
         CollisionBox _collisionBox;
