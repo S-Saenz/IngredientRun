@@ -16,7 +16,7 @@ namespace IngredientRun
 {
 
 
-    class Player
+    class Player // : BaseCharacter
     {
         private Texture2D idle, runRight, FOW, FOWT;
         private Animation runRightAnimation;
@@ -102,7 +102,7 @@ namespace IngredientRun
         public void Load(ContentManager Content)
         {
             idle = Content.Load<Texture2D>("chars/refugee");
-            runRight = Content.Load<Texture2D>("animations/main_character_run_right");//WHY ISN'T THIS WORKING?????
+            runRight = Content.Load<Texture2D>("animations/main_character_run_right");
             runRightAnimation = new Animation(runRight, 1, 11);
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
