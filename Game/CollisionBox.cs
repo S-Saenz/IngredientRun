@@ -12,10 +12,7 @@ namespace IngredientRun
         public RectangleF _bounds;
         public IPhysicsObject _parent { get; set; }
         public string _label;
-        public float _drag;
-        public float _friction;
-        public float _mass;
-        public Vector2 _direction;
+        public Vector2 _prevPos;
         public RectangleF _worldBounds;
 
         PhysicsHandler _collisionHandler;
@@ -55,9 +52,12 @@ namespace IngredientRun
             return _collisionHandler.TryMove(this, pos);
         }
 
-        public void Update(Vector2 pos)
+        public Vector2 Update(Vector2 pos, GameTime gameTime)
         {
-            _bounds.Position = pos;
+            _prevPos = _bounds.Position;
+
+            _bounds.Position = Move(pos);
+            return _bounds.Position;
             // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
         }
 

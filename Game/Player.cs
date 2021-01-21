@@ -16,7 +16,7 @@ namespace IngredientRun
         private Vector2 _FOWTPos;
         private int hp = 10;
         private Sprite FOWTSprite;
-        private int speed = 5;
+        private int speed = 150;
         GraphicsDeviceManager graphics;
 
         public RectangleF _overlap;
@@ -51,28 +51,27 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
             //Movement
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                pos.X += speed;
+                pos.X += speed * gameTime.GetElapsedSeconds();
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                pos.X -= speed;
+                pos.X -= speed * gameTime.GetElapsedSeconds();
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                pos.Y -= speed;
+                pos.Y -= speed * gameTime.GetElapsedSeconds();
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                pos.Y += speed;
+                pos.Y += speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Move(pos);
-            _collisionBox.Update(_pos);
+            _pos = _collisionBox.Update(pos, gameTime);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
