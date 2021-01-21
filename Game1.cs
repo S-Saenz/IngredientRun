@@ -3,10 +3,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
-using MonoGame.Extended;
-using MonoGame.Extended.Tiled;
-using MonoGame.Extended.Tiled.Renderers;
 
+using MonoGame.Extended;
+using MonoGame.Extended.ViewportAdapters;
 
 //hi
 //123
@@ -14,42 +13,29 @@ namespace IngredientRun
 {
     public class Game1 : Game
     {
-        Texture2D refugee;
-        Texture2D background;
-        Texture2D caveBG;
-        Texture2D chara1;
-        Texture2D chara2;
-        Texture2D chara3;
-        Texture2D chara4;
-
         Player player;
         Enemy enemy1;
 
+        TileMap caveMapBackground;
 
-
-
-
-        Vector2 refugeePos;
-        Vector2 chara1Pos;
-        Vector2 chara2Pos;
-        Vector2 chara3Pos;
-        Vector2 chara4Pos;
+        Vector2 bgPos;
+        Vector2 screenDimensions;
 
         //classes
         Inventory inventory = new Inventory();
 
+        PickUpable pickUp1;
+
+        // Debug mode
+        bool _isDebug = false;
+        bool _ctrlPrevDown = false;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        ///////////////////////////////////////////////////////
-        // The tile map
-        //private TiledMap map;
-        //// The renderer for the map
-        //private TiledMapRenderer mapRenderer;
+        private PhysicsHandler _collisionHandler;
 
-        //private Camera2D camera;
-        /// ////////////////////////////////////////////////////
+        private OrthographicCamera _camera;
 
         public Game1()
         {
@@ -58,56 +44,48 @@ namespace IngredientRun
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            screenDimensions = new Vector2(1728, 972);
+
+            _collisionHandler = new PhysicsHandler();
 
             
-            _graphics.PreferredBackBufferWidth = 1728;//1241;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = 972;   // set this value to the desired height of your window
+            _graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
+            _graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
 
+            // Set start location
+            bgPos = new Vector2(0, 0);
+
+            // Set up camera and viewport
+            DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            _camera = new OrthographicCamera(viewportAdapter);
+            _camera.Zoom = 4;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            //positions of characters
-            refugeePos = new Vector2(40, 60 );
-
-            chara1Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 310, 800);
-            chara2Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 240, 800);
-            chara3Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 170, 800);
-            chara4Pos = new Vector2((_graphics.PreferredBackBufferWidth / 2) + 100, 800);
-
             base.Initialize();
-
-            ////////////////////////////////////////////////////////////////////////
-            //trying to figure out the tile map
-            // Load the compiled map
-            //map = Content.Load<TiledMap>("tileMaps/MapPrototypeTileset");
-            //map = Content.Load<TiledMap>("tileMaps/MapPrototype");
-            //// Create the map renderer
-            //mapRenderer = new TiledMapRenderer(GraphicsDevice);
-            ////////////////////////////////////////////////////////////////////////
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
             //backgrounds
-            background = Content.Load<Texture2D>("bg/Ingredient Run Camp");
-            caveBG = Content.Load<Texture2D>("bg/caveMapPlan");
-            //player
-            refugee = Content.Load<Texture2D>("chars/refugee");
-            //characters
-            chara1 = Content.Load<Texture2D>("chars/chara1");
-            chara2 = Content.Load<Texture2D>("chars/chara2");
-            chara3 = Content.Load<Texture2D>("chars/chara3");
-            chara4 = Content.Load<Texture2D>("chars/chara4");
-            enemy1 =  new Enemy(Content.Load<Texture2D>("monsters/monster"));
+            // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice, _collisionHandler);
 
-            player = new Player();
-            player.Load(Content);
+            // pickup
+            pickUp1 = new PickUpable(Content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
+            pickUp1.Load(Content);
+
+            // player
+            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player.Load(Content, _collisionHandler, caveMapBackground._mapBounds);
+
+            // enemy
+            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
+            enemy1.Load(Content);
 
             //class loads
             inventory.Load(Content);
@@ -117,6 +95,16 @@ namespace IngredientRun
         protected override void Update(GameTime gameTime)
         {
             //Debug.WriteLine();
+            // Print collision boxes, remove FOWT sprite
+            if(Keyboard.GetState().IsKeyDown(Keys.LeftControl) && !_ctrlPrevDown)
+            {
+                _isDebug = !_isDebug;
+                _ctrlPrevDown = true;
+            }
+            else if(!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
+            {
+                _ctrlPrevDown = false;
+            }
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -124,15 +112,14 @@ namespace IngredientRun
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
-            player.Update(Mouse.GetState(), Keyboard.GetState());
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera) - screenDimensions / 2;
+            _camera.Position = bgPos;
+            // pickUp1.Update(bgPos);
+            enemy1.Update(bgPos);
 
+            caveMapBackground.Update(gameTime);
 
-            //////////////////////////////////////////////////////////
-            // Update the map
-            // map Should be the `TiledMap`
-            //mapRenderer.Update(map, gameTime);
-            //mapRenderer.Update(gameTime);
-            ///////////////////////////////////////////////////
 
             base.Update(gameTime);
         }
@@ -141,34 +128,17 @@ namespace IngredientRun
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // Clear the screen
-            GraphicsDevice.Clear(Color.Pink);
+            // Draw tilemap background
+            caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
-            // Transform matrix is only needed if you have a Camera2D
-            // Setting the sampler state to `SamplerState.PointClamp` is reccomended to remove gaps between the tiles when rendering
-            //_spriteBatch.Begin(transformMatrix: camera.GetViewMatrix(), samplerState: SamplerState.PointClamp);
-
-            // map Should be the `TiledMap`
-            // Once again, the transform matrix is only needed if you have a Camera2D
-            //mapRenderer.Draw(map, camera.GetViewMatrix());
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            // TODO: Add your drawing code here
-            _spriteBatch.Begin();
-            _spriteBatch.Draw(caveBG, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0.9f);
-            //characters 1-4
-            _spriteBatch.Draw(chara1, chara1Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
-            _spriteBatch.Draw(chara2, chara2Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
-            _spriteBatch.Draw(chara3, chara3Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
-            _spriteBatch.Draw(chara4, chara4Pos, null, Color.White, 0f, Vector2.Zero, 0.3f, SpriteEffects.None, 0f);
-            //player
-            //_spriteBatch.Draw(refugee, refugeePos,null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            // Draw sprites
+            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            
             enemy1.Draw(_spriteBatch);
-            player.Draw(_spriteBatch);
-            //spriteBatch.Draw(texture, position, null, Color.White, 0f, 
-            //Vector2.Zero, 0.5f, SpriteEffects.None, 0f);
+            pickUp1.Draw(_spriteBatch);
+            player.Draw(_spriteBatch, _isDebug);
 
             //class draws
 

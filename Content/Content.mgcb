@@ -10,6 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
+/reference:tools\monogame.extended.content.pipeline\3.8.0\tools\MonoGame.Extended.Content.Pipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
@@ -241,7 +242,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/wood.png
 
-#begin monsters/monster.gif
+#begin monsters/monster.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,33 +252,24 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:monsters/monster.gif
+/build:monsters/monster.png
 
-#begin tileMaps/MapPrototype.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:tileMaps/MapPrototype.png
+#begin tilemaps/prototype/collisionTestMap.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/prototype/collisionTestMap.tmx
 
-#begin ui/Inventory/Inventory Backpack and Grid.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/Inventory/Inventory Backpack and Grid.png
+#begin tilemaps/prototype/MapPrototypeTiledCollider.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/prototype/MapPrototypeTiledCollider.tmx
 
-#begin ui/Inventory/Inventory Prototype Square Filled.png
+#begin tilemaps/prototype/MapPrototypeTileset.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tilemaps/prototype/MapPrototypeTileset.tsx
+
+#begin tilemaps/prototype/PrototypeTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -287,7 +279,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ui/Inventory/Inventory Prototype Square Filled.png
+/build:tilemaps/prototype/PrototypeTileset.png
 
 #begin ui/paper.png
 /importer:TextureImporter

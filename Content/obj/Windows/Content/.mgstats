@@ -1,5 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/tileMaps/MapPrototype.png","C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/bin/Windows/Content/tileMaps/MapPrototype.xnb","TextureProcessor","Texture2DContent",38180,1199109,0.2519183
-"C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/Inventory/Inventory Backpack and Grid.png","C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/bin/Windows/Content/ui/Inventory/Inventory Backpack and Grid.xnb","TextureProcessor","Texture2DContent",54730,5616293,0.5287647
-"C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/Inventory/Inventory Prototype Square Filled.png","C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/bin/Windows/Content/ui/Inventory/Inventory Prototype Square Filled.xnb","TextureProcessor","Texture2DContent",1771,839141,0.0354564
-"C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/ui/Temp Inventory.png","C:/Users/iziff/OneDrive/Desktop/IngredientRun/Content/bin/Windows/Content/ui/Temp Inventory.xnb","TextureProcessor","Texture2DContent",4018,84825,0.2197955
