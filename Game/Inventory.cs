@@ -104,7 +104,18 @@ namespace IngredientRun
                     if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
                     {
                         Debug.WriteLine("Rotate!");
-                        ingredient.Rotation += Convert.ToSingle(Math.PI) / 2f; //rotate by 90 degrees                                                                      
+
+                        ingredient.Rotation += Convert.ToSingle(Math.PI) / 2f; //rotate by 90 degrees     
+                        ingredient.updateOrientation();
+                        
+                        //if ingredient is larger than one inventory square
+                        if (ingredient.doubleSquare)
+                        {
+                            ingredient.updateIndex2();
+                        }
+
+                        //Debug.WriteLine($"{ingredient.img} rotation: pi/{ Math.Round( Math.PI/ingredient.Rotation ) }");
+                        Debug.WriteLine($"{ingredient.img} {ingredient.Rotation}");
                     }
 
                     //inventory gravity - objects fall to bottom and stack on each other
