@@ -130,18 +130,19 @@ namespace IngredientRun
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
 
-            // Draw tilemap background
+            // Draw Tilemap
             caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
-            // Draw sprites
+            // Draw World Elements
             _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
+            _spriteBatch.End();
 
-            //class draws
-
+            // Draw UI
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if(inventory.showInv)
                 inventory.Draw(_spriteBatch);
 
