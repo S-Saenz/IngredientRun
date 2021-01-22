@@ -13,7 +13,7 @@ namespace IngredientRun
 
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idle, runRight, runLeft, FOW, FOWT;
+        private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
         private Animation runRightAnimation, runLeftAnimation, idleAnimation;
         private Vector2 _FOWTPos;
         private int hp = 10;
@@ -23,7 +23,7 @@ namespace IngredientRun
         public RectangleF _overlap;
         CollisionBox _collisionBox;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new List<Animation>(), "player", Vector2 .Zero)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
         {
             graphics = graphic;
             _pos = pos;
@@ -58,12 +58,12 @@ namespace IngredientRun
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                currentAnimation = 1;
+                currentAnimation = "runRight";
                 pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                currentAnimation = 2;
+                currentAnimation = "runLeft";
                 pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
@@ -91,12 +91,12 @@ namespace IngredientRun
 
         public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
-            idle = Content.Load<Texture2D>("chars/refugee");
-            idleAnimation = new Animation(idle, 1, 1, 0);
-            runRight = Content.Load<Texture2D>("animations/main_character_run_right");
-            runRightAnimation = new Animation(runRight, 1, 10, 50);
-            runLeft = Content.Load<Texture2D>("animations/main_character_run_left");
-            runLeftAnimation = new Animation(runLeft, 1, 10, 50);
+            idleTex = Content.Load<Texture2D>("chars/refugee");
+            idleAnimation = new Animation(idleTex, 1, 1, 0);
+            runRightTex = Content.Load<Texture2D>("animations/main_character_run_right");
+            runRightAnimation = new Animation(runRightTex, 1, 10, 50);
+            runLeftTex = Content.Load<Texture2D>("animations/main_character_run_left");
+            runLeftAnimation = new Animation(runLeftTex, 1, 10, 50);
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -109,20 +109,20 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idle.Width / 2 * _scale, idle.Height / 2 * _scale);
+            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
 
-            _pos.Y -= idle.Height * _scale;
+            _pos.Y -= idleTex.Height * _scale;
 
-            _pos.Y -= idle.Height * _scale / 2;
+            _pos.Y -= idleTex.Height * _scale / 2;
 
             //create list of Animations
-            animationList.Add(idleAnimation);//index 0
-            animationList.Add(runRightAnimation);//index 1
-            animationList.Add(runLeftAnimation);//index 2
+            animationDict.Add("idle", idleAnimation);
+            animationDict.Add("runRight", runRightAnimation);
+            animationDict.Add("runLeft", runLeftAnimation);
             
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
+                new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
                 collisionHandler, onCollision, onOverlap, this, worldBounds);
             collisionHandler.AddObject("Player", _collisionBox);
         }
