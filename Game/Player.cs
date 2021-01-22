@@ -10,7 +10,7 @@ namespace IngredientRun
 {
     class Player : IPhysicsObject
     {
-        private Texture2D texture, FOW, FOWT;
+        private Texture2D idle, FOW, FOWT;
         private float _scale = 1.5f;
         private Vector2 _pos;
         private Vector2 _FOWTPos;
@@ -94,7 +94,7 @@ namespace IngredientRun
 
         public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
-            texture = Content.Load<Texture2D>("chars/refugee");
+            idle = Content.Load<Texture2D>("chars/refugee");
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -106,9 +106,9 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(texture.Width / 2 * _scale, texture.Height / 2 * _scale);
+            _FOWTPos = new Vector2(idle.Width / 2 * _scale, idle.Height / 2 * _scale);
 
-            _pos.Y -= texture.Height * _scale;
+            _pos.Y -= idle.Height * _scale;
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
@@ -120,7 +120,7 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
 
-            spriteBatch.Draw(texture, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
             if (!isDebug)
             {
                 FOWTSprite.Draw(spriteBatch);
