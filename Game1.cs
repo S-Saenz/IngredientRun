@@ -113,7 +113,7 @@ namespace IngredientRun
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera) - screenDimensions / 2;
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera, gameTime) - screenDimensions / 2;
             _camera.Position = bgPos;
             // pickUp1.Update(bgPos);
             enemy1.Update(bgPos);
@@ -130,10 +130,10 @@ namespace IngredientRun
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
 
-            // Draw Tilemap
+            // Draw tilemap background
             caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
-            // Draw World Elements
+            // Draw sprites
             _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             
             enemy1.Draw(_spriteBatch);
@@ -141,9 +141,11 @@ namespace IngredientRun
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
 
+            //class draws
+
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if(inventory.showInv)
+            if (inventory.showInv)
                 inventory.Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -152,3 +154,4 @@ namespace IngredientRun
         }
     }
 }
+
