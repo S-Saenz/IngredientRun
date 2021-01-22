@@ -58,20 +58,20 @@ namespace IngredientRun
                     }
                 }
                 priority.Sort(delegate(Vector2 obj1, Vector2 obj2)
-                {
-                    if (obj1.Y > obj2.Y)
-                    {
-                        return 1;
-                    }
-                    else if (obj1.Y == obj2.Y)
-                    {
-                        return 0;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-                });
+                              {
+                                  if (obj1.Y > obj2.Y)
+                                  {
+                                      return 1;
+                                  }
+                                  else if (obj1.Y == obj2.Y)
+                                  {
+                                      return 0;
+                                  }
+                                  else
+                                  {
+                                      return -1;
+                                  }
+                              });
                 foreach(Vector2 obj in priority)
                 {
                     RectangleF.Intersection(ref box._bounds, ref other[(int)obj.X]._bounds, out overlapRect);

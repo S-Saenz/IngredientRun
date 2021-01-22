@@ -14,9 +14,9 @@ namespace IngredientRun
         private float _scale = 1.5f;
         private Vector2 _pos;
         private Vector2 _FOWTPos;
-        private int hp = 10;
+        private int hp = 25;
         private Sprite FOWTSprite;
-        private int speed = 150;
+        private int speed = 1500;
         GraphicsDeviceManager graphics;
 
         public RectangleF _overlap;
@@ -57,11 +57,17 @@ namespace IngredientRun
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                pos.X += speed * gameTime.GetElapsedSeconds();
+                _collisionBox.Accelerate(new Vector2(speed * gameTime.GetElapsedSeconds(), 0));
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                pos.X -= speed * gameTime.GetElapsedSeconds();
+                _collisionBox.Accelerate(new Vector2(-speed * gameTime.GetElapsedSeconds(), 0));
+            }
+            if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
+               (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
+            {
+                _collisionBox._acceleration.X = 0;
+                _collisionBox._velocity.X = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
@@ -71,7 +77,7 @@ namespace IngredientRun
             {
                 pos.Y += speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Update(pos, gameTime);
+            _pos = _collisionBox.Update(gameTime);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -106,7 +112,7 @@ namespace IngredientRun
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this, worldBounds);
+                collisionHandler, onCollision, onOverlap, this, worldBounds, friction: 5, maxSpeed: new Vector2(150, 300));
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
