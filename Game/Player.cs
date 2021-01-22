@@ -111,7 +111,7 @@ namespace IngredientRun
             _pos.Y -= idle.Height * _scale;
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
+                new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
                 collisionHandler, onCollision, onOverlap, this, worldBounds, friction: 5, maxSpeed: new Vector2(150, 300));
             collisionHandler.AddObject("Player", _collisionBox);
         }
