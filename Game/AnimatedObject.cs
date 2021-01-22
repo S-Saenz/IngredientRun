@@ -12,20 +12,30 @@ namespace IngredientRun
     {
         public List<Animation> animationList;
         public string name;
-        public double x;
-        public double y;
-        public AnimatedObject(List<Animation> animationList_, string name_, double x_, double y_)
+        public Vector2 _pos;
+        protected int currentAnimation;
+        public AnimatedObject(List<Animation> animationList_, string name_, Vector2 pos_)
         {
             animationList = animationList_;
             name = name_;
-            x = x_;
-            y = y_;
+            _pos = pos_;
+            currentAnimation = 0;
         }
 
         /*public Animation getAnimation(int idx)
         {
             //code here
         }*/
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            //spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
+            animationList[currentAnimation].Draw(spriteBatch, _pos);
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            animationList[currentAnimation].Update(gameTime);
+        }
     }
 
 

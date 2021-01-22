@@ -16,20 +16,21 @@ namespace IngredientRun
 {
 
 
-    class Player // : BaseCharacter
+    class Player : AnimatedObject
     {
-        private Texture2D idle, runRight, FOW, FOWT;
-        private Animation runRightAnimation;
+        private Texture2D idle, runRight, runLeft, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, idleAnimation;
         private float _scale = 1.5f;
-        private Vector2 _pos;
+        //private Vector2 _pos;
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
         Rectangle mapMoveBorder;
         GraphicsDeviceManager graphics;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos) : base(new List<Animation>(), "player", Vector2 .Zero)
         {
+            
             graphics = graphic;
             mapMoveBorder = new Rectangle(new Point((graphics.PreferredBackBufferWidth / 2) - 150,
                 (graphics.PreferredBackBufferHeight / 2) - 150), new Point(300, 300));
@@ -52,16 +53,18 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
+            base.Update(gameTime);
             //Movement
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                runRightAnimation.Update();
+                currentAnimation = 1;
                 _pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
+                currentAnimation = 2;
                 _pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
@@ -95,15 +98,18 @@ namespace IngredientRun
             */
 
             return _pos;
-
         }
 
 
         public void Load(ContentManager Content)
         {
             idle = Content.Load<Texture2D>("chars/refugee");
+            idleAnimation = new Animation(idle, 1, 1, 0);
             runRight = Content.Load<Texture2D>("animations/main_character_run_right");
-            runRightAnimation = new Animation(runRight, 1, 11);
+            runRightAnimation = new Animation(runRight, 1, 10, 50);
+            runLeft = Content.Load<Texture2D>("animations/main_character_run_left");
+            runLeftAnimation = new Animation(runLeft, 1, 10, 50);
+
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -117,18 +123,20 @@ namespace IngredientRun
             };
 
             _pos.Y -= idle.Height * _scale / 2;
+
+            //create list of Animations
+            animationList.Add(idleAnimation);//index 0
+            animationList.Add(runRightAnimation);//index 1
+            animationList.Add(runLeftAnimation);//index 2
+            
         }
 
 
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
+            base.Draw(spriteBatch);
+            //draws the light
             FOWTSprite.Draw(spriteBatch);
-
-            //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
-
-
         }
 
 
