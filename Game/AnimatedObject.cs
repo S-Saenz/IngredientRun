@@ -10,17 +10,17 @@ namespace IngredientRun
 {
     public class AnimatedObject
     {
-        public List<Animation> animationList;
+        public Dictionary<string, Animation> animationDict;
         public string name;
         public Vector2 _pos;
         protected float _scale = 1.5f;
-        protected int currentAnimation;
-        public AnimatedObject(List<Animation> animationList_, string name_, Vector2 pos_)
+        protected string currentAnimation;
+        public AnimatedObject(Dictionary<string, Animation> animationDict_, string name_, Vector2 pos_)
         {
-            animationList = animationList_;
+            animationDict = animationDict_;
             name = name_;
             _pos = pos_;
-            currentAnimation = 0;
+            currentAnimation = "idle";
         }
 
         /*public Animation getAnimation(int idx)
@@ -30,12 +30,12 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             //spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
-            animationList[currentAnimation].Draw(spriteBatch, _pos, _scale);
+            animationDict[currentAnimation].Draw(spriteBatch, _pos, _scale);
         }
 
         public void Update(GameTime gameTime)
         {
-            animationList[currentAnimation].Update(gameTime);
+            animationDict[currentAnimation].Update(gameTime);
         }
     }
 
