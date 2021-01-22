@@ -42,7 +42,7 @@ namespace IngredientRun
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, float scale)
         {
             int width = texture.Width / columns;
             int height = texture.Height / rows;
@@ -52,7 +52,7 @@ namespace IngredientRun
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
+            spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
         }
     }
 }

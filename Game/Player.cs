@@ -15,7 +15,6 @@ namespace IngredientRun
     {
         private Texture2D idle, runRight, runLeft, FOW, FOWT;
         private Animation runRightAnimation, runLeftAnimation, idleAnimation;
-        private float _scale = 1.5f;
         private Vector2 _FOWTPos;
         private int hp = 10;
         private Sprite FOWTSprite;
@@ -133,7 +132,6 @@ namespace IngredientRun
         {
             base.Draw(spriteBatch);
 
-            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
             if (!isDebug)
             {
                 // Draw light
