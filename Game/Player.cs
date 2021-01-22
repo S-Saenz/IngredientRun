@@ -16,8 +16,11 @@ namespace IngredientRun
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
-        private int speed = 1500;
+        private int _speed = 2500;
+        private int _jump = 8000;
         GraphicsDeviceManager graphics;
+
+        private bool _jumpClicked = false;
 
         public RectangleF _overlap;
 
@@ -57,11 +60,11 @@ namespace IngredientRun
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                _collisionBox.Accelerate(new Vector2(speed * gameTime.GetElapsedSeconds(), 0));
+                _collisionBox.Accelerate(new Vector2(_speed * gameTime.GetElapsedSeconds(), 0));
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                _collisionBox.Accelerate(new Vector2(-speed * gameTime.GetElapsedSeconds(), 0));
+                _collisionBox.Accelerate(new Vector2(-_speed * gameTime.GetElapsedSeconds(), 0));
             }
             if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
                (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
@@ -71,11 +74,19 @@ namespace IngredientRun
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                pos.Y -= speed * gameTime.GetElapsedSeconds();
+                if (_collisionBox._downBlocked && !_jumpClicked)
+                {
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                }
+                _jumpClicked = true;
+            }
+            else
+            {
+                _jumpClicked = false;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                pos.Y += speed * gameTime.GetElapsedSeconds();
+                pos.Y += _speed * gameTime.GetElapsedSeconds();
             }
             _pos = _collisionBox.Update(gameTime);
 
@@ -112,7 +123,7 @@ namespace IngredientRun
 
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this, worldBounds, friction: 5, maxSpeed: new Vector2(150, 300));
+                collisionHandler, onCollision, onOverlap, this, worldBounds, friction: 5, maxSpeed: new Vector2(150, 500));
             collisionHandler.AddObject("Player", _collisionBox);
         }
 

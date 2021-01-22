@@ -80,7 +80,7 @@ namespace IngredientRun
             // Apply gravity
             if (!_downBlocked)
             {
-                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 300;
+                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 200;
             }
 
             // Apply friction
