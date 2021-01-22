@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -8,22 +9,21 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class Player : IPhysicsObject
+
+
+    class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idle, FOW, FOWT;
-        private float _scale = 1.5f;
-        private Vector2 _pos;
+        private Texture2D idle, runRight, runLeft, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, idleAnimation;
         private Vector2 _FOWTPos;
         private int hp = 10;
         private Sprite FOWTSprite;
         private int speed = 5;
         GraphicsDeviceManager graphics;
-
         public RectangleF _overlap;
-
         CollisionBox _collisionBox;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new List<Animation>(), "player", Vector2 .Zero)
         {
             graphics = graphic;
             _pos = pos;
@@ -51,16 +51,19 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
+            base.Update(gameTime);
             //Movement
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                currentAnimation = 1;
                 pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
+                currentAnimation = 2;
                 pos.X -= speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
@@ -83,13 +86,18 @@ namespace IngredientRun
                 )));
 
             return _pos;
-
         }
 
 
         public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
             idle = Content.Load<Texture2D>("chars/refugee");
+            idleAnimation = new Animation(idle, 1, 1, 0);
+            runRight = Content.Load<Texture2D>("animations/main_character_run_right");
+            runRightAnimation = new Animation(runRight, 1, 10, 50);
+            runLeft = Content.Load<Texture2D>("animations/main_character_run_left");
+            runLeftAnimation = new Animation(runLeft, 1, 10, 50);
+
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -105,6 +113,14 @@ namespace IngredientRun
 
             _pos.Y -= idle.Height * _scale;
 
+            _pos.Y -= idle.Height * _scale / 2;
+
+            //create list of Animations
+            animationList.Add(idleAnimation);//index 0
+            animationList.Add(runRightAnimation);//index 1
+            animationList.Add(runLeftAnimation);//index 2
+            
+            // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
                 collisionHandler, onCollision, onOverlap, this, worldBounds);
@@ -114,19 +130,17 @@ namespace IngredientRun
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
+            base.Draw(spriteBatch);
 
-            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
             if (!isDebug)
             {
+                // Draw light
                 FOWTSprite.Draw(spriteBatch);
             }
             else
             {
                 _collisionBox.Draw(spriteBatch);
             }
-
-            // _collisionBox.Draw(spriteBatch);
-            // spriteBatch.DrawRectangle(_overlap, Color.Red);
         }
 
         public void onCollision(CollisionInfo info)
