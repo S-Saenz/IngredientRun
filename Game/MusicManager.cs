@@ -6,7 +6,7 @@ using ChaiFoxes.FMODAudio;
 
 namespace IngredientRun
 {
-    class MusicManager
+     class MusicManager
     {
         private List<Bank> banksList = new List<Bank>();
         private List<Bank> caveBanksList = new List<Bank>();
@@ -17,9 +17,9 @@ namespace IngredientRun
 
         public void LoadBanks()
         {
-            banksList.Add(StudioSystem.LoadBank("Master.bank"));
-            banksList.Add(StudioSystem.LoadBank("Master.strings.bank"));
-            caveBanksList.Add(StudioSystem.LoadBank("Cave.bank")); //it would probably be better to have separate functions for each level's banks, since you have to load undload etc
+            banksList.Add(StudioSystem.LoadBank("fmod/banks/Master.bank"));
+            banksList.Add(StudioSystem.LoadBank("fmod/banks/Master.strings.bank"));
+            caveBanksList.Add(StudioSystem.LoadBank("fmod/banks/Cave.bank")); //it would probably be better to have separate functions for each level's banks, since you have to load undload etc
 
         }
 

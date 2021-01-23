@@ -27,6 +27,7 @@ namespace IngredientRun
 
         //classes
         Inventory inventory = new Inventory();
+        MusicManager musicManager = new MusicManager();
 
         PickUpable pickUp1;
 
@@ -96,13 +97,13 @@ namespace IngredientRun
             inventory.Load(Content);
 
             //Fmod
-            
+            musicManager.LoadBanks();
 
         }
 
         protected override void Update(GameTime gameTime)
         {
-            //MusicManager.
+            
 
 
             //Debug.WriteLine();
