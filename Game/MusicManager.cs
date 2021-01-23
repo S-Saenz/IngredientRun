@@ -37,6 +37,7 @@ namespace IngredientRun
                 EventDescription caveAmbienceDesc = StudioSystem.GetEvent("event:/Cave Ambience");
                 EventInstance caveAmbience = caveAmbienceDesc.CreateInstance();
                 caveAmbience.Start();
+                forHittingPlayOnce = false;
             }
         }
 

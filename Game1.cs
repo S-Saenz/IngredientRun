@@ -103,7 +103,7 @@ namespace IngredientRun
 
         protected override void Update(GameTime gameTime)
         {
-            
+            musicManager.PlayCaveStream();
 
 
             //Debug.WriteLine();
