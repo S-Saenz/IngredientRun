@@ -146,6 +146,17 @@
 /processorParam:TextureFormat=Color
 /build:chars/refugee.png
 
+#begin fmod/banks/Cave.bank
+/copy:fmod/banks/Cave.bank
+
+#begin fmod/banks/Master.bank
+/copy:fmod/banks/Master.bank
+
+#begin fmod/banks/Master.strings.bank
+/importer:
+/processor:
+/build:fmod/banks/Master.strings.bank
+
 #begin ingredient/acorn.png
 /importer:TextureImporter
 /processor:TextureProcessor
