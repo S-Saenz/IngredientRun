@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
+using ChaiFoxes.FMODAudio.Studio;
+using ChaiFoxes.FMODAudio;
 
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
@@ -16,6 +18,8 @@ namespace IngredientRun
         Player player;
         Enemy enemy1;
 
+       
+ 
         TileMap caveMapBackground;
 
         Vector2 bgPos;
@@ -64,13 +68,14 @@ namespace IngredientRun
 
         protected override void Initialize()
         {
+            FMODManager.Init(FMODMode.CoreAndStudio, "Content"); //initializes fmod stuff and tells it to look in Content for banks and stuff iirc
+
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             //backgrounds
             // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
             caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice, _collisionHandler);
@@ -90,10 +95,16 @@ namespace IngredientRun
             //class loads
             inventory.Load(Content);
 
+            //Fmod
+            
+
         }
 
         protected override void Update(GameTime gameTime)
         {
+            //MusicManager.
+
+
             //Debug.WriteLine();
             // Print collision boxes, remove FOWT sprite
             if(Keyboard.GetState().IsKeyDown(Keys.LeftControl) && !_ctrlPrevDown)

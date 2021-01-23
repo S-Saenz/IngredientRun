@@ -11,6 +11,9 @@ namespace IngredientRun
         private List<Bank> banksList = new List<Bank>();
         private List<Bank> caveBanksList = new List<Bank>();
 
+        private bool forHittingPlayOnce = true; //pro naming convention, i know. the thing about fmod events (particularly streams like ambiences and music) is that they get restarted every time start() is called.
+        //thus, we need a way for the ambiences to only proc once. i'm using this dumb bool for demo purposes but a more reliable solution is needed
+
 
         public void LoadBanks()
         {
@@ -29,9 +32,12 @@ namespace IngredientRun
 
         public void PlayCaveStream() //demo dependent
         {
-            EventDescription caveAmbienceDesc = StudioSystem.GetEvent("event:/Cave Ambience");
-            EventInstance caveAmbience = caveAmbienceDesc.CreateInstance();
-            caveAmbience.Start();
+            if (forHittingPlayOnce)
+            {
+                EventDescription caveAmbienceDesc = StudioSystem.GetEvent("event:/Cave Ambience");
+                EventInstance caveAmbience = caveAmbienceDesc.CreateInstance();
+                caveAmbience.Start();
+            }
         }
 
 

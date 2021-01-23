@@ -153,9 +153,7 @@
 /copy:fmod/banks/Master.bank
 
 #begin fmod/banks/Master.strings.bank
-/importer:
-/processor:
-/build:fmod/banks/Master.strings.bank
+/copy:fmod/banks/Master.strings.bank
 
 #begin ingredient/acorn.png
 /importer:TextureImporter
