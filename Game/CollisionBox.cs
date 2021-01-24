@@ -26,13 +26,13 @@ namespace IngredientRun
 
         // Blocked information
         public bool _upBlocked { get; set; }
-        public bool _upWasBlocked { get; set; }
+        private bool _upWasBlocked { get; set; }
         public bool _downBlocked { get; set; }
-        public bool _downWasBlocked { get; set; }
+        private bool _downWasBlocked { get; set; }
         public bool _leftBlocked { get; set; }
-        public bool _leftWasBlocked { get; set; }
+        private bool _leftWasBlocked { get; set; }
         public bool _rightBlocked { get; set; }
-        public bool _rightWasBlocked { get; set; }
+        private bool _rightWasBlocked { get; set; }
 
         // Events
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
