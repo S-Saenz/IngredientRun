@@ -94,6 +94,10 @@ namespace IngredientRun
                 _acceleration.Y = 0;
                 _velocity.Y = Math.Clamp(_velocity.Y, -_maxSpeed.Y, _maxSpeed.Y);
             }
+            else if(MathF.Abs(_velocity.Y) < 0.01f)
+            {
+                _velocity.Y = 0;
+            }
 
             // Update smoothStep "friction"
             if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
@@ -129,9 +133,9 @@ namespace IngredientRun
             {
                 _acceleration.X = 0;
             }
+            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
 
             return _bounds.Position;
-            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
         }
 
         public void Accelerate(Vector2 acceleration)
