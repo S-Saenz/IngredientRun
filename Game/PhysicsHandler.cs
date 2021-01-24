@@ -88,7 +88,7 @@ namespace IngredientRun
                 {
                     RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
 
-                    if (!overlapRect.IsEmpty)
+                    if (overlapRect.Width != 0 && overlapRect.Height != 0)
                     {
                         CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
                         box.CallOverlap(info);
