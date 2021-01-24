@@ -32,7 +32,7 @@ namespace IngredientRun
 
             collisionHandler.AddLayer("Enemy");
             collisionHandler.SetCollision("Enemy", "Walls");
-            collisionHandler.SetCollision("Player", "Enemy");
+            collisionHandler.SetOverlap("Enemy", "Player");
         }
 
         public Vector2 GetPos()
@@ -40,11 +40,11 @@ namespace IngredientRun
             return pos;
         }
 
-        public void Update(Vector2 mapPos)
+        public void Update(GameTime gameTime)
         {
             // pos = mapPos + staticPos;
             // hitBox = new Rectangle(new Point((int)(mapPos.X + pos.X), (int)(mapPos.Y + pos.Y)), new Point(texture.Height, texture.Width));
-
+            _collisionBox.Update(gameTime);
         }
 
         public void Load(ContentManager Content)

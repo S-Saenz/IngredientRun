@@ -116,7 +116,7 @@ namespace IngredientRun
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera, gameTime) - screenDimensions / 2;
             _camera.Position = bgPos;
             // pickUp1.Update(bgPos);
-            enemy1.Update(bgPos);
+            enemy1.Update(gameTime);
 
             caveMapBackground.Update(gameTime);
 
