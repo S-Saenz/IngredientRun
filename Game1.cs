@@ -103,6 +103,7 @@ namespace IngredientRun
 
         protected override void Update(GameTime gameTime)
         {
+            FMODManager.Update();
             musicManager.PlayCaveStream();
 
 
