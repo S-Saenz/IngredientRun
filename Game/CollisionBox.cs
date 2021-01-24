@@ -46,11 +46,11 @@ namespace IngredientRun
 
             if (onCollision != null)
             {
-                _onCollision = onCollision;
+                _onCollision += onCollision;
             }
             if (onOverlap != null)
             {
-                _onOverlap = onOverlap;
+                _onOverlap += onOverlap;
             }
 
             _collisionHandler = collisionHandler;
