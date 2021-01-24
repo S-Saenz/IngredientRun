@@ -26,17 +26,19 @@ namespace IngredientRun
 
         // Blocked information
         public bool _upBlocked { get; set; }
-        public CollisionBox _upTouching { get; set; }
+        public bool _upWasBlocked { get; set; }
         public bool _downBlocked { get; set; }
-        public CollisionBox _downTouching { get; set; }
+        public bool _downWasBlocked { get; set; }
         public bool _leftBlocked { get; set; }
-        public CollisionBox _leftTouching { get; set; }
+        public bool _leftWasBlocked { get; set; }
         public bool _rightBlocked { get; set; }
-        public CollisionBox _rightTouching { get; set; }
+        public bool _rightWasBlocked { get; set; }
 
         // Events
-        public event CollisionEventHandler _onCollision;
-        public event CollisionEventHandler _onOverlap;
+        private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
+        private event CollisionEventHandler _onCollisionStart; // called once when colliding with something new (new material/side)
+        private event CollisionEventHandler _onCollisionEnd; // called once when no longer colliding with anything on given side
+        private event CollisionEventHandler _onOverlap;
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, CollisionEventHandler onCollision = null, 
                             CollisionEventHandler onOverlap = null, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
@@ -113,7 +115,7 @@ namespace IngredientRun
 
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds();
-            _upBlocked = _downBlocked = _leftBlocked = _rightBlocked = false;
+            IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
             // Update velocity based on move
@@ -133,7 +135,7 @@ namespace IngredientRun
             {
                 _acceleration.X = 0;
             }
-            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+            Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
 
             return _bounds.Position;
         }
@@ -152,6 +154,16 @@ namespace IngredientRun
             spriteBatch.DrawRectangle(_bounds, Color.LawnGreen, 1);
         }
 
+        private void IncrementBlocked() // steps forward blocked bools, setting wasBlocked and resetting blocked
+        {
+            _upWasBlocked = _upBlocked;
+            _downWasBlocked = _downBlocked;
+            _leftWasBlocked = _leftBlocked;
+            _rightWasBlocked = _rightBlocked;
+
+            _upBlocked = _downBlocked = _leftBlocked = _rightBlocked = false;
+        }
+
         public void CallOverlap(CollisionInfo info)
         {
             _onOverlap?.Invoke(info);
@@ -159,7 +171,45 @@ namespace IngredientRun
 
         public void CallCollision(CollisionInfo info)
         {
+            if((!_upWasBlocked    && _upBlocked)   || // up
+               (!_downWasBlocked  && _downBlocked) || // down
+               (!_leftWasBlocked  && _leftBlocked) || // left
+               (!_rightWasBlocked && _rightBlocked))  // right
+            {
+                CallCollisionStart(info);
+            }
+
             _onCollision?.Invoke(info);
+        }
+
+        public void CallCollisionStart(CollisionInfo info)
+        {
+            _onCollisionStart?.Invoke(info);
+        }
+
+        public void CallCollisionEnd(CollisionInfo info)
+        {
+            _onCollisionEnd?.Invoke(info);
+        }
+
+        public void AddOverlapListener(CollisionEventHandler overlapEvent)
+        {
+            _onOverlap += overlapEvent;
+        }
+
+        public void AddCollisionListener(CollisionEventHandler collisionEvent)
+        {
+            _onCollision += collisionEvent;
+        }
+
+        public void AddCollisionStartListener(CollisionEventHandler collisionEvent)
+        {
+            _onCollisionStart += collisionEvent;
+        }
+
+        public void AddCollisionEndListener(CollisionEventHandler collisionEvent)
+        {
+            _onCollisionEnd += collisionEvent;
         }
     }
 }
