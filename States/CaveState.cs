@@ -19,11 +19,7 @@ namespace IngredientRun.States
 
         TileMap caveMapBackground;
 
-        Vector2 bgPos;
-        Vector2 screenDimensions;
-
-        //classes
-        Inventory inventory = new Inventory();
+        
 
         PickUpable pickUp1;
 
