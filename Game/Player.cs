@@ -140,7 +140,7 @@ namespace IngredientRun
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, null, null, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
                 friction: _friction);
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementEndListener(onEndMove);
@@ -165,12 +165,12 @@ namespace IngredientRun
 
         public void onStartMove(Vector2 move)
         {
-            Debug.WriteLine("Start");
+            // Debug.WriteLine("Start");
         }
         
         public void onEndMove(Vector2 move)
         {
-            Debug.WriteLine("Stop");
+            // Debug.WriteLine("Stop");
         }
     }
 }

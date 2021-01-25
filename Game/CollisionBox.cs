@@ -52,20 +52,10 @@ namespace IngredientRun
         private event MovementEventHandler _onMovementStart;
         private event MovementEventHandler _onMovementEnd;
 
-        public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, CollisionEventHandler onCollision = null,
-                            CollisionEventHandler onOverlap = null, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
+        public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
                             Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
         {
             _bounds = bounds;
-
-            if (onCollision != null)
-            {
-                _onCollision += onCollision;
-            }
-            if (onOverlap != null)
-            {
-                _onOverlap += onOverlap;
-            }
 
             _collisionHandler = collisionHandler;
             _parent = parent;
