@@ -25,14 +25,21 @@ namespace IngredientRun
         PhysicsHandler _collisionHandler;
 
         // Blocked information
-        public bool _upBlocked { get; set; }
-        private bool _upWasBlocked { get; set; }
-        public bool _downBlocked { get; set; }
-        private bool _downWasBlocked { get; set; }
-        public bool _leftBlocked { get; set; }
-        private bool _leftWasBlocked { get; set; }
-        public bool _rightBlocked { get; set; }
-        private bool _rightWasBlocked { get; set; }
+        public bool _upBlocked;
+        private bool _upWasBlocked;
+        public CollisionInfo _upInfo;
+
+        public bool _downBlocked;
+        private bool _downWasBlocked;
+        public CollisionInfo _downInfo;
+
+        public bool _leftBlocked;
+        private bool _leftWasBlocked;
+        public CollisionInfo _leftInfo;
+
+        public bool _rightBlocked;
+        private bool _rightWasBlocked;
+        public CollisionInfo _rightInfo;
 
         // Events
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
@@ -135,7 +142,14 @@ namespace IngredientRun
             {
                 _acceleration.X = 0;
             }
-            Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+
+            CollisionUpdateSide(ref _upWasBlocked, ref _upBlocked, _upInfo); // check up states
+            CollisionUpdateSide(ref _downWasBlocked, ref _downBlocked, _downInfo); // check down states
+            CollisionUpdateSide(ref _leftWasBlocked, ref _leftBlocked, _leftInfo); // check left states
+            CollisionUpdateSide(ref _rightWasBlocked, ref _rightBlocked, _rightInfo); // check right states
+
+            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+            // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
             return _bounds.Position;
         }
@@ -171,14 +185,6 @@ namespace IngredientRun
 
         public void CallCollision(CollisionInfo info)
         {
-            if((!_upWasBlocked    && _upBlocked)   || // up
-               (!_downWasBlocked  && _downBlocked) || // down
-               (!_leftWasBlocked  && _leftBlocked) || // left
-               (!_rightWasBlocked && _rightBlocked))  // right
-            {
-                CallCollisionStart(info);
-            }
-
             _onCollision?.Invoke(info);
         }
 
@@ -210,6 +216,20 @@ namespace IngredientRun
         public void AddCollisionEndListener(CollisionEventHandler collisionEvent)
         {
             _onCollisionEnd += collisionEvent;
+        }
+
+        private void CollisionUpdateSide(ref bool prevState, ref bool currState, CollisionInfo info)
+        {
+            if (!prevState && currState) // start hit
+            {
+                // Debug.WriteLine("Start " + info._hitDir);
+                CallCollisionStart(info);
+            }
+            else if (prevState && !currState) // end hit
+            {
+                // Debug.WriteLine("End " + info._hitDir);
+                CallCollisionEnd(info);
+            }
         }
     }
 }
