@@ -7,17 +7,19 @@ using System.Diagnostics;
 namespace IngredientRun
 {
     delegate void CollisionEventHandler(CollisionInfo info);
+    delegate void MovementEventHandler(Vector2 movement);
 
     class CollisionBox
     {
         public RectangleF _bounds;
         public IPhysicsObject _parent { get; set; }
         public string _label;
-        public Vector2 _velocity;
+        public Vector2 _velocity = Vector2.Zero;
+        private Vector2 _prevVelocity = Vector2.Zero;
         public Vector2 _acceleration;
         public Vector2 _maxSpeed;
         public Vector2 _gravity;
-        public Vector2 _prevPos;
+        private Vector2 _prevPos;
         public float _friction; // 0-1
         // public float _damping;
         public RectangleF _worldBounds;
@@ -47,7 +49,10 @@ namespace IngredientRun
         private event CollisionEventHandler _onCollisionEnd; // called once when no longer colliding with anything on given side
         private event CollisionEventHandler _onOverlap;
 
-        public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, CollisionEventHandler onCollision = null, 
+        private event MovementEventHandler _onMovementStart;
+        private event MovementEventHandler _onMovementEnd;
+
+        public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, CollisionEventHandler onCollision = null,
                             CollisionEventHandler onOverlap = null, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
                             Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
         {
@@ -82,7 +87,7 @@ namespace IngredientRun
         public Vector2 Update(GameTime gameTime)
         {
             Vector2 pos = _bounds.Position;
-            Vector2 _prevPos = _bounds.Position;
+            _prevPos = _bounds.Position;
 
             // Apply gravity
             if (!_downBlocked)
@@ -98,12 +103,12 @@ namespace IngredientRun
             {
                 _velocity.X = Math.Clamp(_velocity.X, -_maxSpeed.X, _maxSpeed.X);
             }
-            if(MathF.Abs(_velocity.Y) >= _maxSpeed.Y)
+            if (MathF.Abs(_velocity.Y) >= _maxSpeed.Y)
             {
                 _acceleration.Y = 0;
                 _velocity.Y = Math.Clamp(_velocity.Y, -_maxSpeed.Y, _maxSpeed.Y);
             }
-            else if(MathF.Abs(_velocity.Y) < 0.01f)
+            else if (MathF.Abs(_velocity.Y) < 0.01f)
             {
                 _velocity.Y = 0;
             }
@@ -131,8 +136,19 @@ namespace IngredientRun
                 _velocity = Vector2.Divide(_bounds.Position - _prevPos, gameTime.GetElapsedSeconds());
             }
 
+            if((_velocity.X != 0 && _prevVelocity.X == 0) || // started moving
+               (_velocity.Y != 0 && _prevVelocity.Y == 0))
+            {
+                _onMovementStart?.Invoke(_velocity);
+            }
+            else if ((_velocity.X == 0 && _prevVelocity.X != 0) || // stopped moving
+               (_velocity.Y == 0 && _prevVelocity.Y != 0))
+            {
+                _onMovementEnd?.Invoke(_velocity);
+            }
+
             // Stop acceleration if against wall
-            if((_upBlocked && _acceleration.Y < 0) ||
+            if ((_upBlocked && _acceleration.Y < 0) ||
                (_downBlocked && _acceleration.Y > 0))
             {
                 _acceleration.Y = 0;
@@ -142,6 +158,9 @@ namespace IngredientRun
             {
                 _acceleration.X = 0;
             }
+
+            // update prev velocity before adjusted for next move
+            _prevVelocity = _velocity;
 
             CollisionUpdateSide(ref _upWasBlocked, ref _upBlocked, _upInfo); // check up states
             CollisionUpdateSide(ref _downWasBlocked, ref _downBlocked, _downInfo); // check down states
@@ -188,34 +207,34 @@ namespace IngredientRun
             _onCollision?.Invoke(info);
         }
 
-        public void CallCollisionStart(CollisionInfo info)
+        public void AddOverlapListener(CollisionEventHandler overlapFunction)
         {
-            _onCollisionStart?.Invoke(info);
+            _onOverlap += overlapFunction;
         }
 
-        public void CallCollisionEnd(CollisionInfo info)
+        public void AddCollisionListener(CollisionEventHandler collisionFunction)
         {
-            _onCollisionEnd?.Invoke(info);
+            _onCollision += collisionFunction;
         }
 
-        public void AddOverlapListener(CollisionEventHandler overlapEvent)
+        public void AddCollisionStartListener(CollisionEventHandler collisionFunction)
         {
-            _onOverlap += overlapEvent;
+            _onCollisionStart += collisionFunction;
         }
 
-        public void AddCollisionListener(CollisionEventHandler collisionEvent)
+        public void AddCollisionEndListener(CollisionEventHandler collisionFunction)
         {
-            _onCollision += collisionEvent;
+            _onCollisionEnd += collisionFunction;
         }
 
-        public void AddCollisionStartListener(CollisionEventHandler collisionEvent)
+        public void AddMovementStartListener(MovementEventHandler moveFunction)
         {
-            _onCollisionStart += collisionEvent;
+            _onMovementStart += moveFunction;
         }
 
-        public void AddCollisionEndListener(CollisionEventHandler collisionEvent)
+        public void AddMovementEndListener(MovementEventHandler moveFunction)
         {
-            _onCollisionEnd += collisionEvent;
+            _onMovementEnd += moveFunction;
         }
 
         private void CollisionUpdateSide(ref bool prevState, ref bool currState, CollisionInfo info)
@@ -223,12 +242,12 @@ namespace IngredientRun
             if (!prevState && currState) // start hit
             {
                 // Debug.WriteLine("Start " + info._hitDir);
-                CallCollisionStart(info);
+                _onCollisionStart?.Invoke(info);
             }
             else if (prevState && !currState) // end hit
             {
                 // Debug.WriteLine("End " + info._hitDir);
-                CallCollisionEnd(info);
+                _onCollisionEnd?.Invoke(info);
             }
         }
     }
