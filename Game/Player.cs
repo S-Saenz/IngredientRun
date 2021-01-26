@@ -125,7 +125,7 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
+            _FOWTPos = new Vector2(0,0);
 
             _pos.Y -= idleTex.Height * _scale;
 
