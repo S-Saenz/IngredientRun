@@ -84,7 +84,7 @@ namespace IngredientRun
             player.Load(Content, _collisionHandler, caveMapBackground._mapBounds);
 
             // enemy
-            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
+            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
             enemy1.Load(Content);
 
             //class loads
@@ -116,7 +116,7 @@ namespace IngredientRun
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera, gameTime) - screenDimensions / 2;
             _camera.Position = bgPos;
             // pickUp1.Update(bgPos);
-            enemy1.Update(bgPos);
+            enemy1.Update(gameTime);
 
             caveMapBackground.Update(gameTime);
 
@@ -141,13 +141,10 @@ namespace IngredientRun
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
 
-            //class draws
-
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (inventory.showInv)
                 inventory.Draw(_spriteBatch);
-
             _spriteBatch.End();
 
             base.Draw(gameTime);

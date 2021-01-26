@@ -16,10 +16,15 @@ namespace IngredientRun
         private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
         private Animation runRightAnimation, runLeftAnimation, idleAnimation;
         private Vector2 _FOWTPos;
-        private int hp = 10;
+        private int hp = 25;
         private Sprite FOWTSprite;
-        private int speed = 5;
+        private int _runSpeed = 120; // maximum speed for player to move at
+        private int _walkSpeed = 50;
+        private int _acceleration = 10; // rate at which player increases speed
+        private float _friction = 0.4f; // rate at which player stops
+        private int _jump = 9000; // force on player to move upward
         GraphicsDeviceManager graphics;
+        private bool _jumpClicked = false;
         public RectangleF _overlap;
         CollisionBox _collisionBox;
 
@@ -58,24 +63,36 @@ namespace IngredientRun
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                _collisionBox.Accelerate(new Vector2(_acceleration, 0));
                 currentAnimation = "runRight";
-                pos.X += speed;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
+                _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
                 currentAnimation = "runLeft";
-                pos.X -= speed;
+            }
+            if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
+               (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
+            {
+                _collisionBox._acceleration.X = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                pos.Y -= speed;
+                if (_collisionBox._downBlocked && !_jumpClicked)
+                {
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                }
+                _jumpClicked = true;
+            }
+            else
+            {
+                _jumpClicked = false;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                pos.Y += speed;
+                // pos.Y += _speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Move(pos);
-            _collisionBox.Update(_pos);
+            _pos = _collisionBox.Update(gameTime);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -123,7 +140,10 @@ namespace IngredientRun
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this, worldBounds);
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+                friction: _friction);
+            _collisionBox.AddMovementStartListener(onStartMove);
+            _collisionBox.AddMovementEndListener(onEndMove);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
@@ -143,14 +163,14 @@ namespace IngredientRun
             }
         }
 
-        public void onCollision(CollisionInfo info)
+        public void onStartMove(Vector2 move)
         {
-            // Debug.WriteLine("Hit");
+            // Debug.WriteLine("Start");
         }
-
-        public void onOverlap(CollisionInfo info)
+        
+        public void onEndMove(Vector2 move)
         {
-            // _overlap = info._overlapRect;
+            // Debug.WriteLine("Stop");
         }
     }
 }
