@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace IngredientRun
 {
@@ -39,28 +40,50 @@ namespace IngredientRun
 
     class NPCInteraction // describes one conversation event
     {
+        // private static Regex requirements = new Regex(@"(?<=\[).+? (?=\])"); // regular expressions why???
+        // private static Regex characters = new Regex();
+        // private static Regex dialogue = new Regex();
+
         string _name;
-        List<EventCondition> _requirements; // or requirements
+        string[] _requirements; // or requirements
         float _probability;
-        Dictionary<int,string> _characters; // key: representation of character in current interaction, value: string name of character. 
-                                            // change to dictionary of npc references when npc class implemented
+        string[] _characters;  // change to dictionary of npc references when npc class implemented
         List<DialogueLine> _dialogue;
 
         public NPCInteraction(string unparsed)
         {
             string[] values = unparsed.Split('\t');
+
             _name = values[0];
+
+            // _requirements = Regex.Split(values[1], @"(?<=\[).+? (?=\])");
+            // _requirements = new List<string>();
+            ParseRequirement(values[1]);
+
+            _probability = float.Parse(values[2]);
+
+            _characters = values[3].Split(',');
+
+            _dialogue = new List<DialogueLine>();
+            string[] diValues = values[4].Split(')');
+            foreach(string val in diValues)
+            {
+                if (val.Length > 1)
+                {
+                    _dialogue.Add(new DialogueLine(val));
+                }
+            }
         }
 
         public bool isSatisfied()
         {
-            foreach(EventCondition cond in _requirements)
-            {
-                if(cond.isSatisfied())
-                {
-                    return true;
-                }
-            }
+            // foreach(EventCondition cond in _requirements)
+            // {
+            //     if(cond.isSatisfied())
+            //     {
+            //         return true;
+            //     }
+            // }
             return false;
         }
 
@@ -80,21 +103,50 @@ namespace IngredientRun
                 return true;
             }
         }
+
+        private void ParseRequirement(string unparsed)
+        {
+            if (unparsed.Length == 0)
+            {
+                return;
+            }
+            _requirements = unparsed.Substring(1, unparsed.Length - 2).Split("] [");
+        }
     }
 
     class DialogueLine
     {
-        int _character; // change to npc reference when 
+        string _character; // change to npc reference when 
         string _speech; // spoken words
         List<Tuple<float, NPCAction>> _actions; // list of actions taken by player, in order of execution. first: time, second: action
         float _duration; // number of seconds that dialogue remains on screen
         float _currTime; 
 
-        public DialogueLine(int character, string unparsedLine)
+        public DialogueLine(string unparsedLine)
         {
             _currTime = 0;
 
-            // Parse line, extract actions
+            // extract character name
+            string[] values = unparsedLine.Split(']', '(');
+            _character = values[0].Substring(values[0].IndexOf('[') + 1);
+
+            // extract duration
+            if (values.Length > 2)
+            {
+                _duration = float.Parse(values[2].Substring(0, values[2].Length - 3));
+            }
+
+            // extract speech
+            _speech = values[1].Substring(values[1].IndexOf('\"') + 1, values[1].LastIndexOf('\"') - 2);
+        }
+
+        private void ParseDialogue(string unparsed)
+        {
+            if (unparsed.Length == 0)
+            {
+                return;
+            }
+
         }
 
         public void Update(GameTime gameTime)
