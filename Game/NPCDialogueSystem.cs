@@ -56,8 +56,6 @@ namespace IngredientRun
 
             _name = values[0];
 
-            // _requirements = Regex.Split(values[1], @"(?<=\[).+? (?=\])");
-            // _requirements = new List<string>();
             ParseRequirement(values[1]);
 
             _probability = float.Parse(values[2]);
@@ -65,14 +63,7 @@ namespace IngredientRun
             _characters = values[3].Split(',');
 
             _dialogue = new List<DialogueLine>();
-            string[] diValues = values[4].Split(')');
-            foreach(string val in diValues)
-            {
-                if (val.Length > 1)
-                {
-                    _dialogue.Add(new DialogueLine(val));
-                }
-            }
+            ParseDialogue(values[4]);
         }
 
         public bool isSatisfied()
@@ -111,6 +102,18 @@ namespace IngredientRun
                 return;
             }
             _requirements = unparsed.Substring(1, unparsed.Length - 2).Split("] [");
+        }
+
+        private void ParseDialogue(string unparsed)
+        {
+            string[] values = unparsed.Split(')');
+            foreach (string val in values)
+            {
+                if (val.Length > 1)
+                {
+                    _dialogue.Add(new DialogueLine(val));
+                }
+            }
         }
     }
 
