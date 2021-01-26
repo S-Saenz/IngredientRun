@@ -35,6 +35,8 @@ namespace IngredientRun
 
         private PhysicsHandler _collisionHandler;
 
+        private NPCDialogueSystem _dialogueSystem;
+
         private OrthographicCamera _camera;
 
         public Game1()
@@ -89,6 +91,9 @@ namespace IngredientRun
 
             //class loads
             inventory.Load(Content);
+
+            // load NPC dialogue
+            _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv");
 
         }
 
