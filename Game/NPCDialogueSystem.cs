@@ -40,10 +40,6 @@ namespace IngredientRun
 
     class NPCInteraction // describes one conversation event
     {
-        // private static Regex requirements = new Regex(@"(?<=\[).+? (?=\])"); // regular expressions why???
-        // private static Regex characters = new Regex();
-        // private static Regex dialogue = new Regex();
-
         string _name;
         string[] _requirements; // or requirements
         float _probability;
@@ -121,7 +117,7 @@ namespace IngredientRun
     {
         string _character; // change to npc reference when 
         string _speech; // spoken words
-        List<Tuple<float, NPCAction>> _actions; // list of actions taken by player, in order of execution. first: time, second: action
+        Dictionary<float, string> _actions; // list of actions taken by player, in order of execution. key: time, value: action
         float _duration; // number of seconds that dialogue remains on screen
         float _currTime; 
 
@@ -139,8 +135,9 @@ namespace IngredientRun
                 _duration = float.Parse(values[2].Substring(0, values[2].Length - 3));
             }
 
-            // extract speech
-            _speech = values[1].Substring(values[1].IndexOf('\"') + 1, values[1].LastIndexOf('\"') - 2);
+            // extract speech/actions
+            _actions = new Dictionary<float, string>();
+            ParseDialogue(values[1].Substring(values[1].IndexOf('\"') + 1, values[1].LastIndexOf('\"') - 2));
         }
 
         private void ParseDialogue(string unparsed)
@@ -150,6 +147,32 @@ namespace IngredientRun
                 return;
             }
 
+            string[] values = unparsed.Split('*');
+            List<float> actionTimes = new List<float>();
+            List<string> actions = new List<string>();
+            _speech = values[0];
+            for(int i = 1; i < values.Length; ++i)
+            {
+                if (values[i].Length > 0)
+                {
+                    if (i % 2 == 0) // spoken words
+                    {
+                        _speech += values[i];
+                    }
+                    else // action
+                    {
+                        actionTimes.Add(_speech.Length);
+                        actions.Add(values[i]);
+                    }
+                }
+            }
+
+            // calculate times of actions
+            for(int i = 0; i < actions.Count; ++i)
+            {
+                actionTimes[i] = actionTimes[i] / _speech.Length * _duration;
+                _actions.Add(actionTimes[i], actions[i]);
+            }
         }
 
         public void Update(GameTime gameTime)
