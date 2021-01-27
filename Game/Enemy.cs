@@ -55,7 +55,7 @@ namespace IngredientRun
 
             _collisionBox = new CollisionBox(new RectangleF(pos,
                 new Size2(texture.Bounds.Width * _scale, texture.Bounds.Height * _scale)),
-                _collisionHandler, null, null, this);
+                _collisionHandler, this);
             _collisionHandler.AddObject("Enemy", _collisionBox);
         }
 

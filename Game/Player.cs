@@ -139,8 +139,10 @@ namespace IngredientRun
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
                 friction: _friction);
+            _collisionBox.AddMovementStartListener(onStartMove);
+            _collisionBox.AddMovementEndListener(onEndMove);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
@@ -160,14 +162,14 @@ namespace IngredientRun
             }
         }
 
-        public void onCollision(CollisionInfo info)
+        public void onStartMove(Vector2 move)
         {
-            // Debug.WriteLine("Hit");
+            // Debug.WriteLine("Start");
         }
-
-        public void onOverlap(CollisionInfo info)
+        
+        public void onEndMove(Vector2 move)
         {
-            // _overlap = info._overlapRect;
+            // Debug.WriteLine("Stop");
         }
     }
 }
