@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
-
-using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended;
+using IngredientRun.States;
+using System.Collections.Generic;
 
 //hi
 //123
@@ -13,57 +14,59 @@ namespace IngredientRun
 {
     public class Game1 : Game
     {
-        Player player;
-        Enemy enemy1;
-
-        TileMap caveMapBackground;
-
-        Vector2 bgPos;
-        Vector2 screenDimensions;
-
-        //classes
-        Inventory inventory = new Inventory();
-
-        PickUpable pickUp1;
-
-        // Debug mode
-        bool _isDebug = false;
-        bool _ctrlPrevDown = false;
-
-        private GraphicsDeviceManager _graphics;
+        public static Game1 instance;
+        public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
+        Dictionary<string, State> _states;
+        public Vector2 screenDimensions;
 
-        private PhysicsHandler _collisionHandler;
+        // private SpriteBatch _spriteBatch;
 
-        private OrthographicCamera _camera;
+        // public Inventory inventory = new Inventory();
+
+        // create vatiable for the state manager
+
+        private State _currentState;
+
+        private State _nextState;
+
+        public void ChangeState(string sState)
+        {
+            _nextState = _states[sState];
+            _currentState.LoadContent();
+        }
+
+
+        public OrthographicCamera _camera;
 
         public Game1()
         {
             this.Window.Title = "Ingredient Time";
-            this.IsMouseVisible = true;
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
+            _states = new Dictionary<string, State>();
+            
+
+            //_spriteBatch = new SpriteBatch();
+            instance = this;
             Content.RootDirectory = "Content";
-            _graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            this.IsMouseVisible = true;
+
+            // setup the window
             screenDimensions = new Vector2(1728, 972);
 
-            _collisionHandler = new PhysicsHandler();
-
-            
-            _graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
-            _graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
-            _graphics.ApplyChanges();
-
-            // Set start location
-            bgPos = new Vector2(0, 0);
-
-            // Set up camera and viewport
+            graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
             DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
             _camera = new OrthographicCamera(viewportAdapter);
-            _camera.Zoom = 4;
+            
         }
 
         protected override void Initialize()
         {
+            
+
             base.Initialize();
         }
 
@@ -71,81 +74,39 @@ namespace IngredientRun
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //backgrounds
-            // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", Content, GraphicsDevice, _collisionHandler);
+            _currentState = new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch);
 
-            // pickup
-            pickUp1 = new PickUpable(Content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
-            pickUp1.Load(Content);
-
-            // player
-            player = new Player(_graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
-            player.Load(Content, _collisionHandler, caveMapBackground._mapBounds);
-
-            // enemy
-            enemy1 = new Enemy(Content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
-            enemy1.Load(Content);
-
-            //class loads
-            inventory.Load(Content);
-
+            _currentState.LoadContent();
+            //whenever a new state is added, it will need to be added to this list
+            _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
         }
 
         protected override void Update(GameTime gameTime)
         {
             //Debug.WriteLine();
-            // Print collision boxes, remove FOWT sprite
-            if(Keyboard.GetState().IsKeyDown(Keys.LeftControl) && !_ctrlPrevDown)
-            {
-                _isDebug = !_isDebug;
-                _ctrlPrevDown = true;
-            }
-            else if(!Keyboard.GetState().IsKeyDown(Keys.LeftControl))
-            {
-                _ctrlPrevDown = false;
-            }
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            inventory.Update(Mouse.GetState() ,Keyboard.GetState());
+            if(_nextState != null)
+            {
+                _currentState = _nextState;
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera, gameTime) - screenDimensions / 2;
-            _camera.Position = bgPos;
-            // pickUp1.Update(bgPos);
-            enemy1.Update(gameTime);
+                _nextState = null;
+            }
 
-            caveMapBackground.Update(gameTime);
+            _currentState.Update(gameTime);
 
+            _currentState.PostUpdate(gameTime);
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
-
-            // Draw tilemap background
-            caveMapBackground.Draw(_spriteBatch, _camera.GetViewMatrix(), projectionMatrix, _isDebug);
-
-            // Draw sprites
-            _spriteBatch.Begin(transformMatrix: _camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            
-            enemy1.Draw(_spriteBatch);
-            pickUp1.Draw(_spriteBatch);
-            player.Draw(_spriteBatch, _isDebug);
-
-            _spriteBatch.End();
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if (inventory.showInv)
-                inventory.Draw(_spriteBatch);
-            _spriteBatch.End();
+            _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
         }
