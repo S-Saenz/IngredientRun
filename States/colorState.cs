@@ -16,27 +16,27 @@ namespace IngredientRun.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            throw new NotImplementedException();
+            game.GraphicsDevice.Clear(Color.Bisque);
         }
 
         public override void LoadContent()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void unloadState()
         {
-            throw new NotImplementedException();
+            
         }
 
         public override void Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

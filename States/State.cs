@@ -13,7 +13,7 @@ namespace IngredientRun.States
 
         protected ContentManager _content;
 
-        // protected GraphicsDevice _graphicsDevice;
+        protected GraphicsDevice _graphicsDevice;
 
         protected Game1 game;
 
@@ -29,7 +29,8 @@ namespace IngredientRun.States
             this.game = game;
 
             _spriteBatch = spritebatch;
-            // _graphicsDevice = graphicsDevice;
+
+            _graphicsDevice = graphicsDevice;
 
             _content = content;
         }

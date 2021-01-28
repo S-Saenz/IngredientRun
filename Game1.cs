@@ -6,6 +6,7 @@ using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
 using IngredientRun.States;
+using System.Collections.Generic;
 
 //hi
 //123
@@ -16,7 +17,7 @@ namespace IngredientRun
         public static Game1 instance;
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
-
+        Dictionary<string, State> _states;
         public Vector2 screenDimensions;
 
         // private SpriteBatch _spriteBatch;
@@ -29,9 +30,10 @@ namespace IngredientRun
 
         private State _nextState;
 
-        public void ChangeState(State state)
+        public void ChangeState(string sState)
         {
-            _nextState = state;
+            _nextState = _states[sState];
+            _currentState.LoadContent();
         }
 
 
@@ -41,6 +43,8 @@ namespace IngredientRun
         {
             this.Window.Title = "Ingredient Time";
             graphics = new GraphicsDeviceManager(this);
+            _states = new Dictionary<string, State>();
+            
 
             //_spriteBatch = new SpriteBatch();
             instance = this;
@@ -61,6 +65,8 @@ namespace IngredientRun
 
         protected override void Initialize()
         {
+            
+
             base.Initialize();
         }
 
@@ -71,6 +77,9 @@ namespace IngredientRun
             _currentState = new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch);
 
             _currentState.LoadContent();
+            //whenever a new state is added, it will need to be added to this list
+            _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
         }
 
         protected override void Update(GameTime gameTime)
@@ -95,7 +104,7 @@ namespace IngredientRun
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _currentState.Draw(gameTime, _spriteBatch);
 

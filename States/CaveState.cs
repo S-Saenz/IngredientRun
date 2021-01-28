@@ -101,6 +101,8 @@ namespace IngredientRun.States
             Game1.instance._camera.Position = bgPos;
              pickUp1.Update(bgPos);
             enemy1.Update(bgPos);
+            if(Keyboard.GetState().IsKeyDown(Keys.Space))
+                game.ChangeState("colorState");
 
             caveMapBackground.Update(gameTime);
         }
