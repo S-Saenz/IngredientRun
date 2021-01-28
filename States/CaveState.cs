@@ -69,7 +69,7 @@ namespace IngredientRun.States
             player.Load(_content, _collisionHandler, caveMapBackground._mapBounds);
 
             // enemy
-            enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"));
+            enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
             enemy1.Load(_content);
 
             //class loads
@@ -97,10 +97,10 @@ namespace IngredientRun.States
             //inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Game1.instance.screenDimensions.X, Game1.instance.screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), Game1.instance._camera) - Game1.instance.screenDimensions / 2;
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), Game1.instance._camera, gameTime) - Game1.instance.screenDimensions / 2;
             Game1.instance._camera.Position = bgPos;
              pickUp1.Update(bgPos);
-            enemy1.Update(bgPos);
+            enemy1.Update(gameTime);
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
                 game.ChangeState("colorState");
 
