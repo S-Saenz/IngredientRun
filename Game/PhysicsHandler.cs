@@ -58,20 +58,20 @@ namespace IngredientRun
                     }
                 }
                 priority.Sort(delegate(Vector2 obj1, Vector2 obj2)
-                {
-                    if (obj1.Y > obj2.Y)
-                    {
-                        return 1;
-                    }
-                    else if (obj1.Y == obj2.Y)
-                    {
-                        return 0;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-                });
+                              {
+                                  if (obj1.Y > obj2.Y)
+                                  {
+                                      return 1;
+                                  }
+                                  else if (obj1.Y == obj2.Y)
+                                  {
+                                      return 0;
+                                  }
+                                  else
+                                  {
+                                      return -1;
+                                  }
+                              });
                 foreach(Vector2 obj in priority)
                 {
                     RectangleF.Intersection(ref box._bounds, ref other[(int)obj.X]._bounds, out overlapRect);
@@ -88,7 +88,7 @@ namespace IngredientRun
                 {
                     RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
 
-                    if (!overlapRect.IsEmpty)
+                    if (overlapRect.Width != 0 && overlapRect.Height != 0)
                     {
                         CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
                         box.CallOverlap(info);
@@ -189,6 +189,7 @@ namespace IngredientRun
                     if(!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._upBlocked = true;
+                        box1._upInfo = this;
                     }
                 }
                 else // Bottom
@@ -197,6 +198,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._downBlocked = true;
+                        box1._downInfo = this;
                     }
                 }
                 overlapDist = overlapRect.Height;
@@ -210,6 +212,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._leftBlocked = true;
+                        box1._leftInfo = this;
                     }
                 }
                 else // Right
@@ -218,6 +221,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._rightBlocked = true;
+                        box1._rightInfo = this;
                     }
                 }
                 overlapDist = overlapRect.Width;

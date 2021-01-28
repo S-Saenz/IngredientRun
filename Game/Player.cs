@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -8,22 +9,26 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class Player : IPhysicsObject
+
+
+    class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idle, FOW, FOWT;
-        private float _scale = 1.5f;
-        private Vector2 _pos;
+        private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, idleAnimation;
         private Vector2 _FOWTPos;
-        private int hp = 10;
+        private int hp = 25;
         private Sprite FOWTSprite;
-        private int speed = 5;
+        private int _runSpeed = 120; // maximum speed for player to move at
+        private int _walkSpeed = 50;
+        private int _acceleration = 10; // rate at which player increases speed
+        private float _friction = 0.4f; // rate at which player stops
+        private int _jump = 9000; // force on player to move upward
         GraphicsDeviceManager graphics;
-
+        private bool _jumpClicked = false;
         public RectangleF _overlap;
-
         CollisionBox _collisionBox;
 
-        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler)
+        public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
         {
             graphics = graphic;
             _pos = pos;
@@ -51,28 +56,43 @@ namespace IngredientRun
             hp -= dmg;
         }
 
-        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera)
+        public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
+            base.Update(gameTime);
             //Movement
             Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                pos.X += speed;
+                _collisionBox.Accelerate(new Vector2(_acceleration, 0));
+                currentAnimation = "runRight";
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                pos.X -= speed;
+                _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
+                currentAnimation = "runLeft";
+            }
+            if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
+               (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
+            {
+                _collisionBox._acceleration.X = 0;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                pos.Y -= speed;
+                if (_collisionBox._downBlocked && !_jumpClicked)
+                {
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                }
+                _jumpClicked = true;
+            }
+            else
+            {
+                _jumpClicked = false;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                pos.Y += speed;
+                // pos.Y += _speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Move(pos);
-            _collisionBox.Update(_pos);
+            _pos = _collisionBox.Update(gameTime);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -83,13 +103,18 @@ namespace IngredientRun
                 )));
 
             return _pos;
-
         }
 
 
         public void Load(ContentManager Content, PhysicsHandler collisionHandler, RectangleF worldBounds = new RectangleF())
         {
-            idle = Content.Load<Texture2D>("chars/refugee");
+            idleTex = Content.Load<Texture2D>("chars/refugee");
+            idleAnimation = new Animation(idleTex, 1, 1, 0);
+            runRightTex = Content.Load<Texture2D>("animations/main_character_run_right");
+            runRightAnimation = new Animation(runRightTex, 1, 10, 50);
+            runLeftTex = Content.Load<Texture2D>("animations/main_character_run_left");
+            runLeftAnimation = new Animation(runLeftTex, 1, 10, 50);
+
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
             FOWTSprite = new Sprite(FOWT)
@@ -101,42 +126,51 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idle.Width / 2 * _scale, idle.Height / 2 * _scale);
+            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
 
-            _pos.Y -= idle.Height * _scale;
+            _pos.Y -= idleTex.Height * _scale;
 
+            _pos.Y -= idleTex.Height * _scale / 2;
+
+            //create list of Animations
+            animationDict.Add("idle", idleAnimation);
+            animationDict.Add("runRight", runRightAnimation);
+            animationDict.Add("runLeft", runLeftAnimation);
+            
+            // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(idle.Bounds.Width * _scale, idle.Bounds.Height * _scale)),
-                collisionHandler, onCollision, onOverlap, this, worldBounds);
+                new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+                friction: _friction);
+            _collisionBox.AddMovementStartListener(onStartMove);
+            _collisionBox.AddMovementEndListener(onEndMove);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
+            base.Draw(spriteBatch);
 
-            spriteBatch.Draw(idle, _pos, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
             if (!isDebug)
             {
+                // Draw light
                 FOWTSprite.Draw(spriteBatch);
             }
             else
             {
                 _collisionBox.Draw(spriteBatch);
             }
-
-            // _collisionBox.Draw(spriteBatch);
-            // spriteBatch.DrawRectangle(_overlap, Color.Red);
         }
 
-        public void onCollision(CollisionInfo info)
+        public void onStartMove(Vector2 move)
         {
-            // Debug.WriteLine("Hit");
+            // Debug.WriteLine("Start");
         }
-
-        public void onOverlap(CollisionInfo info)
+        
+        public void onEndMove(Vector2 move)
         {
-            // _overlap = info._overlapRect;
+            // Debug.WriteLine("Stop");
         }
     }
 }

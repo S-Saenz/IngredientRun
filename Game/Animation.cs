@@ -15,25 +15,34 @@ namespace IngredientRun
         private int currentFrame;
         private int totalFrames;
 
-        //slow down frame animation
 
-        public Animation(Texture2D texture_, int rows_, int columns_)
+        //slow down frame animation
+        private int timeSinceLastFrame = 0;
+        private int frameSpeed = 0;
+        public Animation(Texture2D texture_, int rows_, int columns_, int frameSpeed_)
         {
             texture = texture_;
             rows = rows_;
             columns = columns_;
             currentFrame = 0;
             totalFrames = rows * columns;
+            frameSpeed = frameSpeed_;
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
-            currentFrame++;
-            if (currentFrame == totalFrames)
-                currentFrame = 0;
+            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastFrame > frameSpeed)
+            {
+                timeSinceLastFrame -= frameSpeed;
+                currentFrame++;
+                timeSinceLastFrame = 0;
+                if (currentFrame == totalFrames)
+                    currentFrame = 0;
+            }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, float scale)
         {
             int width = texture.Width / columns;
             int height = texture.Height / rows;
@@ -42,10 +51,8 @@ namespace IngredientRun
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
-
-            spriteBatch.Begin();
-            spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
-            spriteBatch.End();
+            
+            spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
         }
     }
 }
