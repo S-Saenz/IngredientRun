@@ -41,7 +41,7 @@ namespace IngredientRun.States
 
             _collisionHandler = new PhysicsHandler();
 
-            // Game1.instance.graphics.ApplyChanges();
+            // game.graphics.ApplyChanges();
 
             // Set start location
             bgPos = new Vector2(0, 0);
@@ -49,7 +49,7 @@ namespace IngredientRun.States
             // Set up camera and viewport
 
 
-            Game1.instance._camera.Zoom = 4;
+            game._camera.Zoom = 4;
         }
 
         public override void LoadContent()
@@ -58,14 +58,14 @@ namespace IngredientRun.States
 
             //backgrounds
             // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", _content, Game1.instance.GraphicsDevice, _collisionHandler);
+            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // pickup
             pickUp1 = new PickUpable(_content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
             pickUp1.Load(_content);
 
             // player
-            player = new Player(Game1.instance.graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player = new Player(game.graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, caveMapBackground._mapBounds);
 
             // enemy
@@ -96,9 +96,9 @@ namespace IngredientRun.States
             // TODO: Add your update logic here
             //inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Game1.instance.screenDimensions.X, Game1.instance.screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), Game1.instance._camera, gameTime) - Game1.instance.screenDimensions / 2;
-            Game1.instance._camera.Position = bgPos;
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
+            game._camera.Position = bgPos;
              pickUp1.Update(bgPos);
             enemy1.Update(gameTime);
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -109,15 +109,15 @@ namespace IngredientRun.States
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Game1.instance.GraphicsDevice.Clear(Color.Brown);
+            game.GraphicsDevice.Clear(Color.Brown);
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Game1.instance.screenDimensions.X, Game1.instance.screenDimensions.Y, 0, 1, 0);
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
 
             // Draw tilemap background
-            caveMapBackground.Draw(_spriteBatch, Game1.instance._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            caveMapBackground.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: Game1.instance._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);
