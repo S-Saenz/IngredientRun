@@ -17,15 +17,18 @@ namespace IngredientRun.States
 
         protected Game1 game;
 
+        protected SpriteBatch _spriteBatch;
+
         //need tile map variable
 
         #endregion
 
         #region Methods
-        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content)
+        public State(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
         {
             this.game = game;
 
+            _spriteBatch = spritebatch;
             // _graphicsDevice = graphicsDevice;
 
             _content = content;
@@ -39,6 +42,8 @@ namespace IngredientRun.States
         public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
 
         public abstract void PostUpdate(GameTime gameTime);
+
+        public abstract void unloadState();
 
         #endregion
     }

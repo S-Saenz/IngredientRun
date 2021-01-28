@@ -3,9 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
-
-using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using MonoGame.Extended;
 using IngredientRun.States;
 
 //hi
@@ -18,8 +17,14 @@ namespace IngredientRun
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
 
+        public Vector2 screenDimensions;
+
+        // private SpriteBatch _spriteBatch;
+
+        // public Inventory inventory = new Inventory();
+
         // create vatiable for the state manager
-       
+
         private State _currentState;
 
         private State _nextState;
@@ -29,13 +34,29 @@ namespace IngredientRun
             _nextState = state;
         }
 
-       
+
+        public OrthographicCamera _camera;
+
         public Game1()
         {
+            this.Window.Title = "Ingredient Time";
             graphics = new GraphicsDeviceManager(this);
+
             //_spriteBatch = new SpriteBatch();
             instance = this;
             Content.RootDirectory = "Content";
+            graphics.GraphicsProfile = GraphicsProfile.HiDef;
+            this.IsMouseVisible = true;
+
+            // setup the window
+            screenDimensions = new Vector2(1728, 972);
+
+            graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
+            graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
+            graphics.ApplyChanges();
+            DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
+            _camera = new OrthographicCamera(viewportAdapter);
+            
         }
 
         protected override void Initialize()
@@ -47,7 +68,7 @@ namespace IngredientRun
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new CaveState(this, graphics.GraphicsDevice, Content);
+            _currentState = new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch);
 
             _currentState.LoadContent();
         }
