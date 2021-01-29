@@ -71,9 +71,6 @@ namespace IngredientRun.States
             // enemy
             enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
             enemy1.Load(_content);
-
-            //class loads
-            //inventory.Load(_content);
         }
 
         public override void Update(GameTime gameTime)
@@ -93,16 +90,12 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            // TODO: Add your update logic here
-            //inventory.Update(Mouse.GetState(), Keyboard.GetState());
-
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
             game._camera.Position = bgPos;
              pickUp1.Update(bgPos);
             enemy1.Update(gameTime);
-            if(Keyboard.GetState().IsKeyDown(Keys.Space))
-                game.ChangeState("colorState");
+            game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             caveMapBackground.Update(gameTime);
         }
@@ -123,11 +116,12 @@ namespace IngredientRun.States
             pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
 
-            //class draws
+            _spriteBatch.End();
 
-            //if (inventory.showInv)
-            //    inventory.Draw(_spriteBatch);
-
+            // Draw UI
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            if (game.inventory.showInv)
+                game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
             //base.Draw(gameTime);
