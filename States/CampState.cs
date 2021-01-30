@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using MonoGame.Extended;
+using System.Collections.Generic;
 
 namespace IngredientRun.States
 {
@@ -13,17 +13,17 @@ namespace IngredientRun.States
             : base(game, graphicsDevice, content, spriteBatch)
         {
             // initialize NPC dialogue content
-            _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv");
+            _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv", game);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            game.GraphicsDevice.Clear(Color.LawnGreen);
+            game.GraphicsDevice.Clear(Color.Black);
         }
 
         public override void LoadContent()
         {
-
+            
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -38,7 +38,7 @@ namespace IngredientRun.States
 
         public override void Update(GameTime gameTime)
         {
-
+            
         }
     }
 }
