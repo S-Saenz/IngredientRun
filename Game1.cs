@@ -23,6 +23,7 @@ namespace IngredientRun
 
         //classes
         Inventory inventory = new Inventory();
+        Cook cookingUI = new Cook();
 
         PickUpable pickUp1;
 
@@ -89,6 +90,7 @@ namespace IngredientRun
 
             //class loads
             inventory.Load(Content);
+            cookingUI.Load(Content);
 
         }
 
@@ -111,6 +113,7 @@ namespace IngredientRun
 
             // TODO: Add your update logic here
             inventory.Update(Mouse.GetState() ,Keyboard.GetState());
+            cookingUI.Update(Mouse.GetState(), Keyboard.GetState());
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, screenDimensions.X, screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), _camera, gameTime) - screenDimensions / 2;
@@ -143,6 +146,7 @@ namespace IngredientRun
             _spriteBatch.End();
 
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            cookingUI.Draw(_spriteBatch);
             if (inventory.showInv)
                 inventory.Draw(_spriteBatch);
             _spriteBatch.End();
