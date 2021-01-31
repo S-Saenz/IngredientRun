@@ -41,7 +41,7 @@ with.
     If you uncomment this line, the default character will be substituted if you draw
     or measure text that contains characters which were not included in the font.
     -->
-    <DefaultCharacter>*</DefaultCharacter>
+    <!-- <DefaultCharacter>*</DefaultCharacter> -->
 
     <!--
     CharacterRegions control what letters are available in the font. Every
@@ -51,9 +51,13 @@ with.
     See the documentation for more information.
     -->
     <CharacterRegions>
-      <CharacterRegion>
+      <CharacterRegion> <!-- Normal Characters -->
         <Start>&#32;</Start>
-        <End>&#165;</End>
+        <End>&#126;</End>
+      </CharacterRegion>
+      <CharacterRegion> <!-- Extended Alphabet -->
+        <Start>&#192;</Start>
+        <End>&#255;</End>
       </CharacterRegion>
     </CharacterRegions>
   </Asset>
