@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace IngredientRun
         Dictionary<string, List<int>> _conditionBins = new Dictionary<string, List<int>>(); // bins containing index of all events satisfied by given
         Dictionary<int, int> _valid = new Dictionary<int, int>(); // all currently valid interactions and count of validation instances, needs to be updated before searching for interaction
         float _validProbabilityTotal;
+        int _currentInteraction;
 
         public NPCDialogueSystem(string filePath, Game1 game)
         {
@@ -163,7 +165,7 @@ namespace IngredientRun
 
             if(chosen != -1)
             {
-                _interactions[chosen].Draw();
+                _currentInteraction = chosen;
 
                 // remove from bins, now invalid
                 string[] requirements = _interactions[chosen].GetRequirements();
@@ -184,6 +186,11 @@ namespace IngredientRun
                 // no chosen to play
             }
         }
+
+        public void Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            _interactions[_currentInteraction].Draw(font, loc, gameTime, spriteBatch);
+        }
     }
 
     class NPCInteraction // describes one conversation event
@@ -193,6 +200,7 @@ namespace IngredientRun
         public float _probability { get; private set; }
         string[] _characters;  // change to dictionary of npc references when npc class implemented
         List<DialogueLine> _dialogue;
+        int _currentLine = 0;
 
         public NPCInteraction(string unparsed)
         {
@@ -269,14 +277,18 @@ namespace IngredientRun
             return _requirements;
         }
 
-        public void Draw()
+        public void Draw(SpriteFont font, Vector2 loc, GameTime time, SpriteBatch spriteBatch)
         {
-            Debug.WriteLine(_name);
-            foreach(DialogueLine line in _dialogue)
+            if(_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(font, loc, time, spriteBatch))
             {
-                line.Draw();
+                _currentLine += 1;
             }
-            Debug.WriteLine("\n");
+            // Debug.WriteLine(_name);
+            // foreach(DialogueLine line in _dialogue)
+            // {
+            //     line.Draw();
+            // }
+            // Debug.WriteLine("\n");
         }
     }
 
@@ -351,9 +363,19 @@ namespace IngredientRun
             _currTime += gameTime.GetElapsedSeconds();
         }
 
-        public void Draw()
+        // returns whether line ended or not
+        public bool Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Debug.WriteLine(_character + ": " + _speech);
+            spriteBatch.DrawString(font, _character + ": " + _speech, loc, Color.Black);
+            _currTime += gameTime.GetElapsedSeconds();
+            if (_currTime > 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
