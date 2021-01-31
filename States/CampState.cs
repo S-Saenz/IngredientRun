@@ -29,6 +29,7 @@ namespace IngredientRun.States
         public override void LoadContent()
         {
             _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
+            _dialogueSystem.PlayInteraction(game);
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -43,7 +44,7 @@ namespace IngredientRun.States
 
         public override void Update(GameTime gameTime)
         {
-            _dialogueSystem.PlayInteraction(game);
+            
         }
     }
 }
