@@ -298,12 +298,19 @@ namespace IngredientRun
         string _speech; // spoken words
         Dictionary<float, string> _actions; // list of actions taken by player, in order of execution. key: time, value: action
         float _speed; // speed at which the dialogue plays
-        float _currTime; 
+        float _currTime = 0;
+
+        static Dictionary<int, float> _typeSpeed = new Dictionary<int, float>()
+        {
+            { 1, 0.2f   },
+            { 2, 0.175f },
+            { 3, 0.15f  },
+            { 4, 0.125f },
+            { 5, 0.1f   }
+        };
 
         public DialogueLine(string unparsedLine)
         {
-            _currTime = 0;
-
             // extract character name
             string[] values = unparsedLine.Split(']', '(');
             _character = values[0].Substring(values[0].IndexOf('[') + 1);
@@ -311,7 +318,7 @@ namespace IngredientRun
             // extract duration
             if (values.Length > 2)
             {
-                _speed = float.Parse(values[2]);
+                _speed = _typeSpeed[int.Parse(values[2])];
             }
 
             // extract speech/actions
@@ -366,9 +373,10 @@ namespace IngredientRun
         // returns whether line ended or not
         public bool Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(font, _character + ": " + _speech, loc, Color.Black);
+            string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
+            spriteBatch.DrawString(font, _character + ": " + speech, loc, Color.Black);
             _currTime += gameTime.GetElapsedSeconds();
-            if (_currTime > 3)
+            if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
             {
                 return true;
             }
