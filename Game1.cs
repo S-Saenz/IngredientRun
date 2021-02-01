@@ -20,6 +20,8 @@ namespace IngredientRun
         Dictionary<string, State> _states;
         public Vector2 screenDimensions;
 
+        public List<Condition> _stateConditions = new List<Condition>();
+
         // private SpriteBatch _spriteBatch;
 
         public Inventory inventory = new Inventory();
@@ -33,9 +35,8 @@ namespace IngredientRun
         public void ChangeState(string sState)
         {
             _nextState = _states[sState];
-            _currentState.LoadContent();
+            _nextState.LoadContent();
         }
-
 
         public OrthographicCamera _camera;
 
@@ -65,7 +66,7 @@ namespace IngredientRun
 
         protected override void Initialize()
         {
-            
+            InitializeConditions();
 
             base.Initialize();
         }
@@ -77,6 +78,7 @@ namespace IngredientRun
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
 
             _currentState = _states["CaveState"];
             _currentState.LoadContent();
@@ -117,6 +119,14 @@ namespace IngredientRun
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        private void InitializeConditions()
+        {
+            _stateConditions.Add(new Condition("fedMushroomPrior", true));
+            _stateConditions.Add(new Condition("curedPrior", true));
+            _stateConditions.Add(new Condition("isMorning", true));
+            _stateConditions.Add(new Condition("isRaining", true));
         }
     }
 }
