@@ -39,6 +39,30 @@
 /processorParam:TextureFormat=Color
 /build:animations/main_character_run_right.png
 
+#begin bg/campsiteprototypemap.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg/campsiteprototypemap.png
+
+#begin bg/campsiteprototypemapANNOTATED.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg/campsiteprototypemapANNOTATED.png
+
 #begin bg/Cave Map.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -297,6 +321,28 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:monsters/monster.png
+
+#begin tilemaps/camp/CaveTiles1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:tilemaps/camp/CaveTiles1.png
+
+#begin tilemaps/camp/CaveTileSet2.tsx
+/importer:TiledMapTilesetImporter
+/processor:TiledMapTilesetProcessor
+/build:tilemaps/camp/CaveTileSet2.tsx
+
+#begin tilemaps/camp/TempCampMap.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/camp/TempCampMap.tmx
 
 #begin tilemaps/prototype/collisionTestMap.tmx
 /importer:TiledMapImporter
