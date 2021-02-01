@@ -32,9 +32,13 @@ namespace IngredientRun
 
         private State _nextState;
 
+        // temp button clicking var so changing scene doesn't happen multiple times
+        private bool _wasPressed = false;
+
         public void ChangeState(string sState)
         {
             _nextState = _states[sState];
+            _currentState.unloadState();
             _nextState.LoadContent();
         }
 
@@ -104,14 +108,27 @@ namespace IngredientRun
 
             _currentState.PostUpdate(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D1))
+            if (Keyboard.GetState().IsKeyDown(Keys.D1) && !_wasPressed)
                 ChangeState("colorState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D2))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D2) && !_wasPressed)
                 ChangeState("CaveState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D3))
+            else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
+            
+            if(Keyboard.GetState().IsKeyDown(Keys.D1) ||
+                    Keyboard.GetState().IsKeyDown(Keys.D2) ||
+                    Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                _wasPressed = true;
+            }
+            else if (!Keyboard.GetState().IsKeyDown(Keys.D1) &&
+                     !Keyboard.GetState().IsKeyDown(Keys.D2) &&
+                     !Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                _wasPressed = false;
+            }
 
-            base.Update(gameTime);
+                base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)

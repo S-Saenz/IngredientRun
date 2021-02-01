@@ -39,7 +39,7 @@ namespace IngredientRun.States
 
         public override void unloadState()
         {
-
+            _dialogueSystem.EndInteraction();
         }
 
         public override void Update(GameTime gameTime)

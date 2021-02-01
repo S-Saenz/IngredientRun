@@ -124,19 +124,19 @@ namespace IngredientRun.States
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            //base.Draw(gameTime);
+            // base.Draw(gameTime);
         }
 
         
 
         public override void PostUpdate(GameTime gameTime)
         {
-            //  throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         public override void unloadState()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
     }
 }

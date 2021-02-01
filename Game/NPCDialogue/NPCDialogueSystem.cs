@@ -174,9 +174,17 @@ namespace IngredientRun
             }
         }
 
+        public void EndInteraction()
+        {
+            _currentInteraction = -1;
+        }
+
         public void Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
         {
-            _interactions[_currentInteraction].Draw(font, loc, gameTime, spriteBatch);
+            if (_currentInteraction != -1)
+            {
+                _interactions[_currentInteraction].Draw(font, loc, gameTime, spriteBatch);
+            }
         }
     }
 }
