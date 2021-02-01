@@ -108,6 +108,8 @@ namespace IngredientRun
                 ChangeState("colorState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D2))
                 ChangeState("CaveState");
+            else if (Keyboard.GetState().IsKeyDown(Keys.D3))
+                ChangeState("CampState");
 
             base.Update(gameTime);
         }
