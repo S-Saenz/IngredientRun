@@ -60,7 +60,6 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
-            Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
@@ -92,7 +91,7 @@ namespace IngredientRun
             {
                 // pos.Y += _speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Update(gameTime);
+            _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -126,7 +125,7 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
+            _FOWTPos = new Vector2(0,0);
 
             _pos.Y -= idleTex.Height * _scale;
 
