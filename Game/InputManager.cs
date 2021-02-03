@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using IngredientRun.States;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D11;
 using System;
@@ -12,6 +13,7 @@ namespace IngredientRun.Game
     class InputManager
     {
         private Dictionary<string, Button> _buttons;
+        private KeyboardState oldstate = Keyboard.GetState();
 
         public void Initialize()//initializes default button mapping
         {
@@ -38,8 +40,39 @@ namespace IngredientRun.Game
         public void Update(GameTime time)
         {
             //for each button
+            foreach (KeyValuePair<string, Button> entry in _buttons)
+            {
                 //for each key in button
+                Button button = entry.Value;
+                foreach(Keys key in button._keys)
+                {
                     //check state and update
+                    KeyboardState newstate = Keyboard.GetState();
+                    if (newstate.IsKeyDown(key) && oldstate.IsKeyUp(key))
+                    {
+                        button._isDown = true;
+                        button._justPressed = true;
+                    }
+                    else if (newstate.IsKeyDown(key) && oldstate.IsKeyDown(key))
+                    {
+                        button._isDown = true;
+                        button._justPressed = false;
+                    }
+                    else if(newstate.IsKeyUp(key) && oldstate.IsKeyDown(key))
+                    {
+                        button._isDown = false;
+                        button._justReleased = true;
+                    }
+                    else if (newstate.IsKeyUp(key) && oldstate.IsKeyUp(key))
+                    {
+                        button._isDown = false;
+                        button._justReleased = false;
+                    }
+                    oldstate = newstate;
+                }
+
+            }
+
         }
 
         public bool IsDown(string buttonName)
