@@ -14,6 +14,7 @@ namespace IngredientRun
 {
     public class Game1 : Game
     {
+        public InputManager input = new InputManager();
         public static Game1 instance;
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
@@ -71,8 +72,8 @@ namespace IngredientRun
         protected override void Initialize()
         {
             InitializeConditions();
-
             base.Initialize();
+            input.Initialize();
         }
 
         protected override void LoadContent()
@@ -93,6 +94,7 @@ namespace IngredientRun
 
         protected override void Update(GameTime gameTime)
         {
+            input.Update(gameTime);
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
