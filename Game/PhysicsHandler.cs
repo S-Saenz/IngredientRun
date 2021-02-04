@@ -103,18 +103,22 @@ namespace IngredientRun
                 if (box._worldBounds.Top > movePos.Y) // out top
                 {
                     movePos.Y += box._bounds.Height - overlapRect.Height;
+                    box._upBlocked = true;
                 }
                 if(box._worldBounds.Bottom < movePos.Y + box._bounds.Height) // out bottom
                 {
                     movePos.Y -= box._bounds.Height - overlapRect.Height;
+                    box._downBlocked = true;
                 }
                 if(box._worldBounds.Left > movePos.X) // out left
                 {
                     movePos.X += box._bounds.Width - overlapRect.Width;
+                    box._leftBlocked = true;
                 }
                 if(box._worldBounds.Right < movePos.X + box._bounds.Width) // out right
                 {
                     movePos.X -= box._bounds.Width - overlapRect.Width;
+                    box._rightBlocked = true;
                 }
             }
 
