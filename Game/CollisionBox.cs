@@ -88,6 +88,19 @@ namespace IngredientRun
             // Apply damping (air resistance)
             // _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
 
+            // Update smoothStep "friction"
+            if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
+            {
+                _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
+                if (MathF.Abs(_velocity.X) < _friction / 2.0f)
+                {
+                    _velocity.X = 0;
+                }
+            }
+
+            // apply acceleration
+            _velocity += _acceleration * gameTime.GetElapsedSeconds();
+
             // Update velocity
             if (MathF.Abs(_velocity.X) >= _maxSpeed.X)
             {
@@ -103,24 +116,12 @@ namespace IngredientRun
                 _velocity.Y = 0;
             }
 
-            // Update smoothStep "friction"
-            if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
-            {
-                _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
-                if (MathF.Abs(_velocity.X) < _friction / 2.0f)
-                {
-                    _velocity.X = 0;
-                }
-            }
-
-            _velocity += _acceleration * gameTime.GetElapsedSeconds();
-
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds();
             IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
-            // Update velocity based on move
+            // Update velocity based on actual move
             if (_velocity.Length() > 0)
             {
                 _velocity = Vector2.Divide(_bounds.Position - _prevPos, gameTime.GetElapsedSeconds());
