@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IngredientRun
@@ -240,6 +241,11 @@ namespace IngredientRun
                 // Debug.WriteLine("End " + info._hitDir);
                 _onCollisionEnd?.Invoke(info);
             }
+        }
+
+        public List<CollisionInfo> IsOverlapping()
+        {
+            return _collisionHandler.IsOverlapping(this);
         }
     }
 }

@@ -166,6 +166,26 @@ namespace IngredientRun
             }
             return false;
         }
+
+        public List<CollisionInfo> IsOverlapping(CollisionBox box)
+        {
+            List<CollisionInfo> others = new List<CollisionInfo>();
+            foreach (string layer in _overlapMask[box._label])
+            {
+                foreach (CollisionBox other in _layers[layer].getNeighbors(box))
+                {
+                    RectangleF overlapRect;
+                    RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
+
+                    if (overlapRect.Width != 0 && overlapRect.Height != 0)
+                    {
+                        CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
+                        others.Add(info);
+                    }
+                }
+            }
+            return others;
+        }
     }
 
     class CollisionInfo
