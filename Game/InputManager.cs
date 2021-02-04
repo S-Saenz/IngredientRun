@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 
-namespace IngredientRun.Game
+namespace IngredientRun
 {
     class InputManager
     {
