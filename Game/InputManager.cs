@@ -4,15 +4,16 @@ using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct3D11;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows.Forms;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace IngredientRun
 {
-    class InputManager
+    public class InputManager
     {
-        private Dictionary<string, Button> _buttons;
+        private Dictionary<string, Button> _buttons = new Dictionary<string, Button>();
         private KeyboardState oldstate = Keyboard.GetState();
 
         public void Initialize()//initializes default button mapping
@@ -52,25 +53,21 @@ namespace IngredientRun
                     {
                         button._isDown = true;
                         button._justPressed = true;
-                        Console.WriteLine("isDown = true, justPressed = true");
                     }
                     else if (newstate.IsKeyDown(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = true;
                         button._justPressed = false;
-                        Console.WriteLine("isDown = true, justPressed = false");
                     }
                     else if(newstate.IsKeyUp(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = false;
                         button._justReleased = true;
-                        Console.WriteLine("isDown = true, justReleased = true");
                     }
                     else if (newstate.IsKeyUp(key) && oldstate.IsKeyUp(key))
                     {
                         button._isDown = false;
                         button._justReleased = false;
-                        Console.WriteLine("isDown = true, justReleased = false");
                     }
                     oldstate = newstate;
                 }
