@@ -20,8 +20,8 @@ namespace IngredientRun
         private Sprite FOWTSprite;
         private int _runSpeed = 120; // maximum speed for player to move at
         private int _walkSpeed = 50;
-        private int _acceleration = 10; // rate at which player increases speed
-        private float _friction = 0.4f; // rate at which player stops
+        private int _acceleration = 90; // rate at which player increases speed
+        private float _friction = 0.6f; // rate at which player stops
         private int _jump = 9000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -60,7 +60,6 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
-            Vector2 pos = _pos;
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
@@ -92,7 +91,7 @@ namespace IngredientRun
             {
                 // pos.Y += _speed * gameTime.GetElapsedSeconds();
             }
-            _pos = _collisionBox.Update(gameTime);
+            _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -126,7 +125,7 @@ namespace IngredientRun
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
+            _FOWTPos = new Vector2(0,0);
 
             _pos.Y -= idleTex.Height * _scale;
 

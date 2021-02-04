@@ -20,9 +20,11 @@ namespace IngredientRun
         Dictionary<string, State> _states;
         public Vector2 screenDimensions;
 
+        public List<Condition> _stateConditions = new List<Condition>();
+
         // private SpriteBatch _spriteBatch;
 
-        // public Inventory inventory = new Inventory();
+        public Inventory inventory = new Inventory();
 
         // create vatiable for the state manager
 
@@ -30,12 +32,15 @@ namespace IngredientRun
 
         private State _nextState;
 
+        // temp button clicking var so changing scene doesn't happen multiple times
+        private bool _wasPressed = false;
+
         public void ChangeState(string sState)
         {
             _nextState = _states[sState];
-            _currentState.LoadContent();
+            _currentState.unloadState();
+            _nextState.LoadContent();
         }
-
 
         public OrthographicCamera _camera;
 
@@ -65,7 +70,7 @@ namespace IngredientRun
 
         protected override void Initialize()
         {
-            
+            InitializeConditions();
 
             base.Initialize();
         }
@@ -74,12 +79,16 @@ namespace IngredientRun
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _currentState = new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch);
-
-            _currentState.LoadContent();
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
+
+            _currentState = _states["CaveState"];
+            _currentState.LoadContent();
+
+            // load inventory
+            inventory.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -99,7 +108,27 @@ namespace IngredientRun
 
             _currentState.PostUpdate(gameTime);
 
-            base.Update(gameTime);
+            if (Keyboard.GetState().IsKeyDown(Keys.D1) && !_wasPressed)
+                ChangeState("colorState");
+            else if (Keyboard.GetState().IsKeyDown(Keys.D2) && !_wasPressed)
+                ChangeState("CaveState");
+            else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
+                ChangeState("CampState");
+            
+            if(Keyboard.GetState().IsKeyDown(Keys.D1) ||
+                    Keyboard.GetState().IsKeyDown(Keys.D2) ||
+                    Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                _wasPressed = true;
+            }
+            else if (!Keyboard.GetState().IsKeyDown(Keys.D1) &&
+                     !Keyboard.GetState().IsKeyDown(Keys.D2) &&
+                     !Keyboard.GetState().IsKeyDown(Keys.D3))
+            {
+                _wasPressed = false;
+            }
+
+                base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -109,6 +138,14 @@ namespace IngredientRun
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        private void InitializeConditions()
+        {
+            _stateConditions.Add(new Condition("fedMushroomPrior", true));
+            _stateConditions.Add(new Condition("curedPrior", true));
+            _stateConditions.Add(new Condition("isMorning", true));
+            _stateConditions.Add(new Condition("isRaining", true));
         }
     }
 }
