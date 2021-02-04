@@ -7,6 +7,7 @@ using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
 using IngredientRun.States;
 using System.Collections.Generic;
+using IngredientRun.Game;
 
 //hi
 //123
@@ -71,8 +72,6 @@ namespace IngredientRun
         protected override void Initialize()
         {
             InitializeConditions();
-
-            base.Initialize();
         }
 
         protected override void LoadContent()

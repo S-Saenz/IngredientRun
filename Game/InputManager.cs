@@ -52,21 +52,25 @@ namespace IngredientRun.Game
                     {
                         button._isDown = true;
                         button._justPressed = true;
+                        Console.WriteLine("isDown = true, justPressed = true");
                     }
                     else if (newstate.IsKeyDown(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = true;
                         button._justPressed = false;
+                        Console.WriteLine("isDown = true, justPressed = false");
                     }
                     else if(newstate.IsKeyUp(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = false;
                         button._justReleased = true;
+                        Console.WriteLine("isDown = true, justReleased = true");
                     }
                     else if (newstate.IsKeyUp(key) && oldstate.IsKeyUp(key))
                     {
                         button._isDown = false;
                         button._justReleased = false;
+                        Console.WriteLine("isDown = true, justReleased = false");
                     }
                     oldstate = newstate;
                 }
