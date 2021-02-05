@@ -9,8 +9,6 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-
-
     class Player : AnimatedObject,  IPhysicsObject
     {
         private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
@@ -27,6 +25,7 @@ namespace IngredientRun
         private bool _jumpClicked = false;
         public RectangleF _overlap;
         CollisionBox _collisionBox;
+        //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
         {
@@ -60,22 +59,22 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Game1.instance.input.IsDown("right"))//(Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
                 currentAnimation = "runRight";
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Game1.instance.input.IsDown("left"))//(Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
                 currentAnimation = "runLeft";
             }
-            if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
-               (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
+            if((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
+               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0))
             {
                 _collisionBox._acceleration.X = 0;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Game1.instance.input.IsDown("jump"))
             {
                 if (_collisionBox._downBlocked && !_jumpClicked)
                 {
