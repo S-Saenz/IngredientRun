@@ -19,15 +19,24 @@ namespace IngredientRun
         List<SpawnPoint> _pickupSpawns;
         List<SpawnPoint> _enemySpawns;
 
-        public RectangleF _mapBounds { get; }
+        public RectangleF _mapBounds { private set; get; }
 
         public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, PhysicsHandler collisionHandler)
         {
             _map = content.Load<TiledMap>(mapPath);
             _renderer = new TiledMapRenderer(graphics, _map);
 
+            AddWallCollision(collisionHandler);
+
+            // Setup spawn point lists
+            _pickupSpawns = new List<SpawnPoint>();
+            _enemySpawns = new List<SpawnPoint>();
+        }
+
+        private void AddWallCollision( PhysicsHandler collisionHandler)
+        {
             _collision = _map.GetLayer<TiledMapTileLayer>("Walls");
-            foreach(TiledMapTile tile in _collision.Tiles)
+            foreach (TiledMapTile tile in _collision.Tiles)
             {
                 if (!tile.IsBlank)
                 {
@@ -38,10 +47,6 @@ namespace IngredientRun
             }
             _collisionHandler = collisionHandler;
             _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
-
-            // Setup spawn point lists
-            _pickupSpawns = new List<SpawnPoint>();
-            _enemySpawns = new List<SpawnPoint>();
         }
 
         public void Update(GameTime gameTime)
