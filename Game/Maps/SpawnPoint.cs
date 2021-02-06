@@ -6,7 +6,7 @@ namespace IngredientRun
 {
     interface ISpawnable
     {
-        void Draw(SpriteBatch spriteBatch);
+        void Draw(SpriteBatch spriteBatch, bool isDebug = false);
     }
 
     abstract class SpawnPoint

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using MonoGame.Extended;
 
 namespace IngredientRun
 {
@@ -15,15 +15,20 @@ namespace IngredientRun
 
         public PickupItem(string type, Vector2 position, PhysicsHandler physicsHandler)
         {
-            _loc = position;
             texture = ItemTextures.GetTexture(type);
-            _collisionBox = new CollisionBox(texture.Bounds, physicsHandler, this);
+            _loc = position - new Vector2(texture.Width * _scale, texture.Height * _scale);
+            _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, texture.Width * _scale, texture.Height * _scale), physicsHandler, this);
             physicsHandler.AddObject("Pickup", _collisionBox);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
             spriteBatch.Draw(texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
+
+            if(isDebug)
+            {
+                _collisionBox.Draw(spriteBatch);
+            }
         }
     }
 }

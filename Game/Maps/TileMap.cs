@@ -95,11 +95,11 @@ namespace IngredientRun
             }
         }
 
-        public void DrawPickups(SpriteBatch spriteBatch)
+        public void DrawPickups(SpriteBatch spriteBatch, bool isDebug = false)
         {
             foreach(ItemSpawn obj in _pickupSpawns)
             {
-                obj.Draw(spriteBatch);
+                obj.Draw(spriteBatch, isDebug);
             }
         }
 

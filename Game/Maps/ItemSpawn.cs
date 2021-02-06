@@ -32,11 +32,11 @@ namespace IngredientRun
             return _object;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
             if(_object != null)
             {
-                _object.Draw(spriteBatch);
+                _object.Draw(spriteBatch, isDebug);
             }
         }
     }

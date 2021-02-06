@@ -53,26 +53,26 @@
 </data>
  </layer>
  <objectgroup id="4" name="PlayerObjects">
-  <object id="3" name="PlayerSpawn" x="48.2632" y="61.2456">
+  <object id="3" name="PlayerSpawn" x="48.2632" y="64">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="5" name="EnemyObjects">
-  <object id="4" name="only.wolf" x="205.79" y="382.217">
+  <object id="4" name="only.wolf" x="205.79" y="384">
    <point/>
   </object>
-  <object id="13" name="only.lurker" x="368.3" y="221.543">
+  <object id="13" name="only.lurker" x="368.3" y="224">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="6" name="ItemObjects">
-  <object id="5" name="only.acorn" x="435.942" y="255.405">
+  <object id="5" name="only.acorn" x="435.942" y="256">
    <point/>
   </object>
-  <object id="16" name="only.egg" x="21.8615" y="604.297">
+  <object id="16" name="only.egg" x="21.8615" y="608">
    <point/>
   </object>
-  <object id="18" name="only.fish" x="222.016" y="600.625">
+  <object id="18" name="only.fish" x="223" y="608">
    <point/>
   </object>
  </objectgroup>
