@@ -344,22 +344,17 @@
 /processor:TiledMapProcessor
 /build:tilemaps/camp/TempCampMap.tmx
 
-#begin tilemaps/prototype/collisionTestMap.tmx
+#begin tilemaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tilemaps/prototype/collisionTestMap.tmx
+/build:tilemaps/cave/collisionTestMap.tmx
 
-#begin tilemaps/prototype/MapPrototypeTiledCollider.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:tilemaps/prototype/MapPrototypeTiledCollider.tmx
-
-#begin tilemaps/prototype/MapPrototypeTileset.tsx
+#begin tilemaps/cave/MapPrototypeTileset.tsx
 /importer:TiledMapTilesetImporter
 /processor:TiledMapTilesetProcessor
-/build:tilemaps/prototype/MapPrototypeTileset.tsx
+/build:tilemaps/cave/MapPrototypeTileset.tsx
 
-#begin tilemaps/prototype/PrototypeTileset.png
+#begin tilemaps/cave/PrototypeTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -369,7 +364,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:tilemaps/prototype/PrototypeTileset.png
+/build:tilemaps/cave/PrototypeTileset.png
 
 #begin ui/Inventory/Inventory Backpack and Grid.png
 /importer:TextureImporter

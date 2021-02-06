@@ -15,13 +15,10 @@ namespace IngredientRun.States
     class CaveState : State
     {
         Player player;
-        Enemy enemy1;
 
         TileMap caveMapBackground;
 
         Vector2 bgPos;
-
-        PickUpable pickUp1;
 
         // Debug mode
         bool _isDebug = false;
@@ -54,23 +51,13 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
-            
-
             //backgrounds
             // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
-
-            // pickup
-            pickUp1 = new PickUpable(_content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
-            pickUp1.Load(_content);
+            caveMapBackground = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // player
             player = new Player(game.graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, caveMapBackground._mapBounds);
-
-            // enemy
-            enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
-            enemy1.Load(_content);
         }
 
         public override void Update(GameTime gameTime)
@@ -93,8 +80,6 @@ namespace IngredientRun.States
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
             game._camera.Position = bgPos;
-             pickUp1.Update(bgPos);
-            enemy1.Update(gameTime);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             caveMapBackground.Update(gameTime);
@@ -112,8 +97,6 @@ namespace IngredientRun.States
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
-            enemy1.Draw(_spriteBatch);
-            pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
 
             _spriteBatch.End();
