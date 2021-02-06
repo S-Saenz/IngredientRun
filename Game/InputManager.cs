@@ -20,18 +20,18 @@ namespace IngredientRun
         {
             List<Keys> leftKeys = new List<Keys>()
             {
-                Keys.A,
-                Keys.Left
+                Keys.Left,
+                Keys.A
             };
             List<Keys> rightKeys = new List<Keys>()
             {
-                Keys.D,
-                Keys.Right
+                Keys.Right,
+                Keys.D
             };
             List<Keys> jumpKeys = new List<Keys>()
             {
-                Keys.W,
-                Keys.Up
+                Keys.Up,
+                Keys.W
             };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -43,35 +43,43 @@ namespace IngredientRun
             //for each button
             foreach (KeyValuePair<string, Button> entry in _buttons)
             {
-                //for each key in button
                 Button button = entry.Value;
-                foreach(Keys key in button._keys)
+                button._isDown = false;
+                button._justPressed = false;
+                button._justReleased = false;
+                KeyboardState newstate = Keyboard.GetState();
+                //for each key in button
+                foreach (Keys key in button._keys)
                 {
                     //check state and update
-                    KeyboardState newstate = Keyboard.GetState();
+                    
                     if (newstate.IsKeyDown(key) && oldstate.IsKeyUp(key))
                     {
                         button._isDown = true;
                         button._justPressed = true;
+                        break;
+                        //Debug.WriteLine("is down"); this works
                     }
                     else if (newstate.IsKeyDown(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = true;
                         button._justPressed = false;
+                        break;
                     }
                     else if(newstate.IsKeyUp(key) && oldstate.IsKeyDown(key))
                     {
                         button._isDown = false;
                         button._justReleased = true;
+                        break;
                     }
-                    else if (newstate.IsKeyUp(key) && oldstate.IsKeyUp(key))
+                    /*else if (newstate.IsKeyUp(key) && oldstate.IsKeyUp(key))
                     {
                         button._isDown = false;
                         button._justReleased = false;
-                    }
-                    oldstate = newstate;
+                    }*/
+                    
                 }
-
+                oldstate = newstate;
             }
 
         }
