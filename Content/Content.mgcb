@@ -214,6 +214,30 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/apple.png
 
+#begin ingredient/appleScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/appleScaled.png
+
+#begin ingredient/carrot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/carrot.png
+
 #begin ingredient/egg.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -250,6 +274,18 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/fish.png
 
+#begin ingredient/fishScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/fishScaled.png
+
 #begin ingredient/gooseberry.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -273,6 +309,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/meat.png
+
+#begin ingredient/meatScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/meatScaled.png
 
 #begin ingredient/mousemelon.png
 /importer:TextureImporter
@@ -309,6 +357,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/wood.png
+
+#begin ingredient/woodScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/woodScaled.png
 
 #begin monsters/monster.png
 /importer:TextureImporter

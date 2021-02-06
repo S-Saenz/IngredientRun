@@ -55,10 +55,10 @@ namespace IngredientRun
             //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
             acornT = Content.Load<Texture2D>("Ingredient/acornScaled");
-            appleT = Content.Load<Texture2D>("Ingredient/apple");
-            fishT = Content.Load<Texture2D>("Ingredient/fish");
-            meatT = Content.Load<Texture2D>("Ingredient/meat");
-            woodT = Content.Load<Texture2D>("Ingredient/wood");
+            appleT = Content.Load<Texture2D>("Ingredient/appleScaled");
+            fishT = Content.Load<Texture2D>("Ingredient/fishScaled");
+            meatT = Content.Load<Texture2D>("Ingredient/meatScaled");
+            woodT = Content.Load<Texture2D>("Ingredient/woodScaled");
 
             acorn = new Ingredient(acornT, randomBox());
             apple = new Ingredient(appleT, randomBox());
