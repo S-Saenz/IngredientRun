@@ -274,7 +274,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/meat.png
 
-#begin ingredient/mouse melons.png
+#begin ingredient/mousemelon.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -284,7 +284,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/mouse melons.png
+/build:ingredient/mousemelon.png
 
 #begin ingredient/waterjug.png
 /importer:TextureImporter
