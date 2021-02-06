@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using System.Collections.Generic;
 
 namespace IngredientRun
 {
@@ -14,6 +15,9 @@ namespace IngredientRun
         TiledMapRenderer _renderer;
         TiledMapTileLayer _collision;
         PhysicsHandler _collisionHandler;
+
+        List<SpawnPoint> _pickupSpawns;
+        List<SpawnPoint> _enemySpawns;
 
         public RectangleF _mapBounds { get; }
 
@@ -35,6 +39,10 @@ namespace IngredientRun
             }
             _collisionHandler = collisionHandler;
             _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
+
+            // Setup spawn point lists
+            _pickupSpawns = new List<SpawnPoint>();
+            _enemySpawns = new List<SpawnPoint>();
         }
 
         public void Update(GameTime gameTime)
@@ -65,5 +73,7 @@ namespace IngredientRun
             }
             return Vector2.Zero;
         }
+
+
     }
 }
