@@ -29,10 +29,6 @@ namespace IngredientRun
             texture = img;
 
             _collisionHandler = collisionHandler;
-
-            collisionHandler.AddLayer("Enemy");
-            collisionHandler.SetCollision("Enemy", "Walls");
-            collisionHandler.SetOverlap("Enemy", "Player");
         }
 
         public Vector2 GetPos()

@@ -27,7 +27,6 @@ namespace IngredientRun
             _renderer = new TiledMapRenderer(graphics, _map);
 
             _collision = _map.GetLayer<TiledMapTileLayer>("Walls");
-            collisionHandler.AddLayer("Walls");
             foreach(TiledMapTile tile in _collision.Tiles)
             {
                 if (!tile.IsBlank)

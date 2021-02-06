@@ -33,10 +33,6 @@ namespace IngredientRun
             graphics = graphic;
             _pos = pos;
 
-            collisionHandler.AddLayer("Player");
-            collisionHandler.SetOverlap("Player", "Walls");
-            collisionHandler.SetCollision("Player", "Walls");
-
             _overlap = new RectangleF();
         }
 

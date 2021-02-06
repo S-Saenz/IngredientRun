@@ -30,7 +30,17 @@ namespace IngredientRun.States
             // initialize NPC dialogue content
             _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv", game);
 
+            // setup collision
             _collisionHandler = new PhysicsHandler();
+            _collisionHandler.AddLayer("Player");
+            _collisionHandler.AddLayer("Enemy");
+            _collisionHandler.AddLayer("Pickup");
+            _collisionHandler.AddLayer("Walls");
+
+            _collisionHandler.SetCollision("Player", "Walls");
+            _collisionHandler.SetCollision("Enemy", "Walls");
+            _collisionHandler.SetOverlap("Player", "Pickup");
+            _collisionHandler.SetOverlap("Enemy", "Player");
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

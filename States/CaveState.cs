@@ -36,9 +36,18 @@ namespace IngredientRun.States
         {
             content.RootDirectory = "Content";
 
+            // setup collision
             _collisionHandler = new PhysicsHandler();
+            _collisionHandler.AddLayer("Player");
+            _collisionHandler.AddLayer("Enemy");
+            _collisionHandler.AddLayer("Pickup");
+            _collisionHandler.AddLayer("Walls");
 
-            // game.graphics.ApplyChanges();
+            _collisionHandler.SetCollision("Player", "Walls");
+            _collisionHandler.SetCollision("Enemy", "Walls");
+            _collisionHandler.SetOverlap("Player", "Pickup");
+            _collisionHandler.SetOverlap("Enemy", "Player");
+
 
             // Set start location
             bgPos = new Vector2(0, 0);
