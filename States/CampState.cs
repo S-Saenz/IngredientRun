@@ -12,7 +12,7 @@ namespace IngredientRun.States
         private SpriteFont _dialogueFont;
 
         Texture2D campPNGBackground;
-        TileMap campTileBackground;
+        TileMap campTileMap;
 
         // Debug mode
         bool _isDebug = true;
@@ -50,22 +50,29 @@ namespace IngredientRun.States
 
             // Draw png background
             _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            Rectangle destination = (Rectangle)campTileBackground._mapBounds;
+            Rectangle destination = (Rectangle)campTileMap._mapBounds;
             destination.Height /= 2;
             destination.Y += destination.Height;
             _spriteBatch.Draw(campPNGBackground, destination, Color.White);
             _spriteBatch.End();
 
 
-            // Draw tilemap background
-            campTileBackground.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            // Draw tilemap background/walls
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
+            campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            spriteBatch.End();
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-
+            campTileMap.DrawPickups(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
-
             _spriteBatch.End();
+
+            // Draw tilemap foreground
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Foreground");
+            spriteBatch.End();
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -87,11 +94,11 @@ namespace IngredientRun.States
 
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
-            campTileBackground = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
+            campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // player
-            player = new Player(game.graphics, campTileBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
-            player.Load(_content, _collisionHandler, campTileBackground._mapBounds);
+            player = new Player(game.graphics, campTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player.Load(_content, _collisionHandler, campTileMap._mapBounds);
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -124,7 +131,7 @@ namespace IngredientRun.States
             game._camera.Position = bgPos;
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
-            campTileBackground.Update(gameTime);
+            campTileMap.Update(gameTime);
         }
     }
 }
