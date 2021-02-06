@@ -20,6 +20,7 @@ namespace IngredientRun
                 {
                     "acorn",
                     "apple",
+                    "carrot",
                     "egg",
                     "fish",
                     "gooseberry",
