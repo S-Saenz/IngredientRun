@@ -82,19 +82,19 @@ namespace IngredientRun
             }
 
             // Check overlap
-            foreach (string layer in _overlapMask[box._label])
-            {
-                foreach(CollisionBox other in _layers[layer].getNeighbors(box))
-                {
-                    RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
-
-                    if (overlapRect.Width != 0 && overlapRect.Height != 0)
-                    {
-                        CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
-                        box.CallOverlap(info);
-                    }
-                }
-            }
+            // foreach (string layer in _overlapMask[box._label])
+            // {
+            //     foreach(CollisionBox other in _layers[layer].getNeighbors(box))
+            //     {
+            //         RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
+            // 
+            //         if (overlapRect.Width != 0 && overlapRect.Height != 0)
+            //         {
+            //             CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
+            //             box.CallOverlap(info);
+            //         }
+            //     }
+            // }
 
             // Check world bounds
             if(!(box._worldBounds.Width == 0 || box._worldBounds.Height == 0))
