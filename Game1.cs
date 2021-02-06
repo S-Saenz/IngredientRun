@@ -68,6 +68,7 @@ namespace IngredientRun
             _camera = new OrthographicCamera(viewportAdapter);
 
             ItemTextures.Initialize(Content);
+            EnemyTextures.Initialize(Content);
         }
 
         protected override void Initialize()

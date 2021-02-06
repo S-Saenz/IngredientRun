@@ -27,8 +27,7 @@ namespace IngredientRun
 
             AddWallCollision(collisionHandler);
             AddItemSpawnPoints(collisionHandler);
-
-            _enemySpawns = new List<SpawnPoint>();
+            AddEnemySpawnPoints(collisionHandler);
         }
 
         private void AddWallCollision(PhysicsHandler collisionHandler)
@@ -58,9 +57,28 @@ namespace IngredientRun
             }
         }
 
+        private void AddEnemySpawnPoints(PhysicsHandler collisionHandler)
+        {
+            _enemySpawns = new List<SpawnPoint>();
+            TiledMapObjectLayer spawnPoints = _map.GetLayer<TiledMapObjectLayer>("EnemyObjects");
+            foreach (TiledMapObject obj in spawnPoints.Objects)
+            {
+                string[] vals = obj.Name.Split('.');
+                _enemySpawns.Add(new EnemySpawn(obj.Position, vals[0], collisionHandler, vals[1]));
+            }
+        }
+
         public void SpawnPickups()
         {
             foreach(SpawnPoint point in _pickupSpawns)
+            {
+                point.Spawn();
+            }
+        }
+
+        public void SpawnEnemies()
+        {
+            foreach (SpawnPoint point in _enemySpawns)
             {
                 point.Spawn();
             }
@@ -98,6 +116,14 @@ namespace IngredientRun
         public void DrawPickups(SpriteBatch spriteBatch, bool isDebug = false)
         {
             foreach(ItemSpawn obj in _pickupSpawns)
+            {
+                obj.Draw(spriteBatch, isDebug);
+            }
+        }
+
+        public void DrawEnemies(SpriteBatch spriteBatch, bool isDebug = false)
+        {
+            foreach (EnemySpawn obj in _enemySpawns)
             {
                 obj.Draw(spriteBatch, isDebug);
             }

@@ -66,6 +66,7 @@ namespace IngredientRun.States
 
             // temp, just respawns objects when entering cave
             caveTileMap.SpawnPickups();
+            caveTileMap.SpawnEnemies();
 
             // player
             player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
@@ -113,6 +114,7 @@ namespace IngredientRun.States
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawPickups(spriteBatch, _isDebug);
+            caveTileMap.DrawEnemies(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
 
