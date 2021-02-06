@@ -16,7 +16,7 @@ namespace IngredientRun.States
     {
         Player player;
 
-        TileMap caveMapBackground;
+        TileMap caveTileMap;
 
         Vector2 bgPos;
 
@@ -61,15 +61,15 @@ namespace IngredientRun.States
         public override void LoadContent()
         {
             //backgrounds
-            // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
+            // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // temp, just respawns objects when entering cave
-            caveMapBackground.SpawnPickups();
+            caveTileMap.SpawnPickups();
 
             // player
-            player = new Player(game.graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
-            player.Load(_content, _collisionHandler, caveMapBackground._mapBounds);
+            player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player.Load(_content, _collisionHandler, caveTileMap._mapBounds);
         }
 
         public override void Update(GameTime gameTime)
@@ -94,7 +94,7 @@ namespace IngredientRun.States
             game._camera.Position = bgPos;
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
-            caveMapBackground.Update(gameTime);
+            caveTileMap.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -104,21 +104,21 @@ namespace IngredientRun.States
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
 
             // Draw tilemap background/walls
-            // caveMapBackground.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            // caveTileMap.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            caveMapBackground.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
-            caveMapBackground.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
+            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
             spriteBatch.End();
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            caveMapBackground.DrawPickups(spriteBatch);
+            caveTileMap.DrawPickups(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
 
             // Draw tilemap foreground
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            caveMapBackground.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Foreground");
+            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 
             // Draw UI
