@@ -10,6 +10,10 @@ namespace IngredientRun
     delegate void CollisionEventHandler(CollisionInfo info);
     delegate void MovementEventHandler(Vector2 movement);
 
+    interface IPhysicsObject
+    {
+    }
+
     class CollisionBox
     {
         public RectangleF _bounds;
