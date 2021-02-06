@@ -13,7 +13,6 @@ namespace IngredientRun
     {
         TiledMap _map;
         TiledMapRenderer _renderer;
-        TiledMapTileLayer _collision;
         PhysicsHandler _collisionHandler;
 
         List<SpawnPoint> _pickupSpawns;
@@ -27,16 +26,15 @@ namespace IngredientRun
             _renderer = new TiledMapRenderer(graphics, _map);
 
             AddWallCollision(collisionHandler);
+            AddItemSpawnPoints(collisionHandler);
 
-            // Setup spawn point lists
-            _pickupSpawns = new List<SpawnPoint>();
             _enemySpawns = new List<SpawnPoint>();
         }
 
-        private void AddWallCollision( PhysicsHandler collisionHandler)
+        private void AddWallCollision(PhysicsHandler collisionHandler)
         {
-            _collision = _map.GetLayer<TiledMapTileLayer>("Walls");
-            foreach (TiledMapTile tile in _collision.Tiles)
+            TiledMapTileLayer collision = _map.GetLayer<TiledMapTileLayer>("Walls");
+            foreach (TiledMapTile tile in collision.Tiles)
             {
                 if (!tile.IsBlank)
                 {
@@ -49,6 +47,25 @@ namespace IngredientRun
             _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
         }
 
+        private void AddItemSpawnPoints(PhysicsHandler collisionHandler)
+        {
+            _pickupSpawns = new List<SpawnPoint>();
+            TiledMapObjectLayer spawnPoints = _map.GetLayer<TiledMapObjectLayer>("ItemObjects");
+            foreach (TiledMapObject obj in spawnPoints.Objects)
+            {
+                string[] vals = obj.Name.Split('.');
+                _pickupSpawns.Add(new ItemSpawn(obj.Position, vals[0], collisionHandler, vals[1]));
+            }
+        }
+
+        public void SpawnPickups()
+        {
+            foreach(SpawnPoint point in _pickupSpawns)
+            {
+                point.Spawn();
+            }
+        }
+
         public void Update(GameTime gameTime)
         {
             _renderer.Update(gameTime);
@@ -56,13 +73,34 @@ namespace IngredientRun
 
         public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, bool isDebug = false)
         {
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _renderer.Draw(viewMatrix, projMatrix);
+
             if(isDebug)
             {
                 _collisionHandler.Draw(spriteBatch, "Walls");
             }
-            spriteBatch.End();
+        }
+
+        public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name, bool isDebug = false)
+        {
+            TiledMapLayer layer = _map.GetLayer<TiledMapLayer>(name);
+            if (layer != null)
+            {
+                _renderer.Draw(layer, viewMatrix, projMatrix);
+            }
+
+            if (isDebug)
+            {
+                _collisionHandler.Draw(spriteBatch, "Walls");
+            }
+        }
+
+        public void DrawPickups(SpriteBatch spriteBatch)
+        {
+            foreach(ItemSpawn obj in _pickupSpawns)
+            {
+                obj.Draw(spriteBatch);
+            }
         }
 
         public Vector2 GetWaypoint(string layer, string name)
@@ -77,7 +115,5 @@ namespace IngredientRun
             }
             return Vector2.Zero;
         }
-
-
     }
 }

@@ -66,7 +66,8 @@ namespace IngredientRun
             graphics.ApplyChanges();
             DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
             _camera = new OrthographicCamera(viewportAdapter);
-            
+
+            ItemTextures.Initialize(Content);
         }
 
         protected override void Initialize()

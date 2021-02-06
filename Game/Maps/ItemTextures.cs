@@ -16,8 +16,7 @@ namespace IngredientRun
         {
             _content = content;
             _itemTextures = new Dictionary<string, Texture2D>();
-            _allItems = new List<string>
-                {
+            _allItems = new List<string>{
                     "acorn",
                     "apple",
                     "carrot",
@@ -44,7 +43,7 @@ namespace IngredientRun
             }
             else
             {
-                Texture2D newTexture = _content.Load<Texture2D>(itemName);
+                Texture2D newTexture = _content.Load<Texture2D>("ingredient/" + itemName);
                 if (newTexture != null)
                 {
                     _itemTextures.Add(itemName, newTexture);
