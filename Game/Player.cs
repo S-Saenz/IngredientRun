@@ -120,7 +120,7 @@ namespace IngredientRun
                 pos = new Vector2(100, 100),
                 Color = Color.White,
                 Rotation = 0f,
-                Scale = .15f,
+                Scale = 1f,
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
