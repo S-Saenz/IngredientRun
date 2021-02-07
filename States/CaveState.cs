@@ -88,7 +88,7 @@ namespace IngredientRun.States
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
-            game._cameraController.Update(gameTime, bgPos);
+            game._cameraController.Update(gameTime, player._pos);
              pickUp1.Update(bgPos);
             enemy1.Update(gameTime);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
@@ -111,6 +111,10 @@ namespace IngredientRun.States
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
+            if (_isDebug)
+            {
+                game._cameraController.Draw(spriteBatch);
+            }
 
             _spriteBatch.End();
 
@@ -118,6 +122,7 @@ namespace IngredientRun.States
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (game.inventory.showInv)
                 game.inventory.Draw(_spriteBatch);
+            
             _spriteBatch.End();
 
             // base.Draw(gameTime);

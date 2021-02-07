@@ -54,6 +54,10 @@ namespace IngredientRun.States
             _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             player.Draw(_spriteBatch, _isDebug);
+            if (_isDebug)
+            {
+                game._cameraController.Draw(spriteBatch);
+            }
 
             _spriteBatch.End();
 
@@ -114,7 +118,7 @@ namespace IngredientRun.States
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
-            game._cameraController._camera.Position = bgPos;
+            game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             campTileBackground.Update(gameTime);

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
+using System.Diagnostics;
 
 namespace IngredientRun
 {
@@ -26,11 +28,33 @@ namespace IngredientRun
         public void Update(GameTime gameTime, Vector2 loc)
         {
             Vector2 newPos = loc;
-            // if (_worldBounds.HasValue)
-            // {
-            //     newPos = Vector2.Clamp(loc, _worldBounds.Value.TopLeft, _worldBounds.Value.BottomRight);
-            // }
-            _camera.Position = newPos;
+            if (_worldBounds.HasValue)
+            {
+                _camera.LookAt(newPos);
+                RectangleF camBounds = _camera.BoundingRectangle;
+                if(camBounds.Left < _worldBounds.Value.Left) // out left
+                {
+                    newPos.X = _worldBounds.Value.Left + _pixelDimensions.X / 2;
+                }
+                else if(camBounds.Right > _worldBounds.Value.Right) // out right
+                {
+                    newPos.X = _worldBounds.Value.Right - _pixelDimensions.X / 2;
+                }
+                if (camBounds.Top < _worldBounds.Value.Top) // out top
+                {
+                    newPos.Y = _worldBounds.Value.Top + _pixelDimensions.Y / 2;
+                }
+                else if (camBounds.Bottom > _worldBounds.Value.Bottom) // out bottom
+                {
+                    newPos.Y = _worldBounds.Value.Bottom - _pixelDimensions.Y / 2;
+                }
+            };
+            _camera.LookAt(newPos);
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawRectangle(_worldBounds.Value, Color.Purple);
+            spriteBatch.DrawRectangle(_camera.BoundingRectangle, Color.Red);
         }
 
         public void SetWorldBounds(RectangleF worldBounds)
@@ -38,17 +62,16 @@ namespace IngredientRun
             // calculate dimensions restrained by screenDimensions (so that even if world bounds are smaller
             // than height of screen display, boundswidth >= screenwidth, boundsheight >= screenheight, and
             // bottom edge of bounds is never expanded beyond input (if it needs to be resized)
-            float widthScale  = _screenDimensions.X / worldBounds.Width;
             float heightScale = _screenDimensions.Y / worldBounds.Height;
-            if (widthScale < heightScale) // limited by width
+            if (_pixelDimensions.Y > worldBounds.Height) // screen height exceeds worldbounds height
             {
-                float newHeight = widthScale * _screenRatio.Y;
+                float newHeight = _pixelDimensions.Y;
                 worldBounds.Y -= newHeight - worldBounds.Height;
                 worldBounds.Height = newHeight;
             }
-            else // limited by height
+            else if(_pixelDimensions.X > worldBounds.Width)
             {
-                worldBounds.Width = heightScale * _screenRatio.X;
+                worldBounds.Width = _pixelDimensions.X;
             }
 
             _worldBounds = worldBounds;
