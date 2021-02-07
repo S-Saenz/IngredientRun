@@ -82,10 +82,15 @@ namespace IngredientRun
             {
                 _jumpClicked = false;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+            
+            if (Game1.instance.input.IsDown("interact"))
             {
-                // pos.Y += _speed * gameTime.GetElapsedSeconds();
+                foreach(CollisionInfo item in _collisionBox.IsOverlapping())
+                {
+                    Debug.WriteLine(item._otherLabel);
+                }
             }
+
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);

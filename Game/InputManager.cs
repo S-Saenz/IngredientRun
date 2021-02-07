@@ -33,9 +33,14 @@ namespace IngredientRun
                 Keys.Up,
                 Keys.W
             };
+            List<Keys> interactKeys = new List<Keys>()
+            {
+                Keys.F
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
+            _buttons.Add("interact", new Button(interactKeys));
         }
 
         public void Update(GameTime time)
