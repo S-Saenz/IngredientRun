@@ -96,6 +96,10 @@ namespace IngredientRun.States
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
 
+            // temp, just respawns objects when entering cave
+            campTileMap.SpawnPickups();
+            campTileMap.SpawnEnemies();
+
             // player
             player = new Player(game.graphics, campTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, campTileMap._mapBounds);
