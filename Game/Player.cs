@@ -83,11 +83,20 @@ namespace IngredientRun
                 _jumpClicked = false;
             }
             
-            if (Game1.instance.input.IsDown("interact"))
+            if (Game1.instance.input.JustPressed("interact"))
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
                 {
-                    Debug.WriteLine(item._otherLabel);
+                    PickupItem obj = item._other as PickupItem;
+                    if(obj != null)
+                    {
+                        Debug.WriteLine(obj._name);
+                        // TODO: try adding to inventory, returning whether successful or not
+                        if(true)
+                        {
+                            obj._spawn.Despawn();
+                        }
+                    }
                 }
             }
 

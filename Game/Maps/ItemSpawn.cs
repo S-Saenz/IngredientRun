@@ -22,13 +22,13 @@ namespace IngredientRun
             switch (_rangeType)
             {
                 case "only":
-                    _object = new PickupItem(_spawnType, _location, _physicsHandler);
+                    _object = new PickupItem(_spawnType, _location, _physicsHandler, this);
                     break;
                 case "family":
                     break;
                 case "any":
                     string spawnType = ItemTextures._allItems[new Random().Next(ItemTextures._allItems.Count)];
-                    _object = new PickupItem(spawnType, _location, _physicsHandler);
+                    _object = new PickupItem(spawnType, _location, _physicsHandler, this);
                     break;
             }
             return _object;
