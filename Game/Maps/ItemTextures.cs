@@ -8,7 +8,7 @@ namespace IngredientRun
 {
     public static class ItemTextures
     {
-        public static List<string> _allItems;
+        public static List<string> _allItems { get; private set; }
         private static Dictionary<string, Texture2D> _itemTextures;
         private static ContentManager _content;
 

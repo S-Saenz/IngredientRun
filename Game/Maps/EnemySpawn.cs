@@ -27,6 +27,8 @@ namespace IngredientRun
                 case "family":
                     break;
                 case "any":
+                    string spawnType = EnemyTextures._allItems[new Random().Next(EnemyTextures._allItems.Count)];
+                    _object = new Enemy(spawnType, _location, _physicsHandler);
                     break;
             }
             return _object;

@@ -53,7 +53,9 @@ namespace IngredientRun
             foreach (TiledMapObject obj in spawnPoints.Objects)
             {
                 string[] vals = obj.Name.Split('.');
-                _pickupSpawns.Add(new ItemSpawn(obj.Position, vals[0], collisionHandler, vals[1]));
+                string range = vals[0];
+                string type = vals.Length > 1 ? vals[1] : null;
+                _pickupSpawns.Add(new ItemSpawn(obj.Position, range, collisionHandler, type));
             }
         }
 
@@ -64,7 +66,9 @@ namespace IngredientRun
             foreach (TiledMapObject obj in spawnPoints.Objects)
             {
                 string[] vals = obj.Name.Split('.');
-                _enemySpawns.Add(new EnemySpawn(obj.Position, vals[0], collisionHandler, vals[1]));
+                string range = vals[0];
+                string type = vals.Length > 1 ? vals[1] : null;
+                _enemySpawns.Add(new EnemySpawn(obj.Position, range, collisionHandler, type));
             }
         }
 

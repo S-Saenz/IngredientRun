@@ -8,7 +8,7 @@ namespace IngredientRun
 {
     public static class EnemyTextures
     {
-        public static List<string> _allMonsters;
+        public static List<string> _allItems { get; private set; }
         private static Dictionary<string, Texture2D> _monsterTextures;
         private static ContentManager _content;
 
@@ -16,7 +16,7 @@ namespace IngredientRun
         {
             _content = content;
             _monsterTextures = new Dictionary<string, Texture2D>();
-            _allMonsters = new List<string>{
+            _allItems = new List<string>{
                     "lurker",
                     "wolf"
                 };
@@ -24,7 +24,7 @@ namespace IngredientRun
 
         public static Texture2D GetTexture(string itemName)
         {
-            if(!_allMonsters.Contains(itemName))
+            if(!_allItems.Contains(itemName))
             {
                 return null;
             }
