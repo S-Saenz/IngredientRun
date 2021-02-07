@@ -45,17 +45,10 @@ namespace IngredientRun.States
 
             // Set start location
             bgPos = new Vector2(0, 0);
-
-            // Set up camera and viewport
-
-
-            game._camera.Zoom = 4;
         }
 
         public override void LoadContent()
         {
-            
-
             //backgrounds
             // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
             caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
@@ -71,6 +64,9 @@ namespace IngredientRun.States
             // enemy
             enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
             enemy1.Load(_content);
+
+            // setup camera
+            game._cameraController.SetWorldBounds(caveMapBackground._mapBounds);
         }
 
         public override void Update(GameTime gameTime)
@@ -90,9 +86,9 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
-            game._camera.Position = bgPos;
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            game._cameraController.Update(gameTime, bgPos);
              pickUp1.Update(bgPos);
             enemy1.Update(gameTime);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
@@ -104,13 +100,13 @@ namespace IngredientRun.States
         {
             game.GraphicsDevice.Clear(Color.Brown);
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
             // Draw tilemap background
-            caveMapBackground.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            caveMapBackground.Draw(_spriteBatch, game._cameraController._camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);

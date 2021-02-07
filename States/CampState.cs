@@ -36,10 +36,10 @@ namespace IngredientRun.States
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             game.GraphicsDevice.Clear(Color.Gray);
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
             // Draw png background
-            _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             Rectangle destination = (Rectangle)campTileBackground._mapBounds;
             destination.Height /= 2;
             destination.Y += destination.Height;
@@ -48,10 +48,10 @@ namespace IngredientRun.States
 
 
             // Draw tilemap background
-            campTileBackground.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            campTileBackground.Draw(_spriteBatch, game._cameraController._camera.GetViewMatrix(), projectionMatrix, _isDebug);
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             player.Draw(_spriteBatch, _isDebug);
 
@@ -82,6 +82,9 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, campTileBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, campTileBackground._mapBounds);
+
+            // setup camera
+            game._cameraController.SetWorldBounds(campTileBackground._mapBounds);
         }
 
         public override void PostUpdate(GameTime gameTime)
@@ -109,9 +112,9 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
-            game._camera.Position = bgPos;
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            game._cameraController._camera.Position = bgPos;
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             campTileBackground.Update(gameTime);
