@@ -45,6 +45,7 @@ namespace IngredientRun
 
         public void Update(GameTime time)
         {
+            KeyboardState newstate = Keyboard.GetState();
             //for each button
             foreach (KeyValuePair<string, Button> entry in _buttons)
             {
@@ -52,7 +53,6 @@ namespace IngredientRun
                 button._isDown = false;
                 button._justPressed = false;
                 button._justReleased = false;
-                KeyboardState newstate = Keyboard.GetState();
                 //for each key in button
                 foreach (Keys key in button._keys)
                 {
@@ -84,9 +84,8 @@ namespace IngredientRun
                     }*/
                     
                 }
-                oldstate = newstate;
             }
-
+            oldstate = newstate;
         }
 
         public bool IsDown(string buttonName)
