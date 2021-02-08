@@ -214,6 +214,30 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/apple.png
 
+#begin ingredient/appleScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/appleScaled.png
+
+#begin ingredient/carrot.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/carrot.png
+
 #begin ingredient/egg.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -250,6 +274,18 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/fish.png
 
+#begin ingredient/fishScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/fishScaled.png
+
 #begin ingredient/gooseberry.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -274,7 +310,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/meat.png
 
-#begin ingredient/mouse melons.png
+#begin ingredient/meatScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -284,7 +320,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/mouse melons.png
+/build:ingredient/meatScaled.png
+
+#begin ingredient/mousemelon.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ingredient/mousemelon.png
 
 #begin ingredient/waterjug.png
 /importer:TextureImporter
@@ -310,7 +358,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/wood.png
 
-#begin monsters/monster.png
+#begin ingredient/woodScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -320,7 +368,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:monsters/monster.png
+/build:ingredient/woodScaled.png
+
+#begin monsters/lurker.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:monsters/lurker.png
+
+#begin monsters/wolf.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:monsters/wolf.png
 
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
@@ -344,22 +416,17 @@
 /processor:TiledMapProcessor
 /build:tilemaps/camp/TempCampMap.tmx
 
-#begin tilemaps/prototype/collisionTestMap.tmx
+#begin tilemaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tilemaps/prototype/collisionTestMap.tmx
+/build:tilemaps/cave/collisionTestMap.tmx
 
-#begin tilemaps/prototype/MapPrototypeTiledCollider.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:tilemaps/prototype/MapPrototypeTiledCollider.tmx
-
-#begin tilemaps/prototype/MapPrototypeTileset.tsx
+#begin tilemaps/cave/MapPrototypeTileset.tsx
 /importer:TiledMapTilesetImporter
 /processor:TiledMapTilesetProcessor
-/build:tilemaps/prototype/MapPrototypeTileset.tsx
+/build:tilemaps/cave/MapPrototypeTileset.tsx
 
-#begin tilemaps/prototype/PrototypeTileset.png
+#begin tilemaps/cave/PrototypeTileset.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -369,7 +436,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:tilemaps/prototype/PrototypeTileset.png
+/build:tilemaps/cave/PrototypeTileset.png
 
 #begin ui/Inventory/Inventory Backpack and Grid.png
 /importer:TextureImporter

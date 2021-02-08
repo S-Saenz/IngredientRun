@@ -2,12 +2,17 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IngredientRun
 {
     delegate void CollisionEventHandler(CollisionInfo info);
     delegate void MovementEventHandler(Vector2 movement);
+
+    interface IPhysicsObject
+    {
+    }
 
     class CollisionBox
     {
@@ -240,6 +245,11 @@ namespace IngredientRun
                 // Debug.WriteLine("End " + info._hitDir);
                 _onCollisionEnd?.Invoke(info);
             }
+        }
+
+        public List<CollisionInfo> IsOverlapping()
+        {
+            return _collisionHandler.IsOverlapping(this);
         }
     }
 }

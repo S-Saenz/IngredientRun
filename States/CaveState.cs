@@ -15,13 +15,10 @@ namespace IngredientRun.States
     class CaveState : State
     {
         Player player;
-        Enemy enemy1;
 
-        TileMap caveMapBackground;
+        TileMap caveTileMap;
 
         Vector2 bgPos;
-
-        PickUpable pickUp1;
 
         // Debug mode
         bool _isDebug = false;
@@ -39,9 +36,18 @@ namespace IngredientRun.States
         {
             content.RootDirectory = "Content";
 
+            // setup collision
             _collisionHandler = new PhysicsHandler();
+            _collisionHandler.AddLayer("Player");
+            _collisionHandler.AddLayer("Enemy");
+            _collisionHandler.AddLayer("Pickup");
+            _collisionHandler.AddLayer("Walls");
 
-            // game.graphics.ApplyChanges();
+            _collisionHandler.SetCollision("Player", "Walls");
+            _collisionHandler.SetCollision("Enemy", "Walls");
+            _collisionHandler.SetOverlap("Player", "Pickup");
+            _collisionHandler.SetOverlap("Enemy", "Player");
+
 
             // Set start location
             bgPos = new Vector2(0, 0);
@@ -50,23 +56,19 @@ namespace IngredientRun.States
         public override void LoadContent()
         {
             //backgrounds
-            // caveMapBackground = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveMapBackground = new TileMap("tilemaps/prototype/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
+            // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
+            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
 
-            // pickup
-            pickUp1 = new PickUpable(_content.Load<Texture2D>("Ingredient/acorn"), caveMapBackground.GetWaypoint("ItemObjects", "Acorn"));
-            pickUp1.Load(_content);
+            // temp, just respawns objects when entering cave
+            caveTileMap.SpawnPickups();
+            caveTileMap.SpawnEnemies();
 
             // player
-            player = new Player(game.graphics, caveMapBackground.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
-            player.Load(_content, _collisionHandler, caveMapBackground._mapBounds);
-
-            // enemy
-            enemy1 = new Enemy(_content.Load<Texture2D>("monsters/monster"), caveMapBackground.GetWaypoint("EnemyObjects", "EnemySpawn"), _collisionHandler);
-            enemy1.Load(_content);
+            player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
+            player.Load(_content, _collisionHandler, caveTileMap._mapBounds);
 
             // setup camera
-            game._cameraController.SetWorldBounds(caveMapBackground._mapBounds);
+            game._cameraController.SetWorldBounds(caveTileMap._mapBounds);
         }
 
         public override void Update(GameTime gameTime)
@@ -89,11 +91,9 @@ namespace IngredientRun.States
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
             game._cameraController.Update(gameTime, player._pos);
-             pickUp1.Update(bgPos);
-            enemy1.Update(gameTime);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
-            caveMapBackground.Update(gameTime);
+            caveTileMap.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -102,17 +102,24 @@ namespace IngredientRun.States
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
-            // Draw tilemap background
-            caveMapBackground.Draw(_spriteBatch, game._cameraController._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            // Draw tilemap background/walls
+            // caveTileMap.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            spriteBatch.End();
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-
-            enemy1.Draw(_spriteBatch);
-            pickUp1.Draw(_spriteBatch);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            caveTileMap.DrawPickups(spriteBatch, _isDebug);
+            caveTileMap.DrawEnemies(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
-
             _spriteBatch.End();
+
+            // Draw tilemap foreground
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
+            spriteBatch.End();
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
