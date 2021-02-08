@@ -184,5 +184,10 @@ namespace IngredientRun
                 _camera.Position = pos.Value;
             }
         }
+
+        public Matrix GetViewMatrix()
+        {
+            return _camera.GetViewMatrix();
+        }
     }
 }
