@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SourceFile>C:/Users/shui/Documents/GitHub/IngredientRun/Content/tilemaps/cave/../../../../../../source/repos/IngredientRun01/Content/tileMaps/prototype/../../../../../../Downloads/CaveTiles1.png</SourceFile>
+  <SourceTime>2021-02-01T21:47:46.1517224-08:00</SourceTime>
+  <DestFile>C:/Users/shui/Documents/GitHub/IngredientRun/Content/bin/Windows/Content/../../../../Downloads/CaveTiles1_0.xnb</DestFile>
+  <DestTime>2021-02-08T11:27:36.0180622-08:00</DestTime>
+  <Importer>TextureImporter</Importer>
+  <ImporterTime>2020-08-10T16:17:54-07:00</ImporterTime>
+  <Processor>TextureProcessor</Processor>
+  <ProcessorTime>2020-08-10T16:17:54-07:00</ProcessorTime>
+  <Parameters>
+    <Key>ColorKeyColor</Key>
+    <Value>0,0,0,0</Value>
+  </Parameters>
+  <Parameters>
+    <Key>ColorKeyEnabled</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
