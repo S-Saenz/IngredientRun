@@ -54,10 +54,6 @@ namespace IngredientRun.States
             _spriteBatch.Begin(transformMatrix: game._cameraController._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             player.Draw(_spriteBatch, _isDebug);
-            if (_isDebug)
-            {
-                game._cameraController.Draw(spriteBatch);
-            }
 
             _spriteBatch.End();
 
@@ -71,6 +67,11 @@ namespace IngredientRun.States
             _dialogueSystem.Draw(_dialogueFont, new Vector2(100, 100), gameTime, spriteBatch);
             // spriteBatch.DrawString(_dialogueFont, "Arg: Again with your fuckin' omens!  Did your \"omens\" tell you about that silent nightmare that fuckin' destroyed our homes?", new Vector2(100, 100), Color.White);
             spriteBatch.End();
+
+            if (_isDebug)
+            {
+                game._cameraController.Draw(spriteBatch);
+            }
         }
 
         public override void LoadContent()

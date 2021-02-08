@@ -111,10 +111,6 @@ namespace IngredientRun.States
             enemy1.Draw(_spriteBatch);
             pickUp1.Draw(_spriteBatch);
             player.Draw(_spriteBatch, _isDebug);
-            if (_isDebug)
-            {
-                game._cameraController.Draw(spriteBatch);
-            }
 
             _spriteBatch.End();
 
@@ -124,6 +120,12 @@ namespace IngredientRun.States
                 game.inventory.Draw(_spriteBatch);
             
             _spriteBatch.End();
+
+            // Draw camera debug
+            if (_isDebug)
+            {
+                game._cameraController.Draw(spriteBatch);
+            }
 
             // base.Draw(gameTime);
         }

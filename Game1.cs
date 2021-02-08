@@ -57,8 +57,9 @@ namespace IngredientRun
             this.IsMouseVisible = true;
 
             // setup camera controller
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-
+            // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 240, 135));
         }
 
         protected override void Initialize()
