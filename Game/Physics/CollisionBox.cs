@@ -65,7 +65,7 @@ namespace IngredientRun
             _collisionHandler = collisionHandler;
             _parent = parent;
             _worldBounds = worldBounds;
-            _gravity = new Vector2(0, gravity);
+            _gravity = new Vector2(0, gravity * 0.4f);
             _friction = friction;
             // _damping = damping;
             if (maxSpeed.HasValue)
@@ -87,7 +87,7 @@ namespace IngredientRun
             // Apply gravity
             if (!_downBlocked)
             {
-                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 200;
+                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
 
             // Apply damping (air resistance)
