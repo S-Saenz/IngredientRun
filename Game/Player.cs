@@ -82,10 +82,24 @@ namespace IngredientRun
             {
                 _jumpClicked = false;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+            
+            if (Game1.instance.input.JustPressed("interact"))
             {
-                // pos.Y += _speed * gameTime.GetElapsedSeconds();
+                foreach(CollisionInfo item in _collisionBox.IsOverlapping())
+                {
+                    PickupItem obj = item._other as PickupItem;
+                    if(obj != null)
+                    {
+                        Debug.WriteLine(obj._name);
+                        // TODO: try adding to inventory, returning whether successful or not
+                        if(true)
+                        {
+                            obj._spawn.Despawn();
+                        }
+                    }
+                }
             }
+
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
@@ -116,7 +130,7 @@ namespace IngredientRun
                 pos = new Vector2(100, 100),
                 Color = Color.White,
                 Rotation = 0f,
-                Scale = .15f,
+                Scale = 1f,
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };

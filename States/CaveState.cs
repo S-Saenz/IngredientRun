@@ -53,11 +53,6 @@ namespace IngredientRun.States
 
             // Set start location
             bgPos = new Vector2(0, 0);
-
-            // Set up camera and viewport
-
-
-            game._camera.Zoom = 4;
         }
 
         public override void LoadContent()
@@ -73,6 +68,9 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, caveTileMap._mapBounds);
+
+            // setup camera
+            game._cameraController.SetWorldBounds(caveTileMap._mapBounds);
         }
 
         public override void Update(GameTime gameTime)
@@ -92,9 +90,9 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._camera, gameTime) - game.screenDimensions / 2;
-            game._camera.Position = bgPos;
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
+            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
             caveTileMap.Update(gameTime);
@@ -104,21 +102,21 @@ namespace IngredientRun.States
         {
             game.GraphicsDevice.Clear(Color.Brown);
 
-            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game.screenDimensions.X, game.screenDimensions.Y, 0, 1, 0);
+            Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
             // Draw tilemap background/walls
             // caveTileMap.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
-            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls");
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
             if (_isDebug)
             {
-                caveTileMap.DrawDebug(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix);
+                caveTileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
             }
             spriteBatch.End();
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._camera.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawPickups(spriteBatch, _isDebug);
             caveTileMap.DrawEnemies(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
@@ -126,14 +124,21 @@ namespace IngredientRun.States
 
             // Draw tilemap foreground
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Foreground");
+            caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (game.inventory.showInv)
                 game.inventory.Draw(_spriteBatch);
+            
             _spriteBatch.End();
+
+            // Draw camera debug
+            if (_isDebug)
+            {
+                game._cameraController.Draw(spriteBatch);
+            }
 
             // base.Draw(gameTime);
         }

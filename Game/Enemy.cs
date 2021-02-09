@@ -22,7 +22,7 @@ namespace IngredientRun
             texture = EnemyTextures.GetTexture(type);
             _loc = position - new Vector2(texture.Width * _scale, texture.Height * _scale);
             _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, texture.Width * _scale, texture.Height * _scale), _collisionHandler, this);
-            _collisionHandler.AddObject("Pickup", _collisionBox);
+            _collisionHandler.AddObject("Enemy", _collisionBox);
         }
 
         public Vector2 GetPos()

@@ -19,7 +19,6 @@ namespace IngredientRun
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
         Dictionary<string, State> _states;
-        public Vector2 screenDimensions;
 
         public List<Condition> _stateConditions = new List<Condition>();
 
@@ -33,6 +32,8 @@ namespace IngredientRun
 
         private State _nextState;
 
+        public CameraController _cameraController;
+
         // temp button clicking var so changing scene doesn't happen multiple times
         private bool _wasPressed = false;
 
@@ -43,14 +44,11 @@ namespace IngredientRun
             _nextState.LoadContent();
         }
 
-        public OrthographicCamera _camera;
-
         public Game1()
         {
             this.Window.Title = "Ingredient Time";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
-            
 
             //_spriteBatch = new SpriteBatch();
             instance = this;
@@ -58,15 +56,12 @@ namespace IngredientRun
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             this.IsMouseVisible = true;
 
-            // setup the window
-            screenDimensions = new Vector2(1728, 972);
+            // setup camera controller
+            // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 240, 135));
 
-            graphics.PreferredBackBufferWidth = (int)screenDimensions.X;  // set this value to the desired width of your window
-            graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
-            graphics.ApplyChanges();
-            DefaultViewportAdapter viewportAdapter = new DefaultViewportAdapter(GraphicsDevice);
-            _camera = new OrthographicCamera(viewportAdapter);
-
+            // setup bulk texture managers
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
         }

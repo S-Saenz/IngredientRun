@@ -33,13 +33,19 @@ namespace IngredientRun
                 Keys.Up,
                 Keys.W
             };
+            List<Keys> interactKeys = new List<Keys>()
+            {
+                Keys.F
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
+            _buttons.Add("interact", new Button(interactKeys));
         }
 
         public void Update(GameTime time)
         {
+            KeyboardState newstate = Keyboard.GetState();
             //for each button
             foreach (KeyValuePair<string, Button> entry in _buttons)
             {
@@ -47,7 +53,6 @@ namespace IngredientRun
                 button._isDown = false;
                 button._justPressed = false;
                 button._justReleased = false;
-                KeyboardState newstate = Keyboard.GetState();
                 //for each key in button
                 foreach (Keys key in button._keys)
                 {
@@ -79,9 +84,8 @@ namespace IngredientRun
                     }*/
                     
                 }
-                oldstate = newstate;
             }
-
+            oldstate = newstate;
         }
 
         public bool IsDown(string buttonName)
