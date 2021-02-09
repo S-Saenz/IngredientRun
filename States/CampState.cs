@@ -20,6 +20,8 @@ namespace IngredientRun.States
 
         Player player;
 
+        public Dictionary<string, NPC> _characters { private set; get; }
+
         Vector2 bgPos;
 
         private PhysicsHandler _collisionHandler;
@@ -71,6 +73,10 @@ namespace IngredientRun.States
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            foreach(NPC obj in _characters.Values)
+            {
+                obj.Draw(spriteBatch);
+            }
             campTileMap.DrawPickups(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
@@ -114,6 +120,15 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, campTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, campTileMap._mapBounds);
+
+            // characters
+            _characters = new Dictionary<string, NPC>();
+            _characters.Add("Lura", new NPC(_content.Load<Texture2D>("chars/lura"), Vector2.Zero));
+            _characters.Add("Snäll", new NPC(_content.Load<Texture2D>("chars/snall"), Vector2.Zero));
+            _characters.Add("Kall", new NPC(_content.Load<Texture2D>("chars/kall"), Vector2.Zero));
+            _characters.Add("Arg", new NPC(_content.Load<Texture2D>("chars/arg"), Vector2.Zero));
+            campTileMap.PlaceNPCs(_characters);
+
 
             // setup camera
             game._cameraController.SetWorldBounds(campTileMap._mapBounds);

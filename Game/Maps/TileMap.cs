@@ -6,6 +6,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IngredientRun
 {
@@ -102,6 +103,18 @@ namespace IngredientRun
             foreach (SpawnPoint point in _enemySpawns)
             {
                 point.Spawn();
+            }
+        }
+
+        public void PlaceNPCs(Dictionary<string, NPC> characters)
+        {
+            // temp even spawn spacing
+            float spacing = _areas["Camp"]._bounds.Width / 5;
+            NPC[] chars = characters.Values.ToArray();
+
+            for(int i = 1; i < 5; ++i)
+            {
+                chars[i - 1]._pos = new Vector2(_areas["Camp"]._bounds.Left + i * spacing, _areas["Camp"]._bounds.Bottom);
             }
         }
 
