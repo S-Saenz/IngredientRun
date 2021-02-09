@@ -25,6 +25,7 @@ namespace IngredientRun
         private bool _jumpClicked = false;
         public RectangleF _overlap;
         CollisionBox _collisionBox;
+        public bool _isDark = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -160,14 +161,14 @@ namespace IngredientRun
         {
             base.Draw(spriteBatch);
 
-            if (!isDebug)
+            if (isDebug)
+            {
+                _collisionBox.Draw(spriteBatch);
+            }
+            else if (_isDark)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
-            }
-            else
-            {
-                _collisionBox.Draw(spriteBatch);
             }
         }
 

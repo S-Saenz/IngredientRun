@@ -15,7 +15,7 @@ namespace IngredientRun.States
         TileMap campTileMap;
 
         // Debug mode
-        bool _isDebug = true;
+        bool _isDebug = false;
         bool _ctrlPrevDown = false;
 
         Player player;
