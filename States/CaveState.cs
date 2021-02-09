@@ -42,11 +42,13 @@ namespace IngredientRun.States
             _collisionHandler.AddLayer("Enemy");
             _collisionHandler.AddLayer("Pickup");
             _collisionHandler.AddLayer("Walls");
+            _collisionHandler.AddLayer("Areas");
 
             _collisionHandler.SetCollision("Player", "Walls");
             _collisionHandler.SetCollision("Enemy", "Walls");
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
+            _collisionHandler.SetOverlap("Player", "Areas");
 
 
             // Set start location
@@ -108,7 +110,11 @@ namespace IngredientRun.States
             // caveTileMap.Draw(_spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, _isDebug);
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
-            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            caveTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls");
+            if (_isDebug)
+            {
+                caveTileMap.DrawDebug(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix);
+            }
             spriteBatch.End();
 
             // Draw sprites

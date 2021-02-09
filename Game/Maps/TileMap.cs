@@ -17,6 +17,7 @@ namespace IngredientRun
 
         List<SpawnPoint> _pickupSpawns;
         List<SpawnPoint> _enemySpawns;
+        Dictionary<string, Area> _areas;
 
         public RectangleF _mapBounds { private set; get; }
 
@@ -28,6 +29,7 @@ namespace IngredientRun
             AddWallCollision(collisionHandler);
             AddItemSpawnPoints(collisionHandler);
             AddEnemySpawnPoints(collisionHandler);
+            AddAreaObjects(collisionHandler);
         }
 
         private void AddWallCollision(PhysicsHandler collisionHandler)
@@ -72,6 +74,21 @@ namespace IngredientRun
             }
         }
 
+        public void AddAreaObjects(PhysicsHandler collisionHandler)
+        {
+            _areas = new Dictionary<string, Area>();
+            TiledMapObjectLayer areaObj = _map.GetLayer<TiledMapObjectLayer>("AreaObjects");
+            if(areaObj == null)
+            {
+                return;
+            }
+
+            foreach (TiledMapObject obj in areaObj.Objects)
+            {
+                _areas.Add(obj.Name, new Area(collisionHandler, new RectangleF(obj.Position, obj.Size), obj.Name));
+            }
+        }
+
         public void SpawnPickups()
         {
             foreach(SpawnPoint point in _pickupSpawns)
@@ -93,13 +110,17 @@ namespace IngredientRun
             _renderer.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, bool isDebug = false)
+        public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
         {
             _renderer.Draw(viewMatrix, projMatrix);
+        }
 
-            if(isDebug)
+        public void DrawDebug(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
+        {
+            _collisionHandler.Draw(spriteBatch, "Walls");
+            foreach(Area area in _areas.Values)
             {
-                _collisionHandler.Draw(spriteBatch, "Walls");
+                spriteBatch.DrawRectangle(area._bounds, Color.Red);
             }
         }
 
@@ -109,11 +130,6 @@ namespace IngredientRun
             if (layer != null)
             {
                 _renderer.Draw(layer, viewMatrix, projMatrix);
-            }
-
-            if (isDebug)
-            {
-                _collisionHandler.Draw(spriteBatch, "Walls");
             }
         }
 

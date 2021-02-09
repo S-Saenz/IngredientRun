@@ -36,11 +36,13 @@ namespace IngredientRun.States
             _collisionHandler.AddLayer("Enemy");
             _collisionHandler.AddLayer("Pickup");
             _collisionHandler.AddLayer("Walls");
+            _collisionHandler.AddLayer("Areas");
 
             _collisionHandler.SetCollision("Player", "Walls");
             _collisionHandler.SetCollision("Enemy", "Walls");
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
+            _collisionHandler.SetOverlap("Player", "Areas");
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -60,7 +62,11 @@ namespace IngredientRun.States
             // Draw tilemap background/walls
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Background");
-            campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            campTileMap.DrawLayer(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix, "Walls");
+            if (_isDebug)
+            {
+                campTileMap.DrawDebug(spriteBatch, game._camera.GetViewMatrix(), projectionMatrix);
+            }
             spriteBatch.End();
 
             // Draw sprites
