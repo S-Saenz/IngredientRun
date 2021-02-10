@@ -20,7 +20,7 @@ namespace IngredientRun
             _collisionHandler = collisionHandler;
 
             texture = EnemyTextures.GetTexture(type);
-            _loc = position - new Vector2(texture.Width * _scale, texture.Height * _scale);
+            _loc = position - new Vector2(texture.Width * _scale / 2, texture.Height * _scale);
             _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, texture.Width * _scale, texture.Height * _scale), _collisionHandler, this);
             _collisionHandler.AddObject("Enemy", _collisionBox);
         }

@@ -98,26 +98,26 @@
 </data>
  </layer>
  <objectgroup id="2" name="ItemObjects">
-  <object id="9" name="Shroom" x="529" y="321">
+  <object id="9" name="only.mushroom" x="529" y="320">
    <point/>
   </object>
-  <object id="10" name="Shroom" x="58" y="670">
+  <object id="10" name="only.mushroom_medicine" x="58" y="672">
    <point/>
   </object>
-  <object id="11" name="Shroom" x="239" y="668">
+  <object id="11" name="only.mushroom_medicine" x="239.792" y="688">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="4" name="PlayerObjects">
-  <object id="2" name="Player" x="18" y="127">
+  <object id="2" name="PlayerSpawn" x="18" y="127">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="6" name="EnemyObjects">
-  <object id="1" name="EnemyObject" x="324" y="446">
+  <object id="1" name="any" x="654.667" y="576">
    <point/>
   </object>
-  <object id="8" name="EnemyObject" x="433" y="287">
+  <object id="8" name="any" x="208" y="224">
    <point/>
   </object>
  </objectgroup>

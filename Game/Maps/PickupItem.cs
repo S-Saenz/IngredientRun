@@ -20,7 +20,7 @@ namespace IngredientRun
             _name = type;
             _spawn = spawn;
             _texture = ItemTextures.GetTexture(type);
-            _loc = position - new Vector2(_texture.Width * _scale, _texture.Height * _scale);
+            _loc = position - new Vector2(_texture.Width * _scale / 2, _texture.Height * _scale);
             _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, _texture.Width * _scale, _texture.Height * _scale), physicsHandler, this);
             physicsHandler.AddObject("Pickup", _collisionBox);
         }
