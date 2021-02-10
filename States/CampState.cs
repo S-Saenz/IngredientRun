@@ -97,6 +97,9 @@ namespace IngredientRun.States
             _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
             _dialogueSystem.PlayInteraction(game);
 
+            //music
+            game.sounds.playSong("forestSong");
+
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
