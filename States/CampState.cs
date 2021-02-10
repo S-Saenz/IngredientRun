@@ -70,6 +70,11 @@ namespace IngredientRun.States
             }
             spriteBatch.End();
 
+            // Draw dialogue
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
+            spriteBatch.End();
+
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             foreach(NPC obj in _characters.Values)
@@ -90,11 +95,6 @@ namespace IngredientRun.States
             if (game.inventory.showInv)
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
-
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
-            // spriteBatch.DrawString(_dialogueFont, "Arg: Again with your fuckin' omens!  Did your \"omens\" tell you about that silent nightmare that fuckin' destroyed our homes?", new Vector2(100, 100), Color.White);
-            spriteBatch.End();
 
             if (_isDebug)
             {
