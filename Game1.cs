@@ -64,6 +64,7 @@ namespace IngredientRun
             // setup bulk texture managers
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
+            FontManager.Initialize(Content);
         }
 
         protected override void Initialize()
