@@ -86,10 +86,10 @@ namespace IngredientRun
         }
 
         // returns whether line ended or not
-        public bool Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
+        public bool Draw(SpriteFont font, OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
             string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
-            spriteBatch.DrawString(font, _character + ": " + speech, loc, Color.Black);
+            spriteBatch.DrawString(font, _character + ": " + speech, characters[_character].GetDialogueLoc(camera), Color.Black);
             _currTime += gameTime.GetElapsedSeconds();
             if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
             {

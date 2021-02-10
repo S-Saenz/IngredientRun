@@ -92,8 +92,8 @@ namespace IngredientRun.States
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            spriteBatch.Begin();
-            _dialogueSystem.Draw(_dialogueFont, new Vector2(100, 100), gameTime, spriteBatch);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _dialogueSystem.Draw(_dialogueFont, game._cameraController._camera, gameTime, spriteBatch);
             // spriteBatch.DrawString(_dialogueFont, "Arg: Again with your fuckin' omens!  Did your \"omens\" tell you about that silent nightmare that fuckin' destroyed our homes?", new Vector2(100, 100), Color.White);
             spriteBatch.End();
 
@@ -105,10 +105,6 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
-            // dialogue system
-            _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
-            _dialogueSystem.PlayInteraction(game);
-
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
@@ -129,6 +125,10 @@ namespace IngredientRun.States
             _characters.Add("Arg", new NPC(_content.Load<Texture2D>("chars/arg"), Vector2.Zero));
             campTileMap.PlaceNPCs(_characters);
 
+            // dialogue system
+            _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
+            _dialogueSystem.Load(_characters);
+            _dialogueSystem.PlayInteraction(game);
 
             // setup camera
             game._cameraController.SetWorldBounds(campTileMap._mapBounds);

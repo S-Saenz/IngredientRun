@@ -13,17 +13,25 @@ namespace IngredientRun
         float _scale = 1.5f;
         Texture2D _texture;
         public Vector2 _pos;
+        private Vector2 _dialogueLoc;
 
         public NPC(Texture2D image, Vector2 position)
         {
             _texture = image;
             _pos = position;
+            _dialogueLoc = new Vector2(_texture.Bounds.Width * _scale / 2, -_texture.Height * _scale - 10);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            RectangleF dest = new RectangleF(_pos.X - _texture.Width * _scale, _pos.Y - _texture.Height * _scale, _texture.Width * _scale, _texture.Height * _scale);
+            RectangleF dest = new RectangleF(_pos.X, _pos.Y - _texture.Height * _scale, _texture.Width * _scale, _texture.Height * _scale);
             spriteBatch.Draw(_texture, (Rectangle)dest, null, Color.White);
+        }
+        
+        public Vector2 GetDialogueLoc(OrthographicCamera camera)
+        {
+            var pos = camera.WorldToScreen(_pos + _dialogueLoc); // _pos + _dialogueLoc
+            return pos;
         }
     }
 }

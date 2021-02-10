@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace IngredientRun
         string _name;
         string[] _requirements; // or requirements
         public float _probability { get; private set; }
-        string[] _characters;  // change to dictionary of npc references when npc class implemented
+        public string[] _characters { private set; get; }  // change to dictionary of npc references when npc class implemented
         List<DialogueLine> _dialogue;
         int _currentLine = 0;
 
@@ -89,9 +90,9 @@ namespace IngredientRun
             return _requirements;
         }
 
-        public void Draw(SpriteFont font, Vector2 loc, GameTime time, SpriteBatch spriteBatch)
+        public void Draw(SpriteFont font, OrthographicCamera camera, GameTime time, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
-            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(font, loc, time, spriteBatch))
+            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(font, camera, time, spriteBatch, characters))
             {
                 _currentLine += 1;
             }
