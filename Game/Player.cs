@@ -20,7 +20,7 @@ namespace IngredientRun
         private int _walkSpeed = 50;
         private int _acceleration = 90; // rate at which player increases speed
         private float _friction = 0.6f; // rate at which player stops
-        private int _jump = 9000; // force on player to move upward
+        private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
