@@ -90,9 +90,9 @@ namespace IngredientRun
             return _requirements;
         }
 
-        public void Draw(SpriteFont font, OrthographicCamera camera, GameTime time, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
+        public void Draw(OrthographicCamera camera, GameTime time, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
-            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(font, camera, time, spriteBatch, characters))
+            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(camera, time, spriteBatch, characters))
             {
                 _currentLine += 1;
             }

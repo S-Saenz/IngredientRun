@@ -19,7 +19,7 @@ namespace IngredientRun
         {
             _texture = image;
             _pos = position;
-            _dialogueLoc = new Vector2(_texture.Bounds.Width * _scale / 2, -_texture.Height * _scale - 10);
+            _dialogueLoc = new Vector2(_texture.Bounds.Width * _scale / 2 + 10, -_texture.Height * _scale - 30);
         }
 
         public void Draw(SpriteBatch spriteBatch)

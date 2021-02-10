@@ -185,7 +185,7 @@ namespace IngredientRun
             _currentInteraction = -1;
         }
 
-        public void Draw(SpriteFont font, OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_currentInteraction != -1)
             {
@@ -194,7 +194,7 @@ namespace IngredientRun
                 {
                     characters.Add(name, _characters[name]);
                 }
-                _interactions[_currentInteraction].Draw(font, camera, gameTime, spriteBatch, characters);
+                _interactions[_currentInteraction].Draw(camera, gameTime, spriteBatch, characters);
             }
         }
     }

@@ -9,7 +9,6 @@ namespace IngredientRun.States
     class CampState : State
     {
         private NPCDialogueSystem _dialogueSystem;
-        private SpriteFont _dialogueFont;
 
         Texture2D campPNGBackground;
         TileMap campTileMap;
@@ -93,7 +92,7 @@ namespace IngredientRun.States
             _spriteBatch.End();
 
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _dialogueSystem.Draw(_dialogueFont, game._cameraController._camera, gameTime, spriteBatch);
+            _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
             // spriteBatch.DrawString(_dialogueFont, "Arg: Again with your fuckin' omens!  Did your \"omens\" tell you about that silent nightmare that fuckin' destroyed our homes?", new Vector2(100, 100), Color.White);
             spriteBatch.End();
 
@@ -126,7 +125,6 @@ namespace IngredientRun.States
             campTileMap.PlaceNPCs(_characters);
 
             // dialogue system
-            _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
             _dialogueSystem.Load(_characters);
             _dialogueSystem.PlayInteraction(game);
 

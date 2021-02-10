@@ -14,6 +14,7 @@ namespace IngredientRun
         Dictionary<float, string> _actions; // list of actions taken by player, in order of execution. key: time, value: action
         float _speed; // speed at which the dialogue plays
         float _currTime = 0;
+        static float _maxLineWidth = 256;
 
         static Dictionary<int, float> _typeSpeed = new Dictionary<int, float>()
         {
@@ -72,6 +73,29 @@ namespace IngredientRun
                 }
             }
 
+            // add line breaks
+            values = _speech.Split(" ");
+            _speech = "";
+            float currWidth = 0;
+            foreach(string word in values)
+            {
+                if(word.Length > 0)
+                {
+                    float wordWidth = FontManager._dialogueFont.MeasureString(" " + word).X;
+                    if(currWidth + wordWidth > _maxLineWidth) // start new line
+                    {
+                        currWidth = -1;
+                        _speech += "\n";
+                    }
+                    else // continue current line
+                    {
+                        _speech += " ";
+                    }
+                    currWidth += wordWidth;
+                    _speech += word;
+                }
+            }
+
             // calculate times of actions
             for (int i = 0; i < actions.Count; ++i)
             {
@@ -86,10 +110,13 @@ namespace IngredientRun
         }
 
         // returns whether line ended or not
-        public bool Draw(SpriteFont font, OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
+        public bool Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
             string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
-            spriteBatch.DrawString(font, _character + ": " + speech, characters[_character].GetDialogueLoc(camera), Color.Black);
+            Vector2 loc = characters[_character].GetDialogueLoc(camera);
+            Vector2 size = FontManager._dialogueFont.MeasureString(_character + "\n" + _speech);
+            spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
+            spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
             _currTime += gameTime.GetElapsedSeconds();
             if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
             {
