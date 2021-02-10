@@ -172,6 +172,11 @@ namespace IngredientRun
             }
         }
 
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
+        }
+
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
