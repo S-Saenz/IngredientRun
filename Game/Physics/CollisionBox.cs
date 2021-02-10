@@ -8,6 +8,7 @@ using System.Diagnostics;
 namespace IngredientRun
 {
     delegate void CollisionEventHandler(CollisionInfo info);
+    delegate void OverlapEventHandler(OverlapInfo info);
     delegate void MovementEventHandler(Vector2 movement);
 
     interface IPhysicsObject
@@ -52,7 +53,7 @@ namespace IngredientRun
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
         private event CollisionEventHandler _onCollisionStart; // called once when colliding with something new (new material/side)
         private event CollisionEventHandler _onCollisionEnd; // called once when no longer colliding with anything on given side
-        private event CollisionEventHandler _onOverlap;
+        private event OverlapEventHandler _onOverlap;
 
         private event MovementEventHandler _onMovementStart;
         private event MovementEventHandler _onMovementEnd;
@@ -193,7 +194,7 @@ namespace IngredientRun
             _upBlocked = _downBlocked = _leftBlocked = _rightBlocked = false;
         }
 
-        public void CallOverlap(CollisionInfo info)
+        public void CallOverlap(OverlapInfo info)
         {
             _onOverlap?.Invoke(info);
         }
@@ -203,7 +204,7 @@ namespace IngredientRun
             _onCollision?.Invoke(info);
         }
 
-        public void AddOverlapListener(CollisionEventHandler overlapFunction)
+        public void AddOverlapListener(OverlapEventHandler overlapFunction)
         {
             _onOverlap += overlapFunction;
         }
