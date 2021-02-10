@@ -394,6 +394,12 @@
 /processorParam:TextureFormat=Color
 /build:monsters/wolf.png
 
+#begin music/forestSong.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/forestSong.mp3
+
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
 /processor:TextureProcessor
