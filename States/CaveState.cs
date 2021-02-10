@@ -68,6 +68,7 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, caveTileMap._mapBounds);
+            player._isDark = true;
 
             // setup camera
             game._cameraController.SetWorldBounds(caveTileMap._mapBounds);
