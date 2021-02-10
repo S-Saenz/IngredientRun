@@ -19,6 +19,7 @@ namespace IngredientRun
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
         Dictionary<string, State> _states;
+        public SoundManager sounds;
 
         public List<Condition> _stateConditions = new List<Condition>();
 
@@ -39,6 +40,7 @@ namespace IngredientRun
 
         public void ChangeState(string sState)
         {
+            sounds.stop();
             _nextState = _states[sState];
             _currentState.unloadState();
             _nextState.LoadContent();
@@ -49,7 +51,8 @@ namespace IngredientRun
             this.Window.Title = "Ingredient Time";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
-
+            // create song manager
+            
             //_spriteBatch = new SpriteBatch();
             instance = this;
             Content.RootDirectory = "Content";
@@ -76,7 +79,7 @@ namespace IngredientRun
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            sounds = new SoundManager(Content);
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
