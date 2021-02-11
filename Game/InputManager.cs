@@ -30,12 +30,11 @@ namespace IngredientRun
             };
             List<Keys> jumpKeys = new List<Keys>()
             {
-                Keys.Up,
-                Keys.W
+                Keys.Space
             };
             List<Keys> interactKeys = new List<Keys>()
             {
-                Keys.F
+                Keys.E
             };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
