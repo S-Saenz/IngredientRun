@@ -90,7 +90,7 @@ namespace IngredientRun
             ingredientList.Add(FISH);
             ingredientList.Add(MEAT);
             ingredientList.Add(WOOD);
-            //addIngredient(water);
+            addIngredient(water);
 
             shakeBag();
 
