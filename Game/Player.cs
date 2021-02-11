@@ -66,8 +66,8 @@ namespace IngredientRun
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
                 currentAnimation = "runLeft";
             }
-            if((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
-               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0))
+            if(((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
+               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
             {
                 _collisionBox._acceleration.X = 0;
             }
@@ -170,6 +170,11 @@ namespace IngredientRun
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
             }
+        }
+
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
         }
 
         public void onStartMove(Vector2 move)

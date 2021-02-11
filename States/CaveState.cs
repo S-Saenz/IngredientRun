@@ -50,18 +50,12 @@ namespace IngredientRun.States
             _collisionHandler.SetOverlap("Enemy", "Player");
             _collisionHandler.SetOverlap("Player", "Areas");
 
-
-            // Set start location
-            bgPos = new Vector2(0, 0);
+            //backgrounds
+            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
         }
 
         public override void LoadContent()
         {
-            game.sounds.playSong("caveSong");
-            //backgrounds
-            // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
-
             // temp, just respawns objects when entering cave
             caveTileMap.SpawnPickups();
             caveTileMap.SpawnEnemies();
@@ -154,7 +148,7 @@ namespace IngredientRun.States
 
         public override void unloadState()
         {
-            // throw new NotImplementedException();
+            player.RemoveCollision(_collisionHandler);
         }
     }
 }
