@@ -362,7 +362,7 @@ namespace IngredientRun
         //add a new ingredient into the inventory if there's space!
         public bool addIngredient(Texture2D texture)
         {
-            if(ingredientList.Count == boxes.Count )
+            if(ingredientList.Count == boxes.Count - 1)
             {
                 Debug.WriteLine("Inventory Full!");
                 return false;
