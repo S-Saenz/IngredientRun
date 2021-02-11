@@ -44,11 +44,6 @@ namespace IngredientRun
 
         public static Texture2D GetTexture(string itemName)
         {
-            if(!_allItems.Contains(itemName))
-            {
-                return null;
-            }
-
             if(_itemTextures.ContainsKey(itemName))
             {
                 return _itemTextures[itemName];

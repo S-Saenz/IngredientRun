@@ -125,7 +125,7 @@ namespace IngredientRun
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(Game1.inventory.addIngredient(ItemTextures.GetTexture(obj._name)))
+                        if(Game1.inventory.addIngredient(ItemTextures.GetTexture(obj._name + "Scaled")))
                         {
                             obj._spawn.Despawn();
                         }

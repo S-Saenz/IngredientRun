@@ -27,7 +27,7 @@ namespace IngredientRun
         //assigned in the constructor
         //public Texture2D img;
         Vector2 pos;
-        float scale;
+        // float scale;
         //public Vector2 Origin;
 
         //for timing how fast items fall down inventory
@@ -43,14 +43,14 @@ namespace IngredientRun
             img = image;
             //this.img = image;
             pos = position;
-            scale = .5f;
+            scale = .25f;
             Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
         }
 
         public Ingredient(Texture2D image)
         {
             img = image;
-            scale = .5f;
+            scale = .25f;
             Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
         }
 
