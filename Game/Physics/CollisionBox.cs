@@ -27,7 +27,7 @@ namespace IngredientRun
         public Vector2 _gravity;
         private Vector2 _prevPos;
         public float _friction; // 0-1
-        // public float _damping;
+        public float _damping = 0.1f;
         public RectangleF _worldBounds;
 
         PhysicsHandler _collisionHandler;
@@ -97,10 +97,18 @@ namespace IngredientRun
             // Update smoothStep "friction"
             if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
             {
-                _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
-                if (MathF.Abs(_velocity.X) < _friction / 2.0f)
+                if (_downBlocked)
                 {
-                    _velocity.X = 0;
+                    _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
+                    if (MathF.Abs(_velocity.X) < _friction / 2.0f)
+                    {
+                        _velocity.X = 0;
+                    }
+                }
+                else
+                {
+                    // Apply damping (air resistance)
+                    _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
                 }
             }
 
@@ -164,7 +172,7 @@ namespace IngredientRun
             CollisionUpdateSide(ref _leftWasBlocked, ref _leftBlocked, _leftInfo); // check left states
             CollisionUpdateSide(ref _rightWasBlocked, ref _rightBlocked, _rightInfo); // check right states
 
-            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+            Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
             // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
             return _bounds.Position;
