@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace IngredientRun
 {
-    class Sprite
+    public class Sprite
     {
         public Texture2D img { get; set; }
         public Vector2 pos { get; set; }

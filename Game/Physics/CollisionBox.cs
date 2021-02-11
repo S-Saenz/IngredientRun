@@ -2,12 +2,18 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace IngredientRun
 {
     delegate void CollisionEventHandler(CollisionInfo info);
+    delegate void OverlapEventHandler(OverlapInfo info);
     delegate void MovementEventHandler(Vector2 movement);
+
+    interface IPhysicsObject
+    {
+    }
 
     class CollisionBox
     {
@@ -21,7 +27,7 @@ namespace IngredientRun
         public Vector2 _gravity;
         private Vector2 _prevPos;
         public float _friction; // 0-1
-        // public float _damping;
+        public float _damping = 0.1f;
         public RectangleF _worldBounds;
 
         PhysicsHandler _collisionHandler;
@@ -47,7 +53,7 @@ namespace IngredientRun
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
         private event CollisionEventHandler _onCollisionStart; // called once when colliding with something new (new material/side)
         private event CollisionEventHandler _onCollisionEnd; // called once when no longer colliding with anything on given side
-        private event CollisionEventHandler _onOverlap;
+        private event OverlapEventHandler _onOverlap;
 
         private event MovementEventHandler _onMovementStart;
         private event MovementEventHandler _onMovementEnd;
@@ -60,7 +66,7 @@ namespace IngredientRun
             _collisionHandler = collisionHandler;
             _parent = parent;
             _worldBounds = worldBounds;
-            _gravity = new Vector2(0, gravity);
+            _gravity = new Vector2(0, gravity * 0.4f);
             _friction = friction;
             // _damping = damping;
             if (maxSpeed.HasValue)
@@ -82,11 +88,32 @@ namespace IngredientRun
             // Apply gravity
             if (!_downBlocked)
             {
-                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 200;
+                _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
 
             // Apply damping (air resistance)
             // _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
+
+            // Update smoothStep "friction"
+            if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
+            {
+                if (_downBlocked)
+                {
+                    _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
+                    if (MathF.Abs(_velocity.X) < _friction / 2.0f)
+                    {
+                        _velocity.X = 0;
+                    }
+                }
+                else
+                {
+                    // Apply damping (air resistance)
+                    _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
+                }
+            }
+
+            // apply acceleration
+            _velocity += _acceleration * gameTime.GetElapsedSeconds();
 
             // Update velocity
             if (MathF.Abs(_velocity.X) >= _maxSpeed.X)
@@ -103,24 +130,12 @@ namespace IngredientRun
                 _velocity.Y = 0;
             }
 
-            // Update smoothStep "friction"
-            if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
-            {
-                _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
-                if (MathF.Abs(_velocity.X) < _friction / 2.0f)
-                {
-                    _velocity.X = 0;
-                }
-            }
-
-            _velocity += _acceleration * gameTime.GetElapsedSeconds();
-
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds();
             IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
-            // Update velocity based on move
+            // Update velocity based on actual move
             if (_velocity.Length() > 0)
             {
                 _velocity = Vector2.Divide(_bounds.Position - _prevPos, gameTime.GetElapsedSeconds());
@@ -157,7 +172,7 @@ namespace IngredientRun
             CollisionUpdateSide(ref _leftWasBlocked, ref _leftBlocked, _leftInfo); // check left states
             CollisionUpdateSide(ref _rightWasBlocked, ref _rightBlocked, _rightInfo); // check right states
 
-            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+            Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
             // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
             return _bounds.Position;
@@ -187,7 +202,7 @@ namespace IngredientRun
             _upBlocked = _downBlocked = _leftBlocked = _rightBlocked = false;
         }
 
-        public void CallOverlap(CollisionInfo info)
+        public void CallOverlap(OverlapInfo info)
         {
             _onOverlap?.Invoke(info);
         }
@@ -197,7 +212,7 @@ namespace IngredientRun
             _onCollision?.Invoke(info);
         }
 
-        public void AddOverlapListener(CollisionEventHandler overlapFunction)
+        public void AddOverlapListener(OverlapEventHandler overlapFunction)
         {
             _onOverlap += overlapFunction;
         }
@@ -239,6 +254,11 @@ namespace IngredientRun
                 // Debug.WriteLine("End " + info._hitDir);
                 _onCollisionEnd?.Invoke(info);
             }
+        }
+
+        public List<CollisionInfo> IsOverlapping()
+        {
+            return _collisionHandler.IsOverlapping(this);
         }
     }
 }

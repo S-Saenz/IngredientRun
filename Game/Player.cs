@@ -9,8 +9,6 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-
-
     class Player : AnimatedObject,  IPhysicsObject
     {
         private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
@@ -20,22 +18,20 @@ namespace IngredientRun
         private Sprite FOWTSprite;
         private int _runSpeed = 120; // maximum speed for player to move at
         private int _walkSpeed = 50;
-        private int _acceleration = 10; // rate at which player increases speed
-        private float _friction = 0.4f; // rate at which player stops
-        private int _jump = 9000; // force on player to move upward
+        private int _acceleration = 90; // rate at which player increases speed
+        private float _friction = 0.6f; // rate at which player stops
+        private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
         CollisionBox _collisionBox;
+        public bool _isDark = false;
+        //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
         {
             graphics = graphic;
             _pos = pos;
-
-            collisionHandler.AddLayer("Player");
-            collisionHandler.SetOverlap("Player", "Walls");
-            collisionHandler.SetCollision("Player", "Walls");
 
             _overlap = new RectangleF();
         }
@@ -60,23 +56,22 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
-            Vector2 pos = _pos;
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Game1.instance.input.IsDown("right"))//(Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
                 currentAnimation = "runRight";
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Game1.instance.input.IsDown("left"))//(Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
                 currentAnimation = "runLeft";
             }
-            if((!Keyboard.GetState().IsKeyDown(Keys.Right) && !Keyboard.GetState().IsKeyDown(Keys.D) && _collisionBox._velocity.X > 0) ||
-               (!Keyboard.GetState().IsKeyDown(Keys.Left) && !Keyboard.GetState().IsKeyDown(Keys.A) && _collisionBox._velocity.X < 0))
+            if(((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
+               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
             {
                 _collisionBox._acceleration.X = 0;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Game1.instance.input.IsDown("jump"))
             {
                 if (_collisionBox._downBlocked && !_jumpClicked)
                 {
@@ -88,11 +83,25 @@ namespace IngredientRun
             {
                 _jumpClicked = false;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
+            
+            if (Game1.instance.input.JustPressed("interact"))
             {
-                // pos.Y += _speed * gameTime.GetElapsedSeconds();
+                foreach(CollisionInfo item in _collisionBox.IsOverlapping())
+                {
+                    PickupItem obj = item._other as PickupItem;
+                    if(obj != null)
+                    {
+                        Debug.WriteLine(obj._name);
+                        // TODO: try adding to inventory, returning whether successful or not
+                        if(true)
+                        {
+                            obj._spawn.Despawn();
+                        }
+                    }
+                }
             }
-            _pos = _collisionBox.Update(gameTime);
+
+            _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -122,11 +131,11 @@ namespace IngredientRun
                 pos = new Vector2(100, 100),
                 Color = Color.White,
                 Rotation = 0f,
-                Scale = .15f,
+                Scale = 1f,
                 Origin = new Vector2(FOWT.Bounds.Center.X, FOWT.Bounds.Center.Y),
                 Depth = 0.1f
             };
-            _FOWTPos = new Vector2(idleTex.Width / 2 * _scale, idleTex.Height / 2 * _scale);
+            _FOWTPos = new Vector2(0,0);
 
             _pos.Y -= idleTex.Height * _scale;
 
@@ -152,15 +161,20 @@ namespace IngredientRun
         {
             base.Draw(spriteBatch);
 
-            if (!isDebug)
+            if (isDebug)
+            {
+                _collisionBox.Draw(spriteBatch);
+            }
+            else if (_isDark)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
             }
-            else
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
+        }
+
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
         }
 
         public void onStartMove(Vector2 move)

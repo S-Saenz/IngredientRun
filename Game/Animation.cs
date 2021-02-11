@@ -52,7 +52,8 @@ namespace IngredientRun
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, 
+                new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), scale, SpriteEffects.None, 0.5f);
         }
     }
 }

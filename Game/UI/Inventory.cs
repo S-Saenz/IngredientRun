@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace IngredientRun
 {
-    class Inventory
+    public class Inventory
     {
         Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
         public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
