@@ -28,6 +28,8 @@ namespace IngredientRun
         public RectangleF _overlap;
         CollisionBox _collisionBox;
         public bool _isDark = false;
+        public bool _inAir = false;
+        public bool _isMoving = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -215,11 +217,13 @@ namespace IngredientRun
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
+            _isMoving = true;
         }
         
         public void onEndMove(Vector2 move)
         {
             // Debug.WriteLine("Stop");
+            _isMoving = false;
         }
     }
 }
