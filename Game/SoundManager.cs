@@ -17,6 +17,7 @@ namespace IngredientRun
             songs = new Dictionary<string, Song>();
             //song names
             songs.Add("forestSong", Content.Load<Song>("music/forestSong"));
+            songs.Add("caveSong", Content.Load<Song>("music/spooky1test2"));
             //song names end
         }
         public void playSong(string name)
