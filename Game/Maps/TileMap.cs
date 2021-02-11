@@ -18,7 +18,7 @@ namespace IngredientRun
 
         List<SpawnPoint> _pickupSpawns;
         List<SpawnPoint> _enemySpawns;
-        Dictionary<string, Area> _areas;
+        Dictionary<string, List<Area>> _areas;
 
         public RectangleF _mapBounds { private set; get; }
 
@@ -77,7 +77,7 @@ namespace IngredientRun
 
         public void AddAreaObjects(PhysicsHandler collisionHandler)
         {
-            _areas = new Dictionary<string, Area>();
+            _areas = new Dictionary<string, List<Area>>();
             TiledMapObjectLayer areaObj = _map.GetLayer<TiledMapObjectLayer>("AreaObjects");
             if(areaObj == null)
             {
@@ -86,7 +86,11 @@ namespace IngredientRun
 
             foreach (TiledMapObject obj in areaObj.Objects)
             {
-                _areas.Add(obj.Name, new Area(collisionHandler, new RectangleF(obj.Position, obj.Size), obj.Name));
+                if(!_areas.ContainsKey(obj.Name))
+                {
+                    _areas.Add(obj.Name, new List<Area>());
+                }
+                _areas[obj.Name].Add(new Area(collisionHandler, new RectangleF(obj.Position, obj.Size), obj.Name));
             }
         }
 
@@ -109,12 +113,12 @@ namespace IngredientRun
         public void PlaceNPCs(Dictionary<string, NPC> characters)
         {
             // temp even spawn spacing
-            float spacing = _areas["Camp"]._bounds.Width / 5;
+            float spacing = _areas["Camp"][0]._bounds.Width / 5;
             NPC[] chars = characters.Values.ToArray();
 
             for(int i = 1; i < 5; ++i)
             {
-                chars[i - 1]._pos = new Vector2(_areas["Camp"]._bounds.Left + i * spacing, _areas["Camp"]._bounds.Bottom);
+                chars[i - 1]._pos = new Vector2(_areas["Camp"][0]._bounds.Left + i * spacing, _areas["Camp"][0]._bounds.Bottom);
             }
         }
 
@@ -131,9 +135,12 @@ namespace IngredientRun
         public void DrawDebug(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
         {
             _collisionHandler.Draw(spriteBatch, "Walls");
-            foreach(Area area in _areas.Values)
+            foreach(List<Area> areas in _areas.Values)
             {
-                spriteBatch.DrawRectangle(area._bounds, Color.Red);
+                foreach (Area area in areas)
+                {
+                    spriteBatch.DrawRectangle(area._bounds, Color.Red);
+                }
             }
         }
 
