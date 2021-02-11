@@ -148,12 +148,11 @@ namespace IngredientRun
         {
             GraphicsDevice.Clear(Color.Black);
 
-            _spriteBatch.End();
-
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             recipeUI.Draw(_spriteBatch);
             cookingUI.Draw(_spriteBatch);
             _spriteBatch.End();
+
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
