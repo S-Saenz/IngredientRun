@@ -17,6 +17,7 @@ namespace IngredientRun
         Dictionary<int, int> _valid = new Dictionary<int, int>(); // all currently valid interactions and count of validation instances, needs to be updated before searching for interaction
         float _validProbabilityTotal;
         int _currentInteraction;
+        Dictionary<string, NPC> _characters;
 
         public NPCDialogueSystem(string filePath, Game1 game)
         {
@@ -69,6 +70,11 @@ namespace IngredientRun
             }
 
             RecalculateValid(game);
+        }
+
+        public void Load(Dictionary<string, NPC> characters)
+        {
+            _characters = characters;
         }
 
         private void RecalculateValid(Game1 game)
@@ -179,11 +185,16 @@ namespace IngredientRun
             _currentInteraction = -1;
         }
 
-        public void Draw(SpriteFont font, Vector2 loc, GameTime gameTime, SpriteBatch spriteBatch)
+        public void Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (_currentInteraction != -1)
             {
-                _interactions[_currentInteraction].Draw(font, loc, gameTime, spriteBatch);
+                Dictionary<string, NPC> characters = new Dictionary<string, NPC>();
+                foreach(string name in _interactions[_currentInteraction]._characters)
+                {
+                    characters.Add(name, _characters[name]);
+                }
+                _interactions[_currentInteraction].Draw(camera, gameTime, spriteBatch, characters);
             }
         }
     }

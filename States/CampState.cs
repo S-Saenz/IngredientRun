@@ -9,16 +9,17 @@ namespace IngredientRun.States
     class CampState : State
     {
         private NPCDialogueSystem _dialogueSystem;
-        private SpriteFont _dialogueFont;
 
         Texture2D campPNGBackground;
         TileMap campTileMap;
 
         // Debug mode
-        bool _isDebug = true;
+        bool _isDebug = false;
         bool _ctrlPrevDown = false;
 
         Player player;
+
+        public Dictionary<string, NPC> _characters { private set; get; }
 
         Vector2 bgPos;
 
@@ -36,11 +37,17 @@ namespace IngredientRun.States
             _collisionHandler.AddLayer("Enemy");
             _collisionHandler.AddLayer("Pickup");
             _collisionHandler.AddLayer("Walls");
+            _collisionHandler.AddLayer("Areas");
 
             _collisionHandler.SetCollision("Player", "Walls");
             _collisionHandler.SetCollision("Enemy", "Walls");
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
+            _collisionHandler.SetOverlap("Player", "Areas");
+
+            //backgrounds
+            campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
+            campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -61,10 +68,23 @@ namespace IngredientRun.States
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             campTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
             campTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            if (_isDebug)
+            {
+                campTileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
+            }
+            spriteBatch.End();
+
+            // Draw dialogue
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
             spriteBatch.End();
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            foreach(NPC obj in _characters.Values)
+            {
+                obj.Draw(spriteBatch);
+            }
             campTileMap.DrawPickups(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
             _spriteBatch.End();
@@ -80,11 +100,6 @@ namespace IngredientRun.States
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            spriteBatch.Begin();
-            _dialogueSystem.Draw(_dialogueFont, new Vector2(100, 100), gameTime, spriteBatch);
-            // spriteBatch.DrawString(_dialogueFont, "Arg: Again with your fuckin' omens!  Did your \"omens\" tell you about that silent nightmare that fuckin' destroyed our homes?", new Vector2(100, 100), Color.White);
-            spriteBatch.End();
-
             if (_isDebug)
             {
                 game._cameraController.Draw(spriteBatch);
@@ -94,12 +109,10 @@ namespace IngredientRun.States
         public override void LoadContent()
         {
             // dialogue system
-            _dialogueFont = _content.Load<SpriteFont>("fonts/NPCDialogue");
             _dialogueSystem.PlayInteraction(game);
 
-            //backgrounds
-            campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
-            campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
+            //music
+            game.sounds.playSong("forestSong");
 
             // temp, just respawns objects when entering cave
             campTileMap.SpawnPickups();
@@ -108,6 +121,18 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, campTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, campTileMap._mapBounds);
+
+            // characters
+            _characters = new Dictionary<string, NPC>();
+            _characters.Add("Lura", new NPC(_content.Load<Texture2D>("chars/lura"), Vector2.Zero));
+            _characters.Add("Snäll", new NPC(_content.Load<Texture2D>("chars/snall"), Vector2.Zero));
+            _characters.Add("Kall", new NPC(_content.Load<Texture2D>("chars/kall"), Vector2.Zero));
+            _characters.Add("Arg", new NPC(_content.Load<Texture2D>("chars/arg"), Vector2.Zero));
+            campTileMap.PlaceNPCs(_characters);
+
+            // dialogue system
+            _dialogueSystem.Load(_characters);
+            _dialogueSystem.PlayInteraction(game);
 
             // setup camera
             game._cameraController.SetWorldBounds(campTileMap._mapBounds);
@@ -121,6 +146,7 @@ namespace IngredientRun.States
         public override void unloadState()
         {
             _dialogueSystem.EndInteraction();
+            player.RemoveCollision(_collisionHandler);
         }
 
         public override void Update(GameTime gameTime)

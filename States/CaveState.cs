@@ -42,23 +42,20 @@ namespace IngredientRun.States
             _collisionHandler.AddLayer("Enemy");
             _collisionHandler.AddLayer("Pickup");
             _collisionHandler.AddLayer("Walls");
+            _collisionHandler.AddLayer("Areas");
 
             _collisionHandler.SetCollision("Player", "Walls");
             _collisionHandler.SetCollision("Enemy", "Walls");
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
+            _collisionHandler.SetOverlap("Player", "Areas");
 
-
-            // Set start location
-            bgPos = new Vector2(0, 0);
+            //backgrounds
+            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
         }
 
         public override void LoadContent()
         {
-            //backgrounds
-            // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
-
             // temp, just respawns objects when entering cave
             caveTileMap.SpawnPickups();
             caveTileMap.SpawnEnemies();
@@ -66,6 +63,7 @@ namespace IngredientRun.States
             // player
             player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
             player.Load(_content, _collisionHandler, caveTileMap._mapBounds);
+            player._isDark = true;
 
             // setup camera
             game._cameraController.SetWorldBounds(caveTileMap._mapBounds);
@@ -107,6 +105,10 @@ namespace IngredientRun.States
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
             caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
+            if (_isDebug)
+            {
+                caveTileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
+            }
             spriteBatch.End();
 
             // Draw sprites
@@ -146,7 +148,7 @@ namespace IngredientRun.States
 
         public override void unloadState()
         {
-            // throw new NotImplementedException();
+            player.RemoveCollision(_collisionHandler);
         }
     }
 }

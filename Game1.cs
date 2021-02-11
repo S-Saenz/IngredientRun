@@ -19,6 +19,7 @@ namespace IngredientRun
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
         Dictionary<string, State> _states;
+        public SoundManager sounds;
 
         public List<Condition> _stateConditions = new List<Condition>();
 
@@ -39,6 +40,7 @@ namespace IngredientRun
 
         public void ChangeState(string sState)
         {
+            sounds.stop();
             _nextState = _states[sState];
             _currentState.unloadState();
             _nextState.LoadContent();
@@ -49,7 +51,8 @@ namespace IngredientRun
             this.Window.Title = "Ingredient Time";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
-
+            // create song manager
+            
             //_spriteBatch = new SpriteBatch();
             instance = this;
             Content.RootDirectory = "Content";
@@ -58,12 +61,13 @@ namespace IngredientRun
 
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
-            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 240, 135));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(512, 288), new Vector2(1728, 972));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 204.8f, 115.2f));
 
             // setup bulk texture managers
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
+            FontManager.Initialize(Content);
         }
 
         protected override void Initialize()
@@ -76,7 +80,7 @@ namespace IngredientRun
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            sounds = new SoundManager(Content);
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
