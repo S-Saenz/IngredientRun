@@ -44,12 +44,17 @@ namespace IngredientRun
             {
                 Keys.Back
             };
+            List<Keys> runKeys = new List<Keys>()
+            {
+                Keys.LeftShift
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("select", new Button(selectKeys));
             _buttons.Add("return", new Button(returnKeys));
+            _buttons.Add("run", new Button(runKeys));
         }
 
         public void Update(GameTime time)
