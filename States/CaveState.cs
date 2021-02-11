@@ -56,6 +56,7 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
+            game.sounds.playSong("caveSong");
             // temp, just respawns objects when entering cave
             caveTileMap.SpawnPickups();
             caveTileMap.SpawnEnemies();
