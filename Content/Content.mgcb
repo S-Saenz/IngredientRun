@@ -111,7 +111,7 @@
 /processorParam:TextureFormat=Color
 /build:bg/riverscene.png
 
-#begin chars/chara1.png
+#begin chars/arg.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -121,9 +121,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:chars/chara1.png
+/build:chars/arg.png
 
-#begin chars/chara2.png
+#begin chars/kall.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -133,9 +133,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:chars/chara2.png
+/build:chars/kall.png
 
-#begin chars/chara3.png
+#begin chars/lura.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -145,19 +145,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:chars/chara3.png
-
-#begin chars/chara4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:chars/chara4.png
+/build:chars/lura.png
 
 #begin chars/refugee.png
 /importer:TextureImporter
@@ -170,6 +158,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:chars/refugee.png
+
+#begin chars/snall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:chars/snall.png
 
 #begin fonts/File.spritefont
 /importer:FontDescriptionImporter
@@ -399,12 +399,6 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:music/forestSong.mp3
-
-#begin music/spooky1test2.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:music/spooky1test2.mp3
 
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
