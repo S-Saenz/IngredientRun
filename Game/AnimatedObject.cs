@@ -13,7 +13,7 @@ namespace IngredientRun
         public Dictionary<string, Animation> animationDict;
         public string name;
         public Vector2 _pos;
-        protected float _scale = 1.5f;
+        protected float _scale = 1f;
         protected string currentAnimation;
         public AnimatedObject(Dictionary<string, Animation> animationDict_, string name_, Vector2 pos_)
         {

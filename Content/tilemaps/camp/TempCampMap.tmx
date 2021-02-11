@@ -74,12 +74,12 @@
  </objectgroup>
  <objectgroup id="3" name="AreaObjects">
   <object id="6" name="Camp" x="-2.84217e-14" y="256" width="576" height="16"/>
-  <object id="13" name="fire5" x="488" y="256" width="16" height="16"/>
-  <object id="7" name="fire4" x="64" y="256" width="16" height="16"/>
-  <object id="8" name="fire3" x="160" y="256" width="16" height="16"/>
-  <object id="9" name="fire2" x="368" y="256" width="16" height="16"/>
-  <object id="12" name="fire1" x="896" y="256" width="16" height="16"/>
-  <object id="14" name="caveEntrance" x="1280" y="256" width="80" height="16"/>
+  <object id="13" name="fire" x="488" y="256" width="16" height="16"/>
+  <object id="7" name="fire" x="64" y="256" width="16" height="16"/>
+  <object id="8" name="fire" x="160" y="256" width="16" height="16"/>
+  <object id="9" name="fire" x="368" y="256" width="16" height="16"/>
+  <object id="12" name="fire" x="896" y="256" width="16" height="16"/>
+  <object id="14" name="state.Cave" x="1280" y="256" width="80" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="ItemObjects">
   <object id="2" name="only.wood" x="1032" y="272">

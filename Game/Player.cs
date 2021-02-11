@@ -88,6 +88,7 @@ namespace IngredientRun
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
                 {
+                    // check if pickup item
                     PickupItem obj = item._other as PickupItem;
                     if(obj != null)
                     {
@@ -96,6 +97,28 @@ namespace IngredientRun
                         if(true)
                         {
                             obj._spawn.Despawn();
+                        }
+                    }
+
+                    // check if area
+                    Area area = item._other as Area;
+                    if(area != null)
+                    {
+                        if(area._name == "fire")
+                        {
+                            Debug.WriteLine("Fire");
+                            // Open cooking ui
+                        }
+                        else if(area._name.Contains("state"))
+                        {
+                            if(area._name.Contains("Cave"))
+                            {
+                                Game1.instance.ChangeState("CaveState");
+                            }
+                            else if(area._name.Contains("Camp"))
+                            {
+                                Game1.instance.ChangeState("CampState");
+                            }
                         }
                     }
                 }
