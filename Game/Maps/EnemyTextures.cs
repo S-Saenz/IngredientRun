@@ -18,7 +18,8 @@ namespace IngredientRun
             _monsterTextures = new Dictionary<string, Texture2D>();
             _allItems = new List<string>{
                     "lurker",
-                    "wolf"
+                    "wolf",
+                    "spider"
                 };
         }
 
