@@ -147,6 +147,16 @@ namespace IngredientRun
             return false;
         }
 
+        public bool RemoveObject(CollisionBox obj)
+        {
+            if(_layers.ContainsKey(obj._label))
+            {
+                _layers[obj._label].removeElement(obj);
+                return true;
+            }
+            return false;
+        }
+
         public bool SetCollision(string layer1, string layer2)
         {
             if(_collisionMask.ContainsKey(layer1) && !_collisionMask[layer1].Contains(layer2))

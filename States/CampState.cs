@@ -44,6 +44,10 @@ namespace IngredientRun.States
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
             _collisionHandler.SetOverlap("Player", "Areas");
+
+            //backgrounds
+            campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
+            campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -110,10 +114,6 @@ namespace IngredientRun.States
             //music
             game.sounds.playSong("forestSong");
 
-            //backgrounds
-            campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemapANNOTATED");
-            campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
-
             // temp, just respawns objects when entering cave
             campTileMap.SpawnPickups();
             campTileMap.SpawnEnemies();
@@ -146,6 +146,7 @@ namespace IngredientRun.States
         public override void unloadState()
         {
             _dialogueSystem.EndInteraction();
+            player.RemoveCollision(_collisionHandler);
         }
 
         public override void Update(GameTime gameTime)
