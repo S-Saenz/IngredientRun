@@ -86,7 +86,7 @@ namespace IngredientRun
             perfectText = Content.Load<Texture2D>("ui/cooking/text/Perfect");
             rawText = Content.Load<Texture2D>("ui/cooking/text/Raw");
 
-            foodImage = Content.Load<Texture2D>("ingredient/acorn");
+            foodImage = Content.Load<Texture2D>("ingredient/acornScaled");
             //square = Content.Load<Texture2D>("ui/1pxSquare");
             square = Content.Load<Texture2D>("ui/Recipe/Food Frame");
 
@@ -183,7 +183,7 @@ namespace IngredientRun
 
 
             //food being cooked
-            float foodScale = foodImage.ToString() == "Ingredient/acorn" ? _scale * 2f : .15f; //scale for an acorn or the grilled fish
+            float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? _scale * 2f : .15f; //scale for an acorn or the grilled fish
             float foodX = _screenWidth / 2 - foodImage.Width / 2 * foodScale;
             spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
 

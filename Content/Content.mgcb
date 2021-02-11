@@ -171,7 +171,7 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/acornScaled.png
 
-#begin ingredient/apple.png
+#begin ingredient/apple_mushroom_soupScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -181,9 +181,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/apple.png
+/build:ingredient/apple_mushroom_soupScaled.png
 
-#begin ingredient/apple_mushroom_soup.png
+#begin ingredient/appleScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -193,9 +193,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/apple_mushroom_soup.png
+/build:ingredient/appleScaled.png
 
-#begin ingredient/carrot.png
+#begin ingredient/carrot_spice_soupScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -205,9 +205,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/carrot.png
+/build:ingredient/carrot_spice_soupScaled.png
 
-#begin ingredient/carrot_spice_soup.png
+#begin ingredient/carrotScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -217,9 +217,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/carrot_spice_soup.png
+/build:ingredient/carrotScaled.png
 
-#begin ingredient/egg.png
+#begin ingredient/eggScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -229,9 +229,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/egg.png
+/build:ingredient/eggScaled.png
 
-#begin ingredient/evergreen.png
+#begin ingredient/fishScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -241,9 +241,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/evergreen.png
+/build:ingredient/fishScaled.png
 
-#begin ingredient/fish.png
+#begin ingredient/gooseberryScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -253,9 +253,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/fish.png
+/build:ingredient/gooseberryScaled.png
 
-#begin ingredient/gooseberry.png
+#begin ingredient/grilled_fishScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -265,9 +265,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/gooseberry.png
+/build:ingredient/grilled_fishScaled.png
 
-#begin ingredient/grilled_fish.png
+#begin ingredient/meatScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -277,9 +277,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/grilled_fish.png
+/build:ingredient/meatScaled.png
 
-#begin ingredient/meat.png
+#begin ingredient/mouse melonsScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -289,9 +289,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/meat.png
+/build:ingredient/mouse melonsScaled.png
 
-#begin ingredient/mouse melons.png
+#begin ingredient/rabbit_spice_soup (1)Scaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -301,9 +301,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/mouse melons.png
+/build:ingredient/rabbit_spice_soup (1)Scaled.png
 
-#begin ingredient/rabbit_spice_soup (1).png
+#begin ingredient/rabbit_spice_soupScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -313,9 +313,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soup (1).png
+/build:ingredient/rabbit_spice_soupScaled.png
 
-#begin ingredient/rabbit_spice_soup.png
+#begin ingredient/waterjugScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -325,9 +325,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soup.png
+/build:ingredient/waterjugScaled.png
 
-#begin ingredient/waterjug.png
+#begin ingredient/woodScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -337,19 +337,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:ingredient/waterjug.png
-
-#begin ingredient/wood.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/wood.png
+/build:ingredient/woodScaled.png
 
 #begin monsters/monster.png
 /importer:TextureImporter

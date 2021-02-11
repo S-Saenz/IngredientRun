@@ -57,20 +57,20 @@ namespace IngredientRun
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
 
             acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
-            apple = Content.Load<Texture2D>("Ingredient/apple");
-            appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soup");
-            carrot = Content.Load<Texture2D>("Ingredient/carrot");
-            carrotSoup = Content.Load<Texture2D>("Ingredient/carrot_spice_soup");
-            egg = Content.Load<Texture2D>("Ingredient/egg");
-            gooseberry = Content.Load<Texture2D>("Ingredient/gooseberry");
-            fish = Content.Load<Texture2D>("Ingredient/fish");
-            grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fish");
-            meat = Content.Load<Texture2D>("Ingredient/meat");
-            monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)");
-            mouseMelon = Content.Load<Texture2D>("Ingredient/mouse melons");
-            rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup");
-            water = Content.Load<Texture2D>("Ingredient/waterjug");
-            wood = Content.Load<Texture2D>("Ingredient/wood");
+            apple = Content.Load<Texture2D>("Ingredient/appleScaled");
+            appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soupScaled");
+            carrot = Content.Load<Texture2D>("Ingredient/carrotScaled");
+            carrotSoup = Content.Load<Texture2D>("Ingredient/carrot_spice_soupScaled");
+            egg = Content.Load<Texture2D>("Ingredient/eggScaled");
+            gooseberry = Content.Load<Texture2D>("Ingredient/gooseberryScaled");
+            fish = Content.Load<Texture2D>("Ingredient/fishScaled");
+            grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fishScaled");
+            meat = Content.Load<Texture2D>("Ingredient/meatScaled");
+            monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)Scaled");
+            mouseMelon = Content.Load<Texture2D>("Ingredient/mouse melonsScaled");
+            rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soupScaled");
+            water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
+            wood = Content.Load<Texture2D>("Ingredient/woodScaled");
 
             ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
