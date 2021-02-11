@@ -11,8 +11,8 @@ namespace IngredientRun
 {
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idleTex, runRightTex, runLeftTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, idleAnimation;
+        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, idleAnimation;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -55,19 +55,34 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
-            if (Game1.instance.input.IsDown("right"))//(Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Game1.instance.input.IsDown("right"))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
-                currentAnimation = "runRight";
+                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed)
+                {
+                    currentAnimation = "runRight";
+                }
+                else
+                {
+                    currentAnimation = "walkRight";
+                }
             }
-            if (Game1.instance.input.IsDown("left"))//(Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Game1.instance.input.IsDown("left"))
             {
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
-                currentAnimation = "runLeft";
+                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed)
+                {
+                    currentAnimation = "runLeft";
+                }
+                else
+                {
+                    currentAnimation = "walkLeft";
+                }
             }
             if((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
                (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0))
             {
+                currentAnimation = "idle";
                 _collisionBox._acceleration.X = 0;
             }
             if (Game1.instance.input.IsDown("jump"))
@@ -120,8 +135,12 @@ namespace IngredientRun
             idleAnimation = new Animation(idleTex, 1, 1, 0);
             runRightTex = Content.Load<Texture2D>("animations/main_character_run_right");
             runRightAnimation = new Animation(runRightTex, 1, 10, 50);
+            walkRightTex = Content.Load<Texture2D>("animations/character_1_walk_right");
+            walkRightAnimation = new Animation(walkRightTex, 1, 10, 50);
             runLeftTex = Content.Load<Texture2D>("animations/main_character_run_left");
             runLeftAnimation = new Animation(runLeftTex, 1, 10, 50);
+            walkLeftTex = Content.Load<Texture2D>("animations/character_1_walk_left");
+            walkLeftAnimation = new Animation(walkLeftTex, 1, 10, 50);
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -144,7 +163,9 @@ namespace IngredientRun
             animationDict.Add("idle", idleAnimation);
             animationDict.Add("runRight", runRightAnimation);
             animationDict.Add("runLeft", runLeftAnimation);
-            
+            animationDict.Add("walkRight", walkRightAnimation);
+            animationDict.Add("walkLeft", walkLeftAnimation);
+
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
