@@ -18,12 +18,17 @@ namespace IngredientRun
     {
         public bool holding = false;
         //public float Rotation;
-        Vector2 Origin;
         public Vector2 index = new Vector2(1, 0);
         public bool falling = false;
         //public Vector2 pos;
         //public bool highest = false;
         //public float Scale = 1f;
+
+        //assigned in the constructor
+        //public Texture2D img;
+        Vector2 pos;
+        float scale;
+        //public Vector2 Origin;
 
         //for timing how fast items fall down inventory
         //public float timeSinceLastDrop = 0f;
@@ -36,10 +41,17 @@ namespace IngredientRun
         public Ingredient(Texture2D image, Vector2 position)
         {
             img = image;
+            //this.img = image;
             pos = position;
             scale = .5f;
             Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
-            
+        }
+
+        public Ingredient(Texture2D image)
+        {
+            img = image;
+            scale = .5f;
+            Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
         }
 
         public void Update(GameTime gameTime)
@@ -105,6 +117,25 @@ namespace IngredientRun
                     break;
             }
 
+        }
+
+        //the following overrides are for comparation
+        //I was motivated to do this from needing to remove from the inventory's ingredient list
+        public override string ToString()
+        {
+            return img.ToString();
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            Ingredient objAsIngredient = obj as Ingredient;
+            if (objAsIngredient == null) return false;
+            else return Equals(objAsIngredient);
+        }
+        public bool Equals(Ingredient other)
+        {
+            if (other == null) return false;
+            return (this.img.Equals(other.img));
         }
     }
 }

@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended;
 
@@ -22,9 +21,11 @@ namespace IngredientRun
     {
         KeyboardState oldKeyState;
 
-        Texture2D meter, needle, startButton, burntText, niceText, perfectText, rawText, foodImage, square;
-
-        Boolean _cookingVisible = true;
+        Texture2D meter, needle, startButton, burntText, niceText, perfectText, rawText, square;
+        
+        public Texture2D foodImage;
+        public Boolean _cookingVisible = true;
+        public Boolean _finished = false;
 
         static float _screenWidth = 1728;
         float _screenHeight = 972;
@@ -47,7 +48,19 @@ namespace IngredientRun
         float _gradeOpacity;
         float _gradeX;
 
-        Boolean _debugMode = true;
+        //for the timer to turn the UI off
+        int counter = 1;
+        int limit = 3;
+        float countDuration = 1f; //every  1s.
+        float currentTime = 0f;
+
+        Boolean _debugMode = false;
+
+        public Cook(Texture2D selectedFood)
+        {
+            foodImage = selectedFood;
+            _cookingVisible = true;
+        }
 
         public Cook()
         {
@@ -74,28 +87,31 @@ namespace IngredientRun
             rawText = Content.Load<Texture2D>("ui/cooking/text/Raw");
 
             foodImage = Content.Load<Texture2D>("ingredient/acorn");
+            //square = Content.Load<Texture2D>("ui/1pxSquare");
+            square = Content.Load<Texture2D>("ui/Recipe/Food Frame");
 
-            square = Content.Load<Texture2D>("ui/1pxSquare");
-
-
-  
             _needleX = _needleStart; //set needle to starting position
-
     }
 
-        public void Update(MouseState mouseState, KeyboardState keyState)
+        public void Update(MouseState mouseState, KeyboardState keyState, GameTime gameTime)
         {
             //feedback text for how well you scored!
             _grade = rawText; //temporarily assigned before it gets changed by AssignGrade()
             AssignGrade(ref _grade);
             _gradeOpacity = _attemptRemaining ? 0f : 1f; //disable/enable visibility for the grade text
-            _gradeX = _screenWidth / 2 - _grade.Width / 2 * _scale/2;
+
+            ///rare text apperas on left, the rest appears on right
+            if (GradeCooking() == "rare")
+                _gradeX = _screenWidth * 1 / 4 - _grade.Width / 2 * _scale / 2;
+
+            else
+                _gradeX = _screenWidth * .7f - _grade.Width / 2 * _scale / 2;
+
 
             //space bar held down - move needle
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && _needleX <= _meterEnd && _attemptRemaining)
-            {
                 _needleX += _needleSpeed;
-            }
+            
 
             //space bar is released
             if(_needleX > _needleStart && Keyboard.GetState().IsKeyUp(Keys.Space))
@@ -106,45 +122,40 @@ namespace IngredientRun
 
             //don't let needle move past the end of the meter
             if (_needleX > _meterEnd)
-            {
                 _needleX = _meterEnd;
-            }
 
-
+            if(!_attemptRemaining)
+                CookingFinished(gameTime);
 
             ////////////////////////////// debugging tools \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             //press 1 to check needleX
-            if ( oldKeyState.IsKeyUp(Keys.D1) && keyState.IsKeyDown(Keys.D1) )
-            {
+            if ( oldKeyState.IsKeyUp(Keys.D1) && keyState.IsKeyDown(Keys.D1) && keyState.IsKeyDown(Keys.LeftAlt) )
                 debug($"{_needleX}");
-            }
 
             //press 3 to check mouse position 
-            if (oldKeyState.IsKeyUp(Keys.D3) && keyState.IsKeyDown(Keys.D3))
-            {
+            if ( oldKeyState.IsKeyUp(Keys.D3) && keyState.IsKeyDown(Keys.D3) && keyState.IsKeyDown(Keys.LeftAlt) )
                 debug($"{mouseState.Position.X} {mouseState.Position.Y}");
-            }
 
             //press 2 to restart needle
-            if ( oldKeyState.IsKeyUp(Keys.D2) && keyState.IsKeyDown(Keys.D2) )
-            {
-                _needleX = _needleStart;
-                _attemptRemaining = true;
-            }
+            if ( oldKeyState.IsKeyUp(Keys.D2) && keyState.IsKeyDown(Keys.D2) && keyState.IsKeyDown(Keys.LeftAlt) )
+                ResetNeedle();
 
             //press 4 to en/disable visiblity 
-            if( oldKeyState.IsKeyUp(Keys.D4) && keyState.IsKeyDown(Keys.D4))
+            if( oldKeyState.IsKeyUp(Keys.D4) && keyState.IsKeyDown(Keys.D4) && keyState.IsKeyDown(Keys.LeftAlt) )
             {
                 debug($"before: {_cookingVisible}");
                 _cookingVisible = _cookingVisible ? false : true;
                 debug($"after: {_cookingVisible}");
             }
 
+            //press HOME to toggle debug mode
+            if ( oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home) )
+                _debugMode = !_debugMode;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            float cookingOpacity = _cookingVisible ? 1f : 0f; //disable/enable visibility for th cooking UI
+            float cookingOpacity = _cookingVisible ? 1f : 0f; //toggle visibility for th cooking UI
 
             //meter 
             //Vector2 origin = new Vector2(meter.Width / 2 * (1 /scale), meter.Height / 2 * (1 / scale));
@@ -164,19 +175,23 @@ namespace IngredientRun
             //background square for the food being cooked 
             float squareSize = 15; //px
             //float squareX = _screenWidth / 2 - (squareSize * _scale /2); // this si my failed attempt :(
-            float squareX = _screenWidth / 2 - 40; //this is the hardcoded version because I can't figure out scaling
-            Vector2 squarePos = new Vector2(squareX, _screenHeight / 7.75f);
-            spriteBatch.Draw(square, squarePos, null, Color.White * cookingOpacity, 0f, Vector2.Zero, squareSize, SpriteEffects.None, 1f);
+            float squareX = _screenWidth / 2 - 60; //this is the hardcoded version because I can't figure out scaling
+            Vector2 squarePos = new Vector2(squareX, _screenHeight / 7f);
+            //spriteBatch.Draw(square, squarePos, null, Color.White * cookingOpacity, 0f, Vector2.Zero, squareSize, SpriteEffects.None, 1f);
+
+            spriteBatch.Draw(square, squarePos, null, Color.White * cookingOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
+
 
             //food being cooked
-            float foodScale = _scale * 2f;
+            float foodScale = foodImage.ToString() == "Ingredient/acorn" ? _scale * 2f : .15f; //scale for an acorn or the grilled fish
             float foodX = _screenWidth / 2 - foodImage.Width / 2 * foodScale;
-            spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 8), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
+            spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
 
-            
+
 
             //text for cooking feedback
-            spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 4.5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
+            _gradeOpacity *= cookingOpacity;
+            spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
 
 
             //squares don't work :/
@@ -185,12 +200,14 @@ namespace IngredientRun
 
         void debug(String message)
         {
-            if (this._debugMode)
-            {
-                Debug.WriteLine(message);
-            }
+            Debug.WriteLineIf(_debugMode, message);
         }
 
+        void ResetNeedle()
+        {
+            _needleX = _needleStart;
+            _attemptRemaining = true;
+        }
 
         String GradeCooking()
         {
@@ -220,6 +237,38 @@ namespace IngredientRun
                     break;
             }
         }
+
+
+        //inspired from - https://stackoverflow.com/questions/13394892/how-to-create-a-timer-counter-in-c-sharp-xna
+        void CookingFinished(GameTime gameTime)
+        {
+            debug($"before: {currentTime}");
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+            debug($"after: {currentTime}");
+            //debug($"{gameTime.ElapsedGameTime.TotalSeconds}");
+            
+            if (currentTime >= countDuration) //this is true at least once every sec
+            {
+                //update how much time has passed
+                counter++;
+                currentTime -= countDuration; // "use up" the time & recalibrate the currentTime                  
+            }
+
+            debug($"counter: {counter}\ncurrentTime: {currentTime}");
+            //timer finished
+            if (counter >= limit)
+            {
+                counter = 0; //reset counter
+                debug("counter hit limit!");
+
+                //turn off the cooking UI 
+                _cookingVisible = false; 
+                ResetNeedle();
+                _finished = true;
+            }
+        }
+
+
 
     }
 

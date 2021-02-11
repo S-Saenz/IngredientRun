@@ -17,12 +17,14 @@ namespace IngredientRun
     class Inventory
     {
         Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
-        Ingredient fish, acorn, apple, meat, wood;
+        public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
+        List<Texture2D> ingredientTextures;
+        Ingredient FISH, ACORN, APPLE, MEAT, WOOD;
         public bool showInv = false;
         bool handsFull = false;
         KeyboardState oldKeyState;
 
-        List<Ingredient> ingredientList = new List<Ingredient>();
+        public List<Ingredient> ingredientList = new List<Ingredient>();
         List<Vector2> boxes = new List<Vector2>();
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
@@ -49,33 +51,47 @@ namespace IngredientRun
 
         public void Load(ContentManager Content)
         {
-
             initializeInventoryGrid();
 
             //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
-            acornT = Content.Load<Texture2D>("Ingredient/acornScaled");
-            appleT = Content.Load<Texture2D>("Ingredient/apple");
-            fishT = Content.Load<Texture2D>("Ingredient/fish");
-            meatT = Content.Load<Texture2D>("Ingredient/meat");
-            woodT = Content.Load<Texture2D>("Ingredient/wood");
 
-            acorn = new Ingredient(acornT, randomBox());
-            apple = new Ingredient(appleT, randomBox());
-            fish = new Ingredient(fishT, randomBox());
-            meat = new Ingredient(meatT, randomBox());
-            wood = new Ingredient(woodT, randomBox());
+            acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
+            apple = Content.Load<Texture2D>("Ingredient/apple");
+            appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soup");
+            carrot = Content.Load<Texture2D>("Ingredient/carrot");
+            carrotSoup = Content.Load<Texture2D>("Ingredient/carrot_spice_soup");
+            egg = Content.Load<Texture2D>("Ingredient/egg");
+            gooseberry = Content.Load<Texture2D>("Ingredient/gooseberry");
+            fish = Content.Load<Texture2D>("Ingredient/fish");
+            grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fish");
+            meat = Content.Load<Texture2D>("Ingredient/meat");
+            monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)");
+            mouseMelon = Content.Load<Texture2D>("Ingredient/mouse melons");
+            rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup");
+            water = Content.Load<Texture2D>("Ingredient/waterjug");
+            wood = Content.Load<Texture2D>("Ingredient/wood");
 
-            meat.scale = .25f;
-            fish.scale = .25f;
-            acorn.scale = .4f;
+            ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
+
+            ACORN = new Ingredient(acorn, randomBox());
+            APPLE = new Ingredient(apple, randomBox());
+            FISH = new Ingredient(fish, randomBox());
+            MEAT = new Ingredient(meat, randomBox());
+            WOOD = new Ingredient(wood, randomBox());    
+
+            MEAT.scale = .25f;
+            FISH.scale = .25f;
+            ACORN.scale = .4f;
             //Debug.WriteLine(meat.Scale);
 
-            ingredientList.Add(acorn);
-            ingredientList.Add(apple);
-            ingredientList.Add(fish);
-            ingredientList.Add(meat);
-            ingredientList.Add(wood);
+            ingredientList.Add(ACORN);
+            ingredientList.Add(APPLE);
+            ingredientList.Add(FISH);
+            ingredientList.Add(MEAT);
+            ingredientList.Add(WOOD);
+            //addIngredient(water);
+
             shakeBag();
 
             foreach(Ingredient ing in ingredientList)
@@ -89,16 +105,27 @@ namespace IngredientRun
 
         public void Update(MouseState mouseState, KeyboardState keyState)
         {
+            //bool boxClicked = false;
+            //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             if (mouseState.LeftButton == ButtonState.Pressed)
             {
                 //Print mouse cursor position to debug console
                 //Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+
+                //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
+                
+                //if(boxClicked) 
+                //    clickedBox = closestBoxToMouse(mouseState);
+
+                //Debug.WriteLine($"Mouse clicked!\nboxClicked = {boxClicked}");
+
             }
             foreach (Ingredient ingredient in ingredientList) {
 
-                    //use mouse to move objects
-                    MoveIngredient(ingredient, mouseState);
+                    //use mouse to move ingredient if it's in the clicked Box
+                    //if(boxDict[ingredient.index] == clickedBox)
+                        MoveIngredient(ingredient, mouseState);
 
                     //rotate objects when space bar pressed
                     if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
@@ -163,6 +190,14 @@ namespace IngredientRun
             {
                 showInv = !showInv;
             }
+
+            if (oldKeyState.IsKeyUp(Keys.V) && keyState.IsKeyDown(Keys.V))
+            {
+                Debug.WriteLine("V pressed");
+                Random rnd = new Random();
+                int randIndex = rnd.Next(ingredientTextures.Count);
+                addIngredient(ingredientTextures[randIndex]);
+            }
             oldKeyState = keyState;
 
 
@@ -198,22 +233,22 @@ namespace IngredientRun
         void MoveIngredient(Ingredient ing, MouseState mouseState)
         {
 
-            if (IsPointOver(mouseState.Position, ing) && !handsFull)
+            if (!handsFull)
             {
-                if ( mouseState.LeftButton == ButtonState.Pressed )
+                if ( mouseState.LeftButton == ButtonState.Pressed ) //if player is not holding anything and clicks
                 {
-                    //ingredient is clicked on
-                    Debug.WriteLine($"{ing.img} clicked!");//debugging
+                    //this is the box that has been clicked (will return an invalid box if player clicks outside of inventory) 
+                    Vector2 clickedBox = closestBoxToMouse(mouseState); 
 
-                    //can only select if there is no item directly above
-                    if( !isIngredientStackedOn(ing) )
+                    //make sure there is not another ingredient above AND the ingredient's box is being clicked
+                    if ( !isIngredientStackedOn(ing) && boxDict[ing.index] == clickedBox) 
                     {
                         ing.holding = true;
                         handsFull = true;
                     }
                     else
                     {
-                        Debug.WriteLine($"{ing.img} is stacked on!");
+                        Debug.WriteLine($"{ing.img} is stacked on and can't be moved!");
                     }
                 }
             }
@@ -233,7 +268,7 @@ namespace IngredientRun
                 //snap ingredient to grid
                 ing.pos = closestEmptyBox(ing);
                 ing.index = findGridIndex(ing.pos);
-                Debug.WriteLine($"{ing.img} - {ing.index}");
+                //Debug.WriteLine($"{ing.img} - {ing.index}"); //ingredient snaps where?
             }
         }
 
@@ -323,6 +358,26 @@ namespace IngredientRun
         //////////////////////////////////////////////////////////////////////////
         //////////////////////// HELPER FUNCTIONS ////////////////////////////////
         //////////////////////////////////////////////////////////////////////////
+
+        //add a new ingredient into the inventory if there's space!
+        public void addIngredient(Texture2D texture)
+        {
+            if(ingredientList.Count == boxes.Count )
+            {
+                Debug.WriteLine("Inventory Full!");
+                return;
+            }
+
+            Ingredient newIngredient = new Ingredient(texture);
+            ingredientList.Add(newIngredient);
+            assignDistinctSpace(newIngredient);
+        }
+
+        //remove an ingredient from the inventory
+        public void removeIngredient(Ingredient ingredient)
+        {
+            ingredientList.Remove(ingredient);
+        }
 
         //returns grid index of a random box in the inventory
         public Vector2 randomBox()
@@ -461,6 +516,27 @@ namespace IngredientRun
                 }
             }
             return closestBox; //final answer
+        }
+
+        public Vector2 closestBoxToMouse(MouseState mouseState)
+        {
+            Vector2 mousePoint = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            Vector2 closestBox = randomBox();
+            float closestDistance = Vector2.Distance(mousePoint, closestBox);
+
+            //iterate through the list of boxes to find the closest!
+            foreach (Vector2 box in boxes)
+            {
+                float distance = Vector2.Distance(mousePoint, box); //distance between point and given boxfloat closestDistance = Vector2.Distance(mousePoint, box); //distance betwen point and the current closest box
+                closestBox = distance < closestDistance ? box : closestBox; //switch closestBox if this box is closer
+                closestDistance = distance < closestDistance ? distance : closestDistance; //switch closestDistance if box is cl
+            }
+
+            //gridWidthMargin is how wide the inventory boxes are; if the closest box is farther, the player is clicking outside of the inventory
+            if (closestDistance > this.gridWidthMargin)
+                closestBox = new Vector2(-1, -1); //we'll know if the player clicked outside the inventory by returning a negative distance
+
+            return closestBox;
         }
 
 
