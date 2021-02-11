@@ -57,6 +57,7 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
+            game.sounds.playSong("caveSong");
             //backgrounds
             // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
             caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
