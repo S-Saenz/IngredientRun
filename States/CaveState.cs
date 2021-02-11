@@ -28,7 +28,7 @@ namespace IngredientRun.States
         
 
         private PhysicsHandler _collisionHandler;
-
+        int walkTimer;
         
 
         public CaveState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
@@ -84,6 +84,11 @@ namespace IngredientRun.States
                 _ctrlPrevDown = false;
             }
 
+            //play walking sound effect
+            if (player._isMoving)
+            {
+                game.sounds.walkSound(gameTime);
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 

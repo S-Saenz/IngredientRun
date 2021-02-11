@@ -26,6 +26,8 @@ namespace IngredientRun
         public RectangleF _overlap;
         CollisionBox _collisionBox;
         public bool _isDark = false;
+        public bool _inAir = false;
+        public bool _isMoving = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -56,15 +58,19 @@ namespace IngredientRun
         {
             base.Update(gameTime);
             //Movement
+            //_isMoving = false;
+            //_inAir = false;
             if (Game1.instance.input.IsDown("right"))//(Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
                 currentAnimation = "runRight";
+                //_isMoving = true;
             }
             if (Game1.instance.input.IsDown("left"))//(Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
                 currentAnimation = "runLeft";
+                //_isMoving = true;
             }
             if(((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
                (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
@@ -180,11 +186,13 @@ namespace IngredientRun
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
+            _isMoving = true;
         }
         
         public void onEndMove(Vector2 move)
         {
             // Debug.WriteLine("Stop");
+            _isMoving = false;
         }
     }
 }

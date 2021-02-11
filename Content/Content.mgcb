@@ -574,6 +574,12 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
+#begin soundEffects/stepC.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/stepC.wav
+
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
 /processor:TextureProcessor
