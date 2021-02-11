@@ -85,7 +85,7 @@ namespace IngredientRun.States
             }
 
             //play walking sound effect
-            if (player._isMoving)
+            if (player._isWalking)
             {
                 game.sounds.walkSound(gameTime);
             }

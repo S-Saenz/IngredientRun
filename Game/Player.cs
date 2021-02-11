@@ -27,7 +27,7 @@ namespace IngredientRun
         CollisionBox _collisionBox;
         public bool _isDark = false;
         public bool _inAir = false;
-        public bool _isMoving = false;
+        public bool _isWalking = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -186,13 +186,14 @@ namespace IngredientRun
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
-            _isMoving = true;
+            if (_collisionBox._downBlocked)
+                _isWalking = true;
         }
         
         public void onEndMove(Vector2 move)
         {
             // Debug.WriteLine("Stop");
-            _isMoving = false;
+            _isWalking = false;
         }
     }
 }
