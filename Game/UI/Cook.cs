@@ -17,7 +17,7 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class Cook
+    public class Cook
     {
         KeyboardState oldKeyState;
 
@@ -109,12 +109,12 @@ namespace IngredientRun
 
 
             //space bar held down - move needle
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && _needleX <= _meterEnd && _attemptRemaining)
+            if (Keyboard.GetState().IsKeyDown(Keys.F) && _needleX <= _meterEnd && _attemptRemaining)
                 _needleX += _needleSpeed;
             
 
             //space bar is released
-            if(_needleX > _needleStart && Keyboard.GetState().IsKeyUp(Keys.Space))
+            if(_needleX > _needleStart && Keyboard.GetState().IsKeyUp(Keys.F))
             {
                 _attemptRemaining = false;
                 //debug(GradeCooking()); 
@@ -183,7 +183,7 @@ namespace IngredientRun
 
 
             //food being cooked
-            float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? _scale * 2f : .15f; //scale for an acorn or the grilled fish
+            float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
             float foodX = _screenWidth / 2 - foodImage.Width / 2 * foodScale;
             spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
 

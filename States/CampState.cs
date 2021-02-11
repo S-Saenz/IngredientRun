@@ -98,6 +98,10 @@ namespace IngredientRun.States
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (Game1.inventory.showInv)
                 Game1.inventory.Draw(_spriteBatch);
+            if (game.recipeUI._visibleUI)
+                game.recipeUI.Draw(_spriteBatch);
+            if (Game1.cookingUI._cookingVisible)
+                Game1.cookingUI.Draw(_spriteBatch);
             _spriteBatch.End();
 
             if (_isDebug)
@@ -169,7 +173,19 @@ namespace IngredientRun.States
             game._cameraController.Update(gameTime, player._pos);
             Game1.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
-            campTileMap.Update(gameTime);
+            if (game.recipeUI._visibleUI)
+            {
+                if (Game1.instance.input.JustPressed("select"))
+                {
+                    Game1.cookingUI._cookingVisible = true;
+                }
+                if (Game1.instance.input.JustPressed("return"))
+                {
+                    game.recipeUI._visibleUI = false;
+                }
+            }
+
+                campTileMap.Update(gameTime);
         }
     }
 }

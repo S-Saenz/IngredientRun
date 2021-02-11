@@ -36,10 +36,20 @@ namespace IngredientRun
             {
                 Keys.E
             };
+            List<Keys> selectKeys = new List<Keys>()
+            {
+                Keys.Enter
+            };
+            List<Keys> returnKeys = new List<Keys>()
+            {
+                Keys.Back
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
+            _buttons.Add("select", new Button(selectKeys));
+            _buttons.Add("return", new Button(returnKeys));
         }
 
         public void Update(GameTime time)

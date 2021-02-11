@@ -27,8 +27,8 @@ namespace IngredientRun
 
         //classes
         public static Inventory inventory = new Inventory();
-        static Cook cookingUI = new Cook();
-        RecipeSelection recipeUI = new RecipeSelection(ref cookingUI, ref inventory);
+        static public Cook cookingUI = new Cook();
+        public RecipeSelection recipeUI = new RecipeSelection(ref cookingUI, ref inventory);
 
         // create vatiable for the state manager
 
@@ -147,11 +147,6 @@ namespace IngredientRun
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            recipeUI.Draw(_spriteBatch);
-            cookingUI.Draw(_spriteBatch);
-            _spriteBatch.End();
 
             _currentState.Draw(gameTime, _spriteBatch);
 

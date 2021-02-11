@@ -186,7 +186,7 @@ namespace IngredientRun
             }
 
             //press E for inventory
-            if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E))
+            if (oldKeyState.IsKeyUp(Keys.I) && keyState.IsKeyDown(Keys.I))
             {
                 showInv = !showInv;
             }
@@ -360,17 +360,18 @@ namespace IngredientRun
         //////////////////////////////////////////////////////////////////////////
 
         //add a new ingredient into the inventory if there's space!
-        public void addIngredient(Texture2D texture)
+        public bool addIngredient(Texture2D texture)
         {
             if(ingredientList.Count == boxes.Count )
             {
                 Debug.WriteLine("Inventory Full!");
-                return;
+                return false;
             }
 
             Ingredient newIngredient = new Ingredient(texture);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
+            return true;
         }
 
         //remove an ingredient from the inventory

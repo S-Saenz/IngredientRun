@@ -17,7 +17,7 @@ using MonoGame.Extended;
 
 namespace IngredientRun
 {
-    class RecipeSelection
+    public class RecipeSelection
     {
          KeyboardState oldKeyState;
 
@@ -30,7 +30,7 @@ namespace IngredientRun
         //ingredients
         Texture2D acorn, apple, carrot, egg, fish, gooseberry, meat, mouseMelon, water, wood;
 
-         Boolean _visibleUI = false;
+        public bool _visibleUI = false;
 
          static float _screenWidth = 1728;
          float _screenHeight = 972;
@@ -129,18 +129,20 @@ namespace IngredientRun
          public void Update(MouseState mouseState, KeyboardState keyState)
          {
 
-            if (cookingUI._finished)
-                _visibleUI = true;
-
+            if (cookingUI._cookingVisible)
+            {
+                _visibleUI = false;
+            }
+            
              ////////////////////////////// debugging tools \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
              //press ALT + Q to toggle visibility visiblity 
-             if( oldKeyState.IsKeyUp(Keys.Q) && keyState.IsKeyDown(Keys.Q) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
-             {
-                 //debug($"before: {_visibleUI}");
-                 _visibleUI = !_visibleUI; //toggle on/off
-                 //debug($"after: {_visibleUI}");
-             }
+             // if( oldKeyState.IsKeyUp(Keys.Q) && keyState.IsKeyDown(Keys.Q) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
+             // {
+             //     //debug($"before: {_visibleUI}");
+             //     _visibleUI = !_visibleUI; //toggle on/off
+             //     //debug($"after: {_visibleUI}");
+             // }
 
              //press ALT + W to switch to cooking UI with selected food
              if(oldKeyState.IsKeyUp(Keys.W) && keyState.IsKeyDown(Keys.W) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
@@ -152,18 +154,18 @@ namespace IngredientRun
             }
 
              //press ALT + E to print available recipes 
-            if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
-            {
-                foreach (Texture2D food in CookableRecipes())
-                {
-                    debug($"{food}"); 
-                }
-            }
-            //press ALT + R to print available recipes 
-            if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
-            {
-                inventory.addIngredient(inventory.water);
-            }
+            // if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
+            // {
+            //     foreach (Texture2D food in CookableRecipes())
+            //     {
+            //         debug($"{food}"); 
+            //     }
+            // }
+            // //press ALT + R to print available recipes 
+            // if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
+            // {
+            //     inventory.addIngredient(inventory.water);
+            // }
 
             //press HOME to toggle debug mode
             if (oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home))
@@ -174,7 +176,7 @@ namespace IngredientRun
         {
             //draw the fake background only when debug mode is on 
             float bgOpacity = _debugMode ? 1f : 0f;
-            spriteBatch.Draw(background, new Vector2(-_screenWidth * 4 / 3, 0), null, Color.White * bgOpacity, 0f, Vector2.Zero, 1.4f, SpriteEffects.None, 1f);
+            // spriteBatch.Draw(background, new Vector2(-_screenWidth * 4 / 3, 0), null, Color.White * bgOpacity, 0f, Vector2.Zero, 1.4f, SpriteEffects.None, 1f);
 
             float uiOpacity = _visibleUI ? 1f : 0f; //disable/enable visibility for the cooking UI through its opacity value
             //spriteBatch.Draw(mainUI, new Vector2(0, 0), null, Color.White * uiOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);

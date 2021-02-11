@@ -94,7 +94,7 @@ namespace IngredientRun
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(true)
+                        if(Game1.inventory.addIngredient(ItemTextures.GetTexture(obj._name)))
                         {
                             obj._spawn.Despawn();
                         }
@@ -106,8 +106,7 @@ namespace IngredientRun
                     {
                         if(area._name == "fire")
                         {
-                            Debug.WriteLine("Fire");
-                            // Open cooking ui
+                            Game1.instance.recipeUI._visibleUI = true;
                         }
                         else if(area._name.Contains("state"))
                         {
