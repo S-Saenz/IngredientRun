@@ -67,7 +67,7 @@ namespace IngredientRun
             grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fishScaled");
             meat = Content.Load<Texture2D>("Ingredient/meatScaled");
             monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)Scaled");
-            mouseMelon = Content.Load<Texture2D>("Ingredient/mouse melonsScaled");
+            mouseMelon = Content.Load<Texture2D>("Ingredient/mousemelonScaled");
             rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soupScaled");
             water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
             wood = Content.Load<Texture2D>("Ingredient/woodScaled");
@@ -384,6 +384,20 @@ namespace IngredientRun
         public void removeIngredient(Ingredient ingredient)
         {
             ingredientList.Remove(ingredient);
+        }
+
+        public void removeIngredient(Texture2D ingredientTexture)
+        {
+            bool done = false; //ensure only one ingredient is removed if there are duplicates
+            foreach(Ingredient ingredient in ingredientList.ToList())
+            {
+                if(ingredient.img == ingredientTexture && !done)
+                {
+                    ingredientList.Remove(ingredient);
+                    done = true;
+                }
+
+            }
         }
 
         //returns grid index of a random box in the inventory

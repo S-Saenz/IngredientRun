@@ -58,6 +58,8 @@ namespace IngredientRun
             = new Dictionary<Vector2, Vector2>();
 
 
+        MouseState _mouseState;
+
          Boolean _debugMode = true;
 
          public RecipeSelection(ref Cook cookingUI, ref Inventory inventory)
@@ -128,10 +130,19 @@ namespace IngredientRun
 
          public void Update(MouseState mouseState, KeyboardState keyState)
          {
+            //we are calling mouseState in Draw(), so update a member variable with mousestate so we can use it in draw
+            this._mouseState = mouseState;
 
+            //recipe selection and cooking cannot be simultaneously visible
             if (cookingUI._cookingVisible)
             {
                 _visibleUI = false;
+            }
+
+            if(cookingUI._finished && !_visibleUI && !cookingUI._cookingVisible)
+            {
+                UpdateInventoryAfterCooking();
+                cookingUI._finished = false;
             }
             
              ////////////////////////////// debugging tools \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -150,10 +161,10 @@ namespace IngredientRun
                 _visibleUI = false;
                 cookingUI._finished = false;
                 cookingUI._cookingVisible = true;
-                cookingUI.foodImage = selectedFood;
+                cookingUI.foodImage = selectedFood; //selectedFood = grilledFish
             }
 
-             //press ALT + E to print available recipes 
+            //press ALT + E to print available recipes 
             // if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
             // {
             //     foreach (Texture2D food in CookableRecipes())
@@ -161,11 +172,11 @@ namespace IngredientRun
             //         debug($"{food}"); 
             //     }
             // }
-            // //press ALT + R to print available recipes 
-            // if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
-            // {
-            //     inventory.addIngredient(inventory.water);
-            // }
+            //press ALT + R to print available recipes 
+            if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
+            {
+                inventory.addIngredient(inventory.water);
+            }
 
             //press HOME to toggle debug mode
             if (oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home))
@@ -193,14 +204,21 @@ namespace IngredientRun
                 {
                     if (numRecipes > 0)
                     {
+                        
+
                         Texture2D recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
                         List<Texture2D> recipeIngredients = _recipes[recipeFood];
-                        Texture2D box = recipeIngredients.Count == 1 ? box1 : box2; //pick the appropriate sized box for the amount of ingredients 
-                        
+
+                        //ummmmm, I fucked up, but I'm in too deep. The following logic should probably be implemented in update
+                        //because the mouse position is being used for calculations. I think it could've been done if the recipe boxes were separate object types
+                        //with their own draw function. But screw it, this draw function gonna go brazy
+                        Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
+                        if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
+                            SwitchToCooking(recipeFood);
+
                         spriteBatch.Draw(box, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
                         spriteBatch.Draw(recipeFrame, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
 
-                        
                         spriteBatch.Draw(recipeFood, point.Value, null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, 1f);
                         spriteBatch.Draw(recipeIngredients.ElementAt(0), new Vector2(point.Value.X + 60*_scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, .25f, SpriteEffects.None, 1f);
                         if(recipeIngredients.Count == 2)
@@ -252,8 +270,68 @@ namespace IngredientRun
             }
             return cookable;
         }
-        
 
-     
+        //determine whether a recipe getting displayed gets a short or long box or whether its highlighted or not
+        Texture2D pickBoxForRecipe(Texture2D recipeFood, Vector2 point)
+        {
+            Texture2D box;
+
+            //pick the appropriate sized box for the amount of ingredients
+            List<Texture2D> recipeIngredients = _recipes[recipeFood];
+            box = recipeIngredients.Count == 1 ? box1 : box2; 
+
+            //determine whether or not the mouse is hovering over the box and if so highlight the box!
+            Boolean highlight = IsPointOverRecipeBox(this._mouseState.Position, box, point, _scale);
+            if(highlight)
+            {
+                box = box == box1 ? box1Selected : box2Selected; 
+            }
+
+            return box;
+        }
+
+
+        //this is my version of IsPointover()
+        //differences include accepting Texture2D as a @param instead of a Sprite and factoring scale into calculations
+        bool IsPointOverRecipeBox(Point xy, Texture2D image, Vector2 pos,  float scale)
+        {
+            int intScale = Convert.ToInt32(scale);
+            //assume origin is at (0,0)
+            Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), new Point(image.Width*intScale, image.Height*intScale));
+            return (rect.Contains(xy.X, xy.Y));
+        }
+
+        //checks to see if a recipe box is being clicked
+        bool IsRecipeBeingClicked(Point mousePoint, Texture2D image, Vector2 pos, float scale)
+        {
+            bool mouseClicked = this._mouseState.LeftButton == ButtonState.Pressed;
+            return IsPointOverRecipeBox(mousePoint, image, pos, scale) && mouseClicked;
+        }
+
+        //use this when a recipe box is clicked to cook that recipe!
+        void SwitchToCooking(Texture2D selectedFood)
+        {
+            //make sure the recipe selection UI is active/visible when implementing this logic
+            if (_visibleUI)
+            {
+                _visibleUI = false; //recipe selecion is no longer visible
+                cookingUI._cookingVisible = true; //cooking ui is now visible
+
+                cookingUI._finished = false; //resets cooking UI
+                cookingUI.foodImage = selectedFood; //display food being cooked in the cooking ui
+            }
+        }
+
+        void UpdateInventoryAfterCooking()
+        {
+            //add cooked food to inventory
+            Texture2D cookedFood = cookingUI.foodImage;
+            inventory.addIngredient(cookedFood);
+
+            //remove used ingredients from inventory
+            List<Texture2D> ingredients = _recipes[cookedFood];
+            foreach(Texture2D ingredient in ingredients)
+                inventory.removeIngredient(ingredient);   
+        }
     }
 }

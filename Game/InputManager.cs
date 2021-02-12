@@ -41,6 +41,14 @@ namespace IngredientRun
             {
                 Keys.LeftShift
             };
+            List<Keys> selectKeys = new List<Keys>()
+            {
+                Keys.Enter
+            };
+            List<Keys> returnKeys = new List<Keys>()
+            {
+                Keys.Back
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
