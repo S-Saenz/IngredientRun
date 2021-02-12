@@ -51,7 +51,7 @@ namespace IngredientRun
 
         public Game1()
         {
-            this.Window.Title = "Ingredient Time";
+            this.Window.Title = "Willow Wood Refuge";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
             // create song manager

@@ -18,7 +18,7 @@ namespace IngredientRun
     {
         Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
         public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
-        List<Texture2D> ingredientTextures;
+        // List<Texture2D> ingredientTextures;
         Ingredient FISH, ACORN, APPLE, MEAT, WOOD;
         public bool showInv = false;
         bool handsFull = false;
@@ -72,25 +72,31 @@ namespace IngredientRun
             water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
             wood = Content.Load<Texture2D>("Ingredient/woodScaled");
 
-            ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
+            // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
-            ACORN = new Ingredient(acorn, randomBox());
-            APPLE = new Ingredient(apple, randomBox());
-            FISH = new Ingredient(fish, randomBox());
-            MEAT = new Ingredient(meat, randomBox());
-            WOOD = new Ingredient(wood, randomBox());    
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acornScaled"), randomBox()));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox()));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fishScaled"), randomBox()));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meatScaled"), randomBox()));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("woodScaled"), randomBox()));
 
-            MEAT.scale = .25f;
-            FISH.scale = .25f;
-            ACORN.scale = .4f;
+            // ACORN = new Ingredient(acorn, randomBox());
+            // APPLE = new Ingredient(apple, randomBox());
+            // FISH = new Ingredient(fish, randomBox());
+            // MEAT = new Ingredient(meat, randomBox());
+            // WOOD = new Ingredient(wood, randomBox());    
+
+            // MEAT.scale = .25f;
+            // FISH.scale = .25f;
+            // ACORN.scale = .4f;
             //Debug.WriteLine(meat.Scale);
 
-            ingredientList.Add(ACORN);
-            ingredientList.Add(APPLE);
-            ingredientList.Add(FISH);
-            ingredientList.Add(MEAT);
-            ingredientList.Add(WOOD);
-            //addIngredient(water);
+            // ingredientList.Add(ACORN);
+            // ingredientList.Add(APPLE);
+            // ingredientList.Add(FISH);
+            // ingredientList.Add(MEAT);
+            // ingredientList.Add(WOOD);
+            // addIngredient(water);
 
             shakeBag();
 
@@ -195,8 +201,8 @@ namespace IngredientRun
             {
                 Debug.WriteLine("V pressed");
                 Random rnd = new Random();
-                int randIndex = rnd.Next(ingredientTextures.Count);
-                addIngredient(ingredientTextures[randIndex]);
+                int randIndex = rnd.Next(ItemTextures._allItems.Count);
+                addIngredient(ItemTextures.GetTexture(ItemTextures._allItems[randIndex] + "Scaled"));
             }
             oldKeyState = keyState;
 
