@@ -109,10 +109,10 @@ namespace IngredientRun
         public void PlaceNPCs(Dictionary<string, NPC> characters)
         {
             // temp even spawn spacing
-            float spacing = _areas["Camp"]._bounds.Width / 5;
+            float spacing = _areas["Camp"]._bounds.Width / 6;
             NPC[] chars = characters.Values.ToArray();
 
-            for(int i = 1; i < 5; ++i)
+            for(int i = 1; i < 6; ++i)
             {
                 chars[i - 1]._pos = new Vector2(_areas["Camp"]._bounds.Left + i * spacing, _areas["Camp"]._bounds.Bottom);
             }
