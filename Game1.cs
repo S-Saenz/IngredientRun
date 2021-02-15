@@ -61,8 +61,8 @@ namespace IngredientRun
 
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
-            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 240, 135));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(512, 288), new Vector2(1728, 972));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 204.8f, 115.2f));
 
             // setup bulk texture managers
             ItemTextures.Initialize(Content);

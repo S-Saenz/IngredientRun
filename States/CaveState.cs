@@ -28,7 +28,7 @@ namespace IngredientRun.States
         
 
         private PhysicsHandler _collisionHandler;
-
+        int walkTimer;
         
 
         public CaveState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
@@ -50,17 +50,13 @@ namespace IngredientRun.States
             _collisionHandler.SetOverlap("Enemy", "Player");
             _collisionHandler.SetOverlap("Player", "Areas");
 
-
-            // Set start location
-            bgPos = new Vector2(0, 0);
+            //backgrounds
+            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
         }
 
         public override void LoadContent()
         {
-            //backgrounds
-            // caveTileMap = new TileMap("tilemaps/prototype/MapPrototypeTiledCollider", Content, GraphicsDevice);
-            caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
-
+            game.sounds.playSong("caveSong");
             // temp, just respawns objects when entering cave
             caveTileMap.SpawnPickups();
             caveTileMap.SpawnEnemies();
@@ -88,6 +84,11 @@ namespace IngredientRun.States
                 _ctrlPrevDown = false;
             }
 
+            //play walking sound effect
+            if (player._isMoving)
+            {
+                game.sounds.walkSound(gameTime);
+            }
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
@@ -153,7 +154,7 @@ namespace IngredientRun.States
 
         public override void unloadState()
         {
-            // throw new NotImplementedException();
+            player.RemoveCollision(_collisionHandler);
         }
     }
 }

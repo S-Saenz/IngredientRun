@@ -82,19 +82,19 @@ namespace IngredientRun
             }
 
             // Check overlap
-            // foreach (string layer in _overlapMask[box._label])
-            // {
-            //     foreach(CollisionBox other in _layers[layer].getNeighbors(box))
-            //     {
-            //         RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
-            // 
-            //         if (overlapRect.Width != 0 && overlapRect.Height != 0)
-            //         {
-            //             CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
-            //             box.CallOverlap(info);
-            //         }
-            //     }
-            // }
+            foreach (string layer in _overlapMask[box._label])
+            {
+                foreach(CollisionBox other in _layers[layer].getNeighbors(box))
+                {
+                    RectangleF.Intersection(ref box._bounds, ref other._bounds, out overlapRect);
+            
+                    if (overlapRect.Width != 0 && overlapRect.Height != 0)
+                    {
+                        OverlapInfo info = new OverlapInfo(box, other, ref overlapRect);
+                        box.CallOverlap(info);
+                    }
+                }
+            }
 
             // Check world bounds
             if(!(box._worldBounds.Width == 0 || box._worldBounds.Height == 0))
@@ -147,6 +147,16 @@ namespace IngredientRun
             return false;
         }
 
+        public bool RemoveObject(CollisionBox obj)
+        {
+            if(_layers.ContainsKey(obj._label))
+            {
+                _layers[obj._label].removeElement(obj);
+                return true;
+            }
+            return false;
+        }
+
         public bool SetCollision(string layer1, string layer2)
         {
             if(_collisionMask.ContainsKey(layer1) && !_collisionMask[layer1].Contains(layer2))
@@ -185,78 +195,6 @@ namespace IngredientRun
                 }
             }
             return others;
-        }
-    }
-
-    class CollisionInfo
-    {
-        public IPhysicsObject _other { get; } // other object hit
-        public string _otherLabel { get; } // label(type/mask) of contact object
-        public Vector2 _loc { get; }  // center point of contact on edge of other
-        public Vector2 _hitDir { get; set; } // direction vector of collision (points to side collided)
-        public float _overlapDist { get; } // distance overlapped/penetrated
-        public RectangleF _overlapRect { get; } // rectangle describing overlap
-
-        public CollisionInfo(CollisionBox box1, CollisionBox box2, ref RectangleF overlapRect)
-        {
-            string otherLabel = box2._label;
-            Vector2 loc = overlapRect.Center;
-            Vector2 hitDir = Vector2.Zero;
-            float overlapDist;
-
-            if (overlapRect.Width > overlapRect.Height) // top or bottom hit
-            {
-                hitDir.Y = box1._bounds.Center.Y > box2._bounds.Center.Y ? -1 : 1;
-                if (box1._bounds.Center.Y > box2._bounds.Center.Y) // Top
-                {
-                    loc.Y -= overlapRect.Height / 2;
-                    if(!(overlapRect.Width == 0 && overlapRect.Height == 0))
-                    {
-                        box1._upBlocked = true;
-                        box1._upInfo = this;
-                    }
-                }
-                else // Bottom
-                {
-                    loc.Y += overlapRect.Height / 2;
-                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
-                    {
-                        box1._downBlocked = true;
-                        box1._downInfo = this;
-                    }
-                }
-                overlapDist = overlapRect.Height;
-            }
-            else // left or right hit
-            {
-                hitDir.X = box1._bounds.Center.X > box2._bounds.Center.X ? -1 : 1;
-                if (box1._bounds.Center.X > box2._bounds.Center.X) // Left
-                {
-                    loc.X -= overlapRect.Width / 2;
-                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
-                    {
-                        box1._leftBlocked = true;
-                        box1._leftInfo = this;
-                    }
-                }
-                else // Right
-                {
-                    loc.X += overlapRect.Width / 2;
-                    if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
-                    {
-                        box1._rightBlocked = true;
-                        box1._rightInfo = this;
-                    }
-                }
-                overlapDist = overlapRect.Width;
-            }
-
-            _other = box2._parent;
-            _otherLabel = otherLabel;
-            _loc = loc;
-            _hitDir = hitDir;
-            _overlapDist = overlapDist;
-            _overlapRect = overlapRect;
         }
     }
 }
