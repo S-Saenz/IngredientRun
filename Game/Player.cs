@@ -30,6 +30,9 @@ namespace IngredientRun
         public bool _isDark = false;
         public bool _inAir = false;
         public bool _isMoving = false;
+
+        string _currentDirection = "";
+        string _currentMoveType = "idle";
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -58,38 +61,20 @@ namespace IngredientRun
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            base.Update(gameTime);
             //Movement
             if (Game1.instance.input.IsDown("right"))
             {
                 _collisionBox.Accelerate(new Vector2(_acceleration, 0));
-                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed+1)
-                {
-                    currentAnimation = "runRight";
-                }
-                else
-                {
-                    currentAnimation = "walkRight";
-                }
             }
             if (Game1.instance.input.IsDown("left"))
             {
                 _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
-                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed+1)
-                {
-                    currentAnimation = "runLeft";
-                }
-                else
-                {
-                    currentAnimation = "walkLeft";
-                }
             }
-            Debug.WriteLine(_collisionBox._velocity.X);
-            Debug.WriteLine(_collisionBox._acceleration.X);
+            // Debug.WriteLine(_collisionBox._velocity.X);
+            // Debug.WriteLine(_collisionBox._acceleration.X);
             if (((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
                (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
             {
-                currentAnimation = "idle";
                 _collisionBox._acceleration.X = 0;
             }
             if (Game1.instance.input.IsDown("jump"))
@@ -134,6 +119,9 @@ namespace IngredientRun
 
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
+            // update animation type
+            UpdateAnimationInfo();
+
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
             Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
@@ -141,6 +129,8 @@ namespace IngredientRun
                 FOWPosVec.X,
                 FOWPosVec.Y
                 )));
+
+            base.Update(gameTime);
 
             return _pos;
         }
@@ -214,16 +204,50 @@ namespace IngredientRun
             return collisionHandler.RemoveObject(_collisionBox);
         }
 
+        private void UpdateAnimationInfo()
+        {
+            if (_collisionBox._velocity.X == 0) // stopped
+            {
+                _currentMoveType = "idle";
+            }
+            else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1) // if running
+            {
+                _currentMoveType = "run";
+            }
+            else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1) // if walking
+            {
+                _currentMoveType = "walk";
+            }
+            currentAnimation = _currentMoveType + _currentDirection;
+        }
+
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
-            _isMoving = true;
+
+            if (move.X > 0) // moving right
+            {
+                _currentDirection = "Right";
+            }
+            if(move.X < 0) // moving left
+            {
+                _currentDirection = "Left";
+            }
+
+            if (move.X != 0) // moving horizontally
+            {
+                _isMoving = true;
+            }
         }
         
         public void onEndMove(Vector2 move)
         {
             // Debug.WriteLine("Stop");
-            _isMoving = false;
+            if(move.X == 0) // horizontal movement stopped
+            {
+                _currentDirection = "";
+                _isMoving = false;
+            }
         }
     }
 }
