@@ -10,10 +10,12 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\dialogue\NPCDialogue.tsv" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\dialogue\NPCDialogue.tsv" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
@@ -31,8 +33,9 @@
     <PackageReference Include="MonoGame.Framework.WindowsUniversal" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Content\dialogue\NPCDialogue.tsv">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

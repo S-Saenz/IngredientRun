@@ -29,7 +29,7 @@ namespace IngredientRun.States
             : base(game, graphicsDevice, content, spriteBatch)
         {
             // initialize NPC dialogue content
-            _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv", game);
+            _dialogueSystem = new NPCDialogueSystem(game);
 
             // setup collision
             _collisionHandler = new PhysicsHandler();
