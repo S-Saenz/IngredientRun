@@ -3,7 +3,7 @@
 
 /outputDir:bin/$(Platform)
 /intermediateDir:obj/$(Platform)
-/platform:Windows
+/platform:DesktopGL
 /config:
 /profile:Reach
 /compress:False
@@ -195,12 +195,12 @@
 /processorParam:TextureFormat=Color
 /build:chars/snall.png
 
-#begin fonts/File.spritefont
+#begin fonts/NPCDialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/File.spritefont;fonts/NPCDialogue.spritefont
+/build:fonts/NPCDialogue.spritefont
 
 #begin ingredient/acorn.png
 /importer:TextureImporter
