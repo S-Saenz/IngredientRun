@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Linq;
 using System.Text;
 
@@ -19,13 +20,16 @@ namespace IngredientRun
         int _currentInteraction;
         Dictionary<string, NPC> _characters;
 
-        public NPCDialogueSystem(string filePath, Game1 game)
+        public NPCDialogueSystem(Game1 game)
         {
             // initialize list
             _interactions = new List<NPCInteraction>();
 
+            // Set up stream
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.NPCDialogue.tsv");
+
             // grow system from file
-            using (StreamReader reader = new StreamReader(filePath))
+            using (StreamReader reader = new StreamReader(stream))
             {
                 // throw away first line (headers)
                 string line = reader.ReadLine();
