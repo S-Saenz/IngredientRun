@@ -57,7 +57,7 @@ namespace IngredientRun.States
             caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // nav mesh test
-            _navMap = caveTileMap.GenerateNavPointMap(new RectangleF(0, 0, 16, 32));
+            _navMap = caveTileMap.GenerateNavPointMap(new RectangleF(0, 0, 64, 48));
         }
 
         public override void LoadContent()

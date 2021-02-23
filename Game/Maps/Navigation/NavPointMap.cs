@@ -39,8 +39,8 @@ namespace IngredientRun
                         tileLayer.TryGetTile((ushort)(tilePoint.X + 1), (ushort)tilePoint.Y, out tile); // check tile right of current
                         if (!platformStarted) // no started platform
                         {
-                            if (!tile.HasValue || tile.Value.IsBlank || 
-                                !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is solo
+                            if (!tile.HasValue || tile.Value.IsBlank ||
+                                !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is left solo
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex));
                                 ++platformIndex;
@@ -56,7 +56,15 @@ namespace IngredientRun
                             if (!tile.HasValue || tile.Value.IsBlank ||
                                 !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // platform right end
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex));
+                                if (isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // overhang edge
+                                {
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex));
+                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex));
+                                }
+                                else // against wall
+                                {
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex));
+                                }
                                 ++platformIndex;
                                 platformStarted = false;
                             }
@@ -66,6 +74,16 @@ namespace IngredientRun
                             }
                         }
                     }
+                    else if(!tile.Value.IsBlank)
+                    {
+                        tileLayer.TryGetTile((ushort)(tilePoint.X + 1), (ushort)tilePoint.Y, out tile); // check tile right of current
+                        if (tile.HasValue && tile.Value.IsBlank &&
+                             isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is right solo
+                        {
+                            _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex));
+                            ++platformIndex;
+                        } 
+                    }
                 }
             }
         }
@@ -74,7 +92,7 @@ namespace IngredientRun
         bool isValidLocation(Point navPoint, TiledMapTileLayer tileLayer)
         {
             TiledMapTile? tile;
-            for (int x = 0; x < _entityTileSize.Width; ++x)
+            for (int x = -(int)Math.Ceiling(_entityTileSize.Width / 2f); x < (int)Math.Ceiling(_entityTileSize.Width / 2f); ++x)
             {
                 for(int y = 1; y <= _entityTileSize.Height; ++y)
                 {
@@ -101,16 +119,16 @@ namespace IngredientRun
                 switch(_navPoints[navPoint]._pointType)
                 {
                     case NavPointType.leftEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X + 0.5f) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 3);
                         break;
                     case NavPointType.platform:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X + 0.5f) * _tileSize, navPoint.Y * _tileSize), Color.Black, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 3);
                         break;
                     case NavPointType.rightEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X + 0.5f) * _tileSize, navPoint.Y * _tileSize), Color.Green, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 3);
                         break;
                     case NavPointType.solo:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X + 0.5f) * _tileSize, navPoint.Y * _tileSize), Color.Red, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 3);
                         break;
                 }
             }
