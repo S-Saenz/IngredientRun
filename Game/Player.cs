@@ -232,6 +232,11 @@ namespace IngredientRun
             {
                 _currentDirection = "Left";
             }
+            else if (move.X == 0) // horizontal movement stopped
+            {
+                _currentDirection = "";
+                _isMoving = false;
+            }
 
             if (move.X != 0) // moving horizontally
             {

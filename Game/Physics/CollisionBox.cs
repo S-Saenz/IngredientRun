@@ -102,7 +102,7 @@ namespace IngredientRun
             _velocity += _acceleration * gameTime.GetElapsedSeconds();
 
             // Update smoothStep "friction"
-            if(_downBlocked || _upBlocked) // horizontal
+            if(_downBlocked || _upBlocked) // horizontal friction
             {
                 if (Math.Abs(_velocity.X) > Math.Abs(_prevVelocity.X)) // accelerating
                 {
@@ -118,7 +118,7 @@ namespace IngredientRun
                 }
                 _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction);
             }
-            // if (_rightBlocked || _leftBlocked) // vertical
+            // if (_rightBlocked || _leftBlocked) // vertical friction
             // {
             //     if (Math.Abs(_velocity.Y) > Math.Abs(_prevVelocity.Y)) // accelerating
             //     {
@@ -223,6 +223,24 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawRectangle(_bounds, Color.LawnGreen, 1);
+            spriteBatch.DrawLine(_bounds.Center, _bounds.Center + _velocity / 2, Color.Aquamarine);
+            
+            foreach(CollisionInfo info in _downInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _upInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _rightInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _leftInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
         }
 
         private void IncrementBlocked() // steps forward blocked bools, setting wasBlocked and resetting blocked
