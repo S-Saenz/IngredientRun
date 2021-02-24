@@ -28,7 +28,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._upBlocked = true;
-                        box1._upInfo = this;
+                        box1._upInfo.Add(this);
                     }
                 }
                 else // Bottom
@@ -37,7 +37,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._downBlocked = true;
-                        box1._downInfo = this;
+                        box1._downInfo.Add(this);
                     }
                 }
                 overlapDist = overlapRect.Height;
@@ -51,7 +51,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._leftBlocked = true;
-                        box1._leftInfo = this;
+                        box1._leftInfo.Add(this);
                     }
                 }
                 else // Right
@@ -60,7 +60,7 @@ namespace IngredientRun
                     if (!(overlapRect.Width == 0 && overlapRect.Height == 0))
                     {
                         box1._rightBlocked = true;
-                        box1._rightInfo = this;
+                        box1._rightInfo.Add(this);
                     }
                 }
                 overlapDist = overlapRect.Width;
