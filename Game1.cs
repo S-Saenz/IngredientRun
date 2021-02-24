@@ -116,8 +116,13 @@ namespace IngredientRun
                 ChangeState("CaveState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
-            
-            if(Keyboard.GetState().IsKeyDown(Keys.D1) ||
+
+            if(input.JustPressed("windowed"))
+                _cameraController.MakeWindowed();
+            else if (input.JustPressed("fullScreen"))
+                _cameraController.MakeFullScreen();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                     Keyboard.GetState().IsKeyDown(Keys.D2) ||
                     Keyboard.GetState().IsKeyDown(Keys.D3))
             {

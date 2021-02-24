@@ -15,6 +15,7 @@ namespace IngredientRun
         private GraphicsDeviceManager _graphics;
         public Vector2 _pixelDimensions { get; private set; }
         public Vector2 _screenDimensions { get; private set; }
+        private Vector2 _windowDimensions;
         private Vector2 _oldPoint = Vector2.Zero;
 
         public CameraController(GraphicsDeviceManager graphics, Vector2 screenRatio, Vector2 pixelDimensions, Vector2 screenDimensions)
@@ -22,6 +23,7 @@ namespace IngredientRun
             _graphics = graphics;
             _screenRatio = screenRatio;
             _pixelDimensions = pixelDimensions;
+            _windowDimensions = screenDimensions;
 
             // setup the window
             RecalculateScreenDimensions(screenDimensions);
@@ -188,6 +190,20 @@ namespace IngredientRun
         public Matrix GetViewMatrix()
         {
             return _camera.GetViewMatrix();
+        }
+
+        public void MakeFullScreen()
+        {
+            RecalculateScreenDimensions(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+            _graphics.IsFullScreen = true;
+            _graphics.ApplyChanges();
+        }
+
+        public void MakeWindowed()
+        {
+            RecalculateScreenDimensions(_windowDimensions);
+            _graphics.IsFullScreen = false; // set true to default later
+            _graphics.ApplyChanges();
         }
     }
 }

@@ -39,12 +39,23 @@ namespace IngredientRun
             {
                 Keys.I
             };
+            List<Keys> windowed = new List<Keys>()
+            {
+                Keys.RightControl
+            };
+            List<Keys> fullScreen = new List<Keys>()
+            {
+                Keys.RightShift
+            };
+
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));
+            _buttons.Add("windowed", new Button(windowed));
+            _buttons.Add("fullScreen", new Button(fullScreen));
         }
 
         public void Update(GameTime time)
