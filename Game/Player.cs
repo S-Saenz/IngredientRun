@@ -34,6 +34,7 @@ namespace IngredientRun
 
         string _currentDirection = "";
         string _currentMoveType = "idle";
+        public bool _isWalking = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -241,6 +242,8 @@ namespace IngredientRun
             if (move.X != 0) // moving horizontally
             {
                 _isMoving = true;
+                if (_collisionBox._downBlocked)
+                    _isWalking = true;
             }
         }
         
@@ -258,7 +261,8 @@ namespace IngredientRun
             {
                 _currentDirection = "";
                 _isMoving = false;
-            }
+                _isWalking = false;
+            }            
         }
     }
 }

@@ -164,7 +164,7 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            if (player._isMoving)
+            if (player._isWalking)
             {
                 game.sounds.walkSound(gameTime);
             }
