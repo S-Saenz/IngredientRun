@@ -115,6 +115,7 @@ namespace IngredientRun
             string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
             Vector2 loc = characters[_character].GetDialogueLoc(camera);
             Vector2 size = FontManager._dialogueFont.MeasureString(_character + "\n" + _speech);
+            loc.Y -= size.Y;
             spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
             spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
             _currTime += gameTime.GetElapsedSeconds();
