@@ -108,9 +108,6 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
-            // dialogue system
-            _dialogueSystem.PlayInteraction(game);
-
             //music
             game.sounds.playSong("forestSong");
 
