@@ -135,6 +135,18 @@
 /processorParam:TextureFormat=Color
 /build:bg/riverscene.png
 
+#begin chars/aiyo.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:chars/aiyo.png
+
 #begin chars/arg.png
 /importer:TextureImporter
 /processor:TextureProcessor
