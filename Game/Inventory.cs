@@ -159,7 +159,7 @@ namespace IngredientRun
             }
 
             //press E for inventory
-            if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E))
+            if (Game1.instance.input.JustPressed("inventory"))
             {
                 showInv = !showInv;
             }

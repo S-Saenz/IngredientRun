@@ -35,11 +35,16 @@ namespace IngredientRun
             {
                 Keys.LeftShift
             };
+            List<Keys> inventory = new List<Keys>()
+            {
+                Keys.I
+            };
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
+            _buttons.Add("inventory", new Button(inventory));
         }
 
         public void Update(GameTime time)
