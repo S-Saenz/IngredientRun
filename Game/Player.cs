@@ -18,10 +18,11 @@ namespace IngredientRun
         private Sprite FOWTSprite;
         private int _runSpeed = 120; // maximum speed for player to move at
         private int _walkSpeed = 50;
+        private int _currSpeed = 0;
         private int _walkAccel = 50;
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.6f; // rate at which player stops
+        private float _friction = 0.2f; // rate at which player stops
         private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -64,18 +65,18 @@ namespace IngredientRun
             //Movement
             if (Game1.instance.input.IsDown("right"))
             {
-                _collisionBox.Accelerate(new Vector2(_acceleration, 0));
+                _collisionBox.TryMoveHorizontal(_currSpeed);
             }
             if (Game1.instance.input.IsDown("left"))
             {
-                _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
+                _collisionBox.TryMoveHorizontal(-_currSpeed);
             }
             // Debug.WriteLine(_collisionBox._velocity.X);
             // Debug.WriteLine(_collisionBox._acceleration.X);
             if (((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
                (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
             {
-                _collisionBox._acceleration.X = 0;
+                _collisionBox.TryMoveHorizontal(0);
             }
             if (Game1.instance.input.IsDown("jump"))
             {
@@ -91,13 +92,11 @@ namespace IngredientRun
             }
             if(Game1.instance.input.IsDown("run"))
             {
-                _collisionBox._maxSpeed.X = _runSpeed;
-                _acceleration = _runAccel;
+                _currSpeed = _runSpeed;
             }
             else
             {
-                _collisionBox._maxSpeed.X = _walkSpeed;
-                _acceleration = _walkAccel;
+                _currSpeed = _walkSpeed;
             }
             
             if (Game1.instance.input.JustPressed("interact"))
@@ -176,10 +175,10 @@ namespace IngredientRun
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_walkSpeed, 500),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
                 friction: _friction);
             _collisionBox.AddMovementStartListener(onStartMove);
-            _collisionBox.AddMovementEndListener(onEndMove);
+            _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
@@ -229,7 +228,7 @@ namespace IngredientRun
             {
                 _currentDirection = "Right";
             }
-            if(move.X < 0) // moving left
+            else if(move.X < 0) // moving left
             {
                 _currentDirection = "Left";
             }
@@ -240,10 +239,17 @@ namespace IngredientRun
             }
         }
         
-        public void onEndMove(Vector2 move)
+        public void onChangeDirection(Vector2 move)
         {
-            // Debug.WriteLine("Stop");
-            if(move.X == 0) // horizontal movement stopped
+            if (move.X > 0) // moving right
+            {
+                _currentDirection = "Right";
+            }
+            else if (move.X < 0) // moving left
+            {
+                _currentDirection = "Left";
+            }
+            else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
                 _isMoving = false;
