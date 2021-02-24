@@ -10,7 +10,7 @@ namespace IngredientRun
 {
     class NPC : IPhysicsObject
     {
-        float _scale = 1.5f;
+        float _scale = 1f;
         Texture2D _texture;
         public Vector2 _pos;
         private Vector2 _dialogueLoc;

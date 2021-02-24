@@ -25,12 +25,11 @@ namespace IngredientRun
             };
             List<Keys> jumpKeys = new List<Keys>()
             {
-                Keys.Up,
-                Keys.W
+                Keys.Space
             };
             List<Keys> interactKeys = new List<Keys>()
             {
-                Keys.F
+                Keys.E
             };
             List<Keys> runKeys = new List<Keys>()
             {
