@@ -23,6 +23,8 @@ namespace IngredientRun.States
 
         Vector2 bgPos;
 
+        Effect testEffect;
+
         private PhysicsHandler _collisionHandler;
 
         public CampState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
@@ -48,6 +50,9 @@ namespace IngredientRun.States
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
+
+            // shader
+            testEffect = content.Load<Effect>("shaders/testShader");
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -60,6 +65,7 @@ namespace IngredientRun.States
             Rectangle destination = (Rectangle)campTileMap._mapBounds;
             destination.Height /= 2;
             destination.Y += destination.Height;
+            testEffect.CurrentTechnique.Passes[0].Apply();
             _spriteBatch.Draw(campPNGBackground, destination, Color.White);
             _spriteBatch.End();
 
