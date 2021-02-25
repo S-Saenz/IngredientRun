@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System.Windows.Forms.VisualStyles;
 using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
@@ -58,7 +57,10 @@ namespace IngredientRun
             Content.RootDirectory = "Content";
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             this.IsMouseVisible = true;
+        }
 
+        protected override void Initialize()
+        {
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
             _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(512, 288), new Vector2(1728, 972));
@@ -68,10 +70,7 @@ namespace IngredientRun
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
             FontManager.Initialize(Content);
-        }
 
-        protected override void Initialize()
-        {
             InitializeConditions();
             base.Initialize();
             input.Initialize();
@@ -117,8 +116,13 @@ namespace IngredientRun
                 ChangeState("CaveState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
-            
-            if(Keyboard.GetState().IsKeyDown(Keys.D1) ||
+
+            if(input.JustPressed("windowed"))
+                _cameraController.MakeWindowed();
+            else if (input.JustPressed("fullScreen"))
+                _cameraController.MakeFullScreen();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                     Keyboard.GetState().IsKeyDown(Keys.D2) ||
                     Keyboard.GetState().IsKeyDown(Keys.D3))
             {

@@ -1,12 +1,7 @@
 ﻿using IngredientRun.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SharpDX.Direct3D11;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Forms;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 
 namespace IngredientRun
@@ -30,22 +25,37 @@ namespace IngredientRun
             };
             List<Keys> jumpKeys = new List<Keys>()
             {
-                Keys.Up,
-                Keys.W
+                Keys.Space
             };
             List<Keys> interactKeys = new List<Keys>()
             {
-                Keys.F
+                Keys.E
             };
             List<Keys> runKeys = new List<Keys>()
             {
                 Keys.LeftShift
             };
+            List<Keys> inventory = new List<Keys>()
+            {
+                Keys.I
+            };
+            List<Keys> windowed = new List<Keys>()
+            {
+                Keys.RightControl
+            };
+            List<Keys> fullScreen = new List<Keys>()
+            {
+                Keys.RightShift
+            };
+
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
+            _buttons.Add("inventory", new Button(inventory));
+            _buttons.Add("windowed", new Button(windowed));
+            _buttons.Add("fullScreen", new Button(fullScreen));
         }
 
         public void Update(GameTime time)

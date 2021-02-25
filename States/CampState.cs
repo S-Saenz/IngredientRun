@@ -29,7 +29,7 @@ namespace IngredientRun.States
             : base(game, graphicsDevice, content, spriteBatch)
         {
             // initialize NPC dialogue content
-            _dialogueSystem = new NPCDialogueSystem("Content/dialogue/NPCDialogue.tsv", game);
+            _dialogueSystem = new NPCDialogueSystem(game);
 
             // setup collision
             _collisionHandler = new PhysicsHandler();
@@ -108,9 +108,6 @@ namespace IngredientRun.States
 
         public override void LoadContent()
         {
-            // dialogue system
-            _dialogueSystem.PlayInteraction(game);
-
             //music
             game.sounds.playSong("forestSong");
 
@@ -128,6 +125,7 @@ namespace IngredientRun.States
             _characters.Add("Snäll", new NPC(_content.Load<Texture2D>("chars/snall"), Vector2.Zero));
             _characters.Add("Kall", new NPC(_content.Load<Texture2D>("chars/kall"), Vector2.Zero));
             _characters.Add("Arg", new NPC(_content.Load<Texture2D>("chars/arg"), Vector2.Zero));
+            _characters.Add("Aiyo", new NPC(_content.Load<Texture2D>("chars/aiyo"), Vector2.Zero));
             campTileMap.PlaceNPCs(_characters);
 
             // dialogue system
@@ -164,7 +162,7 @@ namespace IngredientRun.States
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            if (player._isMoving)
+            if (player._isWalking)
             {
                 game.sounds.walkSound(gameTime);
             }

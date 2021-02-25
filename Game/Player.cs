@@ -18,10 +18,11 @@ namespace IngredientRun
         private Sprite FOWTSprite;
         private int _runSpeed = 120; // maximum speed for player to move at
         private int _walkSpeed = 50;
+        private int _currSpeed = 0;
         private int _walkAccel = 50;
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.6f; // rate at which player stops
+        private float _friction = 0.2f; // rate at which player stops
         private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -30,6 +31,10 @@ namespace IngredientRun
         public bool _isDark = false;
         public bool _inAir = false;
         public bool _isMoving = false;
+
+        string _currentDirection = "";
+        string _currentMoveType = "idle";
+        public bool _isWalking = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -58,39 +63,21 @@ namespace IngredientRun
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            base.Update(gameTime);
             //Movement
             if (Game1.instance.input.IsDown("right"))
             {
-                _collisionBox.Accelerate(new Vector2(_acceleration, 0));
-                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed+1)
-                {
-                    currentAnimation = "runRight";
-                }
-                else
-                {
-                    currentAnimation = "walkRight";
-                }
+                _collisionBox.TryMoveHorizontal(_currSpeed);
             }
             if (Game1.instance.input.IsDown("left"))
             {
-                _collisionBox.Accelerate(new Vector2(-_acceleration, 0));
-                if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed+1)
-                {
-                    currentAnimation = "runLeft";
-                }
-                else
-                {
-                    currentAnimation = "walkLeft";
-                }
+                _collisionBox.TryMoveHorizontal(-_currSpeed);
             }
-            Debug.WriteLine(_collisionBox._velocity.X);
-            Debug.WriteLine(_collisionBox._acceleration.X);
+            // Debug.WriteLine(_collisionBox._velocity.X);
+            // Debug.WriteLine(_collisionBox._acceleration.X);
             if (((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
                (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
             {
-                currentAnimation = "idle";
-                _collisionBox._acceleration.X = 0;
+                _collisionBox.TryMoveHorizontal(0);
             }
             if (Game1.instance.input.IsDown("jump"))
             {
@@ -106,19 +93,18 @@ namespace IngredientRun
             }
             if(Game1.instance.input.IsDown("run"))
             {
-                _collisionBox._maxSpeed.X = _runSpeed;
-                _acceleration = _runAccel;
+                _currSpeed = _runSpeed;
             }
             else
             {
-                _collisionBox._maxSpeed.X = _walkSpeed;
-                _acceleration = _walkAccel;
+                _currSpeed = _walkSpeed;
             }
             
             if (Game1.instance.input.JustPressed("interact"))
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
                 {
+                    // check if pickup item
                     PickupItem obj = item._other as PickupItem;
                     if(obj != null)
                     {
@@ -129,10 +115,35 @@ namespace IngredientRun
                             obj._spawn.Despawn();
                         }
                     }
+
+                    // check if area
+                    Area area = item._other as Area;
+                    if(area != null)
+                    {
+                        if(area._name == "fire")
+                        {
+                            Debug.WriteLine("Fire");
+                            // Open cooking ui
+                        }
+                        else if(area._name.Contains("state"))
+                        {
+                            if(area._name.Contains("Cave"))
+                            {
+                                Game1.instance.ChangeState("CaveState");
+                            }
+                            else if(area._name.Contains("Camp"))
+                            {
+                                Game1.instance.ChangeState("CampState");
+                            }
+                        }
+                    }
                 }
             }
 
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
+
+            // update animation type
+            UpdateAnimationInfo();
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -141,6 +152,8 @@ namespace IngredientRun
                 FOWPosVec.X,
                 FOWPosVec.Y
                 )));
+
+            base.Update(gameTime);
 
             return _pos;
         }
@@ -186,10 +199,10 @@ namespace IngredientRun
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_walkSpeed, 500),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
                 friction: _friction);
             _collisionBox.AddMovementStartListener(onStartMove);
-            _collisionBox.AddMovementEndListener(onEndMove);
+            _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
         }
 
@@ -214,16 +227,65 @@ namespace IngredientRun
             return collisionHandler.RemoveObject(_collisionBox);
         }
 
+        private void UpdateAnimationInfo()
+        {
+            if (_collisionBox._velocity.X == 0) // stopped
+            {
+                _currentMoveType = "idle";
+            }
+            else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1) // if running
+            {
+                _currentMoveType = "run";
+            }
+            else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1) // if walking
+            {
+                _currentMoveType = "walk";
+            }
+            currentAnimation = _currentMoveType + _currentDirection;
+        }
+
         public void onStartMove(Vector2 move)
         {
             // Debug.WriteLine("Start");
-            _isMoving = true;
+
+            if (move.X > 0) // moving right
+            {
+                _currentDirection = "Right";
+            }
+            else if(move.X < 0) // moving left
+            {
+                _currentDirection = "Left";
+            }
+            else if (move.X == 0) // horizontal movement stopped
+            {
+                _currentDirection = "";
+                _isMoving = false;
+            }
+
+            if (move.X != 0) // moving horizontally
+            {
+                _isMoving = true;
+                if (_collisionBox._downBlocked)
+                    _isWalking = true;
+            }
         }
         
-        public void onEndMove(Vector2 move)
+        public void onChangeDirection(Vector2 move)
         {
-            // Debug.WriteLine("Stop");
-            _isMoving = false;
+            if (move.X > 0) // moving right
+            {
+                _currentDirection = "Right";
+            }
+            else if (move.X < 0) // moving left
+            {
+                _currentDirection = "Left";
+            }
+            else if (move.X == 0) // horizontal movement stopped
+            {
+                _currentDirection = "";
+                _isMoving = false;
+                _isWalking = false;
+            }            
         }
     }
 }

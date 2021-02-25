@@ -35,19 +35,19 @@ namespace IngredientRun
         // Blocked information
         public bool _upBlocked;
         private bool _upWasBlocked;
-        public CollisionInfo _upInfo;
+        public List<CollisionInfo> _upInfo = new List<CollisionInfo>();
 
         public bool _downBlocked;
         private bool _downWasBlocked;
-        public CollisionInfo _downInfo;
+        public List<CollisionInfo> _downInfo = new List<CollisionInfo>();
 
         public bool _leftBlocked;
         private bool _leftWasBlocked;
-        public CollisionInfo _leftInfo;
+        public List<CollisionInfo> _leftInfo = new List<CollisionInfo>();
 
         public bool _rightBlocked;
         private bool _rightWasBlocked;
-        public CollisionInfo _rightInfo;
+        public List<CollisionInfo> _rightInfo = new List<CollisionInfo>();
 
         // Events
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
@@ -57,6 +57,7 @@ namespace IngredientRun
 
         private event MovementEventHandler _onMovementStart;
         private event MovementEventHandler _onMovementEnd;
+        private event MovementEventHandler _onMovementChangeDirection;
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
                             Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
@@ -82,6 +83,12 @@ namespace IngredientRun
 
         public Vector2 Update(GameTime gameTime)
         {
+            // clear out touching info
+            _upInfo.Clear();
+            _downInfo.Clear();
+            _leftInfo.Clear();
+            _rightInfo.Clear();
+
             Vector2 pos = _bounds.Position;
             _prevPos = _bounds.Position;
 
@@ -91,29 +98,42 @@ namespace IngredientRun
                 _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
 
-            // Apply damping (air resistance)
-            // _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
-
-            // Update smoothStep "friction"
-            if (_acceleration.X == 0 && _velocity.X != 0 && _downBlocked)
-            {
-                if (_downBlocked)
-                {
-                    _velocity.X = MathHelper.Lerp(_velocity.X, 0, _friction);
-                    if (MathF.Abs(_velocity.X) < _friction / 2.0f)
-                    {
-                        _velocity.X = 0;
-                    }
-                }
-                else
-                {
-                    // Apply damping (air resistance)
-                    _velocity /= 1 + _damping * gameTime.GetElapsedSeconds();
-                }
-            }
-
             // apply acceleration
             _velocity += _acceleration * gameTime.GetElapsedSeconds();
+
+            // Update smoothStep "friction"
+            if(_downBlocked || _upBlocked) // horizontal friction
+            {
+                if (Math.Abs(_velocity.X) > Math.Abs(_prevVelocity.X)) // accelerating
+                {
+                    // Debug.WriteLine("Accelerating " + _prevVelocity.X + " " + _velocity.X);
+                }
+                else if(Math.Abs(_velocity.X) < Math.Abs(_prevVelocity.X)) // slowing
+                {
+                    // Debug.WriteLine("Slowing " + _prevVelocity.X + " " + _velocity.X);
+                    if (MathF.Abs(_prevVelocity.X) < _friction * 2.0f) // round to zero if close enough
+                    {
+                        _prevVelocity.X = 0;
+                    }
+                }
+                _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction);
+            }
+            // if (_rightBlocked || _leftBlocked) // vertical friction
+            // {
+            //     if (Math.Abs(_velocity.Y) > Math.Abs(_prevVelocity.Y)) // accelerating
+            //     {
+            //         // Debug.WriteLine("Accelerating " + _prevVelocity.Y + " " + _velocity.Y);
+            //     }
+            //     else if (Math.Abs(_velocity.Y) < Math.Abs(_prevVelocity.Y)) // slowing
+            //     {
+            //         // Debug.WriteLine("Slowing " + _prevVelocity.Y + " " + _velocity.Y);
+            //         if (MathF.Abs(_prevVelocity.Y) < _friction * 2.0f) // round to zero if close enough
+            //         {
+            //             _prevVelocity.Y = 0;
+            //         }
+            //     }
+            //     _velocity.Y = MathHelper.Lerp(_prevVelocity.Y, _velocity.Y, _friction);
+            // }
 
             // Update velocity
             if (MathF.Abs(_velocity.X) >= _maxSpeed.X)
@@ -149,7 +169,13 @@ namespace IngredientRun
             else if ((_velocity.X == 0 && _prevVelocity.X != 0) || // stopped moving
                (_velocity.Y == 0 && _prevVelocity.Y != 0))
             {
+                _onMovementChangeDirection?.Invoke(_velocity);
                 _onMovementEnd?.Invoke(_velocity);
+            }
+            else if((_velocity.X > 0) == (_prevVelocity.X > 0) || // changed direction
+                    (_velocity.Y > 0) == (_prevVelocity.Y > 0))
+            {
+                _onMovementChangeDirection?.Invoke(_velocity);
             }
 
             // Stop acceleration if against wall
@@ -172,10 +198,17 @@ namespace IngredientRun
             CollisionUpdateSide(ref _leftWasBlocked, ref _leftBlocked, _leftInfo); // check left states
             CollisionUpdateSide(ref _rightWasBlocked, ref _rightBlocked, _rightInfo); // check right states
 
-            Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
+            // Debug.WriteLine(_prevVelocity);
+            // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
             // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
             return _bounds.Position;
+        }
+
+        // tries to move collision box at desired velocity, taking into account momentum and friction
+        public void TryMoveHorizontal(float desiredVelocity)
+        {
+            _velocity.X = desiredVelocity;
         }
 
         public void Accelerate(Vector2 acceleration)
@@ -190,6 +223,24 @@ namespace IngredientRun
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawRectangle(_bounds, Color.LawnGreen, 1);
+            spriteBatch.DrawLine(_bounds.Center, _bounds.Center + _velocity / 2, Color.Aquamarine);
+            
+            foreach(CollisionInfo info in _downInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _upInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _rightInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            foreach (CollisionInfo info in _leftInfo)
+            {
+                spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
         }
 
         private void IncrementBlocked() // steps forward blocked bools, setting wasBlocked and resetting blocked
@@ -241,18 +292,28 @@ namespace IngredientRun
         {
             _onMovementEnd += moveFunction;
         }
+        public void AddMovementChangeDirectionListener(MovementEventHandler moveFunction)
+        {
+            _onMovementChangeDirection += moveFunction;
+        }
 
-        private void CollisionUpdateSide(ref bool prevState, ref bool currState, CollisionInfo info)
+        private void CollisionUpdateSide(ref bool prevState, ref bool currState, List<CollisionInfo> infoList)
         {
             if (!prevState && currState) // start hit
             {
                 // Debug.WriteLine("Start " + info._hitDir);
-                _onCollisionStart?.Invoke(info);
+                foreach (CollisionInfo info in infoList)
+                {
+                    _onCollisionStart?.Invoke(info);
+                }
             }
             else if (prevState && !currState) // end hit
             {
                 // Debug.WriteLine("End " + info._hitDir);
-                _onCollisionEnd?.Invoke(info);
+                foreach (CollisionInfo info in infoList)
+                {
+                    _onCollisionEnd?.Invoke(info);
+                }
             }
         }
 
