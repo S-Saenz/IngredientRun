@@ -1,6 +1,6 @@
 ﻿using MonoGame.Extended;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class Area : IPhysicsObject
     {
