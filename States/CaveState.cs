@@ -25,6 +25,9 @@ namespace IngredientRun.States
         bool _ctrlPrevDown = false;
 
         // private GraphicsDeviceManager _graphics;
+
+        // Temp navmesh for test
+        NavPointMap _navMap;
         
 
         private PhysicsHandler _collisionHandler;
@@ -52,6 +55,9 @@ namespace IngredientRun.States
 
             //backgrounds
             caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
+
+            // nav mesh test
+            _navMap = caveTileMap.GenerateNavPointMap(new RectangleF(0, 0, 64, 48));
         }
 
         public override void LoadContent()
@@ -122,6 +128,7 @@ namespace IngredientRun.States
             caveTileMap.DrawPickups(spriteBatch, _isDebug);
             caveTileMap.DrawEnemies(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
+            _navMap.Draw(spriteBatch, _isDebug);
             _spriteBatch.End();
 
             // Draw tilemap foreground

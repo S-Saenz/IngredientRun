@@ -181,5 +181,10 @@ namespace IngredientRun
             }
             return Vector2.Zero;
         }
+
+        public NavPointMap GenerateNavPointMap(RectangleF collisionBox)
+        {
+            return new NavPointMap(_map, collisionBox);
+        }
     }
 }
