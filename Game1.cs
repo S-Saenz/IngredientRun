@@ -84,7 +84,7 @@ namespace WillowWoodRefuge
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
 
-            _currentState = _states["CaveState"];
+            _currentState = _states["CampState"];
             _currentState.LoadContent();
 
             // load inventory
