@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     static class FontManager
     {

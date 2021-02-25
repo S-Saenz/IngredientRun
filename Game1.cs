@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
-using IngredientRun.States;
 using System.Collections.Generic;
 
 //hi
 //123
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public class Game1 : Game
     {

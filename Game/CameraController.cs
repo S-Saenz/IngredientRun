@@ -4,7 +4,7 @@ using MonoGame.Extended;
 using MonoGame.Extended.ViewportAdapters;
 using System.Diagnostics;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public class CameraController
     {

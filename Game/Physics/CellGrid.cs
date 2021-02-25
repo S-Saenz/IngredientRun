@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class CellGrid
     {

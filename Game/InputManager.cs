@@ -1,10 +1,9 @@
-﻿using IngredientRun.States;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public class InputManager
     {

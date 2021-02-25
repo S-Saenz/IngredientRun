@@ -7,7 +7,7 @@ using MonoGame.Extended.Tiled;
 using System;
 using System.Collections.Generic;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class NavPointMap
     {

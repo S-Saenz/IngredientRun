@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public enum NavPointType { leftEdge, platform, rightEdge, solo};
     class NavPoint

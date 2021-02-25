@@ -8,7 +8,7 @@ using MonoGame.Extended.Tiled.Renderers;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class TileMap : IPhysicsObject
     {

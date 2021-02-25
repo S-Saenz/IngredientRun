@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class OverlapInfo
     {
