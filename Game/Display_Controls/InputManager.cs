@@ -32,7 +32,8 @@ namespace WillowWoodRefuge
             };
             List<Keys> runKeys = new List<Keys>()
             {
-                Keys.LeftShift
+                Keys.LeftShift,
+                Keys.RightShift
             };
             List<Keys> inventory = new List<Keys>()
             {
