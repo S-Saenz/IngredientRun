@@ -120,10 +120,9 @@ namespace WillowWoodRefuge
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
 
-            if(input.JustPressed("windowed"))
-                _cameraController.MakeWindowed();
-            else if (input.JustPressed("fullScreen"))
-                _cameraController.MakeFullScreen();
+            // toggle windowed/fullscreen
+            if(input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
+                _cameraController.ToggleFullscreen();
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                     Keyboard.GetState().IsKeyDown(Keys.D2) ||
