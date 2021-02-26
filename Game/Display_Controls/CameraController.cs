@@ -205,5 +205,20 @@ namespace WillowWoodRefuge
             _graphics.IsFullScreen = false; // set true to default later
             _graphics.ApplyChanges();
         }
+
+        public void ToggleFullscreen()
+        {
+            if(_graphics.IsFullScreen == true)
+            {
+                RecalculateScreenDimensions(_windowDimensions);
+                _graphics.IsFullScreen = false; // set true to default later
+            }
+            else
+            {
+                RecalculateScreenDimensions(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+                _graphics.IsFullScreen = true;
+            }
+            _graphics.ApplyChanges();
+        }
     }
 }
