@@ -147,16 +147,16 @@ namespace WillowWoodRefuge
         private void RecalculateScreenDimensions(Vector2 screenDimensions, Vector2? pos = null)
         {
             // calculate dimensions restrained by screenRatio
-            float widthScale  = screenDimensions.X / _screenRatio.X;
-            float heightScale = screenDimensions.Y / _screenRatio.Y;
-            if (widthScale < heightScale) // limited by width
-            {
-                screenDimensions.Y = widthScale * _screenRatio.Y;
-            }
-            else // limited by height
-            {
-                screenDimensions.X = heightScale * _screenRatio.X;
-            }
+            // float widthScale  = screenDimensions.X / _screenRatio.X;
+            // float heightScale = screenDimensions.Y / _screenRatio.Y;
+            // if (widthScale < heightScale) // limited by width
+            // {
+            //     screenDimensions.Y = widthScale * _screenRatio.Y;
+            // }
+            // else // limited by height
+            // {
+            //     screenDimensions.X = heightScale * _screenRatio.X;
+            // }
 
             // apply new screen dimensions to graphics device
             _graphics.PreferredBackBufferWidth  = (int)screenDimensions.X;  // set this value to the desired width of your window
