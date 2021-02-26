@@ -24,6 +24,7 @@ namespace WillowWoodRefuge
         private Vector2 _prevVelocity = Vector2.Zero;
         public Vector2 _acceleration;
         public Vector2 _maxSpeed;
+        public Vector2 _maxAirSpeed;
         public Vector2 _gravity;
         private Vector2 _prevPos;
         public float _friction; // 0-1
@@ -37,7 +38,7 @@ namespace WillowWoodRefuge
         private bool _upWasBlocked;
         public List<CollisionInfo> _upInfo = new List<CollisionInfo>();
 
-        public bool _downBlocked;
+        public bool _downBlocked; //checks if player is grounded
         private bool _downWasBlocked;
         public List<CollisionInfo> _downInfo = new List<CollisionInfo>();
 
@@ -60,7 +61,7 @@ namespace WillowWoodRefuge
         private event MovementEventHandler _onMovementChangeDirection;
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
-                            Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
+                            Vector2? maxSpeed = null, Vector2? maxAirSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
         {
             _bounds = bounds;
 
@@ -77,6 +78,14 @@ namespace WillowWoodRefuge
             else
             {
                 _maxSpeed = Vector2.One;
+            }
+            if (maxAirSpeed.HasValue)
+            {
+                _maxAirSpeed = maxAirSpeed.Value;
+            }
+            else
+            {
+                _maxAirSpeed = Vector2.One;
             }
             _prevPos = _bounds.Position;
         }
@@ -135,8 +144,8 @@ namespace WillowWoodRefuge
             //     _velocity.Y = MathHelper.Lerp(_prevVelocity.Y, _velocity.Y, _friction);
             // }
 
-            // Update velocity
-            if (MathF.Abs(_velocity.X) >= _maxSpeed.X)
+            // Update ground velocity
+            if (MathF.Abs(_velocity.X) >= _maxSpeed.X && _downBlocked)
             {
                 _velocity.X = Math.Clamp(_velocity.X, -_maxSpeed.X, _maxSpeed.X);
             }
@@ -145,6 +154,11 @@ namespace WillowWoodRefuge
                 _acceleration.Y = 0;
                 _velocity.Y = Math.Clamp(_velocity.Y, -_maxSpeed.Y, _maxSpeed.Y);
             }
+            if (MathF.Abs(_velocity.X) >= _maxSpeed.X && !_downBlocked)
+            {
+                _velocity.X = Math.Clamp(_velocity.X, -_maxAirSpeed.X, _maxAirSpeed.X);
+            }
+
             else if (MathF.Abs(_velocity.Y) < 0.01f)
             {
                 _velocity.Y = 0;

@@ -17,13 +17,12 @@ namespace WillowWoodRefuge
         private int hp = 25;
         private Sprite FOWTSprite;
         private int _runSpeed = 120; // maximum speed for player to move at
+        private int _airSpeed = 50; //maximum air speed for the player
+        private Vector2 _airAccel = new Vector2(5, 0); //air acceleration (x, y)
         private int _walkSpeed = 50;
         private int _currSpeed = 0;
-        private int _walkAccel = 50;
-        private int _runAccel = 100;
-        private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.2f; // rate at which player stops
-        private int _jump = 13000; // force on player to move upward
+        private float _friction = 0.5f; // rate at which player stops
+        private int _jump = 7000; // force on player to move upward. 7000 feels like a good final value
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
@@ -66,11 +65,33 @@ namespace WillowWoodRefuge
             //Movement
             if (Game1.instance.input.IsDown("right"))
             {
-                _collisionBox.TryMoveHorizontal(_currSpeed);
+                if (_collisionBox._downBlocked)
+                {
+                    _collisionBox.TryMoveHorizontal(_currSpeed);
+                }
+                else
+                {
+                    if (_collisionBox._velocity.X < _airSpeed) 
+                    { 
+                        _collisionBox.AddVelocity(_airAccel);
+                    }
+                    Debug.WriteLine(_collisionBox._velocity.X);
+                }
             }
             if (Game1.instance.input.IsDown("left"))
             {
-                _collisionBox.TryMoveHorizontal(-_currSpeed);
+                if (_collisionBox._downBlocked)
+                {
+                    _collisionBox.TryMoveHorizontal(-_currSpeed);
+                }
+                else
+                {
+                    if(_collisionBox._velocity.X > -_airSpeed)
+                    {
+                        _collisionBox.AddVelocity(-_airAccel);
+                    }
+                    Debug.WriteLine(_collisionBox._velocity.X);
+                }
             }
             // Debug.WriteLine(_collisionBox._velocity.X);
             // Debug.WriteLine(_collisionBox._acceleration.X);
@@ -83,6 +104,17 @@ namespace WillowWoodRefuge
             {
                 if (_collisionBox._downBlocked && !_jumpClicked)
                 {
+                    if (Math.Abs(_collisionBox._velocity.X) > _airSpeed)
+                    {
+                        if (_collisionBox._velocity.X > 0)
+                        {
+                            _collisionBox._velocity.X = _airSpeed;
+                        }
+                        else
+                        {
+                            _collisionBox._velocity.X = -_airSpeed;
+                        }
+                    }
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 _jumpClicked = true;
@@ -199,7 +231,7 @@ namespace WillowWoodRefuge
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
-                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+                collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), maxAirSpeed: new Vector2(_airSpeed, 500),
                 friction: _friction);
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
