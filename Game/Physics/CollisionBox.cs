@@ -116,7 +116,7 @@ namespace IngredientRun
                         _prevVelocity.X = 0;
                     }
                 }
-                _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction);
+                _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction * gameTime.GetElapsedSeconds() * 20);
             }
             // if (_rightBlocked || _leftBlocked) // vertical friction
             // {
@@ -151,7 +151,7 @@ namespace IngredientRun
             }
 
             // Apply final velocity and try move
-            pos += _velocity * gameTime.GetElapsedSeconds();
+            pos += _velocity * gameTime.GetElapsedSeconds() + 0.5f * _acceleration * gameTime.GetElapsedSeconds() * gameTime.GetElapsedSeconds();
             IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
