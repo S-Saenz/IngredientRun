@@ -10,13 +10,13 @@ namespace WillowWoodRefuge
     class NavMesh
     {
         NavPointMap _pointMap;
-        Dictionary<NavPoint, NavPoint> _edges;
+        Dictionary<NavPoint, List<NavPoint>> _edges;
 
 
         public NavMesh(NavPointMap pointMap, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, float airControl = 0)
         {
             _pointMap = pointMap;
-            _edges = new Dictionary<NavPoint, NavPoint>();
+            _edges = new Dictionary<NavPoint, List<NavPoint>>();
 
             FillMesh(canJump, canFall, jumpHeight, jumpDist, airControl);
         }
@@ -28,7 +28,10 @@ namespace WillowWoodRefuge
             {
                 foreach (NavPoint start in _edges.Keys)
                 {
-                    spriteBatch.DrawLine(start._location, _edges[start]._location, Color.Blue);
+                    foreach (NavPoint end in _edges[start])
+                    {
+                        spriteBatch.DrawLine(start._location, end._location, Color.Blue);
+                    }
                 }
             }
         }
@@ -42,11 +45,21 @@ namespace WillowWoodRefuge
                 if (_pointMap._navPoints[point]._pointType != NavPointType.leftEdge &&
                     _pointMap._navPoints[point]._pointType != NavPointType.solo)
                 {
-                    _edges.Add(_pointMap._navPoints[lastPoint], _pointMap._navPoints[point]);
+                    AddEdge(lastPoint, point);
+                    AddEdge(point, lastPoint);
                 }
 
                 lastPoint = point;
             }
+        }
+
+        private void AddEdge(Point start, Point end)
+        {
+            if(!_edges.ContainsKey(_pointMap._navPoints[start]))
+            {
+                _edges.Add(_pointMap._navPoints[start], new List<NavPoint>());
+            }
+            _edges[_pointMap._navPoints[start]].Add(_pointMap._navPoints[end]);
         }
     }
 }
