@@ -21,7 +21,7 @@ namespace WillowWoodRefuge
 
         public Dictionary<string, NPC> _characters { private set; get; }
 
-        Vector2 bgPos;
+        Effect _testEffect;
 
         private PhysicsHandler _collisionHandler;
 
@@ -48,6 +48,9 @@ namespace WillowWoodRefuge
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
+
+            // shader test
+            _testEffect = content.Load<Effect>("shaders/testEffect");
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -56,7 +59,7 @@ namespace WillowWoodRefuge
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
             // Draw png background
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
             Rectangle destination = (Rectangle)campTileMap._mapBounds;
             destination.Height /= 2;
             destination.Y += destination.Height;
@@ -80,8 +83,8 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            foreach(NPC obj in _characters.Values)
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
+            foreach (NPC obj in _characters.Values)
             {
                 obj.Draw(spriteBatch);
             }
@@ -90,7 +93,7 @@ namespace WillowWoodRefuge
             _spriteBatch.End();
 
             // Draw tilemap foreground
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
             campTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 
@@ -167,7 +170,7 @@ namespace WillowWoodRefuge
                 game.sounds.walkSound(gameTime);
             }
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
             game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
