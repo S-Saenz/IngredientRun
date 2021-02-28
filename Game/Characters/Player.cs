@@ -211,11 +211,7 @@ namespace WillowWoodRefuge
         {
             base.Draw(spriteBatch);
 
-            if (isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
-            else if (_isDark)
+            if (_isDark && !isDebug)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);

@@ -45,11 +45,6 @@ namespace WillowWoodRefuge
         {
 
             spriteBatch.Draw(texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
-
-            if(isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
         }
     }
 }

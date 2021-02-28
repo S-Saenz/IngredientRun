@@ -182,7 +182,7 @@ namespace WillowWoodRefuge
             // draw cell grid
             foreach(Vector2 loc in _container.Keys)
             {
-                spriteBatch.DrawRectangle(loc.X, loc.Y, _dimension, _dimension, Color.White, 0.25f);
+                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension, Color.White, 0.25f);
             }
         }
     }

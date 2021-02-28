@@ -117,10 +117,6 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
             caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
-            if (_isDebug)
-            {
-                caveTileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
-            }
             spriteBatch.End();
 
             // Draw sprites
@@ -135,6 +131,14 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             caveTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
+
+            // Draw physics debug
+            if (_isDebug)
+            {
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _collisionHandler.DrawDebug(spriteBatch);
+                _spriteBatch.End();
+            }
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);

@@ -132,18 +132,6 @@ namespace WillowWoodRefuge
             _renderer.Draw(viewMatrix, projMatrix);
         }
 
-        public void DrawDebug(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
-        {
-            _collisionHandler.Draw(spriteBatch, "Walls");
-            foreach(List<Area> areas in _areas.Values)
-            {
-                foreach (Area area in areas)
-                {
-                    spriteBatch.DrawRectangle(area._bounds, Color.Red);
-                }
-            }
-        }
-
         public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name, bool isDebug = false)
         {
             TiledMapLayer layer = _map.GetLayer<TiledMapLayer>(name);
