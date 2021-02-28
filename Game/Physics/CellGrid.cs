@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     class CellGrid
     {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     delegate void CollisionEventHandler(CollisionInfo info);
     delegate void OverlapEventHandler(OverlapInfo info);
