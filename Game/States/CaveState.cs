@@ -184,11 +184,13 @@ namespace WillowWoodRefuge
             {
                 enemy.RemoveCollision(_collisionHandler);
             }
+            _enemies.Clear();
 
             foreach (PickupItem item in _items)
             {
                 item.RemoveCollision(_collisionHandler);
             }
+            _items.Clear();
         }
     }
 }

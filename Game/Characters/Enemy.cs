@@ -25,6 +25,7 @@ namespace WillowWoodRefuge
 
             texture = EnemyTextures.GetTexture(type);
             _pos = pos - new Vector2(texture.Width * _scale / 2, texture.Height * _scale);
+            _collisionHandler.RemoveObject(_collisionBox); // remove default collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos, new Size2(texture.Width * _scale, texture.Height * _scale)),
                 collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), friction: _friction);
             _collisionHandler.AddObject("Enemy", _collisionBox);
