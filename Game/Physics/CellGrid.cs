@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace IngredientRun
 {
@@ -59,7 +61,7 @@ namespace IngredientRun
         }
 
         // Checks if box is still in correct cell and moves it to correct cell if it isn't. returns wasCorrect bool
-        public bool checkBox(CollisionBox box, Vector2 prevLoc)
+        public bool CheckBox(CollisionBox box, Vector2 prevLoc)
         {
             Vector2 gridLoc = worldToGrid(prevLoc);
             bool expiredPrevLoc = false; // whether previous location actually contains box
@@ -145,6 +147,43 @@ namespace IngredientRun
             }
 
             return all;
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch, Color color)
+        {
+            // draw collision boxes
+            foreach(List<CollisionBox> list in _container.Values)
+            {
+                foreach(CollisionBox box in list)
+                {
+                    spriteBatch.DrawRectangle(box._bounds, color, 0.5f);
+
+                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine);
+
+                    foreach (CollisionInfo info in box._downInfo)
+                    {
+                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    }
+                    foreach (CollisionInfo info in box._upInfo)
+                    {
+                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    }
+                    foreach (CollisionInfo info in box._rightInfo)
+                    {
+                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    }
+                    foreach (CollisionInfo info in box._leftInfo)
+                    {
+                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    }
+                }
+            }
+
+            // draw cell grid
+            foreach(Vector2 loc in _container.Keys)
+            {
+                spriteBatch.DrawRectangle(loc.X, loc.Y, _dimension, _dimension, Color.White, 0.25f);
+            }
         }
     }
 }

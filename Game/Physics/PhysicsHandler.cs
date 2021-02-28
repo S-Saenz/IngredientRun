@@ -12,6 +12,15 @@ namespace IngredientRun
         protected Dictionary<string, List<string>> _collisionMask;
         protected Dictionary<string, List<string>> _overlapMask;
 
+        private static Dictionary<string, Color> _layerColor = new Dictionary<string, Color>()
+        {
+            { "Player", Color.LawnGreen },
+            { "Enemy", Color.Red },
+            { "Pickup", Color.Blue },
+            { "Walls", Color.Black },
+            { "Areas", Color.Yellow },
+        };
+
         public PhysicsHandler()
         {
             _layers = new Dictionary<string, CellGrid>();
@@ -122,7 +131,7 @@ namespace IngredientRun
                 }
             }
 
-            _layers[box._label].checkBox(box, origPos);
+            _layers[box._label].CheckBox(box, origPos);
             return movePos;
         }
 
@@ -195,6 +204,26 @@ namespace IngredientRun
                 }
             }
             return others;
+        }
+
+        public void CheckBox(CollisionBox box, Vector2 prevLoc)
+        {
+            _layers[box._label].CheckBox(box, prevLoc);
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            foreach(string layer in _layers.Keys)
+            {
+                if(_layerColor.ContainsKey(layer))
+                {
+                    _layers[layer].DrawDebug(spriteBatch, _layerColor[layer]);
+                }
+                else
+                {
+                    _layers[layer].DrawDebug(spriteBatch, Color.Gray);
+                }
+            }
         }
     }
 }

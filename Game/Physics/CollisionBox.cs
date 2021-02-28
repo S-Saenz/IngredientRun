@@ -202,6 +202,7 @@ namespace IngredientRun
             // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
             // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
+            _collisionHandler.CheckBox(this, _prevPos);
             return _bounds.Position;
         }
 
