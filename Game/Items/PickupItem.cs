@@ -27,7 +27,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
-            spriteBatch.Draw(_texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc, Color.White);
 
             if(isDebug)
             {
