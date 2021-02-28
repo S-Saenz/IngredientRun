@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace WillowWoodRefuge
@@ -35,12 +36,14 @@ namespace WillowWoodRefuge
             // setup collision
             _collisionHandler = new PhysicsHandler();
             _collisionHandler.AddLayer("Player");
+            _collisionHandler.AddLayer("NPC");
             _collisionHandler.AddLayer("Enemy");
             _collisionHandler.AddLayer("Pickup");
             _collisionHandler.AddLayer("Walls");
             _collisionHandler.AddLayer("Areas");
 
             _collisionHandler.SetCollision("Player", "Walls");
+            _collisionHandler.SetCollision("NPC", "Walls");
             _collisionHandler.SetCollision("Enemy", "Walls");
             _collisionHandler.SetOverlap("Player", "Pickup");
             _collisionHandler.SetOverlap("Enemy", "Player");
@@ -125,13 +128,28 @@ namespace WillowWoodRefuge
             player.Load(_content, _collisionHandler, campTileMap._mapBounds);
 
             // characters
+            Area campArea = campTileMap.GetAreaObject("Camp")[0];
+            Random rand = new Random();
             _characters = new Dictionary<string, NPC>();
-            _characters.Add("Lura", new NPC(_content.Load<Texture2D>("chars/lura"), Vector2.Zero));
-            _characters.Add("Snäll", new NPC(_content.Load<Texture2D>("chars/snall"), Vector2.Zero));
-            _characters.Add("Kall", new NPC(_content.Load<Texture2D>("chars/kall"), Vector2.Zero));
-            _characters.Add("Arg", new NPC(_content.Load<Texture2D>("chars/arg"), Vector2.Zero));
-            _characters.Add("Aiyo", new NPC(_content.Load<Texture2D>("chars/aiyo"), Vector2.Zero));
-            campTileMap.PlaceNPCs(_characters);
+            _characters.Add("Lura", new NPC("lura", 
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom), 
+                            _collisionHandler, campTileMap._mapBounds));
+            _characters.Add("Snäll", new NPC("snall",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _collisionHandler, campTileMap._mapBounds));
+            _characters.Add("Kall", new NPC("kall",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _collisionHandler, campTileMap._mapBounds));
+            _characters.Add("Arg", new NPC("arg",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _collisionHandler, campTileMap._mapBounds));
+            _characters.Add("Aiyo", new NPC("aiyo",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _collisionHandler, campTileMap._mapBounds));
+            foreach (NPC character in _characters.Values)
+            {
+                character.Load(_content);
+            }
 
             // dialogue system
             _dialogueSystem.Load(_characters);
@@ -150,6 +168,24 @@ namespace WillowWoodRefuge
         {
             _dialogueSystem.EndInteraction();
             player.RemoveCollision(_collisionHandler);
+
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.RemoveCollision(_collisionHandler);
+            }
+            _enemies.Clear();
+
+            foreach (PickupItem item in _items)
+            {
+                item.RemoveCollision(_collisionHandler);
+            }
+            _items.Clear();
+
+            foreach (NPC character in _characters.Values)
+            {
+                character.RemoveCollision(_collisionHandler);
+            }
+            _characters.Clear();
         }
 
         public override void Update(GameTime gameTime)
@@ -172,13 +208,17 @@ namespace WillowWoodRefuge
             {
                 enemy.Update(gameTime, player._pos);
             }
-            _enemies.Clear();
 
             if (player._isWalking)
             {
                 game.sounds.walkSound(gameTime);
             }
-            _items.Clear();
+
+            // update
+            foreach (NPC character in _characters.Values)
+            {
+                character.Update(gameTime, player._pos);
+            }
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);

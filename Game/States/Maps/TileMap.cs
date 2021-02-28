@@ -75,7 +75,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void AddAreaObjects(PhysicsHandler collisionHandler)
+        private void AddAreaObjects(PhysicsHandler collisionHandler)
         {
             _areas = new Dictionary<string, List<Area>>();
             TiledMapObjectLayer areaObj = _map.GetLayer<TiledMapObjectLayer>("AreaObjects");
@@ -92,6 +92,15 @@ namespace WillowWoodRefuge
                 }
                 _areas[obj.Name].Add(new Area(collisionHandler, new RectangleF(obj.Position, obj.Size), obj.Name));
             }
+        }
+
+        public List<Area> GetAreaObject(string area)
+        {
+            if(_areas.ContainsKey(area))
+            {
+                return _areas[area];
+            }
+            return null;
         }
 
         public void SpawnPickups(ref List<PickupItem> items)
