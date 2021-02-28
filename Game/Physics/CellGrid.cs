@@ -158,7 +158,7 @@ namespace WillowWoodRefuge
                 {
                     spriteBatch.DrawRectangle(box._bounds, color, 0.5f);
 
-                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine);
+                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine, 0.5f);
 
                     foreach (CollisionInfo info in box._downInfo)
                     {

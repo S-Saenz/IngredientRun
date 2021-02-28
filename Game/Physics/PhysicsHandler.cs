@@ -15,7 +15,7 @@ namespace WillowWoodRefuge
         private static Dictionary<string, Color> _layerColor = new Dictionary<string, Color>()
         {
             { "Player", Color.LawnGreen },
-            { "Enemy", Color.Red },
+            { "Enemy", Color.Orange },
             { "Pickup", Color.Blue },
             { "Walls", Color.Black },
             { "Areas", Color.Yellow },
