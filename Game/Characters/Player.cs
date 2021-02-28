@@ -187,7 +187,6 @@ namespace WillowWoodRefuge
 
             _pos.Y -= idleTex.Height * _scale;
 
-            _pos.Y -= idleTex.Height * _scale / 2;
 
             //create list of Animations
             animationDict.Add("idle", idleAnimation);
@@ -204,6 +203,7 @@ namespace WillowWoodRefuge
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
+            _pos = _collisionBox._bounds.Center;
         }
 
 

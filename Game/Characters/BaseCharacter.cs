@@ -30,9 +30,6 @@ namespace WillowWoodRefuge
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null) 
                              : base(animationDict, name, pos)
         {
-            // set position
-            _pos = pos;
-
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(bounds.X, bounds.Y)), collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),

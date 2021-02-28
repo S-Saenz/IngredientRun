@@ -109,7 +109,7 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="PlayerObjects">
-  <object id="2" name="PlayerSpawn" x="18" y="127">
+  <object id="2" name="PlayerSpawn" x="18" y="128">
    <point/>
   </object>
  </objectgroup>
@@ -117,7 +117,7 @@
   <object id="1" name="any" x="654.667" y="576">
    <point/>
   </object>
-  <object id="8" name="any" x="208" y="224">
+  <object id="8" name="any" x="206" y="224">
    <point/>
   </object>
  </objectgroup>
