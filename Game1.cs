@@ -28,6 +28,8 @@ namespace WillowWoodRefuge
         // create vatiable for the state manager
 
         private State _currentState;
+        public string _currentStateName;
+        private bool _restart = false;
 
         private State _nextState;
 
@@ -42,6 +44,7 @@ namespace WillowWoodRefuge
             _nextState = _states[sState];
             _currentState.unloadState();
             _nextState.LoadContent();
+            _currentStateName = sState;
         }
 
         public Game1()
@@ -119,6 +122,11 @@ namespace WillowWoodRefuge
                 ChangeState("CaveState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
+            else if (_restart)
+            {
+                ChangeState(_currentStateName);
+                _restart = false;
+            }
 
             // toggle windowed/fullscreen
             if(input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
@@ -155,6 +163,11 @@ namespace WillowWoodRefuge
             _stateConditions.Add(new Condition("curedPrior", true));
             _stateConditions.Add(new Condition("isMorning", true));
             _stateConditions.Add(new Condition("isRaining", true));
+        }
+
+        public void Restart()
+        {
+            _restart = true;
         }
     }
 }

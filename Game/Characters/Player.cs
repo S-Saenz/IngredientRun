@@ -283,5 +283,10 @@ namespace WillowWoodRefuge
                 _isWalking = false;
             }            
         }
+
+        public void Reset()
+        {
+            Game1.instance.Restart();
+        }
     }
 }

@@ -32,6 +32,7 @@ namespace WillowWoodRefuge
             _collisionBox = new CollisionBox(new RectangleF(_pos, new Size2(texture.Width * _scale, texture.Height * _scale)),
                 collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), friction: _friction);
             _collisionHandler.AddObject("Enemy", _collisionBox);
+            _collisionBox.AddOverlapListener(onOverlap);
 
             // setup _pos for texture
             _pos = _collisionBox._bounds.Center;
@@ -56,6 +57,15 @@ namespace WillowWoodRefuge
             animationDict.Add("walkRight", new Animation(texture, 1, 1, 100));
             animationDict.Add("runLeft", new Animation(texture, 1, 1, 100));
             animationDict.Add("runRight", new Animation(texture, 1, 1, 100));
+        }
+
+        private void onOverlap(OverlapInfo info)
+        {
+            Player player = info._other as Player;
+            if(player != null)
+            {
+                player.Reset();
+            }
         }
     }
 }
