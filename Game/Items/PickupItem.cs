@@ -34,5 +34,9 @@ namespace WillowWoodRefuge
                 _collisionBox.Draw(spriteBatch);
             }
         }
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
+        }
     }
 }

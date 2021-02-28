@@ -18,7 +18,8 @@ namespace WillowWoodRefuge
 
         TileMap caveTileMap;
 
-        Vector2 bgPos;
+        List<Enemy> _enemies = new List<Enemy>();
+        List<PickupItem> _items = new List<PickupItem>();
 
         // Debug mode
         bool _isDebug = false;
@@ -65,8 +66,13 @@ namespace WillowWoodRefuge
         {
             game.sounds.playSong("caveSong");
             // temp, just respawns objects when entering cave
-            caveTileMap.SpawnPickups();
-            caveTileMap.SpawnEnemies();
+            caveTileMap.SpawnPickups(ref _items);
+            caveTileMap.SpawnEnemies(ref _enemies);
+
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Load(game.Content);
+            }
 
             // player
             player = new Player(game.graphics, caveTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
@@ -91,6 +97,12 @@ namespace WillowWoodRefuge
                 _ctrlPrevDown = false;
             }
 
+            // update enemies
+            foreach(Enemy enemy in _enemies)
+            {
+                enemy.Update(gameTime, player._pos);
+            }
+
             //play walking sound effect
             if (player._isWalking)
             {
@@ -100,7 +112,7 @@ namespace WillowWoodRefuge
                 game.Exit();
 
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
             game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
@@ -163,6 +175,16 @@ namespace WillowWoodRefuge
         public override void unloadState()
         {
             player.RemoveCollision(_collisionHandler);
+
+            foreach(Enemy enemy in _enemies)
+            {
+                enemy.RemoveCollision(_collisionHandler);
+            }
+
+            foreach (PickupItem item in _items)
+            {
+                item.RemoveCollision(_collisionHandler);
+            }
         }
     }
 }

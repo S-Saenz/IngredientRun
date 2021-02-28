@@ -7,6 +7,7 @@ namespace WillowWoodRefuge
     interface ISpawnable
     {
         void Draw(SpriteBatch spriteBatch, bool isDebug = false);
+        bool RemoveCollision(PhysicsHandler physicsHandler);
     }
 
     abstract class SpawnPoint
@@ -32,6 +33,10 @@ namespace WillowWoodRefuge
 
         public void Despawn()
         {
+            if (_object != null)
+            {
+                _object.RemoveCollision(_physicsHandler);
+            }
             _object = null;
             _isSpawned = false;
         }
