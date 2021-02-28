@@ -94,19 +94,19 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void SpawnPickups()
+        public void SpawnPickups(ref List<PickupItem> items)
         {
             foreach(SpawnPoint point in _pickupSpawns)
             {
-                point.Spawn();
+                items.Add((PickupItem)point.Spawn());
             }
         }
 
-        public void SpawnEnemies()
+        public void SpawnEnemies(ref List<Enemy> enemies)
         {
             foreach (SpawnPoint point in _enemySpawns)
             {
-                point.Spawn();
+                enemies.Add((Enemy)point.Spawn());
             }
         }
 

@@ -21,7 +21,8 @@ namespace WillowWoodRefuge
 
         public Dictionary<string, NPC> _characters { private set; get; }
 
-        Vector2 bgPos;
+        List<Enemy> _enemies = new List<Enemy>();
+        List<PickupItem> _items = new List<PickupItem>();
 
         private PhysicsHandler _collisionHandler;
 
@@ -116,8 +117,8 @@ namespace WillowWoodRefuge
             game.sounds.playSong("forestSong");
 
             // temp, just respawns objects when entering cave
-            campTileMap.SpawnPickups();
-            campTileMap.SpawnEnemies();
+            campTileMap.SpawnPickups(ref _items);
+            campTileMap.SpawnEnemies(ref _enemies);
 
             // player
             player = new Player(game.graphics, campTileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _collisionHandler);
@@ -166,12 +167,18 @@ namespace WillowWoodRefuge
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
+            // update enemies
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Update(gameTime, player._pos);
+            }
+
             if (player._isWalking)
             {
                 game.sounds.walkSound(gameTime);
             }
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
-            bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
+            player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
             game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 

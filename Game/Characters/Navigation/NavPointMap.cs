@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
@@ -11,16 +9,21 @@ namespace WillowWoodRefuge
 {
     class NavPointMap
     {
-        private Dictionary<Point, NavPoint> _navPoints = new Dictionary<Point, NavPoint>();
+        public Dictionary<Point, NavPoint> _navPoints { get; private set; }
         public Size _entityTileSize { get; private set; }
         private int _tileSize;
 
         public NavPointMap(TiledMap tileMap, RectangleF collisionBox)
         {
+            // Setup empty navpoint list
+            _navPoints = new Dictionary<Point, NavPoint>();
+
+            // Save tilesize
             _tileSize = tileMap.TileHeight;
 
             // Calculate size of entity hitbox in tiles
-            _entityTileSize = new Size((int)Math.Ceiling(collisionBox.Width / tileMap.TileWidth), (int)Math.Ceiling(collisionBox.Height / tileMap.TileHeight));
+            _entityTileSize = new Size((int)Math.Ceiling(collisionBox.Width / tileMap.TileWidth), 
+                                       (int)Math.Ceiling(collisionBox.Height / tileMap.TileHeight));
 
             // Generate map of nav points
             int platformIndex = 0;
@@ -42,12 +45,14 @@ namespace WillowWoodRefuge
                             if (!tile.HasValue || tile.Value.IsBlank ||
                                 !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is left solo
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex));
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                                 ++platformIndex;
                             }
                             else // platform left start
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex));
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                                 platformStarted = true;
                             }
                         }
@@ -58,19 +63,23 @@ namespace WillowWoodRefuge
                             {
                                 if (isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // overhang edge
                                 {
-                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex));
-                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex));
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex, 
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
                                 }
                                 else // against wall
                                 {
-                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex));
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex, 
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                                 }
                                 ++platformIndex;
                                 platformStarted = false;
                             }
                             else // platform continued
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex));
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                             }
                         }
                     }
@@ -80,7 +89,8 @@ namespace WillowWoodRefuge
                         if (tile.HasValue && tile.Value.IsBlank &&
                              isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is right solo
                         {
-                            _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex));
+                            _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex, 
+                                           new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                             ++platformIndex;
                         } 
                     }

@@ -29,5 +29,9 @@ namespace WillowWoodRefuge
         {
             spriteBatch.Draw(_texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
         }
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
+        }
     }
 }
