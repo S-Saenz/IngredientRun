@@ -12,6 +12,8 @@ namespace WillowWoodRefuge
         protected Dictionary<string, List<string>> _collisionMask;
         protected Dictionary<string, List<string>> _overlapMask;
 
+        static float _correctionError = 0.0001f;
+
         private static Dictionary<string, Color> _layerColor = new Dictionary<string, Color>()
         {
             { "Player", Color.LawnGreen },
@@ -86,7 +88,28 @@ namespace WillowWoodRefuge
                     RectangleF.Intersection(ref box._bounds, ref other[(int)obj.X]._bounds, out overlapRect);
                     CollisionInfo info = new CollisionInfo(box, other[(int)obj.X], ref overlapRect);
                     box.CallCollision(info);
-                    box._bounds.Position = movePos -= info._overlapDist * info._hitDir;
+                    if(info._hitDir == new Vector2(-1, 0)) // left
+                    {
+                        movePos.X = other[(int)obj.X]._bounds.Right;
+                    }
+                    else if (info._hitDir == new Vector2(1, 0)) // right
+                    {
+                        movePos.X = other[(int)obj.X]._bounds.Left - box._bounds.Width;
+                    }
+                    else if (info._hitDir == new Vector2(0, -1)) // up
+                    {
+                        movePos.Y = other[(int)obj.X]._bounds.Bottom;
+                    }
+                    else if (info._hitDir == new Vector2(0, 1)) // down
+                    {
+                        movePos.Y = other[(int)obj.X]._bounds.Top - box._bounds.Height;
+                    }
+
+                    // if (Math.Abs(info._overlapDist) > _correctionError)
+                    // {
+                    //     movePos -= info._overlapDist * info._hitDir;
+                    // }
+                    box._bounds.Position = movePos;
                 }
             }
 
@@ -111,22 +134,22 @@ namespace WillowWoodRefuge
                 RectangleF.Intersection(ref box._bounds, ref box._worldBounds, out overlapRect);
                 if (box._worldBounds.Top > movePos.Y) // out top
                 {
-                    movePos.Y += box._bounds.Height - overlapRect.Height;
+                    movePos.Y = box._worldBounds.Top;
                     box._upBlocked = true;
                 }
                 if(box._worldBounds.Bottom < movePos.Y + box._bounds.Height) // out bottom
                 {
-                    movePos.Y -= box._bounds.Height - overlapRect.Height;
+                    movePos.Y = box._worldBounds.Bottom - box._bounds.Height;
                     box._downBlocked = true;
                 }
                 if(box._worldBounds.Left > movePos.X) // out left
                 {
-                    movePos.X += box._bounds.Width - overlapRect.Width;
+                    movePos.X = box._worldBounds.Left;
                     box._leftBlocked = true;
                 }
                 if(box._worldBounds.Right < movePos.X + box._bounds.Width) // out right
                 {
-                    movePos.X -= box._bounds.Width - overlapRect.Width;
+                    movePos.X = box._worldBounds.Right - box._bounds.Width;
                     box._rightBlocked = true;
                 }
             }
