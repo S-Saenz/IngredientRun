@@ -9,6 +9,7 @@ namespace WillowWoodRefuge
     class CellGrid
     {
         Dictionary<Vector2, List<CollisionBox>> _container;
+        public List<Vector2> _checked = new List<Vector2>();
         float _dimension;
 
         public CellGrid(float dimension = 100)
@@ -122,6 +123,7 @@ namespace WillowWoodRefuge
                 {
                     if(_container.ContainsKey(new Vector2(x, y)))
                     {
+                        // _checked.Add(new Vector2(x, y));
                         foreach(CollisionBox other in _container[new Vector2(x, y)])
                         {
                             neighbors.Add(other);
@@ -182,7 +184,8 @@ namespace WillowWoodRefuge
             // draw cell grid
             foreach(Vector2 loc in _container.Keys)
             {
-                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension, Color.White, 0.25f);
+                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension, 
+                                          _checked.Contains(loc) ? Color.BurlyWood : Color.White, 0.25f);
             }
         }
     }

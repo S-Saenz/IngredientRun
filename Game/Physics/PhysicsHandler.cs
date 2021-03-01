@@ -224,6 +224,12 @@ namespace WillowWoodRefuge
                     _layers[layer].DrawDebug(spriteBatch, Color.Gray);
                 }
             }
+
+            // clear checked
+            foreach(CellGrid grid in _layers.Values)
+            {
+                grid._checked.Clear();
+            }
         }
     }
 }
