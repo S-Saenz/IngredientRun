@@ -6,7 +6,7 @@ using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
-    class CellGrid
+    public class CellGrid
     {
         Dictionary<Vector2, List<CollisionBox>> _container;
         public List<Vector2> _checked = new List<Vector2>();

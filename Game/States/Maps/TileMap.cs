@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace WillowWoodRefuge
 {
-    class TileMap : IPhysicsObject
+    public class TileMap : IPhysicsObject
     {
         TiledMap _map;
         TiledMapRenderer _renderer;
@@ -66,6 +66,7 @@ namespace WillowWoodRefuge
         {
             _enemySpawns = new List<SpawnPoint>();
             TiledMapObjectLayer spawnPoints = _map.GetLayer<TiledMapObjectLayer>("EnemyObjects");
+
             foreach (TiledMapObject obj in spawnPoints.Objects)
             {
                 string[] vals = obj.Name.Split('.');

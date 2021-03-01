@@ -8,7 +8,7 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class NPC : BaseCharacter
+    public class NPC : BaseCharacter
     {
         private Vector2 _dialogueLoc;
         private Texture2D texture;

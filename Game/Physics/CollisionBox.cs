@@ -7,15 +7,15 @@ using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
-    delegate void CollisionEventHandler(CollisionInfo info);
-    delegate void OverlapEventHandler(OverlapInfo info);
-    delegate void MovementEventHandler(Vector2 movement);
+    public delegate void CollisionEventHandler(CollisionInfo info);
+    public delegate void OverlapEventHandler(OverlapInfo info);
+    public delegate void MovementEventHandler(Vector2 movement);
 
-    interface IPhysicsObject
+    public interface IPhysicsObject
     {
     }
 
-    class CollisionBox
+    public class CollisionBox
     {
         public RectangleF _bounds;
         public IPhysicsObject _parent { get; set; }

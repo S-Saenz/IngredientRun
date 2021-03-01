@@ -2,7 +2,7 @@
 
 namespace WillowWoodRefuge
 {
-    class Area : IPhysicsObject
+    public class Area : IPhysicsObject
     {
         public string _name { private set; get; }
         public RectangleF _bounds { private set; get; }

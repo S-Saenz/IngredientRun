@@ -7,7 +7,7 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class BaseCharacter : AnimatedObject, IPhysicsObject
+    public class BaseCharacter : AnimatedObject, IPhysicsObject
     {
         // movement 
         protected float _walkSpeed;
@@ -15,6 +15,9 @@ namespace WillowWoodRefuge
         protected float _friction;
         protected float _jumpHeight;
         protected float _jumpDistance;
+
+        // navigation
+        protected NavMesh _navMesh;
 
         // collision
         protected CollisionBox _collisionBox;
@@ -26,7 +29,7 @@ namespace WillowWoodRefuge
         protected string _currentDirection = "";
         protected string _currentMoveType = "idle";
 
-        public BaseCharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler, 
+        public BaseCharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null) 
                              : base(animationDict, name, pos)
         {

@@ -5,16 +5,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
 
 namespace WillowWoodRefuge
 {
-    class Enemy : BaseCharacter, ISpawnable
+    public class Enemy : BaseCharacter, ISpawnable
     {
         private Texture2D texture;
         private PhysicsHandler _collisionHandler;
 
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
-                             RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
+                     RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
         {
             _friction = 0.2f;
@@ -36,6 +37,9 @@ namespace WillowWoodRefuge
 
             // setup _pos for texture
             _pos = _collisionBox._bounds.Center;
+
+            // add navigation mesh
+            _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds));
         }
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
@@ -47,6 +51,11 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
             base.Draw(spriteBatch);
+            
+            if(isDebug)
+            {
+                _navMesh.Draw(spriteBatch, isDebug);
+            }
         }
 
         public void Load(ContentManager Content)

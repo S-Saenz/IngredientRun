@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace WillowWoodRefuge
 {
-    class NavPointMap
+    public class NavPointMap
     {
         public Dictionary<Point, NavPoint> _navPoints { get; private set; }
         public Size _entityTileSize { get; private set; }
@@ -39,10 +39,11 @@ namespace WillowWoodRefuge
                     tileLayer.TryGetTile((ushort)tilePoint.X, (ushort)tilePoint.Y, out tile);
                     if (!tile.Value.IsBlank && isValidLocation(tilePoint, tileLayer)) // is valid location to stand
                     {
+                        TiledMapTile? prevTile = tile;
                         tileLayer.TryGetTile((ushort)(tilePoint.X + 1), (ushort)tilePoint.Y, out tile); // check tile right of current
                         if (!platformStarted) // no started platform
                         {
-                            if (!tile.HasValue || tile.Value.IsBlank ||
+                            if (!tile.HasValue || prevTile.Value.IsBlank ||
                                 !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is left solo
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex, 
@@ -53,7 +54,16 @@ namespace WillowWoodRefuge
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex, 
                                                new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
-                                platformStarted = true;
+                                
+                                if(!tile.HasValue || tile.Value.IsBlank)
+                                {
+                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex,
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
+                                }
+                                else
+                                {
+                                    platformStarted = true;
+                                }
                             }
                         }
                         else // platform already started
@@ -129,16 +139,16 @@ namespace WillowWoodRefuge
                 switch(_navPoints[navPoint]._pointType)
                 {
                     case NavPointType.leftEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 4);
                         break;
                     case NavPointType.platform:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 4);
                         break;
                     case NavPointType.rightEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 4);
                         break;
                     case NavPointType.solo:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 4);
                         break;
                 }
             }

@@ -4,13 +4,13 @@ using System;
 
 namespace WillowWoodRefuge
 {
-    interface ISpawnable
+    public interface ISpawnable
     {
         void Draw(SpriteBatch spriteBatch, bool isDebug = false);
         bool RemoveCollision(PhysicsHandler physicsHandler);
     }
 
-    abstract class SpawnPoint
+    public abstract class SpawnPoint
     {
         public Vector2 _location { protected set; get; }
         public string _rangeType { protected set; get; } // Any, Subset, Exact

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace WillowWoodRefuge
 {
-    class PhysicsHandler
+    public class PhysicsHandler
     {
         protected Dictionary<string, CellGrid> _layers;
         protected Dictionary<string, List<string>> _collisionMask;

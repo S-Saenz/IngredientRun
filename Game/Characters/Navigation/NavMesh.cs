@@ -7,7 +7,7 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class NavMesh
+    public class NavMesh
     {
         NavPointMap _pointMap;
         Dictionary<NavPoint, List<NavPoint>> _edges;

@@ -165,6 +165,15 @@ namespace WillowWoodRefuge
             _stateConditions.Add(new Condition("isRaining", true));
         }
 
+        public TileMap GetCurrentTilemap()
+        {
+            if(_nextState != null)
+            {
+                return _nextState._tileMap;
+            }
+            return _currentState._tileMap;
+        }
+
         public void Restart()
         {
             _restart = true;

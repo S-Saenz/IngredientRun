@@ -28,7 +28,7 @@ namespace WillowWoodRefuge
         // private GraphicsDeviceManager _graphics;
 
         // Temp navmesh for test
-        NavMesh _navMesh;
+        // NavMesh _navMesh;
         
 
         private PhysicsHandler _collisionHandler;
@@ -56,10 +56,11 @@ namespace WillowWoodRefuge
 
             //backgrounds
             caveTileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _collisionHandler);
+            _tileMap = caveTileMap;
 
             // nav mesh test
-            NavPointMap navMap = caveTileMap.GenerateNavPointMap(new RectangleF(0, 0, 64, 48));
-            _navMesh = new NavMesh(navMap);
+            // NavPointMap navMap = caveTileMap.GenerateNavPointMap(new RectangleF(0, 0, 64, 48));
+            // _navMesh = new NavMesh(navMap);
         }
 
         public override void LoadContent()
@@ -137,7 +138,7 @@ namespace WillowWoodRefuge
             caveTileMap.DrawPickups(spriteBatch, _isDebug);
             caveTileMap.DrawEnemies(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
-            _navMesh.Draw(spriteBatch, _isDebug);
+            // _navMesh.Draw(spriteBatch, _isDebug);
             _spriteBatch.End();
 
             // Draw tilemap foreground

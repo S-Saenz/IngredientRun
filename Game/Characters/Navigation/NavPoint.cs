@@ -6,7 +6,7 @@ using System.Text;
 namespace WillowWoodRefuge
 {
     public enum NavPointType { leftEdge, platform, rightEdge, solo};
-    class NavPoint
+    public class NavPoint
     {
         public NavPointType _pointType;
         public int _platformIndex;

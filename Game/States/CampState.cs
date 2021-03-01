@@ -52,6 +52,7 @@ namespace WillowWoodRefuge
             //backgrounds
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
+            _tileMap = campTileMap;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
