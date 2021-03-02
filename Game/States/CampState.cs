@@ -49,11 +49,30 @@ namespace WillowWoodRefuge
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
 
+            // setup lights
+            AreaLight.AddLight(new Vector2(100, 100), 100);
+            AreaLight.AddLight(new Vector2(400, 30), 250);
+            DirectionalLight.AddLight(new Vector2(200, 50), 30, new Vector2(-1, 0), 0.25f * (float)MathHelper.Pi);
+
             // shader test
             _testEffect = content.Load<Effect>("shaders/LightShader");
             _testEffect.Parameters["TextureDimensions"].SetValue(new Vector2(campTileMap._mapBounds.Width, campTileMap._mapBounds.Height / 2));
-            _testEffect.Parameters["lightPos"].SetValue(new Vector2(0, 0));
-            _testEffect.Parameters["lightDist"].SetValue(200f);
+
+            // construct shader parameter arrays
+            Vector2[] lightPosition, lightDirection;
+            float[] lightDistance, lightSpread;
+            Vector4[] lightColor;
+            int count = AreaLight.CreateShaderArrays(out lightPosition, out lightDistance);
+            _testEffect.Parameters["AreaLightPosition"].SetValue(lightPosition);
+            _testEffect.Parameters["AreaLightDistance"].SetValue(lightDistance);
+            _testEffect.Parameters["NumAreaLights"].SetValue(count);
+
+            // count = DirectionalLight.CreateShaderArrays(out lightPosition, out lightDistance, out lightDirection, out lightSpread);
+            // _testEffect.Parameters["DirectionalLightPosition"].SetValue(lightPosition);
+            // _testEffect.Parameters["DirectionalLightDistance"].SetValue(lightDistance);
+            // _testEffect.Parameters["DirectionalLightDirection"].SetValue(lightDirection);
+            // _testEffect.Parameters["DirectionalLightSpread"].SetValue(lightSpread);
+            // _testEffect.Parameters["NumDirectionalLights"].SetValue(count);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

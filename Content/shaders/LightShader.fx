@@ -17,11 +17,10 @@ int     NumAreaLights;
 
 float2  DirectionalLightPosition[MAX_DIRECTIONAL_LIGHTS];
 float   DirectionalLightDistance[MAX_DIRECTIONAL_LIGHTS];
+float2  DirectionalLightDirection[MAX_DIRECTIONAL_LIGHTS];
+float   DirectionalLightSpread[MAX_DIRECTIONAL_LIGHTS];
 float   DirectionalLightColor[MAX_DIRECTIONAL_LIGHTS];
 int     NumDirectionalLights;
-
-float2 lightPos;
-float lightDist;
 
 Texture2D SpriteTexture;
 float2 TextureDimensions;
@@ -41,22 +40,32 @@ struct VertexShaderOutput
 	float2 TextureCoordinates : TEXCOORD0;
 };
 
-float4 CalculateLight(float2 lightPos, float lightDist, float2 fragPos)
+float CalculateLight(float2 lightPos, float lightDist, float2 fragPos)
 {
 
 	float dist = distance(lightPos, fragPos);
 	if (dist < lightDist)
 	{
-		float val = (lightDist - dist) / lightDist;
-		return float4(val, val, val, 1);
+		return (lightDist - dist) / lightDist;
 	}
-	return float4(0, 0, 0, 1);
+	return 0;
 }
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
 	float4 color = tex2D(s0, input.TextureCoordinates);
-	color *= CalculateLight(lightPos, lightDist, float2(input.TextureCoordinates.x * TextureDimensions.x, input.TextureCoordinates.y * TextureDimensions.y));
+
+	float light = 0;
+	for (int i = 0; i < NumAreaLights && light < 1; ++i)
+	{
+		light += CalculateLight(AreaLightPosition[i], AreaLightDistance[i], 
+			float2(input.TextureCoordinates.x * TextureDimensions.x, input.TextureCoordinates.y * TextureDimensions.y));
+		if (light > 1)
+		{
+			light = 1;
+		}
+	}
+	color.rgb *= light;
 	return color;
 }
 
