@@ -52,7 +52,7 @@ namespace WillowWoodRefuge
             // setup lights
             AreaLight.AddLight(new Vector2(100, 100), 100);
             AreaLight.AddLight(new Vector2(400, 30), 250);
-            DirectionalLight.AddLight(new Vector2(200, 50), 30, new Vector2(-1, 0), 0.25f * (float)MathHelper.Pi);
+            DirectionalLight.AddLight(new Vector2(600, 50), 60, new Vector2(0, 1), .75f * (float)MathHelper.Pi);
 
             // shader test
             _testEffect = content.Load<Effect>("shaders/LightShader");
@@ -67,12 +67,12 @@ namespace WillowWoodRefuge
             _testEffect.Parameters["AreaLightDistance"].SetValue(lightDistance);
             _testEffect.Parameters["NumAreaLights"].SetValue(count);
 
-            // count = DirectionalLight.CreateShaderArrays(out lightPosition, out lightDistance, out lightDirection, out lightSpread);
-            // _testEffect.Parameters["DirectionalLightPosition"].SetValue(lightPosition);
-            // _testEffect.Parameters["DirectionalLightDistance"].SetValue(lightDistance);
-            // _testEffect.Parameters["DirectionalLightDirection"].SetValue(lightDirection);
-            // _testEffect.Parameters["DirectionalLightSpread"].SetValue(lightSpread);
-            // _testEffect.Parameters["NumDirectionalLights"].SetValue(count);
+            count = DirectionalLight.CreateShaderArrays(out lightPosition, out lightDistance, out lightDirection, out lightSpread);
+            _testEffect.Parameters["DirectionalLightPosition"].SetValue(lightPosition);
+            _testEffect.Parameters["DirectionalLightDistance"].SetValue(lightDistance);
+            _testEffect.Parameters["DirectionalLightDirection"].SetValue(lightDirection);
+            _testEffect.Parameters["DirectionalLightSpread"].SetValue(lightSpread);
+            _testEffect.Parameters["NumDirectionalLights"].SetValue(count);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

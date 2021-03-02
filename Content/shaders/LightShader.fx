@@ -43,13 +43,36 @@ struct VertexShaderOutput
 	float2 TextureCoordinates : TEXCOORD0;
 };
 
-// determines the amount of light from one light that reaches fragment
-float4 CalculateLight(float2 lightPos, float lightDist, float2 fragPos)
+// determines the amount of light from one area light that reaches fragment
+float4 CalculateAreaLight(int light, float2 fragPos)
 {
-	float dist = distance(lightPos, fragPos);
-	if (dist < lightDist)
+	float dist = distance(AreaLightPosition[light], fragPos);
+	if (dist < AreaLightDistance[light])
 	{
-		return (lightDist - dist) / lightDist; // linear 0-1
+		return (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
+	}
+	return 0;
+}
+
+// determines the amount of light from one directional light that reaches fragment
+float4 CalculateDirectionalLight(int light, float2 fragPos)
+{
+	// determine angle between vector from light to fragment and light direction
+	float2 fragDir = fragPos - DirectionalLightPosition[light];
+	float2 lightDir = DirectionalLightDirection[light];
+	float dotp = dot(lightDir, fragDir);
+	float det = lightDir.x * fragDir.y - lightDir.y * fragDir.x;
+	float angle = atan2(det, dotp);	
+
+	// check inside cone
+	if (abs(angle) < DirectionalLightSpread[light] / 2)
+	{
+		// check within distance
+		float dist = distance(DirectionalLightPosition[light], fragPos);
+		if (dist < DirectionalLightDistance[light])
+		{
+			return (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]; // linear 0-1
+		}
 	}
 	return 0;
 }
@@ -62,7 +85,17 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	float light = 0;
 	for (int i = 0; i < NumAreaLights && light < 1; ++i) // add all light inputs, stopping if full light is reached
 	{
-		light += CalculateLight(AreaLightPosition[i], AreaLightDistance[i], 
+		light += CalculateAreaLight(i, 
+			float2(input.TextureCoordinates.x * TextureDimensions.x, input.TextureCoordinates.y * TextureDimensions.y));
+		if (light > 1)
+		{
+			light = 1;
+		}
+	}
+
+	for (int i = 0; i < NumDirectionalLights && light < 1; ++i) // add all light inputs, stopping if full light is reached
+	{
+		light += CalculateDirectionalLight(i,
 			float2(input.TextureCoordinates.x * TextureDimensions.x, input.TextureCoordinates.y * TextureDimensions.y));
 		if (light > 1)
 		{
