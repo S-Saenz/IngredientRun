@@ -72,6 +72,7 @@ namespace WillowWoodRefuge
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
             FontManager.Initialize(Content);
+            TextureAtlasManager.Initialize(Content);
 
             InitializeConditions();
             base.Initialize();
