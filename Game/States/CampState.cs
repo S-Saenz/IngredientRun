@@ -50,7 +50,10 @@ namespace WillowWoodRefuge
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
 
             // shader test
-            _testEffect = content.Load<Effect>("shaders/testEffect");
+            _testEffect = content.Load<Effect>("shaders/LightShader");
+            _testEffect.Parameters["TextureDimensions"].SetValue(new Vector2(campTileMap._mapBounds.Width, campTileMap._mapBounds.Height / 2));
+            _testEffect.Parameters["lightPos"].SetValue(new Vector2(0, 0));
+            _testEffect.Parameters["lightDist"].SetValue(200f);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -83,7 +86,7 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // Draw sprites
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             foreach (NPC obj in _characters.Values)
             {
                 obj.Draw(spriteBatch);
@@ -93,7 +96,7 @@ namespace WillowWoodRefuge
             _spriteBatch.End();
 
             // Draw tilemap foreground
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             campTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 

@@ -622,6 +622,12 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
+#begin shaders/LightShader.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/LightShader.fx
+
 #begin shaders/testEffect.fx
 /importer:EffectImporter
 /processor:EffectProcessor
