@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace WillowWoodRefuge
@@ -13,12 +14,13 @@ namespace WillowWoodRefuge
         Dictionary<NavPoint, List<NavPoint>> _edges;
 
 
-        public NavMesh(NavPointMap pointMap, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, float airControl = 0)
+        public NavMesh(NavPointMap pointMap, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, 
+                       float airControl = 0, Area area = null)
         {
             _pointMap = pointMap;
             _edges = new Dictionary<NavPoint, List<NavPoint>>();
 
-            FillMesh(canJump, canFall, jumpHeight, jumpDist, airControl);
+            FillMesh(canJump, canFall, jumpHeight, jumpDist, airControl, area);
         }
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug)
@@ -36,20 +38,41 @@ namespace WillowWoodRefuge
             }
         }
 
-        private void FillMesh(bool canJump, bool canFall, float jumpHeight, float jumpDist, float airControl)
+        private void FillMesh(bool canJump, bool canFall, float jumpHeight, float jumpDist, float airControl, Area area = null)
         {
             Point lastPoint = new Point();
             // calculate walking connections
-            foreach(Point point in _pointMap._navPoints.Keys)
+            if (area != null)
             {
-                if (_pointMap._navPoints[point]._pointType != NavPointType.leftEdge &&
-                    _pointMap._navPoints[point]._pointType != NavPointType.solo)
+                foreach (Point point in _pointMap._navPoints.Keys)
                 {
-                    AddEdge(lastPoint, point);
-                    AddEdge(point, lastPoint);
-                }
+                    if (_pointMap._navPoints[point]._pointType != NavPointType.leftEdge &&
+                        _pointMap._navPoints[point]._pointType != NavPointType.solo &&
+                        area._bounds.Left <= point.X * _pointMap._tileSize && area._bounds.Right >= point.X * _pointMap._tileSize &&
+                        area._bounds.Top <= point.Y * _pointMap._tileSize && area._bounds.Bottom >= point.Y * _pointMap._tileSize &&
+                        area._bounds.Left <= lastPoint.X * _pointMap._tileSize && area._bounds.Right >= lastPoint.X * _pointMap._tileSize &&
+                        area._bounds.Top <= lastPoint.Y * _pointMap._tileSize && area._bounds.Bottom >= lastPoint.Y * _pointMap._tileSize)
+                    {
+                        AddEdge(lastPoint, point);
+                        AddEdge(point, lastPoint);
+                    }
 
-                lastPoint = point;
+                    lastPoint = point;
+                }
+            }
+            else
+            {
+                foreach (Point point in _pointMap._navPoints.Keys)
+                {
+                    if (_pointMap._navPoints[point]._pointType != NavPointType.leftEdge &&
+                        _pointMap._navPoints[point]._pointType != NavPointType.solo)
+                    {
+                        AddEdge(lastPoint, point);
+                        AddEdge(point, lastPoint);
+                    }
+
+                    lastPoint = point;
+                }
             }
         }
 
@@ -62,7 +85,7 @@ namespace WillowWoodRefuge
             _edges[_pointMap._navPoints[start]].Add(_pointMap._navPoints[end]);
         }
 
-        // returns the shortest path to the closest navpoint to target
+        // returns the shortest path to the closest navpoint to target (NOT IMPLEMENTED YET)
         public List<NavPoint> GetPathTo(Vector2 pos, Vector2 target)
         {
             List<NavPoint> path = new List<NavPoint>();
@@ -113,7 +136,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        private NavPoint GetClosest(Vector2 loc)
+        public NavPoint GetClosest(Vector2 loc)
         {
             NavPoint closest = null;
             float dist = float.MaxValue;
@@ -138,6 +161,24 @@ namespace WillowWoodRefuge
                     spriteBatch.DrawLine(start._location, parent[start]._location, Color.BlueViolet);
                 }
             }
+        }
+
+        public Dictionary<NavPoint, NavPoint> GetRandomPath(NavPoint pos, Dictionary<NavPoint, NavPoint> child)
+        {
+            if (!child.ContainsKey(pos))
+            {
+                BFS(pos, out child); // populate tree with all possible edges
+            }
+
+            Dictionary<NavPoint, NavPoint> path = new Dictionary<NavPoint, NavPoint>();
+            NavPoint point = child.Values.ElementAt(new Random().Next() % child.Count); // choose point
+            while(point != null && child[point] != null) // while not first point
+            {
+                path.Add(child[point], point);
+                point = child[point];
+            }
+
+            return path;
         }
     }
 }

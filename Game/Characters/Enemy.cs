@@ -57,7 +57,7 @@ namespace WillowWoodRefuge
             
             if(isDebug)
             {
-                //_navMesh.Draw(spriteBatch, isDebug);
+                _navMesh.Draw(spriteBatch, isDebug);
                 _navMesh.DrawPaths(spriteBatch, _possibleMoves);
             }
         }

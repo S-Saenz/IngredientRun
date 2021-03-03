@@ -83,7 +83,7 @@ namespace WillowWoodRefuge
             // Draw physics debug
             if (_isDebug)
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _collisionHandler.DrawDebug(spriteBatch);
                 _spriteBatch.End();
             }
@@ -134,19 +134,19 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
             _characters.Add("Lura", new NPC("lura", 
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom), 
-                            _collisionHandler, campTileMap._mapBounds));
+                            _collisionHandler, campTileMap._mapBounds, area: campArea));
             _characters.Add("Snäll", new NPC("snall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _collisionHandler, campTileMap._mapBounds));
+                            _collisionHandler, campTileMap._mapBounds, area: campArea));
             _characters.Add("Kall", new NPC("kall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _collisionHandler, campTileMap._mapBounds));
+                            _collisionHandler, campTileMap._mapBounds, area: campArea));
             _characters.Add("Arg", new NPC("arg",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _collisionHandler, campTileMap._mapBounds));
+                            _collisionHandler, campTileMap._mapBounds, area: campArea));
             _characters.Add("Aiyo", new NPC("aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _collisionHandler, campTileMap._mapBounds));
+                            _collisionHandler, campTileMap._mapBounds, area: campArea));
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);

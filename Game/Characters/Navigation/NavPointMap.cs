@@ -11,7 +11,7 @@ namespace WillowWoodRefuge
     {
         public Dictionary<Point, NavPoint> _navPoints { get; private set; }
         public Size _entityTileSize { get; private set; }
-        private int _tileSize;
+        public int _tileSize { get; private set; }
 
         public NavPointMap(TiledMap tileMap, RectangleF collisionBox)
         {

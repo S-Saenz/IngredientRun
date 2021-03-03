@@ -207,7 +207,7 @@ namespace WillowWoodRefuge
             {
                 spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
                                           _checked.Contains(loc) ? Color.HotPink : Color.White,
-                                          _checked.Contains(loc) ? 1 : 0.25f);
+                                          _checked.Contains(loc) ? 1.5f : 1f);
             }
         }
     }

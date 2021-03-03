@@ -19,6 +19,7 @@ namespace WillowWoodRefuge
             { "Pickup", Color.Blue },
             { "Walls", Color.Black },
             { "Areas", Color.Yellow },
+            { "NPC", Color.BlueViolet }
         };
 
         public PhysicsHandler()

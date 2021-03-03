@@ -16,13 +16,13 @@ namespace WillowWoodRefuge
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
-        private int _runSpeed = 120; // maximum speed for player to move at
+        private int _runSpeed = 140; // maximum speed for player to move at
         private int _walkSpeed = 50;
         private int _currSpeed = 0;
         private int _walkAccel = 50;
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.4f; // rate at which player stops
+        private float _friction = 0.5f; // rate at which player stops
         private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;

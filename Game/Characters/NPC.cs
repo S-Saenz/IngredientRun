@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace WillowWoodRefuge
@@ -14,9 +15,12 @@ namespace WillowWoodRefuge
         private Texture2D texture;
         private PhysicsHandler _collisionHandler;
         private Dictionary<NavPoint, NavPoint> _possibleMoves;
-        private List<NavPoint> _currPath;
+        private Dictionary<NavPoint, NavPoint> _currPath;
         private float _lastDist;
+        private NavPoint _currTarget;
+        private float _proximityCut = 1f;
         private Area _area;
+        public bool _isMoving = false;
 
         // timer
         private float _moveTimer;
@@ -29,8 +33,10 @@ namespace WillowWoodRefuge
                      : base(name, pos, "NPC", new Vector2(), collisionHandler, worldBounds, animationDict)
         {
             _friction = 0.2f;
-            _walkSpeed = 50;
+            _walkSpeed = 10;
             _runSpeed = 120;
+
+            _area = area;
 
             _collisionHandler = collisionHandler;
 
@@ -51,7 +57,7 @@ namespace WillowWoodRefuge
             _dialogueLoc = new Vector2((texture.Bounds.Width * _scale) / 2 + 2, -(texture.Height * _scale) / 2 - 2);
 
             // add navigation mesh
-            _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds));
+            _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds), area: area);
 
             _possibleMoves = _navMesh.GetAllPossible(_pos);
 
@@ -60,18 +66,48 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
         {
-            if(!_timerStopped)
-            {
-                _moveTimer -= gameTime.GetElapsedSeconds();
-            }
-
-            if(_moveTimer <= 0)
-            {
-                
-            }
-
-            _collisionBox.TryMoveHorizontal(0);
+            // if(!_timerStopped)
+            // {
+            //     _moveTimer -= gameTime.GetElapsedSeconds();
+            // }
+            // 
+            // if(_moveTimer <= 0)
+            // {
+            //     StartMove();
+            // }
+            // 
+            // if (_isMoving)
+            // {
+            //     base.Update(gameTime, _pos.X < _currTarget._location.X ? 1 : -1, true);
+            //     float newDist = Vector2.DistanceSquared(_pos, _currTarget._location);
+            //     if(name == "lura")
+            //     {
+            //         Debug.WriteLine(newDist);
+            //     }
+            //     if(newDist > _lastDist)
+            //     {
+            //         RestartTimer();
+            //         _isMoving = false;
+            //         Debug.WriteLine("Broke off navMesh path");
+            //     }
+            //     else if(newDist < _proximityCut) // reached point
+            //     {
+            //         _currTarget = _currPath[_currTarget];
+            //         if (_currTarget == null)
+            //         {
+            //             RestartTimer();
+            //             _isMoving = false;
+            //         }
+            //         else
+            //         {
+            //             _lastDist = Vector2.DistanceSquared(_pos, _currTarget._location);
+            //         }
+            //     }
+            // }
+            // else
+            // {
             base.Update(gameTime, 0, false);
+            // }
         }
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
@@ -80,7 +116,7 @@ namespace WillowWoodRefuge
 
             if (isDebug)
             {
-                //_navMesh.Draw(spriteBatch, isDebug);
+                _navMesh.Draw(spriteBatch, isDebug);
                 _navMesh.DrawPaths(spriteBatch, _possibleMoves);
             }
         }
@@ -101,12 +137,21 @@ namespace WillowWoodRefuge
             animationDict.Add("runRight", new Animation(texture, 1, 1, 100));
         }
 
-        private void Move()
+        private void StartMove()
         {
+            NavPoint curr = _navMesh.GetClosest(_pos);
             _moveTimer = new Random().Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
             _timerStopped = true;
-            // Vector2 newPos = new Vector2(new Random().Next % ())
-            // _currPath = _navMesh.GetPathTo(_pos, _possibleMoves.)
+            _currPath = _navMesh.GetRandomPath(curr, _possibleMoves);
+            _currTarget = _currPath[curr];
+            _lastDist = Vector2.DistanceSquared(_pos, _currTarget._location);
+            _isMoving = true;
+        }
+
+        private void RestartTimer()
+        {
+            _moveTimer = new Random().Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
+            _timerStopped = false;
         }
     }
 }

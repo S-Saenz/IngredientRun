@@ -66,7 +66,7 @@ namespace WillowWoodRefuge
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
             _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(512, 288), new Vector2(1728, 972));
-            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 204.8f, 115.2f));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 175f, 98.4375f));
 
             // setup bulk texture managers
             ItemTextures.Initialize(Content);
