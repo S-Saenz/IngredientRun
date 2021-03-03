@@ -80,11 +80,19 @@ namespace WillowWoodRefuge
             _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
             spriteBatch.End();
 
+            // Draw physics debug
+            if (_isDebug)
+            {
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _collisionHandler.DrawDebug(spriteBatch);
+                _spriteBatch.End();
+            }
+
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             foreach(NPC obj in _characters.Values)
             {
-                obj.Draw(spriteBatch);
+                obj.Draw(spriteBatch, _isDebug);
             }
             campTileMap.DrawPickups(spriteBatch, _isDebug);
             player.Draw(_spriteBatch, _isDebug);
@@ -94,14 +102,6 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             campTileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
-
-            // Draw physics debug
-            if (_isDebug)
-            {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _collisionHandler.DrawDebug(spriteBatch);
-                _spriteBatch.End();
-            }
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);

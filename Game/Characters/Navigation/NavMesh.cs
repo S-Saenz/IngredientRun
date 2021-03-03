@@ -61,5 +61,83 @@ namespace WillowWoodRefuge
             }
             _edges[_pointMap._navPoints[start]].Add(_pointMap._navPoints[end]);
         }
+
+        // returns the shortest path to the closest navpoint to target
+        public List<NavPoint> GetPathTo(Vector2 pos, Vector2 target)
+        {
+            List<NavPoint> path = new List<NavPoint>();
+            path.Add(GetClosest(pos));
+
+            return path;
+        }
+
+        public Dictionary<NavPoint, NavPoint> GetAllPossible(Vector2 pos)
+        {
+            NavPoint loc = GetClosest(pos);
+            Dictionary<NavPoint, NavPoint> web;
+            BFS(loc, out web);
+
+            return web;
+        }
+
+        private void BFS(NavPoint start, out Dictionary<NavPoint, NavPoint> parent)
+        {
+            // set up parent container
+            parent = new Dictionary<NavPoint, NavPoint>();
+            parent.Add(start, null);
+
+            // set up visited container
+            List<NavPoint> visited = new List<NavPoint>();
+            visited.Add(start);
+
+            // set up queue container
+            List<NavPoint> queue = new List<NavPoint>();
+            queue.Add(start);
+            while(queue.Count > 0)
+            {
+                NavPoint vertex = queue[0];
+                queue.RemoveAt(0);
+
+                if (_edges.ContainsKey(vertex))
+                {
+                    foreach (NavPoint point in _edges[vertex])
+                    {
+                        if(!visited.Contains(point))
+                        {
+                            visited.Add(point);
+                            queue.Add(point);
+                            parent.Add(point, vertex);
+                        }
+                    }
+                }
+            }
+        }
+
+        private NavPoint GetClosest(Vector2 loc)
+        {
+            NavPoint closest = null;
+            float dist = float.MaxValue;
+            foreach(NavPoint point in _pointMap._navPoints.Values)
+            {
+                float newDist = Vector2.DistanceSquared(loc, point._location);
+                if (newDist < dist)
+                {
+                    closest = point;
+                    dist = newDist;
+                }
+            }
+            return closest;
+        }
+
+        public void DrawPaths(SpriteBatch spriteBatch, Dictionary<NavPoint, NavPoint> parent)
+        {
+            foreach(NavPoint start in parent.Keys)
+            {
+                if (parent[start] != null)
+                {
+                    spriteBatch.DrawLine(start._location, parent[start]._location, Color.BlueViolet);
+                }
+            }
+        }
     }
 }

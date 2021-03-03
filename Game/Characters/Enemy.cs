@@ -9,10 +9,11 @@ using MonoGame.Extended.Tiled;
 
 namespace WillowWoodRefuge
 {
-    public class Enemy : BaseCharacter, ISpawnable
+    public class Enemy : AICharacter, ISpawnable
     {
         private Texture2D texture;
         private PhysicsHandler _collisionHandler;
+        private Dictionary<NavPoint, NavPoint> _possibleMoves;
 
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
@@ -40,6 +41,8 @@ namespace WillowWoodRefuge
 
             // add navigation mesh
             _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds));
+
+            _possibleMoves = _navMesh.GetAllPossible(_pos);
         }
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
@@ -54,7 +57,8 @@ namespace WillowWoodRefuge
             
             if(isDebug)
             {
-                _navMesh.Draw(spriteBatch, isDebug);
+                //_navMesh.Draw(spriteBatch, isDebug);
+                _navMesh.DrawPaths(spriteBatch, _possibleMoves);
             }
         }
 

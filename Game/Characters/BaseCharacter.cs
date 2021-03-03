@@ -16,9 +16,6 @@ namespace WillowWoodRefuge
         protected float _jumpHeight;
         protected float _jumpDistance;
 
-        // navigation
-        protected NavMesh _navMesh;
-
         // collision
         protected CollisionBox _collisionBox;
 
