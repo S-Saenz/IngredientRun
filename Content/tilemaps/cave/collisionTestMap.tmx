@@ -114,7 +114,7 @@
   </object>
  </objectgroup>
  <objectgroup id="6" name="EnemyObjects">
-  <object id="1" name="any" x="654.667" y="576">
+  <object id="1" name="only.spider" x="654.667" y="576">
    <point/>
   </object>
   <object id="8" name="any" x="206" y="224">

@@ -157,22 +157,14 @@ namespace WillowWoodRefuge
 
         public void DrawDebug(SpriteBatch spriteBatch, Color color)
         {
-            // draw cell grid
-            foreach (Vector2 loc in _container.Keys)
-            {
-                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
-                                          _checked.Contains(loc) ? Color.HotPink : Color.White,
-                                          _checked.Contains(loc) ? 1 : 0.25f);
-            }
-
             // draw collision boxes
             foreach (List<CollisionBox> list in _container.Values)
             {
                 foreach(CollisionBox box in list)
                 {
-                    spriteBatch.DrawRectangle(box._bounds, color, 0.5f);
+                    spriteBatch.DrawRectangle(box._bounds, color, 1f);
 
-                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine, 0.5f);
+                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine, 1f);
 
                     // foreach (CollisionInfo info in box._downInfo)
                     // {
@@ -208,6 +200,14 @@ namespace WillowWoodRefuge
                         spriteBatch.DrawRectangle(box._rightBox, Color.Red, 1);
                     }
                 }
+            }
+
+            // draw cell grid
+            foreach (Vector2 loc in _container.Keys)
+            {
+                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
+                                          _checked.Contains(loc) ? Color.HotPink : Color.White,
+                                          _checked.Contains(loc) ? 1 : 0.25f);
             }
         }
     }
