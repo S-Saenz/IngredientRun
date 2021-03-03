@@ -12,8 +12,6 @@ namespace WillowWoodRefuge
         protected Dictionary<string, List<string>> _collisionMask;
         protected Dictionary<string, List<string>> _overlapMask;
 
-        static float _correctionError = 0.0001f;
-
         private static Dictionary<string, Color> _layerColor = new Dictionary<string, Color>()
         {
             { "Player", Color.LawnGreen },

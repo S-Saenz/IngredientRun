@@ -157,8 +157,16 @@ namespace WillowWoodRefuge
 
         public void DrawDebug(SpriteBatch spriteBatch, Color color)
         {
+            // draw cell grid
+            foreach (Vector2 loc in _container.Keys)
+            {
+                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
+                                          _checked.Contains(loc) ? Color.HotPink : Color.White,
+                                          _checked.Contains(loc) ? 1 : 0.25f);
+            }
+
             // draw collision boxes
-            foreach(List<CollisionBox> list in _container.Values)
+            foreach (List<CollisionBox> list in _container.Values)
             {
                 foreach(CollisionBox box in list)
                 {
@@ -166,31 +174,40 @@ namespace WillowWoodRefuge
 
                     spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine, 0.5f);
 
-                    foreach (CollisionInfo info in box._downInfo)
+                    // foreach (CollisionInfo info in box._downInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._upInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._rightInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._leftInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+
+                    if (!box._upBox.IsEmpty)
                     {
-                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                        spriteBatch.DrawRectangle(box._upBox, Color.Red, 1);
                     }
-                    foreach (CollisionInfo info in box._upInfo)
+                    if (!box._downBox.IsEmpty)
                     {
-                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                        spriteBatch.DrawRectangle(box._downBox, Color.Red, 1);
                     }
-                    foreach (CollisionInfo info in box._rightInfo)
+                    if (!box._leftBox.IsEmpty)
                     {
-                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                        spriteBatch.DrawRectangle(box._leftBox, Color.Red, 1);
                     }
-                    foreach (CollisionInfo info in box._leftInfo)
+                    if (!box._rightBox.IsEmpty)
                     {
-                        spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                        spriteBatch.DrawRectangle(box._rightBox, Color.Red, 1);
                     }
                 }
-            }
-
-            // draw cell grid
-            foreach(Vector2 loc in _container.Keys)
-            {
-                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
-                                          _checked.Contains(loc) ? Color.HotPink : Color.White,
-                                          _checked.Contains(loc) ? 1 : 0.25f);
             }
         }
     }
