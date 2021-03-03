@@ -83,7 +83,7 @@ namespace WillowWoodRefuge
             // Draw physics debug
             if (_isDebug)
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _collisionHandler.DrawDebug(spriteBatch);
                 _spriteBatch.End();
             }
