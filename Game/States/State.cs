@@ -19,9 +19,6 @@ namespace WillowWoodRefuge
 
         protected SpriteBatch _spriteBatch;
 
-        //need tile map variable
-        public TileMap _tileMap { get; protected set; }
-
         #endregion
 
         #region Methods

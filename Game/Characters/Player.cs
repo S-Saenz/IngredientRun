@@ -30,11 +30,9 @@ namespace WillowWoodRefuge
         CollisionBox _collisionBox;
         public bool _isDark = false;
         public bool _inAir = false;
-        public bool _isMoving = false;
-
         string _currentDirection = "";
         string _currentMoveType = "idle";
-        public bool _isWalking = false;
+        public bool _isRunning = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -255,14 +253,12 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
-                _isMoving = false;
             }
 
             if (move.X != 0) // moving horizontally
             {
-                _isMoving = true;
                 if (_collisionBox._downBlocked)
-                    _isWalking = true;
+                    _isRunning = true;
             }
         }
         
@@ -279,8 +275,6 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
-                _isMoving = false;
-                _isWalking = false;
             }            
         }
 

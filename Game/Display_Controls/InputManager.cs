@@ -48,6 +48,11 @@ namespace WillowWoodRefuge
             {
                 Keys.Enter
             };
+            List<Keys> debug = new List<Keys>()
+            {
+                Keys.LeftControl,
+                Keys.RightControl
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -55,6 +60,7 @@ namespace WillowWoodRefuge
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));
+            _buttons.Add("debug", new Button(debug));
             _buttons.Add("alternate", new Button(alternate));
             _buttons.Add("toggleWindowed", new Button(toggleWindowed));
         }
