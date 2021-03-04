@@ -46,6 +46,11 @@ namespace WillowWoodRefuge
             {
                 Keys.RightShift
             };
+            List<Keys> debug = new List<Keys>()
+            {
+                Keys.LeftControl,
+                Keys.RightControl
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -55,6 +60,7 @@ namespace WillowWoodRefuge
             _buttons.Add("inventory", new Button(inventory));
             _buttons.Add("windowed", new Button(windowed));
             _buttons.Add("fullScreen", new Button(fullScreen));
+            _buttons.Add("debug", new Button(debug));
         }
 
         public void Update(GameTime time)
