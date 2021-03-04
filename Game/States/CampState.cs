@@ -164,7 +164,7 @@ namespace WillowWoodRefuge
 
             if (player._isWalking)
             {
-                game.sounds.walkSound(gameTime);
+                game.sounds.runSound(gameTime);
             }
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
