@@ -39,11 +39,11 @@ namespace WillowWoodRefuge
         }
 
         public void playSF(int i) {
-            soundeffects[i].Play();
+            soundeffects[i].Play(volume: 1f, pitch: 0.0f, pan: 0.0f);
         }
 
         // this is temporary for the playtest
-        public void walkSound(GameTime gameTime) {
+        public void runSound(GameTime gameTime) {
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 550))
             {
                 playSF(0);
