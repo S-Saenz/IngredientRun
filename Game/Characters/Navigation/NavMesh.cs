@@ -163,22 +163,23 @@ namespace WillowWoodRefuge
             }
         }
 
-        public Dictionary<NavPoint, NavPoint> GetRandomPath(NavPoint pos, Dictionary<NavPoint, NavPoint> child)
+        public NavPoint GetRandomPath(NavPoint pos, Dictionary<NavPoint, NavPoint> parent, out Dictionary<NavPoint, NavPoint> path)
         {
-            if (!child.ContainsKey(pos))
+            if (!parent.ContainsKey(pos))
             {
-                BFS(pos, out child); // populate tree with all possible edges
+                BFS(pos, out parent); // populate tree with all possible edges
             }
 
-            Dictionary<NavPoint, NavPoint> path = new Dictionary<NavPoint, NavPoint>();
-            NavPoint point = child.Values.ElementAt(new Random().Next() % child.Count); // choose point
-            while(point != null && child[point] != null) // while not first point
+            path = new Dictionary<NavPoint, NavPoint>();
+            NavPoint endPoint = parent.Values.ElementAt(new Random().Next() % parent.Count); // choose point
+            NavPoint point = endPoint;
+            while(point != null && parent[point] != null) // while not first point
             {
-                path.Add(child[point], point);
-                point = child[point];
+                path.Add(point, parent[point]);
+                point = parent[point];
             }
 
-            return path;
+            return endPoint;
         }
     }
 }

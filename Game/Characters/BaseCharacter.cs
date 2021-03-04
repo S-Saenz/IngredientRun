@@ -68,10 +68,10 @@ namespace WillowWoodRefuge
             base.Draw(spriteBatch);
 
             // debug box display
-            if (isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
+            // if (isDebug)
+            // {
+            //     _collisionBox.Draw(spriteBatch);
+            // }
         }
 
 

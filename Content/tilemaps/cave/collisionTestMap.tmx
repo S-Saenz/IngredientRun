@@ -114,10 +114,10 @@
   </object>
  </objectgroup>
  <objectgroup id="6" name="EnemyObjects">
-  <object id="1" name="only.spider" x="654.667" y="576">
+  <object id="1" name="only.spider" x="482.667" y="96">
    <point/>
   </object>
-  <object id="8" name="any" x="206" y="224">
+  <object id="8" name="only.spider" x="506.708" y="416">
    <point/>
   </object>
  </objectgroup>
