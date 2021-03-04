@@ -279,7 +279,6 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
-                _isRunning = false;
             }            
         }
     }

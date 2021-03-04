@@ -91,10 +91,7 @@ namespace WillowWoodRefuge
             }
 
             //play walking sound effect
-            if (player._isWalking)
-            {
-                game.sounds.runSound(gameTime);
-            }
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
