@@ -168,11 +168,23 @@ namespace WillowWoodRefuge
 
         public TileMap GetCurrentTilemap()
         {
-            if(_nextState != null)
+            GameplayState state;
+            if (_nextState != null)
             {
-                return _nextState._tileMap;
+                state = _nextState as GameplayState;
+                if (state != null)
+                {
+                    return state._tileMap;
+                }
             }
-            return _currentState._tileMap;
+
+            state = _currentState as GameplayState;
+            if (state != null)
+            {
+                return state._tileMap;
+            }
+
+            return null;
         }
 
         public void Restart()

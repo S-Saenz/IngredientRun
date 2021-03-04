@@ -11,12 +11,16 @@ namespace WillowWoodRefuge
         // Player instance
         protected Player _player;
 
+        // Spawnable instances
+        protected List<Enemy> _enemies = new List<Enemy>();
+        protected List<PickupItem> _items = new List<PickupItem>();
+
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
         public Dictionary<string, NPC> _characters { protected set; get; }
 
         // Backgrounds
-        protected TileMap _tileMap;
+        public TileMap _tileMap { protected set; get; }
         protected List<Texture2D> _backgroundLayers = null; // TODO: make (maybe ordered) list of layer class instances
 
         // Debug mode
@@ -36,27 +40,40 @@ namespace WillowWoodRefuge
             // Setup collision
             _physicsHandler = new PhysicsHandler();
             _physicsHandler.AddLayer("Player");
+            _physicsHandler.AddLayer("NPC");
             _physicsHandler.AddLayer("Enemy");
             _physicsHandler.AddLayer("Pickup");
             _physicsHandler.AddLayer("Walls");
             _physicsHandler.AddLayer("Areas");
 
             _physicsHandler.SetCollision("Player", "Walls");
+            _physicsHandler.SetCollision("NPC", "Walls");
             _physicsHandler.SetCollision("Enemy", "Walls");
             _physicsHandler.SetOverlap("Player", "Pickup");
             _physicsHandler.SetOverlap("Enemy", "Player");
             _physicsHandler.SetOverlap("Player", "Areas");
+
+            _characters = new Dictionary<string, NPC>();
         }
 
         public override void LoadContent()
         {
             // Temp, just respawns objects and enemies
-            _tileMap.SpawnPickups();
-            _tileMap.SpawnEnemies();
+            _tileMap.SpawnPickups(ref _items);
+            _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
             _player = new Player(game.graphics, _tileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _physicsHandler);
             _player.Load(_content, _physicsHandler, _tileMap._mapBounds);
+
+            // Setup enemies
+            if (_enemies != null)
+            {
+                foreach (Enemy enemy in _enemies)
+                {
+                    enemy.Load(game.Content);
+                }
+            }
 
             // Setup camera
             game._cameraController.SetWorldBounds(_tileMap._mapBounds);
@@ -81,6 +98,23 @@ namespace WillowWoodRefuge
 
             // Update player
             _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+
+            // Update enemies
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.Update(gameTime, _player._pos);
+            }
+
+            if (_player._isWalking)
+            {
+                game.sounds.walkSound(gameTime);
+            }
+
+            // Update NPCs
+            foreach (NPC character in _characters.Values)
+            {
+                character.Update(gameTime, _player._pos);
+            }
 
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
@@ -117,10 +151,10 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls", _isDebug);
-            if (_isDebug)
-            {
-                _tileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
-            }
+            // if (_isDebug)
+            // {
+            //     _tileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
+            // }
             spriteBatch.End();
 
             // If dialogue, draw dialogue
@@ -154,6 +188,14 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 
+            // Draw physics debug
+            if (_isDebug)
+            {
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _physicsHandler.DrawDebug(spriteBatch);
+                _spriteBatch.End();
+            }
+
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (game.inventory.showInv)
@@ -169,7 +211,29 @@ namespace WillowWoodRefuge
 
         public override void unloadState()
         {
+            // Remove player hitbox
             _player.RemoveCollision(_physicsHandler);
+
+            // Remove enemy hitboxes
+            foreach (Enemy enemy in _enemies)
+            {
+                enemy.RemoveCollision(_physicsHandler);
+            }
+            _enemies.Clear();
+
+            // Remove pickup item hitboxes
+            foreach (PickupItem item in _items)
+            {
+                item.RemoveCollision(_physicsHandler);
+            }
+            _items.Clear();
+
+            // remove NPC hitboxes
+            foreach (NPC character in _characters.Values)
+            {
+                character.RemoveCollision(_physicsHandler);
+            }
+            _characters.Clear();
         }
     }
 }
