@@ -22,7 +22,7 @@ namespace WillowWoodRefuge
         private int _walkAccel = 50;
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.2f; // rate at which player stops
+        private float _friction = 0.4f; // rate at which player stops
         private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -187,7 +187,6 @@ namespace WillowWoodRefuge
 
             _pos.Y -= idleTex.Height * _scale;
 
-            _pos.Y -= idleTex.Height * _scale / 2;
 
             //create list of Animations
             animationDict.Add("idle", idleAnimation);
@@ -204,6 +203,7 @@ namespace WillowWoodRefuge
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
+            _pos = _collisionBox._bounds.Center;
         }
 
 
@@ -211,11 +211,7 @@ namespace WillowWoodRefuge
         {
             base.Draw(spriteBatch);
 
-            if (isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
-            else if (_isDark)
+            if (_isDark && !isDebug)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
@@ -286,6 +282,11 @@ namespace WillowWoodRefuge
                 _isMoving = false;
                 _isWalking = false;
             }            
+        }
+
+        public void Reset()
+        {
+            Game1.instance.Restart();
         }
     }
 }

@@ -32,19 +32,21 @@ namespace WillowWoodRefuge
             };
             List<Keys> runKeys = new List<Keys>()
             {
-                Keys.LeftShift
+                Keys.LeftShift,
+                Keys.RightShift
             };
             List<Keys> inventory = new List<Keys>()
             {
                 Keys.I
             };
-            List<Keys> windowed = new List<Keys>()
+            List<Keys> alternate = new List<Keys>()
             {
-                Keys.RightControl
+                Keys.LeftAlt,
+                Keys.RightAlt
             };
-            List<Keys> fullScreen = new List<Keys>()
+            List<Keys> toggleWindowed = new List<Keys>()
             {
-                Keys.RightShift
+                Keys.Enter
             };
             List<Keys> debug = new List<Keys>()
             {
@@ -58,9 +60,9 @@ namespace WillowWoodRefuge
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));
-            _buttons.Add("windowed", new Button(windowed));
-            _buttons.Add("fullScreen", new Button(fullScreen));
             _buttons.Add("debug", new Button(debug));
+            _buttons.Add("alternate", new Button(alternate));
+            _buttons.Add("toggleWindowed", new Button(toggleWindowed));
         }
 
         public void Update(GameTime time)

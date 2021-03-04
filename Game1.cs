@@ -28,6 +28,8 @@ namespace WillowWoodRefuge
         // create vatiable for the state manager
 
         private State _currentState;
+        public string _currentStateName;
+        private bool _restart = false;
 
         private State _nextState;
 
@@ -42,11 +44,12 @@ namespace WillowWoodRefuge
             _nextState = _states[sState];
             _currentState.unloadState();
             _nextState.LoadContent();
+            _currentStateName = sState;
         }
 
         public Game1()
         {
-            this.Window.Title = "Ingredient Time";
+            this.Window.Title = "Willow Wood Refuge";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
             // create song manager
@@ -69,6 +72,7 @@ namespace WillowWoodRefuge
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
             FontManager.Initialize(Content);
+            TextureAtlasManager.Initialize(Content);
 
             InitializeConditions();
             base.Initialize();
@@ -119,11 +123,15 @@ namespace WillowWoodRefuge
                 ChangeState("CaveState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
+            else if (_restart)
+            {
+                ChangeState(_currentStateName);
+                _restart = false;
+            }
 
-            if(input.JustPressed("windowed"))
-                _cameraController.MakeWindowed();
-            else if (input.JustPressed("fullScreen"))
-                _cameraController.MakeFullScreen();
+            // toggle windowed/fullscreen
+            if(input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
+                _cameraController.ToggleFullscreen();
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                     Keyboard.GetState().IsKeyDown(Keys.D2) ||
@@ -156,6 +164,20 @@ namespace WillowWoodRefuge
             _stateConditions.Add(new Condition("curedPrior", true));
             _stateConditions.Add(new Condition("isMorning", true));
             _stateConditions.Add(new Condition("isRaining", true));
+        }
+
+        public TileMap GetCurrentTilemap()
+        {
+            if(_nextState != null)
+            {
+                return _nextState._tileMap;
+            }
+            return _currentState._tileMap;
+        }
+
+        public void Restart()
+        {
+            _restart = true;
         }
     }
 }

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace WillowWoodRefuge
 {
-    class TileMap : IPhysicsObject
+    public class TileMap : IPhysicsObject
     {
         TiledMap _map;
         TiledMapRenderer _renderer;
@@ -66,6 +66,7 @@ namespace WillowWoodRefuge
         {
             _enemySpawns = new List<SpawnPoint>();
             TiledMapObjectLayer spawnPoints = _map.GetLayer<TiledMapObjectLayer>("EnemyObjects");
+
             foreach (TiledMapObject obj in spawnPoints.Objects)
             {
                 string[] vals = obj.Name.Split('.');
@@ -75,7 +76,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void AddAreaObjects(PhysicsHandler collisionHandler)
+        private void AddAreaObjects(PhysicsHandler collisionHandler)
         {
             _areas = new Dictionary<string, List<Area>>();
             TiledMapObjectLayer areaObj = _map.GetLayer<TiledMapObjectLayer>("AreaObjects");
@@ -94,19 +95,28 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void SpawnPickups()
+        public List<Area> GetAreaObject(string area)
+        {
+            if(_areas.ContainsKey(area))
+            {
+                return _areas[area];
+            }
+            return null;
+        }
+
+        public void SpawnPickups(ref List<PickupItem> items)
         {
             foreach(SpawnPoint point in _pickupSpawns)
             {
-                point.Spawn();
+                items.Add((PickupItem)point.Spawn());
             }
         }
 
-        public void SpawnEnemies()
+        public void SpawnEnemies(ref List<Enemy> enemies)
         {
             foreach (SpawnPoint point in _enemySpawns)
             {
-                point.Spawn();
+                enemies.Add((Enemy)point.Spawn());
             }
         }
 
@@ -130,18 +140,6 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
         {
             _renderer.Draw(viewMatrix, projMatrix);
-        }
-
-        public void DrawDebug(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix)
-        {
-            _collisionHandler.Draw(spriteBatch, "Walls");
-            foreach(List<Area> areas in _areas.Values)
-            {
-                foreach (Area area in areas)
-                {
-                    spriteBatch.DrawRectangle(area._bounds, Color.Red);
-                }
-            }
         }
 
         public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name, bool isDebug = false)

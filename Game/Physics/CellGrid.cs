@@ -1,15 +1,18 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
-    class CellGrid
+    public class CellGrid
     {
         Dictionary<Vector2, List<CollisionBox>> _container;
+        public List<Vector2> _checked = new List<Vector2>();
         float _dimension;
 
-        public CellGrid(float dimension = 100)
+        public CellGrid(float dimension = 64)
         {
             _container = new Dictionary<Vector2, List<CollisionBox>>();
             _dimension = dimension;
@@ -59,7 +62,7 @@ namespace WillowWoodRefuge
         }
 
         // Checks if box is still in correct cell and moves it to correct cell if it isn't. returns wasCorrect bool
-        public bool checkBox(CollisionBox box, Vector2 prevLoc)
+        public bool CheckBox(CollisionBox box, Vector2 prevLoc)
         {
             Vector2 gridLoc = worldToGrid(prevLoc);
             bool expiredPrevLoc = false; // whether previous location actually contains box
@@ -104,6 +107,10 @@ namespace WillowWoodRefuge
             }
 
             addElement(box);
+            if(_container[gridLoc].Count == 0)
+            {
+                _container.Remove(gridLoc);
+            }
             return false;
         }
 
@@ -111,8 +118,8 @@ namespace WillowWoodRefuge
         {
             List<CollisionBox> neighbors = new List<CollisionBox>();
 
-            Vector2 lowerBound = worldToGrid(box._bounds.TopLeft) - new Vector2(1,1);
-            Vector2 upperBound = worldToGrid(box._bounds.BottomRight) + new Vector2(1,1);
+            Vector2 lowerBound = worldToGrid(box._bounds.TopLeft);// - new Vector2(1,1);
+            Vector2 upperBound = worldToGrid(box._bounds.BottomRight);// + new Vector2(1,1);
 
             for(int x = (int)lowerBound.X; x <= (int)upperBound.X; ++x)
             {
@@ -120,7 +127,8 @@ namespace WillowWoodRefuge
                 {
                     if(_container.ContainsKey(new Vector2(x, y)))
                     {
-                        foreach(CollisionBox other in _container[new Vector2(x, y)])
+                        _checked.Add(new Vector2(x, y));
+                        foreach (CollisionBox other in _container[new Vector2(x, y)])
                         {
                             neighbors.Add(other);
                         }
@@ -145,6 +153,62 @@ namespace WillowWoodRefuge
             }
 
             return all;
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch, Color color)
+        {
+            // draw collision boxes
+            foreach (List<CollisionBox> list in _container.Values)
+            {
+                foreach(CollisionBox box in list)
+                {
+                    spriteBatch.DrawRectangle(box._bounds, color, 1f);
+
+                    spriteBatch.DrawLine(box._bounds.Center, box._bounds.Center + box._velocity / 2, Color.Aquamarine, 1f);
+
+                    // foreach (CollisionInfo info in box._downInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._upInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._rightInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+                    // foreach (CollisionInfo info in box._leftInfo)
+                    // {
+                    //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+                    // }
+
+                    if (!box._upBox.IsEmpty)
+                    {
+                        spriteBatch.DrawRectangle(box._upBox, Color.Red, 1);
+                    }
+                    if (!box._downBox.IsEmpty)
+                    {
+                        spriteBatch.DrawRectangle(box._downBox, Color.Red, 1);
+                    }
+                    if (!box._leftBox.IsEmpty)
+                    {
+                        spriteBatch.DrawRectangle(box._leftBox, Color.Red, 1);
+                    }
+                    if (!box._rightBox.IsEmpty)
+                    {
+                        spriteBatch.DrawRectangle(box._rightBox, Color.Red, 1);
+                    }
+                }
+            }
+
+            // draw cell grid
+            foreach (Vector2 loc in _container.Keys)
+            {
+                spriteBatch.DrawRectangle(loc.X * _dimension, loc.Y * _dimension, _dimension, _dimension,
+                                          _checked.Contains(loc) ? Color.HotPink : Color.White,
+                                          _checked.Contains(loc) ? 1 : 0.25f);
+            }
         }
     }
 }

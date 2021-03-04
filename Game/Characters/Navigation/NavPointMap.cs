@@ -1,6 +1,4 @@
-﻿
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
@@ -9,18 +7,23 @@ using System.Collections.Generic;
 
 namespace WillowWoodRefuge
 {
-    class NavPointMap
+    public class NavPointMap
     {
-        private Dictionary<Point, NavPoint> _navPoints = new Dictionary<Point, NavPoint>();
+        public Dictionary<Point, NavPoint> _navPoints { get; private set; }
         public Size _entityTileSize { get; private set; }
         private int _tileSize;
 
         public NavPointMap(TiledMap tileMap, RectangleF collisionBox)
         {
+            // Setup empty navpoint list
+            _navPoints = new Dictionary<Point, NavPoint>();
+
+            // Save tilesize
             _tileSize = tileMap.TileHeight;
 
             // Calculate size of entity hitbox in tiles
-            _entityTileSize = new Size((int)Math.Ceiling(collisionBox.Width / tileMap.TileWidth), (int)Math.Ceiling(collisionBox.Height / tileMap.TileHeight));
+            _entityTileSize = new Size((int)Math.Ceiling(collisionBox.Width / tileMap.TileWidth), 
+                                       (int)Math.Ceiling(collisionBox.Height / tileMap.TileHeight));
 
             // Generate map of nav points
             int platformIndex = 0;
@@ -36,19 +39,31 @@ namespace WillowWoodRefuge
                     tileLayer.TryGetTile((ushort)tilePoint.X, (ushort)tilePoint.Y, out tile);
                     if (!tile.Value.IsBlank && isValidLocation(tilePoint, tileLayer)) // is valid location to stand
                     {
+                        TiledMapTile? prevTile = tile;
                         tileLayer.TryGetTile((ushort)(tilePoint.X + 1), (ushort)tilePoint.Y, out tile); // check tile right of current
                         if (!platformStarted) // no started platform
                         {
-                            if (!tile.HasValue || tile.Value.IsBlank ||
+                            if (!tile.HasValue || prevTile.Value.IsBlank ||
                                 !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is left solo
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex));
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                                 ++platformIndex;
                             }
                             else // platform left start
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex));
-                                platformStarted = true;
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                
+                                if(!tile.HasValue || tile.Value.IsBlank)
+                                {
+                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex,
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
+                                }
+                                else
+                                {
+                                    platformStarted = true;
+                                }
                             }
                         }
                         else // platform already started
@@ -58,19 +73,23 @@ namespace WillowWoodRefuge
                             {
                                 if (isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // overhang edge
                                 {
-                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex));
-                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex));
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                    _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex, 
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
                                 }
                                 else // against wall
                                 {
-                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex));
+                                    _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex, 
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                                 }
                                 ++platformIndex;
                                 platformStarted = false;
                             }
                             else // platform continued
                             {
-                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex));
+                                _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                             }
                         }
                     }
@@ -80,7 +99,8 @@ namespace WillowWoodRefuge
                         if (tile.HasValue && tile.Value.IsBlank &&
                              isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is right solo
                         {
-                            _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex));
+                            _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex, 
+                                           new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
                             ++platformIndex;
                         } 
                     }
@@ -119,16 +139,16 @@ namespace WillowWoodRefuge
                 switch(_navPoints[navPoint]._pointType)
                 {
                     case NavPointType.leftEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 4);
                         break;
                     case NavPointType.platform:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 4);
                         break;
                     case NavPointType.rightEdge:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 4);
                         break;
                     case NavPointType.solo:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 3);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 4);
                         break;
                 }
             }
