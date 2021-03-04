@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
-using IngredientRun.States;
 using System.Collections.Generic;
 
 //hi
 //123
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public class Game1 : Game
     {
@@ -84,8 +83,9 @@ namespace IngredientRun
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
+            _states.Add("MenuState", new MenuState(this, GraphicsDevice, Content, _spriteBatch));
 
-            _currentState = _states["CaveState"];
+            _currentState = _states["MenuState"];
             _currentState.LoadContent();
 
             // load inventory
@@ -96,8 +96,11 @@ namespace IngredientRun
         {
             input.Update(gameTime);
             //Debug.WriteLine();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                ChangeState("MenuState");
 
             if(_nextState != null)
             {

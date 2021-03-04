@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public static class Program
     {
