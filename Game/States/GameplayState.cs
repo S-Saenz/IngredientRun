@@ -91,11 +91,6 @@ namespace WillowWoodRefuge
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            if (_player._isWalking)
-            {
-                game.sounds.walkSound(gameTime);
-            }
-
             // Update player
             _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
 
@@ -103,11 +98,6 @@ namespace WillowWoodRefuge
             foreach (Enemy enemy in _enemies)
             {
                 enemy.Update(gameTime, _player._pos);
-            }
-
-            if (_player._isWalking)
-            {
-                game.sounds.walkSound(gameTime);
             }
 
             // Update NPCs
