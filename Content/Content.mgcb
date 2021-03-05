@@ -214,18 +214,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/acorn.png
 
-#begin ingredient/acorn.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/acorn.png
-
 #begin ingredient/acornScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -237,30 +225,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/acornScaled.png
-
-#begin ingredient/acornScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/acornScaled.png
-
-#begin ingredient/apple.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/apple.png
 
 #begin ingredient/apple.png
 /importer:TextureImporter
@@ -286,18 +250,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/apple_mushroom_soup.png
 
-#begin ingredient/apple_mushroom_soup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/apple_mushroom_soup.png
-
 #begin ingredient/apple_mushroom_soupScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -309,30 +261,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/apple_mushroom_soupScaled.png
-
-#begin ingredient/apple_mushroom_soupScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/apple_mushroom_soupScaled.png
-
-#begin ingredient/appleScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/appleScaled.png
 
 #begin ingredient/appleScaled.png
 /importer:TextureImporter
@@ -358,18 +286,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/beetle.png
 
-#begin ingredient/beetle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/beetle.png
-
 #begin ingredient/beetleScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -381,30 +297,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/beetleScaled.png
-
-#begin ingredient/beetleScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/beetleScaled.png
-
-#begin ingredient/berries.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/berries.png
 
 #begin ingredient/berries.png
 /importer:TextureImporter
@@ -442,18 +334,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/carrot.png
 
-#begin ingredient/carrot.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/carrot.png
-
 #begin ingredient/carrot_spice_soup.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -465,30 +345,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/carrot_spice_soup.png
-
-#begin ingredient/carrot_spice_soup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/carrot_spice_soup.png
-
-#begin ingredient/carrot_spice_soupScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/carrot_spice_soupScaled.png
 
 #begin ingredient/carrot_spice_soupScaled.png
 /importer:TextureImporter
@@ -514,30 +370,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/carrotScaled.png
 
-#begin ingredient/carrotScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/carrotScaled.png
-
-#begin ingredient/cricket.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/cricket.png
-
 #begin ingredient/cricket.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -562,18 +394,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/cricketScaled.png
 
-#begin ingredient/cricketScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/cricketScaled.png
-
 #begin ingredient/egg.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -585,30 +405,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/egg.png
-
-#begin ingredient/egg.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/egg.png
-
-#begin ingredient/eggScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/eggScaled.png
 
 #begin ingredient/eggScaled.png
 /importer:TextureImporter
@@ -646,18 +442,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/fishScaled.png
 
-#begin ingredient/fishScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/fishScaled.png
-
 #begin ingredient/glowing_plant.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -669,30 +453,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/glowing_plant.png
-
-#begin ingredient/glowing_plant.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/glowing_plant.png
-
-#begin ingredient/glowing_plantScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/glowing_plantScaled.png
 
 #begin ingredient/glowing_plantScaled.png
 /importer:TextureImporter
@@ -718,18 +478,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/gooseberry.png
 
-#begin ingredient/gooseberry.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/gooseberry.png
-
 #begin ingredient/gooseberryScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -741,30 +489,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/gooseberryScaled.png
-
-#begin ingredient/gooseberryScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/gooseberryScaled.png
-
-#begin ingredient/grilled_fish.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/grilled_fish.png
 
 #begin ingredient/grilled_fish.png
 /importer:TextureImporter
@@ -790,30 +514,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/grilled_fishScaled.png
 
-#begin ingredient/grilled_fishScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/grilled_fishScaled.png
-
-#begin ingredient/honey.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/honey.png
-
 #begin ingredient/honey.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -838,23 +538,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/honeyScaled.png
 
-#begin music/spooky1test2.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:music/spooky1test2.mp3
-#begin ingredient/honeyScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/honeyScaled.png
-
 #begin ingredient/meat.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -866,31 +549,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/meat.png
-
-#begin tilemaps/camp/CaveTiles1.png
-#begin ingredient/meat.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/meat.png
-
-#begin ingredient/meatScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/meatScaled.png
 
 #begin ingredient/meatScaled.png
 /importer:TextureImporter
@@ -916,18 +574,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/mousemelon.png
 
-#begin ingredient/mousemelon.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mousemelon.png
-
 #begin ingredient/mousemelonScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -939,30 +585,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/mousemelonScaled.png
-
-#begin ingredient/mousemelonScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mousemelonScaled.png
-
-#begin ingredient/mushroom.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mushroom.png
 
 #begin ingredient/mushroom.png
 /importer:TextureImporter
@@ -988,18 +610,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/mushroom_medicine.png
 
-#begin ingredient/mushroom_medicine.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mushroom_medicine.png
-
 #begin ingredient/mushroom_medicineScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1011,30 +621,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/mushroom_medicineScaled.png
-
-#begin ingredient/mushroom_medicineScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mushroom_medicineScaled.png
-
-#begin ingredient/mushroomScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/mushroomScaled.png
 
 #begin ingredient/mushroomScaled.png
 /importer:TextureImporter
@@ -1060,18 +646,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/rabbit_spice_soup (1)Scaled.png
 
-#begin ingredient/rabbit_spice_soup (1)Scaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soup (1)Scaled.png
-
 #begin ingredient/rabbit_spice_soup(1).png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1083,30 +657,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/rabbit_spice_soup(1).png
-
-#begin ingredient/rabbit_spice_soup(1).png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soup(1).png
-
-#begin ingredient/rabbit_spice_soup.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soup.png
 
 #begin ingredient/rabbit_spice_soup.png
 /importer:TextureImporter
@@ -1132,18 +682,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/rabbit_spice_soupScaled.png
 
-#begin ingredient/rabbit_spice_soupScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/rabbit_spice_soupScaled.png
-
 #begin ingredient/snail.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1155,30 +693,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/snail.png
-
-#begin ingredient/snail.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/snail.png
-
-#begin ingredient/snailScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/snailScaled.png
 
 #begin ingredient/snailScaled.png
 /importer:TextureImporter
@@ -1204,30 +718,6 @@
 /processorParam:TextureFormat=Color
 /build:ingredient/waterjug.png
 
-#begin ingredient/waterjug.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/waterjug.png
-
-#begin ingredient/waterjugScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/waterjugScaled.png
-
 #begin ingredient/waterjugScaled.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1251,30 +741,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ingredient/wood.png
-
-#begin ingredient/wood.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/wood.png
-
-#begin ingredient/woodScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ingredient/woodScaled.png
 
 #begin ingredient/woodScaled.png
 /importer:TextureImporter
@@ -1545,6 +1011,18 @@
 /processorParam:TextureFormat=Color
 /build:ui/Fake Recipe Selection.png
 
+#begin ui/Inventory/BackpackPixel.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Inventory/BackpackPixel.png
+
 #begin ui/Inventory/Inventory Backpack and Grid.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1556,6 +1034,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/Inventory/Inventory Backpack and Grid.png
+
+#begin ui/Inventory/Inventory Backpack.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Inventory/Inventory Backpack.png
 
 #begin ui/Inventory/Inventory Prototype Square Filled.png
 /importer:TextureImporter

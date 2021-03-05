@@ -29,7 +29,7 @@ namespace IngredientRun
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //for timing how fast items fall down inventory
-        float timeSinceLastDrop = 0f;
+        //float timeSinceLastDrop = 0f;
 
         //config for temp inventory (Minecraft)
         //int gridWidth = 9;
@@ -44,6 +44,9 @@ namespace IngredientRun
         float gridWidthMargin = 140;
         float gridHeightMargin = 140;
         Vector2 topLeft = new Vector2(690, 125);
+
+        Texture2D lilBackpack;
+        Sprite backpackButton;
 
         public Inventory()
         {
@@ -107,6 +110,15 @@ namespace IngredientRun
                 //Debug.WriteLine($"{ing.img} is highest = {Highest(ing)}");
             }
 
+            //inventory icon 
+            float _screenWidth = 1728;
+            float _screenHeight = 972;
+            lilBackpack = Content.Load<Texture2D>("ui/Inventory/BackpackPixel");
+            backpackButton = new Sprite(lilBackpack, new Vector2(_screenWidth/4, _screenHeight/4));
+            backpackButton.Depth = .01f;
+            backpackButton.Scale = 2f;
+            //Debug.
+
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
@@ -114,10 +126,16 @@ namespace IngredientRun
             //bool boxClicked = false;
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
+            //Debug.WriteLine(mouseState.Position);
+
             if (mouseState.LeftButton == ButtonState.Pressed)
+
             {
+
                 //Print mouse cursor position to debug console
-                //Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+
+                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
                 
@@ -230,6 +248,9 @@ namespace IngredientRun
             {
                 ingredientList[pos].Draw(spriteBatch, 1);
             }
+
+            backpackButton.Draw(spriteBatch);
+            spriteBatch.Draw(lilBackpack, new Vector2(1728/3, 972/3), null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, .01f);
         }
 
         
