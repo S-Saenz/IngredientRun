@@ -6,7 +6,7 @@ namespace WillowWoodRefuge
 {
     public interface ISpawnable
     {
-        void Draw(SpriteBatch spriteBatch, bool isDebug = false);
+        void Draw(SpriteBatch spriteBatch);
         bool RemoveCollision(PhysicsHandler physicsHandler);
     }
 

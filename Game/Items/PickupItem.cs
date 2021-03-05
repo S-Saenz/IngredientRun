@@ -25,7 +25,7 @@ namespace WillowWoodRefuge
             physicsHandler.AddObject("Pickup", _collisionBox);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        public void Draw(SpriteBatch spriteBatch)
         {
             TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc, Color.White);
         }

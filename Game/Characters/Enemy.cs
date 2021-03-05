@@ -31,15 +31,14 @@ namespace WillowWoodRefuge
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, isDebug);
+            base.Draw(spriteBatch);
+        }
 
-            if (isDebug)
-            {
-                _navMesh.Draw(spriteBatch, isDebug);
-                _navMesh.DrawPaths(spriteBatch, _possibleMoves);
-            }
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            base.DrawDebug(spriteBatch);
         }
 
         public void Load(ContentManager Content)

@@ -48,9 +48,12 @@ namespace WillowWoodRefuge
             {
                 Keys.Enter
             };
-            List<Keys> debug = new List<Keys>()
+            List<Keys> debugFullToggle = new List<Keys>()
             {
-                Keys.LeftControl,
+                Keys.LeftControl
+            };
+            List<Keys> debugMiniToggle = new List<Keys>()
+            {
                 Keys.RightControl
             };
 
@@ -60,7 +63,8 @@ namespace WillowWoodRefuge
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));
-            _buttons.Add("debug", new Button(debug));
+            _buttons.Add("debugFullToggle", new Button(debugFullToggle));
+            _buttons.Add("debugMiniToggle", new Button(debugMiniToggle));
             _buttons.Add("alternate", new Button(alternate));
             _buttons.Add("toggleWindowed", new Button(toggleWindowed));
         }

@@ -127,13 +127,8 @@ namespace WillowWoodRefuge
             return true;
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug)
+        public void DrawDebug(SpriteBatch spriteBatch)
         {
-            if(!isDebug)
-            {
-                return;
-            }
-
             foreach(Point navPoint in _navPoints.Keys)
             {
                 switch(_navPoints[navPoint]._pointType)

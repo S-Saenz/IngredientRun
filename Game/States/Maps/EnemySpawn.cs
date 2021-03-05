@@ -39,7 +39,7 @@ namespace WillowWoodRefuge
         {
             if(_object != null)
             {
-                _object.Draw(spriteBatch, isDebug);
+                _object.Draw(spriteBatch);
             }
         }
     }

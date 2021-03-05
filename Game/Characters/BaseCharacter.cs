@@ -62,16 +62,10 @@ namespace WillowWoodRefuge
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        public void Draw(SpriteBatch spriteBatch)
         {
             // draw animation frame of sprite
             base.Draw(spriteBatch);
-
-            // debug box display
-            // if (isDebug)
-            // {
-            //     _collisionBox.Draw(spriteBatch);
-            // }
         }
 
 

@@ -23,17 +23,14 @@ namespace WillowWoodRefuge
             FillMesh(canJump, canFall, jumpHeight, jumpDist, airControl, area);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug)
+        public void DrawDebug(SpriteBatch spriteBatch)
         {
-            _pointMap.Draw(spriteBatch, isDebug);
-            if (isDebug)
+            _pointMap.DrawDebug(spriteBatch);
+            foreach (NavPoint start in _edges.Keys)
             {
-                foreach (NavPoint start in _edges.Keys)
+                foreach (NavPoint end in _edges[start])
                 {
-                    foreach (NavPoint end in _edges[start])
-                    {
-                        spriteBatch.DrawLine(start._location, end._location, Color.Blue);
-                    }
+                    spriteBatch.DrawLine(start._location, end._location, Color.Blue);
                 }
             }
         }

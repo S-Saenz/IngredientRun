@@ -99,7 +99,6 @@ namespace WillowWoodRefuge
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             if (_worldBounds.HasValue)
             {
                 spriteBatch.DrawRectangle(_worldBounds.Value, Color.Purple);
@@ -111,7 +110,6 @@ namespace WillowWoodRefuge
             }
 
             spriteBatch.DrawRectangle(_camera.BoundingRectangle, Color.Red);
-            spriteBatch.End();
         }
 
         public void SetWorldBounds(RectangleF worldBounds)

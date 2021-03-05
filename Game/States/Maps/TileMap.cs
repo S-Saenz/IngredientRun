@@ -142,7 +142,7 @@ namespace WillowWoodRefuge
             _renderer.Draw(viewMatrix, projMatrix);
         }
 
-        public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name, bool isDebug = false)
+        public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name)
         {
             TiledMapLayer layer = _map.GetLayer<TiledMapLayer>(name);
             if (layer != null)
@@ -151,19 +151,19 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void DrawPickups(SpriteBatch spriteBatch, bool isDebug = false)
+        public void DrawPickups(SpriteBatch spriteBatch)
         {
             foreach(ItemSpawn obj in _pickupSpawns)
             {
-                obj.Draw(spriteBatch, isDebug);
+                obj.Draw(spriteBatch);
             }
         }
 
-        public void DrawEnemies(SpriteBatch spriteBatch, bool isDebug = false)
+        public void DrawEnemies(SpriteBatch spriteBatch)
         {
             foreach (EnemySpawn obj in _enemySpawns)
             {
-                obj.Draw(spriteBatch, isDebug);
+                obj.Draw(spriteBatch);
             }
         }
 

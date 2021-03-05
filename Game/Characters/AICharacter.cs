@@ -153,17 +153,15 @@ namespace WillowWoodRefuge
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        public void DrawDebug(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, isDebug);
-
-            if (isDebug)
+            if (_isMoving && _currTarget != null)
             {
-                if (_isMoving && _currTarget != null)
-                {
-                    spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.Honeydew, 1);
-                }
+                spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.Honeydew, 1);
             }
+
+            _navMesh.DrawDebug(spriteBatch);
+            _navMesh.DrawPaths(spriteBatch, _possibleMoves);
         }
 
         private void Wander()
