@@ -12,8 +12,8 @@ namespace WillowWoodRefuge
         protected Player _player;
 
         // Spawnable instances
-        protected List<Enemy> _enemies = new List<Enemy>();
-        protected List<PickupItem> _items = new List<PickupItem>();
+        public List<Enemy> _enemies = new List<Enemy>();
+        public List<PickupItem> _items = new List<PickupItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
