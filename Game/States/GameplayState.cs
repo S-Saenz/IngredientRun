@@ -92,9 +92,6 @@ namespace WillowWoodRefuge
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 game.Exit();
 
-            // Update player
-            _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
-
             // Update enemies
             foreach (Enemy enemy in _enemies)
             {
@@ -115,6 +112,9 @@ namespace WillowWoodRefuge
 
             // Update tilemap
             _tileMap.Update(gameTime);
+
+            // Update player
+            _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
         }
 
         public override void PostUpdate(GameTime gameTime) { }
@@ -173,7 +173,10 @@ namespace WillowWoodRefuge
                 item.Draw(spriteBatch);
             }
             // Draw player
-            _player.Draw(_spriteBatch, _showFullDebug || _showMiniDebug);
+            if (_player != null)
+            {
+                _player.Draw(_spriteBatch, _showFullDebug || _showMiniDebug);
+            }
             _spriteBatch.End();
 
             // Draw tilemap foreground
@@ -194,6 +197,7 @@ namespace WillowWoodRefuge
         {
             // Remove player hitbox
             _player.RemoveCollision(_physicsHandler);
+            _player = null;
 
             // Remove enemy hitboxes
             foreach (Enemy enemy in _enemies)

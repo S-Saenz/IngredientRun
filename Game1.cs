@@ -29,7 +29,7 @@ namespace WillowWoodRefuge
 
         public State _currentState;
         public string _currentStateName;
-        private bool _restart = false;
+        public string _changeRequest = null;
 
         public State _nextState;
 
@@ -123,10 +123,10 @@ namespace WillowWoodRefuge
                 ChangeState("CaveState");
             else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
                 ChangeState("CampState");
-            else if (_restart)
+            else if (_changeRequest != null)
             {
-                ChangeState(_currentStateName);
-                _restart = false;
+                ChangeState(_changeRequest);
+                _changeRequest = null;
             }
 
             // toggle windowed/fullscreen
@@ -187,9 +187,9 @@ namespace WillowWoodRefuge
             return null;
         }
 
-        public void Restart()
+        public void RequestStateChange(string nextState)
         {
-            _restart = true;
+            _changeRequest = nextState;
         }
     }
 }

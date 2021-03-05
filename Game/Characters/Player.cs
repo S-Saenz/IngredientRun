@@ -128,11 +128,11 @@ namespace WillowWoodRefuge
                         {
                             if(area._name.Contains("Cave"))
                             {
-                                Game1.instance.ChangeState("CaveState");
+                                Game1.instance.RequestStateChange("CaveState");
                             }
                             else if(area._name.Contains("Camp"))
                             {
-                                Game1.instance.ChangeState("CampState");
+                                Game1.instance.RequestStateChange("CampState");
                             }
                         }
                     }
@@ -281,7 +281,7 @@ namespace WillowWoodRefuge
 
         public void Reset()
         {
-            Game1.instance.Restart();
+            Game1.instance.RequestStateChange(Game1.instance._currentStateName);
         }
     }
 }

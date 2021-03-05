@@ -34,10 +34,6 @@ namespace WillowWoodRefuge
             //music
             game.sounds.playSong("forestSong");
 
-            // temp, just respawns objects when entering cave
-            _tileMap.SpawnPickups(ref _items);
-            _tileMap.SpawnEnemies(ref _enemies);
-
             // characters
             Area campArea = _tileMap.GetAreaObject("Camp")[0];
             Random rand = new Random();
