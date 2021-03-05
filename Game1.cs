@@ -27,11 +27,11 @@ namespace WillowWoodRefuge
 
         // create vatiable for the state manager
 
-        private State _currentState;
+        public State _currentState;
         public string _currentStateName;
         private bool _restart = false;
 
-        private State _nextState;
+        public State _nextState;
 
         public CameraController _cameraController;
 

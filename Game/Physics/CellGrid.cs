@@ -12,7 +12,7 @@ namespace WillowWoodRefuge
         public List<Vector2> _checked = new List<Vector2>();
         float _dimension;
 
-        public CellGrid(float dimension = 64)
+        public CellGrid(float dimension = 100)
         {
             _container = new Dictionary<Vector2, List<CollisionBox>>();
             _dimension = dimension;

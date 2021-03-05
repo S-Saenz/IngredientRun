@@ -36,6 +36,20 @@ namespace WillowWoodRefuge
             if (_object != null)
             {
                 _object.RemoveCollision(_physicsHandler);
+                GameplayState state = Game1.instance._currentState as GameplayState;
+                if(state == null)
+                {
+                    state = Game1.instance._nextState as GameplayState;
+                }
+
+                if (_object as PickupItem != null)
+                {
+                    state._items.Remove(_object as PickupItem);
+                }
+                else if(_object as Enemy != null)
+                {
+                    state._enemies.Remove(_object as Enemy);
+                }
             }
             _object = null;
             _isSpawned = false;

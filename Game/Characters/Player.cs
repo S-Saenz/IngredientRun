@@ -108,8 +108,9 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(true)
+                        if(Game1.instance.inventory.addIngredient(ItemTextures.GetTexture(obj._name + "Scaled")))
                         {
+                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
                         }
                     }
