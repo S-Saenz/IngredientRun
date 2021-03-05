@@ -106,7 +106,7 @@ namespace WillowWoodRefuge
             if(_moveTimer <= 0)
             {
                 Wander();
-                Debug.WriteLine(name + ((_currTarget != null) ? (" started wandering to " + _currTarget._location) : " sat down"));
+                // Debug.WriteLine(name + ((_currTarget != null) ? (" started wandering to " + _currTarget._location) : " sat down"));
             }
 
             // move

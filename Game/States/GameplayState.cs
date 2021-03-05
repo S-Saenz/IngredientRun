@@ -27,8 +27,8 @@ namespace WillowWoodRefuge
         static protected bool _showMiniDebug = false;
         static protected bool _showFullDebug = false;
         // 0 = camera, 1 = physics, 2 = ai
-        static protected int _fullDebugMode = 0;
-        static protected int _miniDebugMode = 0;
+        static protected int _fullDebugMode = 2;
+        static protected int _miniDebugMode = 1;
         static protected int _numDebugModes = 3;
 
         // Physics handler
@@ -86,29 +86,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
-            // Switch to full debug mode
-            if (Game1.instance.input.JustPressed("debugFullToggle") && !Game1.instance.input.IsDown("alternate"))
-            {
-                _showFullDebug = !_showFullDebug;
-            }
-
-            // Switch to mini debug mode
-            if (Game1.instance.input.JustPressed("debugMiniToggle") && !Game1.instance.input.IsDown("alternate"))
-            {
-                _showMiniDebug = !_showMiniDebug;
-            }
-
-            // check for debug input
-            if (_showFullDebug && Game1.instance.input.JustPressed("debugFullToggle") && Game1.instance.input.IsDown("alternate"))
-            {
-                _fullDebugMode = (_fullDebugMode + 1) % 3;
-            }
-
-            // check for debug input
-            if (_showMiniDebug && Game1.instance.input.JustPressed("debugMiniToggle") && Game1.instance.input.IsDown("alternate"))
-            {
-                _miniDebugMode = (_miniDebugMode + 1) % 3;
-            }
+            UpdateDebug();
 
             // Exit to main menu TODO: change to pause/settings menu
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -164,10 +142,6 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls");
-            // if (_isDebug)
-            // {
-            //     _tileMap.DrawDebug(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix);
-            // }
             spriteBatch.End();
 
             // If dialogue, draw dialogue
@@ -207,67 +181,7 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
             spriteBatch.End();
 
-            // mini map debug
-            if(_showMiniDebug)
-            {
-                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                switch (_miniDebugMode)
-                {
-                    case 0: // camera
-                        game._cameraController.Draw(spriteBatch);
-                        break;
-                    case 1: // physics
-                        _physicsHandler.DrawDebug(spriteBatch);
-                        break;
-                    case 2: // ai
-                        // NPCs
-                        if (_characters != null)
-                        {
-                            foreach (NPC obj in _characters.Values)
-                            {
-                                obj.DrawDebug(spriteBatch);
-                            }
-                        }
-                        // Enemies
-                        foreach (Enemy enemy in _enemies)
-                        {
-                            enemy.DrawDebug(spriteBatch);
-                        }
-                        break;
-                }
-                spriteBatch.End();
-            }
-
-            // full screen debug
-            if(_showFullDebug)
-            {
-                spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                switch (_fullDebugMode)
-                {
-                    case 0: // camera
-                        game._cameraController.Draw(spriteBatch);
-                        break;
-                    case 1: // physics
-                        _physicsHandler.DrawDebug(spriteBatch);
-                        break;
-                    case 2: // ai
-                        // NPCs
-                        if (_characters != null)
-                        {
-                            foreach (NPC obj in _characters.Values)
-                            {
-                                obj.DrawDebug(spriteBatch);
-                            }
-                        }
-                        // Enemies
-                        foreach (Enemy enemy in _enemies)
-                        {
-                            enemy.DrawDebug(spriteBatch);
-                        }
-                        break;
-                }
-                spriteBatch.End();
-            }
+            DrawDebug(spriteBatch);
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -301,6 +215,98 @@ namespace WillowWoodRefuge
                 character.RemoveCollision(_physicsHandler);
             }
             _characters.Clear();
+        }
+
+        void UpdateDebug()
+        {
+            // Switch to full debug mode
+            if (Game1.instance.input.JustPressed("debugFullToggle") && !Game1.instance.input.IsDown("alternate"))
+            {
+                _showFullDebug = !_showFullDebug;
+            }
+
+            // Switch to mini debug mode
+            if (Game1.instance.input.JustPressed("debugMiniToggle") && !Game1.instance.input.IsDown("alternate"))
+            {
+                _showMiniDebug = !_showMiniDebug;
+            }
+
+            // check for debug input
+            if (_showFullDebug && Game1.instance.input.JustPressed("debugFullToggle") && Game1.instance.input.IsDown("alternate"))
+            {
+                _fullDebugMode = (_fullDebugMode + 1) % 3;
+            }
+
+            // check for debug input
+            if (_showMiniDebug && Game1.instance.input.JustPressed("debugMiniToggle") && Game1.instance.input.IsDown("alternate"))
+            {
+                _miniDebugMode = (_miniDebugMode + 1) % 3;
+            }
+        }
+
+        void DrawDebug(SpriteBatch spriteBatch)
+        {
+            // mini map debug
+            if (_showMiniDebug)
+            {
+                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                switch (_miniDebugMode)
+                {
+                    case 0: // camera
+                        game._cameraController.Draw(spriteBatch);
+                        break;
+                    case 1: // physics
+                        _physicsHandler.DrawDebug(spriteBatch);
+                        break;
+                    case 2: // ai
+                        // NPCs
+                        if (_characters != null)
+                        {
+                            foreach (NPC obj in _characters.Values)
+                            {
+                                obj.DrawDebug(spriteBatch);
+                            }
+                        }
+                        // Enemies
+                        foreach (Enemy enemy in _enemies)
+                        {
+                            enemy.DrawDebug(spriteBatch);
+                        }
+                        break;
+                }
+                spriteBatch.End();
+            }
+
+            // full screen debug
+            if (_showFullDebug)
+            {
+                spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                switch (_fullDebugMode)
+                {
+                    case 0: // camera
+                        game._cameraController.Draw(spriteBatch);
+                        break;
+                    case 1: // physics
+                        _physicsHandler.DrawDebug(spriteBatch);
+                        break;
+                    case 2: // ai
+                        // NPCs
+                        if (_characters != null)
+                        {
+                            foreach (NPC obj in _characters.Values)
+                            {
+                                obj.DrawDebug(spriteBatch);
+                            }
+                        }
+                        // Enemies
+                        foreach (Enemy enemy in _enemies)
+                        {
+                            enemy.DrawDebug(spriteBatch);
+                        }
+                        break;
+                }
+                spriteBatch.End();
+            }
         }
     }
 }
