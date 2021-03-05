@@ -65,6 +65,8 @@ namespace WillowWoodRefuge
         private event MovementEventHandler _onMovementEnd;
         private event MovementEventHandler _onMovementChangeDirection;
 
+        public List<Vector2> _cells = new List<Vector2>();
+
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
                             Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
         {

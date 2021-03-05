@@ -30,88 +30,63 @@ namespace WillowWoodRefuge
 
         public void addElement(CollisionBox box)
         {
-            Vector2 gridLoc = worldToGrid(box._bounds.Position);
+            Vector2 minPoint = worldToGrid(box._bounds.TopLeft);
+            Vector2 maxPoint = worldToGrid(box._bounds.BottomRight);
 
-            if (_container.ContainsKey(gridLoc))
+            for (int x = (int)minPoint.X; x <= maxPoint.X; ++x)
             {
-                _container[gridLoc].Add(box);
-            }
-            else
-            {
-                _container.Add(gridLoc, new List<CollisionBox>());
-                _container[gridLoc].Add(box);
+                for (int y = (int)minPoint.Y; y <= maxPoint.Y; ++y)
+                {
+                    Vector2 cell = new Vector2(x, y);
+                    if (_container.ContainsKey(cell))
+                    {
+                        _container[cell].Add(box);
+                    }
+                    else
+                    {
+                        _container.Add(cell, new List<CollisionBox>());
+                        _container[cell].Add(box);
+                    }
+                    box._cells.Add(cell);
+                }
             }
         }
 
         public CollisionBox removeElement(CollisionBox box)
         {
-            Vector2 gridLoc = worldToGrid(box._bounds.Position);
-
-            if (_container.ContainsKey(gridLoc))
+            foreach(Vector2 cell in box._cells)
             {
-                for(int i = 0; i < _container[gridLoc].Count; ++i)
+                _container[cell].Remove(box);
+                if(_container[cell].Count == 0)
                 {
-                    if(_container[gridLoc][i] == box)
-                    {
-                        _container[gridLoc].RemoveAt(i);
-                        return box;
-                    }
+                    _container.Remove(cell);
                 }
             }
-            return null;
+            box._cells.Clear();
+            return box;
         }
 
         // Checks if box is still in correct cell and moves it to correct cell if it isn't. returns wasCorrect bool
-        public bool CheckBox(CollisionBox box, Vector2 prevLoc)
+        public void CheckBox(CollisionBox box, Vector2 prevLoc)
         {
-            Vector2 gridLoc = worldToGrid(prevLoc);
-            bool expiredPrevLoc = false; // whether previous location actually contains box
-
-            // check if still in same cell
-            if(gridLoc == worldToGrid(box._bounds.Position) && _container.ContainsKey(gridLoc))
+            // hasn't moved
+            if((Vector2)box._bounds.Position == prevLoc)
             {
-                for (int i = 0; i < _container[gridLoc].Count; ++i)
-                {
-                    if (_container[gridLoc][i] == box)
-                    {
-                        return true;
-                    }
-                }
-                expiredPrevLoc = true;
+                return;
             }
 
-            // find in prev cell and move to new cell
-            if (_container.ContainsKey(gridLoc) && !expiredPrevLoc)
+            // check all corners
+            if(box._cells.Contains(worldToGrid(box._bounds.TopLeft)) &&
+               box._cells.Contains(worldToGrid(box._bounds.TopRight)) &&
+               box._cells.Contains(worldToGrid(box._bounds.BottomLeft)) &&
+               box._cells.Contains(worldToGrid(box._bounds.BottomRight)))
             {
-                for (int i = 0; i < _container[gridLoc].Count; ++i)
-                {
-                    if (_container[gridLoc][i] == box)
-                    {
-                        _container[gridLoc].RemoveAt(i);
-                        return false;
-                    }
-                }
+                return;
             }
-            
-            // if prev cell doesn't contain elem, search entire container for elem
-            foreach(List<CollisionBox> cell in _container.Values)
-            {
-                for (int i = 0; i < cell.Count; ++i)
-                {
-                    if (cell[i] == box)
-                    {
-                        cell.RemoveAt(i);
-                        return false;
-                    }
-                }
-            }
+
+            removeElement(box);
 
             addElement(box);
-            if(_container[gridLoc].Count == 0)
-            {
-                _container.Remove(gridLoc);
-            }
-            return false;
         }
 
         public List<CollisionBox> getNeighbors(CollisionBox box)
