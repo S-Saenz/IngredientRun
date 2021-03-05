@@ -61,7 +61,7 @@ namespace WillowWoodRefuge
             collisionHandler.RemoveObject(_collisionBox); // remove default collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos, new Size2(_texture.Width * _scale, _texture.Height * _scale)),
                 collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), friction: _friction);
-            collisionHandler.AddObject("NPC", _collisionBox);
+            collisionHandler.AddObject(collisionLabel, _collisionBox);
 
             // setup _pos for texture
             _pos = _collisionBox._bounds.Center;
