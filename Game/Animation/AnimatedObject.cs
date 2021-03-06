@@ -35,7 +35,14 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime)
         {
-            animationDict[currentAnimation].Update(gameTime);
+            if (animationDict.ContainsKey(currentAnimation))
+            {
+                animationDict[currentAnimation].Update(gameTime);
+            }
+            else
+            {
+                currentAnimation = "idle";
+            }
         }
     }
 

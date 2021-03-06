@@ -73,7 +73,7 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="AreaObjects">
-  <object id="6" name="Camp" x="-2.84217e-14" y="256" width="576" height="16"/>
+  <object id="6" name="Camp" x="16" y="256" width="559.75" height="16"/>
   <object id="13" name="fire" x="488" y="256" width="16" height="16"/>
   <object id="7" name="fire" x="64" y="256" width="16" height="16"/>
   <object id="8" name="fire" x="160" y="256" width="16" height="16"/>
