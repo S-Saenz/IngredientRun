@@ -23,7 +23,7 @@ namespace WillowWoodRefuge
         bool _aLightDistChanged = false;
         Vector4[] _aLightColor;
         bool _aLightColorChanged = false;
-        int _numALights = 0;
+        public int _numALights { get; private set; }
         bool _aLightNumChanged = false;
 
         Vector2[] _dLightPosition, _dLightDirection;
@@ -34,13 +34,14 @@ namespace WillowWoodRefuge
         bool _dLightSpreadChanged = false;
         Vector4[] _dLightColor;
         bool _dLightColorChanged = false;
-        int _numDLights = 0;
+        public int _numDLights { get; private set; }
         bool _dLightNumChanged = false;
 
         // Constructor
         public LightManager(Effect lightShader)
         {
             _shader = lightShader;
+            _numALights = _numDLights = 0;
             _areaLights = new AreaLight[MAX_AREA_LIGHTS];
             _directionalLights = new DirectionalLight[MAX_DIRECTIONAL_LIGHTS];
             CreateShaderArrays();

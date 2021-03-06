@@ -26,9 +26,8 @@ float   DirectionalLightColor[MAX_DIRECTIONAL_LIGHTS];
 int     NumDirectionalLights;
 
 // Sprite texture parameters (texture that effect is called on in draw, passed in automatically)
-Texture2D SpriteTexture;
-sampler s0;
-float2 TextureDimensions; //  must be set manually in code, can't find sprite texture size in hlsl
+sampler SpriteTexture : register(s0);
+float2 TextureDimensions;
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -80,7 +79,8 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 // fragment shader main
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	float4 color = tex2D(s0, input.TextureCoordinates); // sample color from sprite
+	float texWidth, texHeight;
+	float4 color = tex2D(SpriteTexture, input.TextureCoordinates); // sample color from sprite
 
 	float light = 0;
 	for (int i = 0; i < NumAreaLights && light < 1; ++i) // add all light inputs, stopping if full light is reached

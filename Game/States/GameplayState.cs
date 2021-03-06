@@ -8,6 +8,17 @@ namespace WillowWoodRefuge
 {
     class GameplayState : State
     {
+        // Shaders
+        protected Effect _lightEffect;
+        protected LightManager _lightManager;
+
+        // Render targets
+        public RenderTarget2D _backgroundBuffer;
+        public RenderTarget2D _foregroundBuffer;
+
+        // Light info
+        protected bool _isDark = false;
+
         // Player instance
         protected Player _player;
 
@@ -34,9 +45,6 @@ namespace WillowWoodRefuge
         // Physics handler
         protected PhysicsHandler _physicsHandler;
 
-
-        protected int walkTimer;
-
         protected GameplayState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch) 
                          : base(game, graphicsDevice, content, spritebatch)
         {
@@ -59,6 +67,10 @@ namespace WillowWoodRefuge
             _physicsHandler.SetOverlap("Player", "Areas");
 
             _characters = new Dictionary<string, NPC>();
+
+            // Setup light shader
+            _lightEffect = content.Load<Effect>("shaders/LightShader");
+            _lightManager = new LightManager(_lightEffect);
         }
 
         public override void LoadContent()
@@ -114,7 +126,11 @@ namespace WillowWoodRefuge
             _tileMap.Update(gameTime);
 
             // Update player
-            _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+            Vector2 dir = _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+            if(_lightManager._numDLights > 0)
+            {
+                _lightManager.ChangeDirectionLight(0, loc: _player._pos, direction: -dir);
+            }
         }
 
         public override void PostUpdate(GameTime gameTime) { }
@@ -123,11 +139,14 @@ namespace WillowWoodRefuge
         {
             // Find projection matrix
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
-
+            
+            game.GraphicsDevice.SetRenderTarget(_backgroundBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+            
             // If background layers, draw in order TODO: parallax
             if (_backgroundLayers != null)
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 Rectangle destination = (Rectangle)_tileMap._mapBounds;
                 destination.Height /= 2;
                 destination.Y += destination.Height;
@@ -140,17 +159,23 @@ namespace WillowWoodRefuge
 
             // Draw tilemap background/walls
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Background");
-            _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Walls");
+            _tileMap.DrawLayer(spriteBatch, "Background");
+            _tileMap.DrawLayer(spriteBatch, "Walls");
             spriteBatch.End();
 
-            // If dialogue, draw dialogue
-            if (_dialogueSystem != null)
-            {
-                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
-                spriteBatch.End();
-            }
+            game.GraphicsDevice.SetRenderTarget(_foregroundBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+
+            // Draw tilemap foreground
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _tileMap.DrawLayer(spriteBatch, "Foreground");
+            spriteBatch.End();
+
+            game.GraphicsDevice.SetRenderTarget(null);
+
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+            _spriteBatch.Draw(_backgroundBuffer, Vector2.Zero, Color.White);
+            _spriteBatch.End();
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -179,10 +204,24 @@ namespace WillowWoodRefuge
             }
             _spriteBatch.End();
 
-            // Draw tilemap foreground
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _tileMap.DrawLayer(spriteBatch, game._cameraController.GetViewMatrix(), projectionMatrix, "Foreground");
-            spriteBatch.End();
+            if (_isDark)
+            {
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+            }
+            else
+            {
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            }
+            _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            // If dialogue, draw dialogue
+            if (_dialogueSystem != null)
+            {
+                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
+                spriteBatch.End();
+            }
 
             DrawDebug(spriteBatch);
 
@@ -311,6 +350,25 @@ namespace WillowWoodRefuge
                 }
                 spriteBatch.End();
             }
+        }
+
+        protected void SetRenderTargets()
+        {
+            // set up secondary render buffers
+            _backgroundBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+            _foregroundBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
         }
     }
 }
