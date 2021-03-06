@@ -5,46 +5,30 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class AreaLight
+    public partial class LightManager
     {
-        private static int MAX_AREA_LIGHTS = 10;
-        private static AreaLight[] _areaLights = new AreaLight[MAX_AREA_LIGHTS];
-        private static int _numAreaLights = 0;
-        
-        protected Vector2 _loc;
-        protected float _dist;
-
-        protected AreaLight(Vector2 loc, float dist)
+        private class AreaLight
         {
-            _loc = loc;
-            _dist = dist;
-        }
+            public Vector2 _loc;
+            public float _dist;
 
-        static public bool AddLight(Vector2 loc, float dist)
-        {
-            if(_numAreaLights >= MAX_AREA_LIGHTS)
+            public AreaLight(Vector2 loc, float dist)
             {
-                return false;
+                _loc = loc;
+                _dist = dist;
             }
 
-            _areaLights[_numAreaLights] = new AreaLight(loc, dist);
-            ++_numAreaLights;
-
-            return true;
-        }
-
-        static public int CreateShaderArrays(out Vector2[] position, out float[] distance)
-        {
-            position = new Vector2[MAX_AREA_LIGHTS];
-            distance = new float[MAX_AREA_LIGHTS];
-
-            for(int i = 0; i < _numAreaLights; ++i)
+            public void ChangeLight(Vector2? loc = null, float? dist = null)
             {
-                position[i] = _areaLights[i]._loc;
-                distance[i] = _areaLights[i]._dist;
+                if(loc.HasValue)
+                {
+                    _loc = loc.Value;
+                }
+                if(dist.HasValue)
+                {
+                    _dist = dist.Value;
+                }
             }
-
-            return _numAreaLights;
         }
     }
 }

@@ -155,7 +155,7 @@ namespace WillowWoodRefuge
 
             base.Update(gameTime);
 
-            return _pos;
+            return FOWPosVec;
         }
 
 

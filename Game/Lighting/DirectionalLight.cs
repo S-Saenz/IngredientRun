@@ -5,50 +5,31 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class DirectionalLight : AreaLight
+    public partial class LightManager
     {
-        private static int MAX_DIRECTIONAL_LIGHTS = 10;
-        private static DirectionalLight[] _directionalLights = new DirectionalLight[MAX_DIRECTIONAL_LIGHTS];
-        private static int _numDirectionalLights = 0;
-
-        protected Vector2 _direction;
-        protected float _spread;
-
-        protected DirectionalLight(Vector2 loc, float dist, Vector2 direction, float spread) : base(loc, dist)
+        private class DirectionalLight : AreaLight
         {
-            _direction = direction;
-            _spread = spread;
-        }
+            public Vector2 _direction;
+            public float _spread;
 
-        static public bool AddLight(Vector2 loc, float dist, Vector2 direction, float spread)
-        {
-            if (_numDirectionalLights >= MAX_DIRECTIONAL_LIGHTS)
+            public DirectionalLight(Vector2 loc, float dist, Vector2 direction, float spread) : base(loc, dist)
             {
-                return false;
+                _direction = direction;
+                _spread = spread;
             }
 
-            _directionalLights[_numDirectionalLights] = new DirectionalLight(loc, dist, direction, spread);
-            ++_numDirectionalLights;
-
-            return true;
-        }
-
-        static public int CreateShaderArrays(out Vector2[] position, out float[] distance, out Vector2[] direction, out float[] spread)
-        {
-            position = new Vector2[MAX_DIRECTIONAL_LIGHTS];
-            distance = new float[MAX_DIRECTIONAL_LIGHTS];
-            direction = new Vector2[MAX_DIRECTIONAL_LIGHTS];
-            spread = new float[MAX_DIRECTIONAL_LIGHTS];
-
-            for (int i = 0; i < _numDirectionalLights; ++i)
+            public void ChangeLight(Vector2? loc = null, float? dist = null, Vector2? direction = null, float? spread = null)
             {
-                position[i] = _directionalLights[i]._loc;
-                distance[i] = _directionalLights[i]._dist;
-                direction[i] = _directionalLights[i]._direction;
-                spread[i] = _directionalLights[i]._spread;
+                base.ChangeLight(loc, dist);
+                if (direction.HasValue)
+                {
+                    _direction = direction.Value;
+                }
+                if (spread.HasValue)
+                {
+                    _spread = spread.Value;
+                }
             }
-
-            return _numDirectionalLights;
         }
     }
 }

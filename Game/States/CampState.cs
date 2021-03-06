@@ -21,7 +21,8 @@ namespace WillowWoodRefuge
 
         public Dictionary<string, NPC> _characters { private set; get; }
 
-        Effect _testEffect;
+        Effect _lightEffect;
+        LightManager _lightManager;
 
         private PhysicsHandler _collisionHandler;
 
@@ -49,30 +50,15 @@ namespace WillowWoodRefuge
             campPNGBackground = _content.Load<Texture2D>("bg/campsiteprototypemap");
             campTileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _collisionHandler);
 
-            // setup lights
-            AreaLight.AddLight(new Vector2(100, 100), 100);
-            AreaLight.AddLight(new Vector2(400, 30), 250);
-            DirectionalLight.AddLight(new Vector2(600, 50), 60, new Vector2(0, 1), .75f * (float)MathHelper.Pi);
-
             // shader test
-            _testEffect = content.Load<Effect>("shaders/LightShader");
-            _testEffect.Parameters["TextureDimensions"].SetValue(new Vector2(campTileMap._mapBounds.Width, campTileMap._mapBounds.Height / 2));
+            _lightEffect = content.Load<Effect>("shaders/LightShader");
+            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(campTileMap._mapBounds.Width, campTileMap._mapBounds.Height));
+            _lightManager = new LightManager(_lightEffect);
 
-            // construct shader parameter arrays
-            Vector2[] lightPosition, lightDirection;
-            float[] lightDistance, lightSpread;
-            Vector4[] lightColor;
-            int count = AreaLight.CreateShaderArrays(out lightPosition, out lightDistance);
-            _testEffect.Parameters["AreaLightPosition"].SetValue(lightPosition);
-            _testEffect.Parameters["AreaLightDistance"].SetValue(lightDistance);
-            _testEffect.Parameters["NumAreaLights"].SetValue(count);
-
-            count = DirectionalLight.CreateShaderArrays(out lightPosition, out lightDistance, out lightDirection, out lightSpread);
-            _testEffect.Parameters["DirectionalLightPosition"].SetValue(lightPosition);
-            _testEffect.Parameters["DirectionalLightDistance"].SetValue(lightDistance);
-            _testEffect.Parameters["DirectionalLightDirection"].SetValue(lightDirection);
-            _testEffect.Parameters["DirectionalLightSpread"].SetValue(lightSpread);
-            _testEffect.Parameters["NumDirectionalLights"].SetValue(count);
+            // setup lights
+            _lightManager.AddLight(new Vector2(100, 100), 100);
+            // _lightManager.AddLight(new Vector2(400, 30), 250);
+            _lightManager.AddLight(new Vector2(336, 239), 200, new Vector2(0, 1), .5f * (float)MathHelper.Pi);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -81,10 +67,10 @@ namespace WillowWoodRefuge
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
 
             // Draw png background
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _testEffect);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
             Rectangle destination = (Rectangle)campTileMap._mapBounds;
-            destination.Height /= 2;
-            destination.Y += destination.Height;
+            // destination.Height /= 2;
+            // destination.Y += destination.Height;
             _spriteBatch.Draw(campPNGBackground, destination, Color.White);
             _spriteBatch.End();
 
@@ -192,7 +178,8 @@ namespace WillowWoodRefuge
                 game.sounds.walkSound(gameTime);
             }
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
-            player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+            Vector2 dir = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+            _lightManager.ChangeDirectionLight(0, loc: player._pos, direction: -dir);
             game._cameraController.Update(gameTime, player._pos);
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
 
