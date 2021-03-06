@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.IO;
 
 namespace WillowWoodRefuge
 {
@@ -220,8 +221,11 @@ namespace WillowWoodRefuge
             _spriteBatch.End();
 
             // Draw foreground and shadows to screen
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp); // add dither effect here
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
@@ -240,6 +244,10 @@ namespace WillowWoodRefuge
             if (game.inventory.showInv)
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
+
+            // Stream stream = File.Create("shadow.png");
+            // _shadowBuffer.SaveAsPng(stream, _shadowBuffer.Width, _shadowBuffer.Height);
+            // stream.Dispose();
         }
 
         public override void unloadState()
