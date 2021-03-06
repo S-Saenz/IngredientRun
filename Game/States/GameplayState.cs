@@ -15,6 +15,8 @@ namespace WillowWoodRefuge
         // Render targets
         public RenderTarget2D _backgroundBuffer;
         public RenderTarget2D _foregroundBuffer;
+        public RenderTarget2D _shadowBuffer;
+        protected Texture2D _shadow;
 
         // Light info
         protected bool _isDark = false;
@@ -140,8 +142,9 @@ namespace WillowWoodRefuge
             // Find projection matrix
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             
+            // Render background target
             game.GraphicsDevice.SetRenderTarget(_backgroundBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
+            game.GraphicsDevice.Clear(Color.Gray);
             
             // If background layers, draw in order TODO: parallax
             if (_backgroundLayers != null)
@@ -163,6 +166,8 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(spriteBatch, "Walls");
             spriteBatch.End();
 
+
+            // render foreground target
             game.GraphicsDevice.SetRenderTarget(_foregroundBuffer);
             game.GraphicsDevice.Clear(Color.Transparent);
 
@@ -171,9 +176,19 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(spriteBatch, "Foreground");
             spriteBatch.End();
 
+            // render shadow target
+            game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+            if (_isDark)
+            {
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+                _spriteBatch.Draw(_shadow, Vector2.Zero, Color.White);
+                _spriteBatch.End();
+            }
+
             game.GraphicsDevice.SetRenderTarget(null);
 
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_backgroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
@@ -204,15 +219,10 @@ namespace WillowWoodRefuge
             }
             _spriteBatch.End();
 
-            if (_isDark)
-            {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
-            }
-            else
-            {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            }
+            // Draw foreground and shadows to screen
+            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
             // If dialogue, draw dialogue
@@ -352,7 +362,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        protected void SetRenderTargets()
+        protected void PostConstruction()
         {
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
@@ -369,6 +379,20 @@ namespace WillowWoodRefuge
                 false,
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
+            _shadowBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+
+            // populate shadow as black
+            _shadow = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
+            Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
+            for (int i = 0; i < data.Length; ++i)
+                data[i] = Color.Black;
+            _shadow.SetData(data);
         }
     }
 }

@@ -104,7 +104,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	}
 
 	// darken rgb values based on light calculated
-	color.rgb *= light;
+	color.a = 1 - light;
 	return color;
 }
 
