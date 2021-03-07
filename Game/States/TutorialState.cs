@@ -3,21 +3,19 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class CreditsState : State
-        
+    class TutorialState : State
     {
         private List<Component> _components;
 
-        string credits;
-        
-        public CreditsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
-            : base(game, graphicsDevice, content, spritebatch)
+        private Animation tutorial;
+
+        Texture2D tuttex;
+
+        public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch) : base(game, graphicsDevice, content, spritebatch)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/Button");
             var buttonFont = FontManager._dialogueFont;
@@ -34,51 +32,38 @@ namespace WillowWoodRefuge
             {
                 menuButton
             };
-
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.credits.txt");
-            // grow system from file
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                // throw away first line (headers)
-                string line = reader.ReadLine();
-                while (!reader.EndOfStream)
-                {
-                    line = reader.ReadLine();
-                    credits += line + '\n';
-                }
-            }
+            tuttex = _content.Load<Texture2D>("Controls/tutorial");
+            tutorial = new Animation(tuttex, 1, 12, 50);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            game.GraphicsDevice.Clear(Color.Bisque);
+            game.GraphicsDevice.Clear(Color.Aqua);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
             _components[0].Draw(gameTime, spriteBatch);
-            
-            spriteBatch.DrawString(FontManager._bigdialogueFont, credits, new Vector2(100, 200), Color.Black);
+
+            tutorial.Draw(spriteBatch, new Vector2 (game.GraphicsDevice.Viewport.Width/2 , 500), 1.5f);
             spriteBatch.End();
         }
 
         public override void LoadContent()
         {
-            
         }
 
         public override void PostUpdate(GameTime gameTime)
         {
-            
         }
 
         public override void unloadState()
         {
-            
         }
 
         public override void Update(GameTime gameTime)
         {
             _components[0].Update(gameTime);
+            tutorial.Update(gameTime);
         }
 
         private void menuButton_Click(object sender, EventArgs e)

@@ -34,18 +34,29 @@ namespace WillowWoodRefuge
 
             creditsButton.Click += creditsButton_Click;
 
-            var quitGameButton = new MenuButton(buttonTexture, buttonFont)
+            var TutorialButton = new MenuButton(buttonTexture, buttonFont)
             {
                 Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 400),
+                Text = "Tutorial",
+            };
+
+            TutorialButton.Click += TutorialButton_Click;
+
+            var quitGameButton = new MenuButton(buttonTexture, buttonFont)
+            {
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 500),
                 Text = "Quit Game",
             };
 
             quitGameButton.Click += QuitGameButton_Click;
 
+            
+
             _components = new List<Component>()
             {
                 newGameButton,
                 creditsButton,
+                TutorialButton,
                 quitGameButton,
             };
         }
@@ -91,6 +102,11 @@ namespace WillowWoodRefuge
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             game.ChangeState("CampState");
+        }
+
+        private void TutorialButton_Click(object sender, EventArgs e)
+        {
+            game.ChangeState("TutorialState");
         }
 
         private void QuitGameButton_Click(object sender, EventArgs e)

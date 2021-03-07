@@ -92,6 +92,7 @@ namespace WillowWoodRefuge
             _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
             _states.Add("MenuState", new MenuState(this, GraphicsDevice, Content, _spriteBatch));
             _states.Add("CreditsState", new CreditsState(this, GraphicsDevice, Content, _spriteBatch));
+            _states.Add("TutorialState", new TutorialState(this, GraphicsDevice, Content, _spriteBatch));
 
             _currentState = _states["MenuState"];
             _currentState.LoadContent();
