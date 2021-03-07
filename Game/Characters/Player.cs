@@ -16,13 +16,13 @@ namespace WillowWoodRefuge
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
-        private int _runSpeed = 120; // maximum speed for player to move at
+        private int _runSpeed = 140; // maximum speed for player to move at
         private int _walkSpeed = 50;
         private int _currSpeed = 0;
         private int _walkAccel = 50;
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
-        private float _friction = 0.2f; // rate at which player stops
+        private float _friction = 0.5f; // rate at which player stops
         private int _jump = 13000; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -110,8 +110,9 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(true)
+                        if(Game1.instance.inventory.addIngredient(ItemTextures.GetTexture(obj._name + "Scaled")))
                         {
+                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
                         }
                     }
@@ -129,11 +130,11 @@ namespace WillowWoodRefuge
                         {
                             if(area._name.Contains("Cave"))
                             {
-                                Game1.instance.ChangeState("CaveState");
+                                Game1.instance.RequestStateChange("CaveState");
                             }
                             else if(area._name.Contains("Camp"))
                             {
-                                Game1.instance.ChangeState("CampState");
+                                Game1.instance.RequestStateChange("CampState");
                             }
                         }
                     }
@@ -187,7 +188,6 @@ namespace WillowWoodRefuge
 
             _pos.Y -= idleTex.Height * _scale;
 
-            _pos.Y -= idleTex.Height * _scale / 2;
 
             //create list of Animations
             animationDict.Add("idle", idleAnimation);
@@ -204,6 +204,7 @@ namespace WillowWoodRefuge
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
+            _pos = _collisionBox._bounds.Center;
         }
 
 
@@ -211,11 +212,7 @@ namespace WillowWoodRefuge
         {
             base.Draw(spriteBatch);
 
-            if (isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
-            else if (_isDark)
+            if (_isDark && !isDebug)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
@@ -282,6 +279,11 @@ namespace WillowWoodRefuge
             {
                 _currentDirection = "";
             }            
+        }
+
+        public void Reset()
+        {
+            Game1.instance.RequestStateChange(Game1.instance._currentStateName);
         }
     }
 }

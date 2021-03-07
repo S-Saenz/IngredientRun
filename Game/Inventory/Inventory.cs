@@ -397,7 +397,7 @@ namespace WillowWoodRefuge
                 return false;
             }
 
-            Ingredient newIngredient = new Ingredient(texture, Vector2.Zero);
+            Ingredient newIngredient = new Ingredient(texture);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
             return true;
