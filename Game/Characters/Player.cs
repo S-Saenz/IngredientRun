@@ -97,7 +97,9 @@ namespace WillowWoodRefuge
             {
                 _currSpeed = _walkSpeed;
             }
+
             
+
             if (Game1.instance.input.JustPressed("interact"))
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
