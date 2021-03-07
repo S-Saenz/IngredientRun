@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace WillowWoodRefuge
@@ -25,13 +26,13 @@ namespace WillowWoodRefuge
 
             newGameButton.Click += NewGameButton_Click;
 
-            var loadGameButton = new MenuButton(buttonTexture, buttonFont)
+            var creditsButton = new MenuButton(buttonTexture, buttonFont)
             {
                 Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 300),
-                Text = "Load Game",
+                Text = "Credits",
             };
 
-            loadGameButton.Click += LoadGameButton_Click;
+            creditsButton.Click += creditsButton_Click;
 
             var quitGameButton = new MenuButton(buttonTexture, buttonFont)
             {
@@ -44,7 +45,7 @@ namespace WillowWoodRefuge
             _components = new List<Component>()
             {
                 newGameButton,
-                loadGameButton,
+                creditsButton,
                 quitGameButton,
             };
         }
@@ -77,13 +78,14 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+
             foreach (var component in _components)
                 component.Update(gameTime);
         }
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void creditsButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Load Game");
+            game.ChangeState("CreditsState");
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
