@@ -6,6 +6,8 @@ using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
+    public delegate void WindowResizeEventHandler(Vector2 size);
+
     public class CameraController
     {
         public Vector2 _screenRatio { get; private set; }
@@ -17,6 +19,8 @@ namespace WillowWoodRefuge
         public Vector2 _screenDimensions { get; private set; }
         private Vector2 _windowDimensions;
         private Vector2 _oldPoint = Vector2.Zero;
+
+        private event WindowResizeEventHandler _onResize;
 
         public CameraController(GraphicsDeviceManager graphics, Vector2 screenRatio, Vector2 pixelDimensions, Vector2 screenDimensions)
         {
@@ -99,7 +103,6 @@ namespace WillowWoodRefuge
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
             if (_worldBounds.HasValue)
             {
                 spriteBatch.DrawRectangle(_worldBounds.Value, Color.Purple);
@@ -111,7 +114,6 @@ namespace WillowWoodRefuge
             }
 
             spriteBatch.DrawRectangle(_camera.BoundingRectangle, Color.Red);
-            spriteBatch.End();
         }
 
         public void SetWorldBounds(RectangleF worldBounds)
@@ -147,16 +149,16 @@ namespace WillowWoodRefuge
         private void RecalculateScreenDimensions(Vector2 screenDimensions, Vector2? pos = null)
         {
             // calculate dimensions restrained by screenRatio
-            float widthScale  = screenDimensions.X / _screenRatio.X;
-            float heightScale = screenDimensions.Y / _screenRatio.Y;
-            if (widthScale < heightScale) // limited by width
-            {
-                screenDimensions.Y = widthScale * _screenRatio.Y;
-            }
-            else // limited by height
-            {
-                screenDimensions.X = heightScale * _screenRatio.X;
-            }
+            // float widthScale  = screenDimensions.X / _screenRatio.X;
+            // float heightScale = screenDimensions.Y / _screenRatio.Y;
+            // if (widthScale < heightScale) // limited by width
+            // {
+            //     screenDimensions.Y = widthScale * _screenRatio.Y;
+            // }
+            // else // limited by height
+            // {
+            //     screenDimensions.X = heightScale * _screenRatio.X;
+            // }
 
             // apply new screen dimensions to graphics device
             _graphics.PreferredBackBufferWidth  = (int)screenDimensions.X;  // set this value to the desired width of your window
@@ -185,6 +187,7 @@ namespace WillowWoodRefuge
             {
                 _camera.Position = pos.Value;
             }
+            _onResize?.Invoke(_screenDimensions);
         }
 
         public Matrix GetViewMatrix()
@@ -204,6 +207,26 @@ namespace WillowWoodRefuge
             RecalculateScreenDimensions(_windowDimensions);
             _graphics.IsFullScreen = false; // set true to default later
             _graphics.ApplyChanges();
+        }
+
+        public void ToggleFullscreen()
+        {
+            if(_graphics.IsFullScreen == true)
+            {
+                RecalculateScreenDimensions(_windowDimensions);
+                _graphics.IsFullScreen = false; // set true to default later
+            }
+            else
+            {
+                RecalculateScreenDimensions(new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height));
+                _graphics.IsFullScreen = true;
+            }
+            _graphics.ApplyChanges();
+        }
+
+        public void AddResizeListener(WindowResizeEventHandler resizeEvent)
+        {
+            _onResize += resizeEvent;
         }
     }
 }

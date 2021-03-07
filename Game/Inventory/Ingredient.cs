@@ -42,6 +42,13 @@ namespace WillowWoodRefuge
             
         }
 
+        public Ingredient(Texture2D image)
+        {
+            img = image;
+            scale = .25f;
+            Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
+        }
+
         public void Update(GameTime gameTime)
         {
             //timeSinceLastDrop += (float)gameTime.ElapsedGameTime.TotalSeconds; //add elapsed time to counter
