@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace WillowWoodRefuge
@@ -19,32 +20,43 @@ namespace WillowWoodRefuge
 
             var newGameButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game._cameraController._screenDimensions.X/2 - 80, 200),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 200),
                 Text = "New Game",
             };
 
             newGameButton.Click += NewGameButton_Click;
 
-            var loadGameButton = new MenuButton(buttonTexture, buttonFont)
+            var creditsButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game._cameraController._screenDimensions.X / 2 - 80, 300),
-                Text = "Load Game",
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 300),
+                Text = "Credits",
             };
 
-            loadGameButton.Click += LoadGameButton_Click;
+            creditsButton.Click += creditsButton_Click;
+
+            var TutorialButton = new MenuButton(buttonTexture, buttonFont)
+            {
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 400),
+                Text = "Tutorial",
+            };
+
+            TutorialButton.Click += TutorialButton_Click;
 
             var quitGameButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game._cameraController._screenDimensions.X / 2 - 80, 400),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 500),
                 Text = "Quit Game",
             };
 
             quitGameButton.Click += QuitGameButton_Click;
 
+            
+
             _components = new List<Component>()
             {
                 newGameButton,
-                loadGameButton,
+                creditsButton,
+                TutorialButton,
                 quitGameButton,
             };
         }
@@ -77,18 +89,24 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+
             foreach (var component in _components)
                 component.Update(gameTime);
         }
 
-        private void LoadGameButton_Click(object sender, EventArgs e)
+        private void creditsButton_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Load Game");
+            game.ChangeState("CreditsState");
         }
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
             game.ChangeState("CampState");
+        }
+
+        private void TutorialButton_Click(object sender, EventArgs e)
+        {
+            game.ChangeState("TutorialState");
         }
 
         private void QuitGameButton_Click(object sender, EventArgs e)
