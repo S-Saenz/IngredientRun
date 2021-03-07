@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,8 +22,8 @@ namespace WillowWoodRefuge
 
 
         public float Rotation { get; set; }
-        public float Scale { get; set; }
-
+        //public float Scale { get; set; }
+        public float Scale;
         public Vector2 Origin { get; set; }
         public Color Color { get; set; }
         public float Depth { get; set; }
@@ -36,11 +37,14 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Debug.WriteLine($"{this.img} Scale = {this.Scale}\nDepth = {this.Depth}");
+
             spriteBatch.Draw(this.img,
                              this.pos,
                              null,
                              this.Color,
                              0 - this.Rotation - 1.5f,
+                             //this.Rotation,
                              this.Origin,
                              this.Scale,
                              SpriteEffects.None,
@@ -49,8 +53,8 @@ namespace WillowWoodRefuge
 
 
         public Sprite(Texture2D image, Vector2 position) {
-            img = image;
-            pos = position;
+            this.img = image;
+            this.pos = position;
         }
 
         public Rectangle Bounds() {
@@ -62,12 +66,11 @@ namespace WillowWoodRefuge
             //pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
             pos = new Vector2(p.X, p.Y);
         }
-
         public void Draw(SpriteBatch spriteBatch, int i)
+
         {
             //spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
             spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 0.5f);
-
         }
     }
 }
