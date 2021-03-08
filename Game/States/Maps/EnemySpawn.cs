@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Tiled;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -38,7 +39,7 @@ namespace WillowWoodRefuge
         {
             if(_object != null)
             {
-                _object.Draw(spriteBatch, isDebug);
+                _object.Draw(spriteBatch);
             }
         }
     }
