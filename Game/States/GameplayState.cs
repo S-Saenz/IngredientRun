@@ -152,6 +152,20 @@ namespace WillowWoodRefuge
                 spriteBatch.End();
             }
 
+            // (temp) Draw scene change areas
+            foreach (Area area in _tileMap.GetAreaObject("state.Cave"))
+            {
+                area.Draw(spriteBatch, "To Cave", game._cameraController, Color.Gray);
+            }
+            foreach (Area area in _tileMap.GetAreaObject("stateCamp"))
+            {
+                area.Draw(spriteBatch, "To Camp", game._cameraController, Color.Gray);
+            }
+            foreach (Area area in _tileMap.GetAreaObject("fire"))
+            {
+                area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
+            }
+
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             // Draw NPCs

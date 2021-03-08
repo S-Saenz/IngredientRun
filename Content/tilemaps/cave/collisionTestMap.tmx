@@ -122,6 +122,6 @@
   </object>
  </objectgroup>
  <objectgroup id="7" name="AreaObjects">
-  <object id="12" name="stateCamp" x="0" y="112" width="48" height="16"/>
+  <object id="12" name="stateCamp" x="0" y="112" width="64" height="16"/>
  </objectgroup>
 </map>
