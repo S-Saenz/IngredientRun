@@ -22,6 +22,8 @@ namespace WillowWoodRefuge
         private int _walkSpeed = 50;
         private int _currSpeed = 0;
         private float _friction = 0.5f; // rate at which player stops
+        private float jumpHeight = 50;
+        private float timeToApex = 1;
         private int _jump = 7000; // force on player to move upward. 7000 feels like a good final value
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
@@ -115,7 +117,8 @@ namespace WillowWoodRefuge
                             _collisionBox._velocity.X = -_airSpeed;
                         }
                     }
-                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                    //_collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                    _collisionBox.Jump();
                 }
                 _jumpClicked = true;
             }
@@ -232,7 +235,7 @@ namespace WillowWoodRefuge
             _collisionBox = new CollisionBox(new RectangleF(_pos,
                 new Size2(idleTex.Bounds.Width * _scale, idleTex.Bounds.Height * _scale)),
                 collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), maxAirSpeed: new Vector2(_airSpeed, 500),
-                friction: _friction);
+                jumpHeight, timeToApex, friction: _friction);
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);

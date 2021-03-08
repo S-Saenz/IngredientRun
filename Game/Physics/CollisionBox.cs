@@ -30,6 +30,11 @@ namespace WillowWoodRefuge
         public float _friction; // 0-1
         public float _damping = 0.1f;
         public RectangleF _worldBounds;
+        
+        private float _jumpHeight;
+        private float _timeToApex;
+        private float _jumpGravity;
+        private float _jumpVelocity;
 
         PhysicsHandler _collisionHandler;
 
@@ -61,7 +66,8 @@ namespace WillowWoodRefuge
         private event MovementEventHandler _onMovementChangeDirection;
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
-                            Vector2? maxSpeed = null, Vector2? maxAirSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
+                            Vector2? maxSpeed = null, Vector2? maxAirSpeed = null, float jumpHeight = 100, float timeToApex = 1,
+                            float gravity = 9.8f, float damping = 1, float friction = 1)
         {
             _bounds = bounds;
 
@@ -70,6 +76,8 @@ namespace WillowWoodRefuge
             _worldBounds = worldBounds;
             _gravity = new Vector2(0, gravity * 0.4f);
             _friction = friction;
+            _jumpHeight = jumpHeight;
+            _timeToApex = timeToApex;
             // _damping = damping;
             if (maxSpeed.HasValue)
             {
@@ -88,6 +96,8 @@ namespace WillowWoodRefuge
                 _maxAirSpeed = Vector2.One;
             }
             _prevPos = _bounds.Position;
+            _jumpGravity = -(2 * jumpHeight) / (timeToApex * timeToApex);
+            _jumpVelocity = Math.Abs(_jumpGravity) * timeToApex;
         }
 
         public Vector2 Update(GameTime gameTime)
@@ -166,6 +176,7 @@ namespace WillowWoodRefuge
 
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds();
+            Debug.WriteLine(pos);
             IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
@@ -223,6 +234,11 @@ namespace WillowWoodRefuge
         public void TryMoveHorizontal(float desiredVelocity)
         {
             _velocity.X = desiredVelocity;
+        }
+
+        public void Jump()
+        {
+            _velocity.Y -= _jumpVelocity;
         }
 
         public void Accelerate(Vector2 acceleration)
