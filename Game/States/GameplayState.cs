@@ -27,8 +27,8 @@ namespace WillowWoodRefuge
         static protected bool _showMiniDebug = false;
         static protected bool _showFullDebug = false;
         // 0 = camera, 1 = physics, 2 = ai
-        static protected int _fullDebugMode = 2;
-        static protected int _miniDebugMode = 1;
+        static protected int _fullDebugMode = 1;
+        static protected int _miniDebugMode = 0;
         static protected int _numDebugModes = 3;
 
         // Physics handler
@@ -246,6 +246,14 @@ namespace WillowWoodRefuge
             {
                 _miniDebugMode = (_miniDebugMode + 1) % 3;
             }
+
+            // change scene
+            if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeCaveState"))
+                game.RequestStateChange("CaveState");
+            else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeCampState"))
+                game.RequestStateChange("CampState");
+            else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("restartState"))
+                game.RequestStateChange(game._currentStateName);
         }
 
         void DrawDebug(SpriteBatch spriteBatch)

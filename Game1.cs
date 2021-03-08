@@ -120,13 +120,7 @@ namespace WillowWoodRefuge
 
             _currentState.PostUpdate(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D1) && !_wasPressed)
-                ChangeState("colorState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D2) && !_wasPressed)
-                ChangeState("CaveState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
-                ChangeState("CampState");
-            else if (_changeRequest != null)
+            if (_changeRequest != null)
             {
                 ChangeState(_changeRequest);
                 _changeRequest = null;
