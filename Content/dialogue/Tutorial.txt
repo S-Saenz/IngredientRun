@@ -7,7 +7,8 @@
 'I' - Open/Close inventory
 
 
-
+State persists even when returning to main menu.
+State is lost when the game is closed.
 
 
 Debug:
