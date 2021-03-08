@@ -11,6 +11,9 @@ namespace WillowWoodRefuge
         // Player instance
         protected Player _player;
 
+        // Start location
+        public string _startLocLabel;
+
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
         public List<PickupItem> _items = new List<PickupItem>();
@@ -68,7 +71,7 @@ namespace WillowWoodRefuge
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
-            _player = new Player(game.graphics, _tileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _physicsHandler);
+            _player = new Player(game.graphics, _tileMap.GetWaypoint("PlayerObjects", "PlayerSpawn." + _startLocLabel), _physicsHandler);
             _player.Load(_content, _physicsHandler, _tileMap._mapBounds);
 
             // Setup enemies

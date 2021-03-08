@@ -38,11 +38,27 @@ namespace WillowWoodRefuge
         // temp button clicking var so changing scene doesn't happen multiple times
         private bool _wasPressed = false;
 
-        public void ChangeState(string sState)
+        public void ChangeState(string sState, string spawnLocLabel = "Default")
         {
             sounds.stop();
             _nextState = _states[sState];
             _currentState.unloadState();
+            GameplayState state = _nextState as GameplayState;
+            if (state != null) // next state is gameplay state
+            {
+                state = _currentState as CaveState;
+                if (state != null)
+                {
+                    spawnLocLabel = "fromCave";
+                }
+                state = _currentState as CampState;
+                if (state != null)
+                {
+                    spawnLocLabel = "fromCamp";
+                }
+                state = _nextState as GameplayState;
+                state._startLocLabel = spawnLocLabel;
+            }
             _nextState.LoadContent();
             _currentStateName = sState;
         }
