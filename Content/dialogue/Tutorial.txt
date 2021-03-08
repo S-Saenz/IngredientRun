@@ -1,0 +1,26 @@
+﻿'Alt'+'Enter' - Toggle between windowed and full screen
+
+'Escape' - Return to main menu
+
+'Shift' - Run faster
+
+'I' - Open/Close inventory
+
+
+
+
+
+Debug:
+(if you get stuck or want to see behind the curtain)
+
+'Left Ctrl' - Turn on full debug window
+
+'Right Ctrl' - Turn on mini debug window
+
+'Alt'+'Ctrl' - Change debug mode in respective window
+
+'R' - Reset player location in scene (while in debug)
+
+'1' - Teleport to camp (while in debug)
+
+'2' - Teleport to cave (while in debug)
