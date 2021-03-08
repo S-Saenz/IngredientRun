@@ -11,6 +11,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\dialogue\credits.txt" />
+    <None Remove="Content\dialogue\credits_tools.txt" />
     <None Remove="Content\dialogue\NPCDialogue.tsv" />
     <None Remove="Content\dialogue\Tutorial.txt" />
     <None Remove="Content\miscText\credits.txt" />
@@ -20,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Content\dialogue\credits.txt" />
+    <EmbeddedResource Include="Content\dialogue\credits_tools.txt" />
     <EmbeddedResource Include="Content\dialogue\NPCDialogue.tsv" />
     <EmbeddedResource Include="Content\dialogue\Tutorial.txt" />
     <EmbeddedResource Include="Content\textureAtlas\itemTextures.json" />
