@@ -56,6 +56,18 @@ namespace WillowWoodRefuge
             {
                 Keys.RightControl
             };
+            List<Keys> changeCampState = new List<Keys>()
+            {
+                Keys.D1
+            };
+            List<Keys> changeCaveState = new List<Keys>()
+            {
+                Keys.D2
+            };
+            List<Keys> restartState = new List<Keys>()
+            {
+                Keys.R
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -67,6 +79,9 @@ namespace WillowWoodRefuge
             _buttons.Add("debugMiniToggle", new Button(debugMiniToggle));
             _buttons.Add("alternate", new Button(alternate));
             _buttons.Add("toggleWindowed", new Button(toggleWindowed));
+            _buttons.Add("changeCampState", new Button(changeCampState));
+            _buttons.Add("changeCaveState", new Button(changeCaveState));
+            _buttons.Add("restartState", new Button(restartState));
         }
 
         public void Update(GameTime time)

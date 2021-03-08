@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="44" height="44" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="13">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="44" height="44" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="15">
  <tileset firstgid="1" source="MapPrototypeTileset.tsx"/>
  <layer id="3" name="Background" width="44" height="44">
   <data encoding="csv">
@@ -109,7 +109,13 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="PlayerObjects">
-  <object id="2" name="PlayerSpawn" x="18" y="128">
+  <object id="2" name="PlayerSpawn.Default" x="18" y="128">
+   <point/>
+  </object>
+  <object id="13" name="PlayerSpawn.fromCamp" x="18" y="128">
+   <point/>
+  </object>
+  <object id="14" name="PlayerSpawn.fromCave" x="18" y="128">
    <point/>
   </object>
  </objectgroup>
@@ -122,6 +128,6 @@
   </object>
  </objectgroup>
  <objectgroup id="7" name="AreaObjects">
-  <object id="12" name="stateCamp" x="0" y="112" width="48" height="16"/>
+  <object id="12" name="stateCamp" x="0" y="112" width="64" height="16"/>
  </objectgroup>
 </map>
