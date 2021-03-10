@@ -201,7 +201,6 @@ namespace WillowWoodRefuge
                 _spriteBatch.End();
             }
 
-
             game.GraphicsDevice.SetRenderTarget(null);
 
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -240,9 +239,12 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
-            _spriteBatch.End();
+            if (_isDark)
+            {
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.End();
+            }
 
             // If dialogue, draw dialogue
             if (_dialogueSystem != null)
@@ -382,6 +384,15 @@ namespace WillowWoodRefuge
                         break;
                 }
                 spriteBatch.End();
+            }
+
+            if(_showFullDebug || _showMiniDebug)
+            {
+                _isDark = false;
+            }
+            else
+            {
+                _isDark = true;
             }
         }
 

@@ -57,6 +57,7 @@ float4 GetPixel(const sampler2D sampl, float2 pos)
 // determine if fragment is blocked from light
 bool IsBlocked(float2 lightPos, float2 fragPos)
 {
+	// change fragPos to int
 	// Bresenham's algorithm line variables
 	int2 delta = int2(abs(fragPos.x - lightPos.x), abs(fragPos.y - lightPos.y));
 	int2 sign = int2(lightPos.x < fragPos.x ? 1 : -1, lightPos.y < fragPos.y ? 1 : -1);
@@ -96,7 +97,9 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 	{
 		if (!IsBlocked(AreaLightPosition[light], fragPos))
 		{
-			return (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
+			// TODO: falloff stuff
+			float distValue = (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
+			return distValue;
 		}
 	}
 	return 0;
@@ -121,8 +124,9 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 		{
 			if (!IsBlocked(DirectionalLightPosition[light], fragPos))
 			{
-				float distValue = (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light];
-				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light];
+				// TODO: falloff stuff
+				float distValue = (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]; // linear 0-1
+				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light]; // linear 0-1
 				return distValue * angleValue;
 			}
 		}
