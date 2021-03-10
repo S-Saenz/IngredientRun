@@ -143,7 +143,7 @@ namespace WillowWoodRefuge
             UpdateShaderParameters();
         }
 
-        private void CreateShaderArrays()
+        public void CreateShaderArrays()
         {
             _aLightPosition = new Vector2[MAX_AREA_LIGHTS];
             _aLightDistance = new float[MAX_AREA_LIGHTS];
@@ -153,6 +153,8 @@ namespace WillowWoodRefuge
                 _aLightPosition[i] = _areaLights[i]._loc;
                 _aLightDistance[i] = _areaLights[i]._dist;
             }
+
+            _aLightPosChanged = _aLightDistChanged = _aLightNumChanged = true;
 
             _dLightPosition = new Vector2[MAX_DIRECTIONAL_LIGHTS];
             _dLightDistance = new float[MAX_DIRECTIONAL_LIGHTS];
@@ -166,6 +168,7 @@ namespace WillowWoodRefuge
                 _dLightDirection[i] = _directionalLights[i]._direction;
                 _dLightSpread[i] = _directionalLights[i]._spread;
             }
+            _dLightPosChanged = _dLightDistChanged = _dLightDirChanged = _dLightSpreadChanged = _dLightNumChanged = true;
 
             UpdateShaderParameters();
         }
