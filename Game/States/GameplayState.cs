@@ -17,6 +17,7 @@ namespace WillowWoodRefuge
         // Render targets
         public RenderTarget2D _backgroundBuffer;
         public RenderTarget2D _foregroundBuffer;
+        public RenderTarget2D _casterBuffer;
         public RenderTarget2D _bakedShadowBuffer;
         public RenderTarget2D _shadowBuffer;
 
@@ -107,6 +108,7 @@ namespace WillowWoodRefuge
             // Setup lighting
             _dynamicLightManager.CreateShaderArrays();
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
         }
 
         public override void Update(GameTime gameTime)
@@ -400,6 +402,13 @@ namespace WillowWoodRefuge
                 false,
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
+            _casterBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
             _shadowBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
                 (int)_tileMap._mapBounds.Width,
@@ -421,6 +430,17 @@ namespace WillowWoodRefuge
             for (int i = 0; i < data.Length; ++i)
                 data[i] = Color.Black;
             _blankTexture.SetData(data);
+
+            // setup caster texture
+            game.GraphicsDevice.SetRenderTarget(_casterBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _tileMap.DrawLayer(_spriteBatch, "Walls");
+            _tileMap.DrawLayer(_spriteBatch, "Foreground");
+            _spriteBatch.End();
+
+            _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
 
             _staticLightManager.CreateShaderArrays();
 

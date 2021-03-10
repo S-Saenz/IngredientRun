@@ -27,7 +27,13 @@ int     NumDirectionalLights;
 
 // Sprite texture parameters (texture that effect is called on in draw, passed in automatically)
 sampler SpriteTexture : register(s0);
+Texture2D CasterTexture;
 float2 TextureDimensions;
+
+sampler2D CasterTextureSampler = sampler_state
+{
+	Texture = <CasterTexture>;
+};
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -42,13 +48,56 @@ struct VertexShaderOutput
 	float2 TextureCoordinates : TEXCOORD0;
 };
 
+// returns corresponding pixel from sampler based on pixel world location
+float4 GetPixel(const sampler2D sampl, float2 pos)
+{
+	return tex2Dgrad(sampl, float2(pos.x / TextureDimensions.x, pos.y / TextureDimensions.y), 1, 1);
+}
+
+// determine if fragment is blocked from light
+bool IsBlocked(float2 lightPos, float2 fragPos)
+{
+	// Bresenham's algorithm line variables
+	int2 delta = int2(abs(fragPos.x - lightPos.x), abs(fragPos.y - lightPos.y));
+	int2 sign = int2(lightPos.x < fragPos.x ? 1 : -1, lightPos.y < fragPos.y ? 1 : -1);
+	int err = 2 * delta.y - delta.x;
+
+	// step along path until fragment reached or obstruction hit
+	// for(float2 currPos = lightPos; currPos.x != fragPos.x && currPos.y != fragPos.y; currPos.x += sign.x)
+	// {
+	// 	// test current position for obstruction
+	// 	if (GetPixel(CasterTextureSampler, currPos).a > 0)
+	// 	{
+	// 		return true;
+	// 	}
+	// 	
+	// 	if (err > 0)
+	// 	{
+	// 		currPos.y += sign.y;
+	// 		err -= 2 * delta.x;
+	// 	}
+	// 
+	// 	err += 2 * delta.y;
+	// }
+
+	if (GetPixel(CasterTextureSampler, fragPos).a > 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 // determines the amount of light from one area light that reaches fragment
 float4 CalculateAreaLight(int light, float2 fragPos)
 {
 	float dist = distance(AreaLightPosition[light], fragPos);
 	if (dist < AreaLightDistance[light])
 	{
-		return (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
+		if (!IsBlocked(AreaLightPosition[light], fragPos))
+		{
+			return (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
+		}
 	}
 	return 0;
 }
@@ -70,7 +119,12 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 		float dist = distance(DirectionalLightPosition[light], fragPos);
 		if (dist < DirectionalLightDistance[light])
 		{
-			return (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]; // linear 0-1
+			if (!IsBlocked(DirectionalLightPosition[light], fragPos))
+			{
+				float distValue = (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light];
+				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light];
+				return distValue * angleValue;
+			}
 		}
 	}
 	return 0;
