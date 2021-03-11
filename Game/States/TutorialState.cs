@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace WillowWoodRefuge
@@ -14,6 +16,8 @@ namespace WillowWoodRefuge
         private Animation tutorial;
 
         Texture2D tuttex;
+
+        private string tut;
 
         public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch) : base(game, graphicsDevice, content, spritebatch)
         {
@@ -34,6 +38,19 @@ namespace WillowWoodRefuge
             };
             tuttex = _content.Load<Texture2D>("Controls/tutorial");
             tutorial = new Animation(tuttex, 1, 12, 50);
+
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.Tutorial.txt");
+            // grow system from file
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                // throw away first line (headers)
+                string line;
+                while (!reader.EndOfStream)
+                {
+                    line = reader.ReadLine();
+                    tut += line + '\n';
+                }
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -44,7 +61,9 @@ namespace WillowWoodRefuge
 
             _components[0].Draw(gameTime, spriteBatch);
 
-            tutorial.Draw(spriteBatch, new Vector2 (game.GraphicsDevice.Viewport.Width/2 , 500), 1.5f);
+            tutorial.Draw(spriteBatch, new Vector2 (game.GraphicsDevice.Viewport.Width/2 + 500, game.GraphicsDevice.Viewport.Height / 2), 2f);
+
+            spriteBatch.DrawString(FontManager._bigdialogueFont, tut, new Vector2(20, 70), Color.Black);
             spriteBatch.End();
         }
 

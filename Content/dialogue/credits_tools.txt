@@ -1,0 +1,13 @@
+﻿Tools/Frameworks:
+
+MonoGame
+
+MonoGame.Extended
+
+Tiled
+
+Aesprite
+
+Piskel
+
+Photoshop

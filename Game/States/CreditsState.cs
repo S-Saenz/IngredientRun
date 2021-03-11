@@ -15,6 +15,7 @@ namespace WillowWoodRefuge
         private List<Component> _components;
 
         string credits;
+        string tools;
         
         public CreditsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
             : base(game, graphicsDevice, content, spritebatch)
@@ -39,12 +40,23 @@ namespace WillowWoodRefuge
             // grow system from file
             using (StreamReader reader = new StreamReader(stream))
             {
-                // throw away first line (headers)
-                string line = reader.ReadLine();
+                string line;
                 while (!reader.EndOfStream)
                 {
                     line = reader.ReadLine();
                     credits += line + '\n';
+                }
+            }
+
+            stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.credits_tools.txt");
+            // grow system from file
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string line;
+                while (!reader.EndOfStream)
+                {
+                    line = reader.ReadLine();
+                    tools += line + '\n';
                 }
             }
         }
@@ -58,6 +70,7 @@ namespace WillowWoodRefuge
             _components[0].Draw(gameTime, spriteBatch);
             
             spriteBatch.DrawString(FontManager._bigdialogueFont, credits, new Vector2(100, 200), Color.Black);
+            spriteBatch.DrawString(FontManager._bigdialogueFont, tools, new Vector2(900, 200), Color.Black);
             spriteBatch.End();
         }
 

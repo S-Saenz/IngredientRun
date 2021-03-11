@@ -101,7 +101,7 @@ namespace WillowWoodRefuge
             {
                 return _areas[area];
             }
-            return null;
+            return new List<Area>();
         }
 
         public void SpawnPickups(ref List<PickupItem> items)
