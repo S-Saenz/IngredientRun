@@ -55,16 +55,56 @@ float4 GetPixel(const sampler2D sampl, float2 pos)
 }
 
 // determine if fragment is blocked from light
-bool IsBlocked(float2 lightPos, float2 fragPos)
+bool IsBlocked(int2 lightPos, int2 fragPos)
 {
-	// change fragPos to int
-	// Bresenham's algorithm line variables
-	int2 delta = int2(abs(fragPos.x - lightPos.x), abs(fragPos.y - lightPos.y));
-	int2 sign = int2(lightPos.x < fragPos.x ? 1 : -1, lightPos.y < fragPos.y ? 1 : -1);
-	int err = 2 * delta.y - delta.x;
+	// Supercover lines: https://www.redblobgames.com/grids/line-drawing.html
+	int2 delta = int2(fragPos.x - lightPos.x, fragPos.y - lightPos.y);
+	int2 n = int2(abs(delta.x), abs(delta.y));
+	int2 sign = int2(delta.x > 0 ? 1 : -1, delta.y > 0 ? 1 : -1);
+	int2 curr = int2(lightPos.x, lightPos.y);
+	
+	for (int2 i = int2(0, 0); i.x < n.x || i.y < n.y;)
+	{
+		// test current position for obstruction
+		if (GetPixel(CasterTextureSampler, curr).a > 0)
+		{
+			return true;
+		}
 
+		// take next step toward fragPos
+		int decision = (1 + 2 * i.x) * n.y - (1 + 2 * i.y) * n.x;
+		if (decision == 0) // diagonal
+		{
+			curr.x += sign.x;
+			curr.y += sign.y;
+			++i.x;
+			++i.y;
+		}
+		else if (decision < 0) // horizontal
+		{
+			curr.x += sign.x;
+			++i.x;
+		}
+		else // vertical
+		{
+			curr.y += sign.y;
+			++i.y;
+		}
+	}
+	// test last position for obstruction
+	if (GetPixel(CasterTextureSampler, curr).a > 0)
+	{
+		return true;
+	}
+	return false;
+
+	// Bresenham's algorithm line variables
+	// int2 delta = int2(abs(fragPos.x - lightPos.x), abs(fragPos.y - lightPos.y));
+	// int2 sign = int2(lightPos.x < fragPos.x ? 1 : -1, lightPos.y < fragPos.y ? 1 : -1);
+	// int2 err = int2(2 * delta.x - delta.y, 2 * delta.y - delta.x);
+	// 
 	// step along path until fragment reached or obstruction hit
-	// for(float2 currPos = lightPos; currPos.x != fragPos.x && currPos.y != fragPos.y; currPos.x += sign.x)
+	// for(int2 currPos = lightPos; currPos.x != fragPos.x && currPos.y != fragPos.y;)
 	// {
 	// 	// test current position for obstruction
 	// 	if (GetPixel(CasterTextureSampler, currPos).a > 0)
@@ -72,21 +112,26 @@ bool IsBlocked(float2 lightPos, float2 fragPos)
 	// 		return true;
 	// 	}
 	// 	
-	// 	if (err > 0)
+	// 	if (err.y > 0)
 	// 	{
 	// 		currPos.y += sign.y;
-	// 		err -= 2 * delta.x;
+	// 		err.y -= 2 * delta.x;
 	// 	}
 	// 
-	// 	err += 2 * delta.y;
+	// 	if (err.x > 0)
+	// 	{
+	// 		currPos.x += sign.x;
+	// 		err.x -= 2 * delta.y;
+	// 	}
+	// 
+	// 	err += int2(2 * delta.x, 2 * delta.y);
 	// }
-
-	if (GetPixel(CasterTextureSampler, fragPos).a > 0)
-	{
-		return true;
-	}
-
-	return false;
+	// 
+	// if (GetPixel(CasterTextureSampler, fragPos).a > 0)
+	// {
+	// 	return true;
+	// }
+	// return false;
 }
 
 // determines the amount of light from one area light that reaches fragment
