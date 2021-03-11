@@ -21,7 +21,8 @@ namespace WillowWoodRefuge
     {
          KeyboardState oldKeyState;
 
-         Texture2D mainUI, background, selectedFood;
+
+        Texture2D mainUI, background, selectedFood;
         Texture2D container, box1, box2, box1Selected, box2Selected, recipeFrame, blackPlus, yellowPlus;
 
         //recipes 
@@ -62,12 +63,30 @@ namespace WillowWoodRefuge
 
          Boolean _debugMode = true;
 
+
+
          public RecipeSelection(ref Cook cookingUI, ref Inventory inventory)
          {
             cookingUI._cookingVisible = false;
             this.cookingUI = cookingUI;
             this.inventory = inventory;
          }
+
+        public RecipeSelection(Game1 game)
+        {
+            //this.game = InstancePlayLimitException;
+            cookingUI = game.cookingGame;
+            inventory = game.inventory;
+        }
+
+        /*
+        public RecipeSelection(Cook cookingUI, Inventory inventory)
+        {
+            cookingUI._cookingVisible = false;
+            this.cookingUI = cookingUI;
+            this.inventory = inventory;
+        }
+        */
 
          public void Load(ContentManager Content)
          {
@@ -130,6 +149,7 @@ namespace WillowWoodRefuge
 
          public void Update(MouseState mouseState, KeyboardState keyState)
          {
+
             //we are calling mouseState in Draw(), so update a member variable with mousestate so we can use it in draw
             this._mouseState = mouseState;
 
@@ -181,6 +201,11 @@ namespace WillowWoodRefuge
             //press HOME to toggle debug mode
             if (oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home))
                 _debugMode = !_debugMode;
+
+            if (oldKeyState.IsKeyUp(Keys.H) && keyState.IsKeyDown(Keys.H))
+                this._visibleUI = true;
+
+            this.oldKeyState = keyState;
         }
 
         public void Draw(SpriteBatch spriteBatch)

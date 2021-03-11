@@ -18,12 +18,10 @@ namespace WillowWoodRefuge
     {
         public Texture2D img { get; set; }
         public Vector2 pos { get; set; }
-        public float scale = 0.5f;
 
 
         public float Rotation { get; set; }
-        //public float Scale { get; set; }
-        public float Scale;
+        public float Scale { get; set; }
         public Vector2 Origin { get; set; }
         public Color Color { get; set; }
         public float Depth { get; set; }
@@ -34,31 +32,39 @@ namespace WillowWoodRefuge
         {
             this.img = texture;
         }
+        public Sprite(Texture2D texture, Vector2 position) {
+            this.img = texture;
+            this.pos = position;
+            this.Scale = 1;
+        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Debug.WriteLine($"{this.img} Scale = {this.Scale}\nDepth = {this.Depth}");
+            //Debug.WriteLine($"{this.img} Scale = {this.Scale}\nDepth = {this.Depth}\nColor = {this.Color}");
 
             spriteBatch.Draw(this.img,
                              this.pos,
                              null,
-                             this.Color,
-                             0 - this.Rotation - 1.5f,
-                             //this.Rotation,
+                             Color.White, 
+                             //this.Color,
+                             //0 - this.Rotation - 1.5f,
+                             this.Rotation,
                              this.Origin,
                              this.Scale,
                              SpriteEffects.None,
                              this.Depth);
         }
+        public void Draw(SpriteBatch spriteBatch, int i)
 
-
-        public Sprite(Texture2D image, Vector2 position) {
-            this.img = image;
-            this.pos = position;
+        {
+            //spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, Scale, SpriteEffects.None, 0.5f);
         }
 
+
+
         public Rectangle Bounds() {
-            Rectangle rect = new Rectangle(new Point((int)pos.X,(int)pos.Y), new Point(img.Width, img.Height));
+            Rectangle rect = new Rectangle(new Point((int)pos.X,(int)pos.Y), new Point(img.Width*(int)Scale, img.Height*(int)Scale));
             return rect;
         }
 
@@ -66,11 +72,10 @@ namespace WillowWoodRefuge
             //pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
             pos = new Vector2(p.X, p.Y);
         }
-        public void Draw(SpriteBatch spriteBatch, int i)
 
+        public bool IsPointOver(Point point)
         {
-            //spriteBatch.Draw(img, pos, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.5f);
-            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 0.5f);
+            return this.Bounds().Contains(point.X, point.Y);
         }
     }
 }
