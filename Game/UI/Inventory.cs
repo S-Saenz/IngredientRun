@@ -8,9 +8,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 namespace WillowWoodRefuge
 {
@@ -22,21 +20,11 @@ namespace WillowWoodRefuge
         Ingredient FISH, ACORN, APPLE, MEAT, WOOD;
         public bool showInv = false;
         bool handsFull = false;
-        KeyboardState oldKeyState;
+        public KeyboardState oldKeyState;
 
         public List<Ingredient> ingredientList = new List<Ingredient>();
         List<Vector2> boxes = new List<Vector2>();
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
-
-        //for timing how fast items fall down inventory
-        //float timeSinceLastDrop = 0f;
-
-        //config for temp inventory (Minecraft)
-        //int gridWidth = 9;
-        //int gridHeight = 3;
-        //float gridWidthMargin = 100;
-        //float gridHeightMargin = 100;
-        //Vector2 topLeft = new Vector2(250, 162);
 
         //config for backpack inventory - inluding side pockets
         int gridWidth = 6;
@@ -45,8 +33,9 @@ namespace WillowWoodRefuge
         float gridHeightMargin = 140;
         Vector2 topLeft = new Vector2(690, 125);
 
-        Texture2D lilBackpack;
-        Sprite backpackButton;
+
+        //exit button
+        UIButton xButton;
 
         public Inventory()
         {
@@ -59,6 +48,7 @@ namespace WillowWoodRefuge
             //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
 
+            //load ingredient textures
             acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
             apple = Content.Load<Texture2D>("Ingredient/appleScaled");
             appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soupScaled");
@@ -110,15 +100,21 @@ namespace WillowWoodRefuge
                 //Debug.WriteLine($"{ing.img} is highest = {Highest(ing)}");
             }
 
-            //inventory icon 
-            float _screenWidth = 1728;
-            float _screenHeight = 972;
-            lilBackpack = Content.Load<Texture2D>("ui/Inventory/BackpackPixel");
-            backpackButton = new Sprite(lilBackpack, new Vector2(_screenWidth / 4, _screenHeight / 4));
-            backpackButton.Depth = .01f;
-            backpackButton.Scale = 2f;
-            //Debug.
 
+            //create exit button 1183 23
+            Vector2 testVector = new Vector2(1183, 23);
+            Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
+            xButton = new UIButton(xButtonTexture, testVector);// new Vector2(0, 0));// 1183, 23));
+            xButton.Depth = .01f;// Game1.instance.gameHUD._depth;
+            xButton.Scale = 3f;
+            xButton.Click += xButton_Click;
+        }
+
+        //when xButton is clicked, close inventory
+        private void xButton_Click(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Inventory Exit Clicked!");
+            Game1.instance.inventory.showInv = false;
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
@@ -126,7 +122,7 @@ namespace WillowWoodRefuge
             //bool boxClicked = false;
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
-            //Debug.WriteLine(mouseState.Position);
+            xButton.Update(mouseState);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
 
@@ -155,7 +151,7 @@ namespace WillowWoodRefuge
                 //rotate objects when space bar pressed
                 if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
                 {
-                    Debug.WriteLine("Rotate!");
+                    //Debug.WriteLine("Rotate!");
 
                     ingredient.Rotation += Convert.ToSingle(Math.PI) / 2f; //rotate by 90 degrees     
                     ingredient.updateOrientation();
@@ -251,8 +247,7 @@ namespace WillowWoodRefuge
                 ingredientList[pos].Draw(spriteBatch, 1);
             }
 
-            // backpackButton.Draw(spriteBatch);
-            // spriteBatch.Draw(lilBackpack, new Vector2(1728 / 3, 972 / 3), null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, .01f);
+            xButton.Draw(spriteBatch);
         }
 
 
@@ -277,7 +272,7 @@ namespace WillowWoodRefuge
                     }
                     else
                     {
-                        Debug.WriteLine($"{ing.img} is stacked on and can't be moved!");
+                        //Debug.WriteLine($"{ing.img} is stacked on and can't be moved!");
                     }
                 }
             }
@@ -321,9 +316,15 @@ namespace WillowWoodRefuge
         //randomize ingredient placement
         public void shakeBag()
         {
-            foreach (Ingredient ingredient in ingredientList)
+            //check if any ingredients are still falling
+            bool stillFalling = ingredientList.Exists(ingredient => ingredient.falling);
+
+            if (!stillFalling)
             {
-                assignDistinctSpace(ingredient);
+                foreach (Ingredient ingredient in ingredientList)
+                {
+                    assignDistinctSpace(ingredient);
+                }
             }
         }
 
@@ -551,12 +552,12 @@ namespace WillowWoodRefuge
                 {
                     //closestBox is empty! or is the ingredient's original square
                     assigned = true; //exit the loop
-                    Debug.WriteLine(gridIndex + "is empty and closest!");
+                    //Debug.WriteLine(gridIndex + "is empty and closest!");
                 }
                 else
                 {
                     skip++; //make loop check the next box in sortedBoxes
-                    Debug.WriteLine(gridIndex + "is not empty! Moving on!");
+                    //Debug.WriteLine(gridIndex + "is not empty! Moving on!");
                 }
             }
             return closestBox; //final answer
@@ -582,7 +583,6 @@ namespace WillowWoodRefuge
 
             return closestBox;
         }
-
 
 
     }

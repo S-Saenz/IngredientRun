@@ -37,7 +37,7 @@ namespace WillowWoodRefuge
         {
             img = image;
             pos = position;
-            scale = .5f;
+            Scale = .5f;
             Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
             
         }
@@ -51,7 +51,7 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
+            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, Scale, SpriteEffects.None, 1f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
 

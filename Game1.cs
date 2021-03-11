@@ -23,7 +23,12 @@ namespace WillowWoodRefuge
 
         // private SpriteBatch _spriteBatch;
 
+        //User Interface
         public Inventory inventory = new Inventory();
+        public Cook cookingGame = new Cook();
+        public RecipeSelection recipeMenu; //assign recipe menu in Game1 constructor
+        public HUD gameHUD = new HUD();
+
 
         // create vatiable for the state manager
 
@@ -56,6 +61,9 @@ namespace WillowWoodRefuge
             Content.RootDirectory = "Content";
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             this.IsMouseVisible = true;
+
+
+            this.recipeMenu = new RecipeSelection(this);
         }
 
         protected override void Initialize()
@@ -91,6 +99,8 @@ namespace WillowWoodRefuge
 
             // load inventory
             inventory.Load(Content);
+
+            gameHUD.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -149,6 +159,8 @@ namespace WillowWoodRefuge
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+
+            
         }
 
         private void InitializeConditions()

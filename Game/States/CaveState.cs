@@ -137,7 +137,7 @@ namespace WillowWoodRefuge
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (game.inventory.showInv)
                 game.inventory.Draw(_spriteBatch);
-            
+                game.gameHUD.Draw(_spriteBatch);
             _spriteBatch.End();
 
             // Draw camera debug

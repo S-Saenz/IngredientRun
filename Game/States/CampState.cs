@@ -97,7 +97,13 @@ namespace WillowWoodRefuge
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             if (game.inventory.showInv)
+            {
                 game.inventory.Draw(_spriteBatch);
+            }
+            game.gameHUD.Draw(_spriteBatch);
+            if (game.recipeMenu._visibleUI) {
+                game.recipeMenu.Draw(spriteBatch);
+            }
             _spriteBatch.End();
 
             if (_isDebug)
@@ -105,6 +111,7 @@ namespace WillowWoodRefuge
                 game._cameraController.Draw(spriteBatch);
             }
         }
+
 
         public override void LoadContent()
         {
@@ -147,6 +154,7 @@ namespace WillowWoodRefuge
             player.RemoveCollision(_collisionHandler);
         }
 
+
         public override void Update(GameTime gameTime)
         {
             // Print collision boxes, remove FOWT sprite
@@ -166,7 +174,10 @@ namespace WillowWoodRefuge
             Matrix projectionMatrix = Matrix.CreateOrthographicOffCenter(0, game._cameraController._screenDimensions.X, game._cameraController._screenDimensions.Y, 0, 1, 0);
             bgPos = player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime) - game._cameraController._screenDimensions / 2;
             game._cameraController.Update(gameTime, player._pos);
+
             game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
+            game.gameHUD.Update(Mouse.GetState());
+            game.recipeMenu.Update(Mouse.GetState(), Keyboard.GetState());
 
             campTileMap.Update(gameTime);
         }
