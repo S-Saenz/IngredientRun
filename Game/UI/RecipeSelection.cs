@@ -195,7 +195,7 @@ namespace WillowWoodRefuge
             //press ALT + R to print available recipes 
             if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
             {
-                inventory.addIngredient(inventory.water);
+                inventory.addIngredient(inventory.water, "water");
             }
 
             //press HOME to toggle debug mode
@@ -351,10 +351,10 @@ namespace WillowWoodRefuge
         {
             //add cooked food to inventory
             Texture2D cookedFood = cookingUI.foodImage;
-            inventory.addIngredient(cookedFood);
+            inventory.addIngredient(cookedFood, "carrot_spice_soup");
 
             //remove used ingredients from inventory
-            List<Texture2D> ingredients = _recipes[cookedFood];
+            List <Texture2D> ingredients = _recipes[cookedFood];
             foreach(Texture2D ingredient in ingredients)
                 inventory.removeIngredient(ingredient);   
         }

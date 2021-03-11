@@ -67,11 +67,11 @@ namespace WillowWoodRefuge
 
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acornScaled"), randomBox()));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox()));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fishScaled"), randomBox()));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meatScaled"), randomBox()));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("woodScaled"), randomBox()));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acornScaled"), randomBox(), "acorn"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fishScaled"), randomBox(), "fish"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meatScaled"), randomBox(), "meat"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("woodScaled"), randomBox(), "wood"));
 
             // ACORN = new Ingredient(acorn, randomBox());
             // APPLE = new Ingredient(apple, randomBox());
@@ -218,7 +218,7 @@ namespace WillowWoodRefuge
                 Debug.WriteLine("V pressed");
                 Random rnd = new Random();
                 int randIndex = rnd.Next(ItemTextures._allItems.Count);
-                addIngredient(ItemTextures.GetTexture(ItemTextures._allItems[randIndex] + "Scaled"));
+                addIngredient(null, ItemTextures._allItems[randIndex]);
             }
             oldKeyState = keyState;
 
@@ -244,7 +244,7 @@ namespace WillowWoodRefuge
 
             for (int pos = (ingredientList.Count() - 1); pos >= 0; --pos)
             {
-                ingredientList[pos].Draw(spriteBatch, 1);
+                ingredientList[pos].Draw(spriteBatch);
             }
 
             xButton.Draw(spriteBatch);
@@ -390,7 +390,7 @@ namespace WillowWoodRefuge
         //////////////////////////////////////////////////////////////////////////
 
         //add a new ingredient into the inventory if there's space!
-        public bool addIngredient(Texture2D texture)
+        public bool addIngredient(Texture2D texture, string name)
         {
             if (ingredientList.Count == boxes.Count - 1)
             {
@@ -398,7 +398,7 @@ namespace WillowWoodRefuge
                 return false;
             }
 
-            Ingredient newIngredient = new Ingredient(texture, Vector2.Zero);
+            Ingredient newIngredient = new Ingredient(texture, randomBox(), name);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
             return true;

@@ -32,19 +32,41 @@ namespace WillowWoodRefuge
             };
             List<Keys> runKeys = new List<Keys>()
             {
-                Keys.LeftShift
+                Keys.LeftShift,
+                Keys.RightShift
             };
             List<Keys> inventory = new List<Keys>()
             {
                 Keys.I
             };
-            List<Keys> windowed = new List<Keys>()
+            List<Keys> alternate = new List<Keys>()
+            {
+                Keys.LeftAlt,
+                Keys.RightAlt
+            };
+            List<Keys> toggleWindowed = new List<Keys>()
+            {
+                Keys.Enter
+            };
+            List<Keys> debugFullToggle = new List<Keys>()
+            {
+                Keys.LeftControl
+            };
+            List<Keys> debugMiniToggle = new List<Keys>()
             {
                 Keys.RightControl
             };
-            List<Keys> fullScreen = new List<Keys>()
+            List<Keys> changeCampState = new List<Keys>()
             {
-                Keys.RightShift
+                Keys.D1
+            };
+            List<Keys> changeCaveState = new List<Keys>()
+            {
+                Keys.D2
+            };
+            List<Keys> restartState = new List<Keys>()
+            {
+                Keys.R
             };
 
             _buttons.Add("left", new Button(leftKeys));
@@ -53,8 +75,13 @@ namespace WillowWoodRefuge
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));
-            _buttons.Add("windowed", new Button(windowed));
-            _buttons.Add("fullScreen", new Button(fullScreen));
+            _buttons.Add("debugFullToggle", new Button(debugFullToggle));
+            _buttons.Add("debugMiniToggle", new Button(debugMiniToggle));
+            _buttons.Add("alternate", new Button(alternate));
+            _buttons.Add("toggleWindowed", new Button(toggleWindowed));
+            _buttons.Add("changeCampState", new Button(changeCampState));
+            _buttons.Add("changeCaveState", new Button(changeCaveState));
+            _buttons.Add("restartState", new Button(restartState));
         }
 
         public void Update(GameTime time)
