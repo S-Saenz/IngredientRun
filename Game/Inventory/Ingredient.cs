@@ -24,6 +24,7 @@ namespace WillowWoodRefuge
         //public Vector2 pos;
         //public bool highest = false;
         //public float Scale = 1f;
+        string _name;
 
         //for timing how fast items fall down inventory
         //public float timeSinceLastDrop = 0f;
@@ -33,13 +34,20 @@ namespace WillowWoodRefuge
         public Vector2 index2 = new Vector2(1, 0);  //index of the other square your ingredient occupies 
 
 
-        public Ingredient(Texture2D image, Vector2 position)
+        public Ingredient(Texture2D image, Vector2 position, string name)
         {
             img = image;
             pos = position;
-            scale = .5f;
+            scale = 4f;
+            // Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
+            _name = name;
+        }
+
+        public Ingredient(Texture2D image)
+        {
+            img = image;
+            scale = .25f;
             Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
-            
         }
 
         public void Update(GameTime gameTime)
@@ -50,8 +58,8 @@ namespace WillowWoodRefuge
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-
-            spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, pos, Color.White, scale, true);
+            // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
 

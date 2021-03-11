@@ -6,7 +6,7 @@ using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
-    class PickupItem : IPhysicsObject, ISpawnable
+    public class PickupItem : IPhysicsObject, ISpawnable
     {
         public string _name { get; private set; }
         public SpawnPoint _spawn { get; private set; }
@@ -25,14 +25,14 @@ namespace WillowWoodRefuge
             physicsHandler.AddObject("Pickup", _collisionBox);
         }
 
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc, Color.White);
+        }
 
-            if(isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
+        public bool RemoveCollision(PhysicsHandler collisionHandler)
+        {
+            return collisionHandler.RemoveObject(_collisionBox);
         }
     }
 }

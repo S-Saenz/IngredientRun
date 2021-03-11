@@ -4,12 +4,13 @@ using System;
 
 namespace WillowWoodRefuge
 {
-    interface ISpawnable
+    public interface ISpawnable
     {
-        void Draw(SpriteBatch spriteBatch, bool isDebug = false);
+        void Draw(SpriteBatch spriteBatch);
+        bool RemoveCollision(PhysicsHandler physicsHandler);
     }
 
-    abstract class SpawnPoint
+    public abstract class SpawnPoint
     {
         public Vector2 _location { protected set; get; }
         public string _rangeType { protected set; get; } // Any, Subset, Exact
@@ -32,6 +33,24 @@ namespace WillowWoodRefuge
 
         public void Despawn()
         {
+            if (_object != null)
+            {
+                _object.RemoveCollision(_physicsHandler);
+                GameplayState state = Game1.instance._currentState as GameplayState;
+                if(state == null)
+                {
+                    state = Game1.instance._nextState as GameplayState;
+                }
+
+                if (_object as PickupItem != null)
+                {
+                    state._items.Remove(_object as PickupItem);
+                }
+                else if(_object as Enemy != null)
+                {
+                    state._enemies.Remove(_object as Enemy);
+                }
+            }
             _object = null;
             _isSpawned = false;
         }

@@ -31,11 +31,9 @@ namespace WillowWoodRefuge
         CollisionBox _collisionBox;
         public bool _isDark = false;
         public bool _inAir = false;
-        public bool _isMoving = false;
-
         string _currentDirection = "";
         string _currentMoveType = "idle";
-        public bool _isWalking = false;
+        public bool _isRunning = false;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -134,7 +132,9 @@ namespace WillowWoodRefuge
             {
                 _currSpeed = _walkSpeed;
             }
+
             
+
             if (Game1.instance.input.JustPressed("interact"))
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
@@ -145,8 +145,9 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(true)
+                        if(Game1.instance.inventory.addIngredient(null, obj._name))
                         {
+                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
                         }
                     }
@@ -164,11 +165,11 @@ namespace WillowWoodRefuge
                         {
                             if(area._name.Contains("Cave"))
                             {
-                                Game1.instance.ChangeState("CaveState");
+                                Game1.instance.RequestStateChange("CaveState");
                             }
                             else if(area._name.Contains("Camp"))
                             {
-                                Game1.instance.ChangeState("CampState");
+                                Game1.instance.RequestStateChange("CampState");
                             }
                         }
                     }
@@ -222,7 +223,6 @@ namespace WillowWoodRefuge
 
             _pos.Y -= idleTex.Height * _scale;
 
-            _pos.Y -= idleTex.Height * _scale / 2;
 
             //create list of Animations
             animationDict.Add("idle", idleAnimation);
@@ -239,6 +239,7 @@ namespace WillowWoodRefuge
             _collisionBox.AddMovementStartListener(onStartMove);
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
+            _pos = _collisionBox._bounds.Center;
         }
 
 
@@ -246,11 +247,7 @@ namespace WillowWoodRefuge
         {
             base.Draw(spriteBatch);
 
-            if (isDebug)
-            {
-                _collisionBox.Draw(spriteBatch);
-            }
-            else if (_isDark)
+            if (_isDark && !isDebug)
             {
                 // Draw light
                 FOWTSprite.Draw(spriteBatch);
@@ -294,14 +291,12 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
-                _isMoving = false;
             }
 
             if (move.X != 0) // moving horizontally
             {
-                _isMoving = true;
                 if (_collisionBox._downBlocked)
-                    _isWalking = true;
+                    _isRunning = true;
             }
         }
         
@@ -318,9 +313,12 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
-                _isMoving = false;
-                _isWalking = false;
             }            
+        }
+
+        public void Reset()
+        {
+            Game1.instance.RequestStateChange(Game1.instance._currentStateName);
         }
     }
 }

@@ -44,10 +44,10 @@ namespace WillowWoodRefuge
 
         public static Texture2D GetTexture(string itemName)
         {
-            if(!_allItems.Contains(itemName))
-            {
-                return null;
-            }
+            // if(!_allItems.Contains(itemName))
+            // {
+            //     return null;
+            // }
 
             if(_itemTextures.ContainsKey(itemName))
             {

@@ -1,54 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
+using MonoGame.Extended.Tiled;
 
 namespace WillowWoodRefuge
 {
-    class Enemy : IPhysicsObject, ISpawnable
+    public class Enemy : AICharacter, ISpawnable
     {
-        private Texture2D texture;
-        private float _scale = 1f;
-        private Vector2 _loc;
-        private CollisionBox _collisionBox;
-        private PhysicsHandler _collisionHandler;
-
-        public Enemy(string type, Vector2 position, PhysicsHandler collisionHandler)
+        float _sightDistance = 80;
+        public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
+                     RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
+                     : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
         {
-            _collisionHandler = collisionHandler;
+            _walkSpeed = 50;
+            _runSpeed = 120;
+            _collisionBox._friction = 0.5f;
+            _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
 
-            texture = EnemyTextures.GetTexture(type);
-            _loc = position - new Vector2(texture.Width * _scale / 2, texture.Height * _scale);
-            _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, texture.Width * _scale, texture.Height * _scale), _collisionHandler, this);
-            _collisionHandler.AddObject("Enemy", _collisionBox);
+            _collisionBox.AddOverlapListener(onOverlap);
+
+            _timerRange = new Vector2(5, 10);
         }
 
-        public Vector2 GetPos()
+        public void Update(GameTime gameTime, Vector2 playerLoc)
         {
-            return _loc;
+            if(Vector2.Distance(playerLoc, _pos) <= _sightDistance)
+            {
+                _currState = AIState.Attack;
+            }
+            else
+            {
+                _currState = AIState.Wander;
+            }
+            _target = playerLoc;
+            base.Update(gameTime);
         }
 
-        public void Update(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
-            _collisionBox.Update(gameTime);
+            base.Draw(spriteBatch);
+        }
+
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            base.DrawDebug(spriteBatch);
         }
 
         public void Load(ContentManager Content)
         {
-
+            animationDict = new Dictionary<string, Animation>();
+            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("runLeft", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("runRight", new Animation(_texture, 1, 1, 100));
         }
 
-
-        public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
+        private void onOverlap(OverlapInfo info)
         {
-
-            spriteBatch.Draw(texture, _loc, null, Color.White, 0.0f, Vector2.Zero, _scale, SpriteEffects.None, 0.5f);
-
-            if(isDebug)
+            Player player = info._other as Player;
+            if(player != null)
             {
-                _collisionBox.Draw(spriteBatch);
+                player.Reset();
             }
         }
     }

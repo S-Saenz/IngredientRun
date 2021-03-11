@@ -4,34 +4,56 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class NPC : IPhysicsObject
+    public class NPC : AICharacter
     {
-        float _scale = 1f;
-        Texture2D _texture;
-        public Vector2 _pos;
         private Vector2 _dialogueLoc;
 
-        public NPC(Texture2D image, Vector2 position)
+        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler,
+                             RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
+                             Area area = null)
+                     : base(name, pos, "NPC", new Vector2(), collisionHandler, worldBounds, animationDict, area)
         {
-            _texture = image;
-            _pos = position;
-            _dialogueLoc = new Vector2(_texture.Bounds.Width * _scale + 2, -_texture.Height * _scale - 2);
+            _walkSpeed = 20;
+            _runSpeed = 120;
+            _collisionBox._friction = 0.5f;
+            _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
+
+            // set dialogue position
+            _dialogueLoc = new Vector2((_texture.Bounds.Width * _scale) / 2 + 2, -(_texture.Height * _scale) / 2 - 2);
+        }
+
+        public void Update(GameTime gameTime, Vector2 playerLoc)
+        {
+            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            RectangleF dest = new RectangleF(_pos.X, _pos.Y - _texture.Height * _scale, _texture.Width * _scale, _texture.Height * _scale);
-            spriteBatch.Draw(_texture, (Rectangle)dest, null, Color.White);
+            base.Draw(spriteBatch);
         }
-        
+
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            base.DrawDebug(spriteBatch);
+        }
+
         public Vector2 GetDialogueLoc(OrthographicCamera camera)
         {
             var pos = camera.WorldToScreen(_pos + _dialogueLoc); // _pos + _dialogueLoc
             return pos;
+        }
+
+        public void Load(ContentManager Content)
+        {
+            animationDict = new Dictionary<string, Animation>();
+            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("runLeft", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("runRight", new Animation(_texture, 1, 1, 100));
         }
     }
 }
