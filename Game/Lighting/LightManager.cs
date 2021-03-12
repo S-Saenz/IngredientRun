@@ -13,8 +13,8 @@ namespace WillowWoodRefuge
         private Effect _shader;
 
         // Helper containers of light objects
-        private static AreaLight[] _areaLights;
-        private static DirectionalLight[] _directionalLights;
+        private AreaLight[] _areaLights;
+        private DirectionalLight[] _directionalLights;
 
         // Arrays of parameters to input into shader
         Vector2[] _aLightPosition;
