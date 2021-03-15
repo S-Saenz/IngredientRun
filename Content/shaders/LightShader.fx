@@ -144,7 +144,7 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 		{
 			// TODO: falloff stuff
 			float distValue = (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
-			return distValue;
+			return distValue *.9;
 		}
 	}
 	return 0;
@@ -170,9 +170,9 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 			if (!IsBlocked(DirectionalLightPosition[light], fragPos))
 			{
 				// TODO: falloff stuff
-				float distValue = (DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]; // linear 0-1
-				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light]; // linear 0-1
-				return distValue * angleValue;
+				float distValue = ((DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]) *3; // linear 0-1
+				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 3) / DirectionalLightSpread[light] *0.4 + 0.2; // linear 0-1
+				return (distValue * angleValue);
 			}
 		}
 	}

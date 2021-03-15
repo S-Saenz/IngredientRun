@@ -30,6 +30,7 @@ namespace WillowWoodRefuge
             _dynamicLightManager.AddLight(new Vector2(336, 239), 200, new Vector2(0, 1), .5f * (float)MathHelper.Pi);
 
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             PostConstruction();
         }
 

@@ -10,7 +10,8 @@ namespace WillowWoodRefuge
     class GameplayState : State
     {
         // Shaders
-        static protected Effect _lightEffect;
+        protected Effect _lightEffect;
+        protected Effect _ditherEffect;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
 
@@ -77,10 +78,11 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
 
             // Setup light shader
-            if(_lightEffect == null)
-                _lightEffect = content.Load<Effect>("shaders/LightShader");
+            _lightEffect = content.Load<Effect>("shaders/LightShader");
             _dynamicLightManager = new LightManager(_lightEffect);
             _staticLightManager = new LightManager(_lightEffect);
+
+            _ditherEffect = content.Load<Effect>("shaders/shadow");
         }
 
         public override void LoadContent()
@@ -108,6 +110,7 @@ namespace WillowWoodRefuge
             // Setup lighting
             _dynamicLightManager.CreateShaderArrays();
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
         }
 
@@ -241,7 +244,7 @@ namespace WillowWoodRefuge
 
             if (_isDark)
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
                 _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
             }
@@ -262,9 +265,9 @@ namespace WillowWoodRefuge
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            // Stream stream = File.Create("shadow.png");
-            // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
-            // stream.Dispose();
+            Stream stream = File.Create("shadow.png");
+            _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
+            stream.Dispose();
         }
 
         public override void unloadState()
@@ -452,6 +455,8 @@ namespace WillowWoodRefuge
             _spriteBatch.End();
 
             _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
+            //dither effect loader
+            _ditherEffect.Parameters["ditherMap"].SetValue(_content.Load<Texture2D>("dither/dithersheet"));
 
             _staticLightManager.CreateShaderArrays();
 
