@@ -27,11 +27,25 @@ namespace WillowWoodRefuge
             _staticLightManager.AddLight(new Vector2(160, 256), 50);
             _staticLightManager.AddLight(new Vector2(368, 256), 50);
             _staticLightManager.AddLight(new Vector2(488, 256), 50);
-            _dynamicLightManager.AddLight(new Vector2(336, 239), 200, new Vector2(0, 1), .5f * (float)MathHelper.Pi);
+            _dynamicLightManager.AddLight(new Vector2(0, 0), 32);
+            _dynamicLightManager.AddLight(new Vector2(336, 239), 150, new Vector2(0, 1), .75f * (float)MathHelper.Pi);
 
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             PostConstruction();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (_showFullDebug || _showMiniDebug)
+            {
+                _isDark = false;
+            }
+            else
+            {
+                _isDark = true;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -39,7 +53,6 @@ namespace WillowWoodRefuge
             game.GraphicsDevice.Clear(Color.Gray);
             base.Draw(gameTime, spriteBatch);
         }
-
 
         public override void LoadContent()
         {
@@ -75,6 +88,7 @@ namespace WillowWoodRefuge
             _dialogueSystem.Load(_characters);
             _dialogueSystem.PlayInteraction(game);
 
+            _isDark = false;
         }
 
         public override void unloadState()

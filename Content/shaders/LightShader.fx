@@ -89,7 +89,7 @@ float IsBlocked(int2 lightPos, int2 fragPos)
 		}
 
 		if (blockAmount > 1)
-			break;
+			return 1;
 
 		// take next step toward fragPos
 		int decision = (1 + 2 * i.x) * n.y - (1 + 2 * i.y) * n.x;
@@ -125,7 +125,7 @@ float IsBlocked(int2 lightPos, int2 fragPos)
 		}
 
 		if (blockAmount > 1)
-			break;
+			return 1;
 
 		// take next step toward fragPos
 		int decision = (1 + 2 * i.x) * n.y - (1 + 2 * i.y) * n.x;
@@ -160,7 +160,7 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 	float dist = distance(AreaLightPosition[light], fragPos);
 	if (dist < AreaLightDistance[light])
 	{
-		float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos);
+		float blockVal = IsBlocked(AreaLightPosition[light], fragPos);
 		if (true)
 		{
 			// TODO: falloff stuff

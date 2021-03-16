@@ -12,19 +12,19 @@ namespace WillowWoodRefuge
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler);
 
+            _isDark = true;
+
             // Setup lights
-            // _staticLightManager.AddLight(new Vector2(64, 256), 50);
-            // _staticLightManager.AddLight(new Vector2(160, 256), 50);
-            // _staticLightManager.AddLight(new Vector2(368, 256), 50);
-            // _staticLightManager.AddLight(new Vector2(488, 256), 50);
+            _staticLightManager.AddLight(new Vector2(224, 608), 100);
+            _staticLightManager.AddLight(new Vector2(656, 240), 100);
+            _staticLightManager.AddLight(new Vector2(240, 208), 100);
+            _staticLightManager.AddLight(new Vector2(0, 32), 400, new Vector2(1, 1), .75f * (float)MathHelper.Pi);
             _dynamicLightManager.AddLight(new Vector2(0, 0), 32);
             _dynamicLightManager.AddLight(new Vector2(336, 239), 350, new Vector2(0, 1), .75f * (float)MathHelper.Pi);
 
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             PostConstruction();
-
-            _isDark = true;
         }
 
         public override void LoadContent()
@@ -34,7 +34,20 @@ namespace WillowWoodRefuge
             game.sounds.playSong("caveSong");
             
             // Make dark
-            // _player._isDark = true;
+            _isDark = true;
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            if (_showFullDebug || _showMiniDebug)
+            {
+                _isDark = false;
+            }
+            else
+            {
+                _isDark = true;
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
