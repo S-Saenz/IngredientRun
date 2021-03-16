@@ -97,7 +97,9 @@ namespace WillowWoodRefuge
             {
                 _currSpeed = _walkSpeed;
             }
+
             
+
             if (Game1.instance.input.JustPressed("interact"))
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
@@ -108,7 +110,7 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if(Game1.instance.inventory.addIngredient(ItemTextures.GetTexture(obj._name + "Scaled")))
+                        if(Game1.instance.inventory.addIngredient(null, obj._name))
                         {
                             (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
@@ -147,10 +149,10 @@ namespace WillowWoodRefuge
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
             Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
-            FOWTSprite.Rotation = (float)((Math.Atan2(
+            FOWTSprite.Rotation = 0 - (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
-                )));
+                ))) - 1.5f;
 
             base.Update(gameTime);
 

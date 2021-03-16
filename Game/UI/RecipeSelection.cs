@@ -21,7 +21,8 @@ namespace WillowWoodRefuge
     {
          KeyboardState oldKeyState;
 
-         Texture2D mainUI, background, selectedFood;
+
+        Texture2D mainUI, background, selectedFood;
         Texture2D container, box1, box2, box1Selected, box2Selected, recipeFrame, blackPlus, yellowPlus;
 
         //recipes 
@@ -62,12 +63,30 @@ namespace WillowWoodRefuge
 
          Boolean _debugMode = true;
 
+
+
          public RecipeSelection(ref Cook cookingUI, ref Inventory inventory)
          {
             cookingUI._cookingVisible = false;
             this.cookingUI = cookingUI;
             this.inventory = inventory;
          }
+
+        public RecipeSelection(Game1 game)
+        {
+            //this.game = InstancePlayLimitException;
+            cookingUI = game.cookingGame;
+            inventory = game.inventory;
+        }
+
+        /*
+        public RecipeSelection(Cook cookingUI, Inventory inventory)
+        {
+            cookingUI._cookingVisible = false;
+            this.cookingUI = cookingUI;
+            this.inventory = inventory;
+        }
+        */
 
          public void Load(ContentManager Content)
          {
@@ -130,6 +149,7 @@ namespace WillowWoodRefuge
 
          public void Update(MouseState mouseState, KeyboardState keyState)
          {
+
             //we are calling mouseState in Draw(), so update a member variable with mousestate so we can use it in draw
             this._mouseState = mouseState;
 
@@ -175,12 +195,17 @@ namespace WillowWoodRefuge
             //press ALT + R to print available recipes 
             if (oldKeyState.IsKeyUp(Keys.R) && keyState.IsKeyDown(Keys.R) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
             {
-                inventory.addIngredient(inventory.water);
+                inventory.addIngredient(inventory.water, "water");
             }
 
             //press HOME to toggle debug mode
             if (oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home))
                 _debugMode = !_debugMode;
+
+            if (oldKeyState.IsKeyUp(Keys.H) && keyState.IsKeyDown(Keys.H))
+                this._visibleUI = true;
+
+            this.oldKeyState = keyState;
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -326,10 +351,10 @@ namespace WillowWoodRefuge
         {
             //add cooked food to inventory
             Texture2D cookedFood = cookingUI.foodImage;
-            inventory.addIngredient(cookedFood);
+            inventory.addIngredient(cookedFood, "carrot_spice_soup");
 
             //remove used ingredients from inventory
-            List<Texture2D> ingredients = _recipes[cookedFood];
+            List <Texture2D> ingredients = _recipes[cookedFood];
             foreach(Texture2D ingredient in ingredients)
                 inventory.removeIngredient(ingredient);   
         }

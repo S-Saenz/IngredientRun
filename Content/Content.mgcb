@@ -220,6 +220,7 @@
 /build:Controls/button.png
 
 #begin dither/dithersheet.png
+#begin Controls/tutorial.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -231,12 +232,38 @@
 /processorParam:TextureFormat=Color
 /build:dither/dithersheet.png
 
+/build:Controls/tutorial.png
+
+#begin Ingredient/acornScaled.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
 #begin fonts/NPCDialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:fonts/NPCDialogue.spritefont
+
+#begin Ingredient/acorn.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Ingredient/acorn.png
+#begin fonts/NPCDialogueBigBoi.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/NPCDialogueBigBoi.spritefont
 
 #begin Ingredient/acorn.png
 /importer:TextureImporter
@@ -1001,4 +1028,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/visionFadeTriangle.png
+
+#begin ui/x-button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/x-button.png
 

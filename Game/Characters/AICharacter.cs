@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace WillowWoodRefuge
 {
-    enum AIState { Wander, Converse, Stop, Attack, }
+    public enum AIState { Wander, Converse, Stop, Attack, }
     abstract public class AICharacter : BaseCharacter
     {
         // random number generator
@@ -24,12 +24,13 @@ namespace WillowWoodRefuge
         protected Dictionary<NavPoint, NavPoint> _currPath;
         protected float _lastDist;
         protected NavPoint _currTarget;
+        protected Vector2 _target;
 
         // temp texture until animation set up
         protected Texture2D _texture;
         
         // State info
-        AIState _currState = AIState.Wander;
+        protected AIState _currState = AIState.Wander;
         protected bool _isMoving = false;
         protected bool _isSitting = false;
 
@@ -150,7 +151,26 @@ namespace WillowWoodRefuge
 
         private void AttackUpdate(GameTime gameTime)
         {
-
+            // move
+            _currTarget = _navMesh.GetClosest(_target);
+            _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+            if (_lastDist > _proximityCut)
+            {
+                base.Update(gameTime, _pos.X < _currTarget._location.X ? 1 : -1, true);
+                if (_lastDist < _proximityCut) // reached point
+                {
+                    // stop moving
+                    _isMoving = false;
+                }
+                else // can still get closer
+                {
+                    _isMoving = true;
+                }
+            }
+            else // not moving, stop moving
+            {
+                base.Update(gameTime, 0, false);
+            }
         }
 
         public void DrawDebug(SpriteBatch spriteBatch)

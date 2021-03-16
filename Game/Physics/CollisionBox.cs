@@ -198,6 +198,18 @@ namespace WillowWoodRefuge
                 _acceleration.X = 0;
             }
 
+            // Stop velocity if against wall
+            if ((_upBlocked && _velocity.Y < 0) ||
+               (_downBlocked && _velocity.Y > 0))
+            {
+                _velocity.Y = 0;
+            }
+            if ((_leftBlocked && _velocity.X < 0) ||
+               (_rightBlocked && _velocity.X > 0))
+            {
+                _velocity.X = 0;
+            }
+
             // update prev velocity before adjusted for next move
             _prevVelocity = _velocity;
 

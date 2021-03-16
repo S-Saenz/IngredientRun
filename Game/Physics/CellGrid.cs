@@ -105,7 +105,8 @@ namespace WillowWoodRefuge
                         _checked.Add(new Vector2(x, y));
                         foreach (CollisionBox other in _container[new Vector2(x, y)])
                         {
-                            neighbors.Add(other);
+                            if(!neighbors.Contains(other))
+                                neighbors.Add(other);
                         }
                     }
                 }

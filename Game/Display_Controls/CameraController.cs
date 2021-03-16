@@ -6,6 +6,8 @@ using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
+    public delegate void WindowResizeEventHandler(Vector2 size);
+
     public class CameraController
     {
         public Vector2 _screenRatio { get; private set; }
@@ -17,6 +19,8 @@ namespace WillowWoodRefuge
         public Vector2 _screenDimensions { get; private set; }
         private Vector2 _windowDimensions;
         private Vector2 _oldPoint = Vector2.Zero;
+
+        private event WindowResizeEventHandler _onResize;
 
         public CameraController(GraphicsDeviceManager graphics, Vector2 screenRatio, Vector2 pixelDimensions, Vector2 screenDimensions)
         {
@@ -183,6 +187,7 @@ namespace WillowWoodRefuge
             {
                 _camera.Position = pos.Value;
             }
+            _onResize?.Invoke(_screenDimensions);
         }
 
         public Matrix GetViewMatrix()
@@ -217,6 +222,11 @@ namespace WillowWoodRefuge
                 _graphics.IsFullScreen = true;
             }
             _graphics.ApplyChanges();
+        }
+
+        public void AddResizeListener(WindowResizeEventHandler resizeEvent)
+        {
+            _onResize += resizeEvent;
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="44" height="44" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="13">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="44" height="44" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="15">
  <tileset firstgid="1" source="MapPrototypeTileset.tsx"/>
  <layer id="3" name="Background" width="44" height="44">
   <data encoding="csv">
@@ -83,7 +83,7 @@
 1729,1571,0,0,0,0,0,0,0,0,0,0,1592,1593,1687,1687,1687,1687,1687,1687,1687,1687,1687,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1598,1696,
 1761,1603,0,0,0,0,0,0,0,0,1476,1561,1560,1611,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1630,1728,
 1633,1635,0,0,0,0,0,0,0,0,1686,1671,1671,1675,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1662,1664,
-1633,1608,1483,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1495,1480,1479,1480,1483,0,0,0,0,0,0,0,0,1694,1696,
+1633,1608,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1495,1480,1479,1480,1483,0,0,0,0,0,0,0,0,1694,1696,
 1665,1608,1514,1483,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1494,1607,1606,1673,1674,1611,0,0,0,0,0,0,0,0,1726,1728,
 1697,1608,1560,1597,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1476,1480,1479,1479,1479,1480,1574,1574,1611,0,0,0,0,0,0,0,0,0,0,0,1630,1632,
 1729,1608,1592,1629,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1572,1606,1690,1688,1688,1689,1690,1691,0,0,0,0,0,0,0,0,0,0,0,0,1630,1664,
@@ -109,7 +109,13 @@
   </object>
  </objectgroup>
  <objectgroup id="4" name="PlayerObjects">
-  <object id="2" name="PlayerSpawn" x="18" y="128">
+  <object id="2" name="PlayerSpawn.Default" x="18" y="128">
+   <point/>
+  </object>
+  <object id="13" name="PlayerSpawn.fromCamp" x="18" y="128">
+   <point/>
+  </object>
+  <object id="14" name="PlayerSpawn.fromCave" x="18" y="128">
    <point/>
   </object>
  </objectgroup>
@@ -122,6 +128,6 @@
   </object>
  </objectgroup>
  <objectgroup id="7" name="AreaObjects">
-  <object id="12" name="stateCamp" x="0" y="112" width="48" height="16"/>
+  <object id="12" name="stateCamp" x="0" y="112" width="64" height="16"/>
  </objectgroup>
 </map>

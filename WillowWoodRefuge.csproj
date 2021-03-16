@@ -10,19 +10,27 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\dialogue\credits.txt" />
+    <None Remove="Content\dialogue\credits_tools.txt" />
     <None Remove="Content\dialogue\NPCDialogue.tsv" />
+    <None Remove="Content\dialogue\Tutorial.txt" />
+    <None Remove="Content\miscText\credits.txt" />
     <None Remove="Content\textureAtlas\itemTextures.json" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\dialogue\credits.txt" />
+    <EmbeddedResource Include="Content\dialogue\credits_tools.txt" />
     <EmbeddedResource Include="Content\dialogue\NPCDialogue.tsv" />
+    <EmbeddedResource Include="Content\dialogue\Tutorial.txt" />
     <EmbeddedResource Include="Content\textureAtlas\itemTextures.json" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <Resource Include="Content\miscText\credits.txt" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />

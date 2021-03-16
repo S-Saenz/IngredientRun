@@ -40,6 +40,7 @@ namespace WillowWoodRefuge
             base.Draw(gameTime, spriteBatch);
         }
 
+
         public override void LoadContent()
         {
             base.LoadContent();

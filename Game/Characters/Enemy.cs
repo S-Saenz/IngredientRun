@@ -11,6 +11,7 @@ namespace WillowWoodRefuge
 {
     public class Enemy : AICharacter, ISpawnable
     {
+        float _sightDistance = 80;
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
@@ -27,7 +28,15 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
         {
-            _collisionBox.TryMoveHorizontal(0);
+            if(Vector2.Distance(playerLoc, _pos) <= _sightDistance)
+            {
+                _currState = AIState.Attack;
+            }
+            else
+            {
+                _currState = AIState.Wander;
+            }
+            _target = playerLoc;
             base.Update(gameTime);
         }
 

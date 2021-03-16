@@ -32,6 +32,9 @@ namespace WillowWoodRefuge
         // Player instance
         protected Player _player;
 
+        // Start location
+        public string _startLocLabel;
+
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
         public List<PickupItem> _items = new List<PickupItem>();
@@ -48,8 +51,8 @@ namespace WillowWoodRefuge
         static protected bool _showMiniDebug = false;
         static protected bool _showFullDebug = false;
         // 0 = camera, 1 = physics, 2 = ai
-        static protected int _fullDebugMode = 2;
-        static protected int _miniDebugMode = 1;
+        static protected int _fullDebugMode = 1;
+        static protected int _miniDebugMode = 0;
         static protected int _numDebugModes = 3;
 
         // Physics handler
@@ -93,7 +96,7 @@ namespace WillowWoodRefuge
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
-            _player = new Player(game.graphics, _tileMap.GetWaypoint("PlayerObjects", "PlayerSpawn"), _physicsHandler);
+            _player = new Player(game.graphics, _tileMap.GetWaypoint("PlayerObjects", "PlayerSpawn." + _startLocLabel), _physicsHandler);
             _player.Load(_content, _physicsHandler, _tileMap._mapBounds);
 
             // Setup enemies
@@ -221,6 +224,19 @@ namespace WillowWoodRefuge
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _spriteBatch.Draw(_backgroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
+            // (temp) Draw scene change areas
+            foreach (Area area in _tileMap.GetAreaObject("state.Cave"))
+            {
+                area.Draw(spriteBatch, "To Cave", game._cameraController, Color.Gray);
+            }
+            foreach (Area area in _tileMap.GetAreaObject("stateCamp"))
+            {
+                area.Draw(spriteBatch, "To Camp", game._cameraController, Color.Gray);
+            }
+            // foreach (Area area in _tileMap.GetAreaObject("fire"))
+            // {
+            //     area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
+            // }
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -335,6 +351,14 @@ namespace WillowWoodRefuge
             {
                 _miniDebugMode = (_miniDebugMode + 1) % 3;
             }
+
+            // change scene
+            if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeCaveState"))
+                game.RequestStateChange("CaveState");
+            else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeCampState"))
+                game.RequestStateChange("CampState");
+            else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("restartState"))
+                game.RequestStateChange(game._currentStateName);
         }
 
         void DrawDebug(SpriteBatch spriteBatch)
@@ -399,15 +423,6 @@ namespace WillowWoodRefuge
                         break;
                 }
                 spriteBatch.End();
-            }
-
-            if(_showFullDebug || _showMiniDebug)
-            {
-                _isDark = false;
-            }
-            else
-            {
-                _isDark = true;
             }
         }
 
@@ -487,11 +502,11 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_blankTexture, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            Stream stream = File.Create("shadow.png");
-            _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
-            stream.Dispose();
-
             game.GraphicsDevice.SetRenderTarget(null);
+
+            // Stream stream = File.Create("shadow.png");
+            // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
+            // stream.Dispose();
         }
     }
 }

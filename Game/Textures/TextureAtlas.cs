@@ -35,13 +35,16 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Vector2 loc, Color color, float scale = 1)
+        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Vector2 loc, Color color, float scale = 1, bool centered = false)
         {
             if(_textureList.ContainsKey(textureName))
             {
                 Rectangle sourceRect = _textureList[textureName];
                 // (Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-                spriteBatch.Draw(_textureAtlas, (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width, sourceRect.Height), sourceRect, color);
+                if(!centered)
+                    spriteBatch.Draw(_textureAtlas, (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
+                else
+                    spriteBatch.Draw(_textureAtlas, (Rectangle)new RectangleF(loc.X - sourceRect.Width * scale / 2, loc.Y - sourceRect.Height * scale / 2, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
             }
         }
 

@@ -39,7 +39,7 @@ namespace WillowWoodRefuge
         }
 
         public void playSF(int i) {
-            soundeffects[i].Play(volume: 1f, pitch: 0.0f, pan: 0.0f);
+            soundeffects[i].Play(volume: 0.1f, pitch: 0.0f, pan: 0.0f);
         }
 
         // this is temporary for the playtest
