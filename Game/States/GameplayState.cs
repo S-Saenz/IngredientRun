@@ -21,6 +21,7 @@ namespace WillowWoodRefuge
         public RenderTarget2D _casterBuffer;
         public RenderTarget2D _bakedShadowBuffer;
         public RenderTarget2D _shadowBuffer;
+        public RenderTarget2D _ditherShadowBuffer;
 
         // Saved shader textures
         protected Texture2D _blankTexture;
@@ -149,6 +150,10 @@ namespace WillowWoodRefuge
             {
                 _dynamicLightManager.ChangeDirectionLight(0, loc: _player._pos, direction: -dir);
             }
+            if (_dynamicLightManager._numALights > 0)
+            {
+                _dynamicLightManager.ChangeAreaLight(0, loc: _player._pos);
+            }
         }
 
         public override void PostUpdate(GameTime gameTime) { }
@@ -202,6 +207,13 @@ namespace WillowWoodRefuge
                 _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
                 _spriteBatch.Draw(_bakedShadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
+
+                game.GraphicsDevice.SetRenderTarget(_ditherShadowBuffer);
+                game.GraphicsDevice.Clear(Color.Transparent);
+
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
+                _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.End();
             }
 
             game.GraphicsDevice.SetRenderTarget(null);
@@ -244,8 +256,8 @@ namespace WillowWoodRefuge
 
             if (_isDark)
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
-                _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
             }
 
@@ -265,9 +277,9 @@ namespace WillowWoodRefuge
                 game.inventory.Draw(_spriteBatch);
             _spriteBatch.End();
 
-            Stream stream = File.Create("shadow.png");
-            _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
-            stream.Dispose();
+            // Stream stream = File.Create("shadow.png");
+            // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
+            // stream.Dispose();
         }
 
         public override void unloadState()
@@ -431,6 +443,13 @@ namespace WillowWoodRefuge
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
             _bakedShadowBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+            _ditherShadowBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
                 (int)_tileMap._mapBounds.Width,
                 (int)_tileMap._mapBounds.Height,
