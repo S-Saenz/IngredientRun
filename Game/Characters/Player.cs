@@ -184,10 +184,10 @@ namespace WillowWoodRefuge
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
             Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
-            FOWTSprite.Rotation = (float)((Math.Atan2(
+            FOWTSprite.Rotation = 0 - (float)((Math.Atan2(
                 FOWPosVec.X,
                 FOWPosVec.Y
-                )));
+                ))) - 1.5f;
 
             base.Update(gameTime);
 
