@@ -22,8 +22,8 @@ namespace WillowWoodRefuge
         private int _walkSpeed = 50;
         private int _currSpeed = 0;
         private float _friction = 0.5f; // rate at which player stops
-        private float jumpHeight = 50;
-        private float timeToApex = 0.8f;
+        private float jumpHeight = 20000;
+        private float timeToApex = 60f;
         private int _jump = 7000; // force on player to move upward. 7000 feels like a good final value
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;

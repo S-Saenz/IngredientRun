@@ -82,7 +82,7 @@ namespace WillowWoodRefuge
             _collisionHandler = collisionHandler;
             _parent = parent;
             _worldBounds = worldBounds;
-            _gravity = new Vector2(0, gravity * 0.4f);
+            //_gravity = new Vector2(0, gravity * 0.4f);
             _friction = friction;
             _jumpHeight = jumpHeight;
             _timeToApex = timeToApex;
@@ -106,6 +106,7 @@ namespace WillowWoodRefuge
             _prevPos = _bounds.Position;
             _jumpGravity = -(2 * jumpHeight) / (timeToApex * timeToApex);
             _jumpVelocity = Math.Abs(_jumpGravity) * timeToApex;
+            _gravity = new Vector2(0, -_jumpGravity);
         }
 
         public Vector2 Update(GameTime gameTime)
