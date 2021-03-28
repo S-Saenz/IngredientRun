@@ -10,6 +10,7 @@
 // Constant limits
 #define MAX_AREA_LIGHTS 10
 #define MAX_DIRECTIONAL_LIGHTS 10
+#define FALLOFF_EXP .6
 
 // Area light information
 float2  AreaLightPosition[MAX_AREA_LIGHTS];
@@ -164,8 +165,8 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 		if (true)
 		{
 			// TODO: falloff stuff
-			float distValue = (AreaLightDistance[light] - dist) / AreaLightDistance[light]; // linear 0-1
-			return distValue *.9 * (1 - blockVal);
+			float distValue = pow((AreaLightDistance[light] - dist) / AreaLightDistance[light], FALLOFF_EXP); // exponential curve (0-3)
+			return distValue * (1 - blockVal);
 		}
 	}
 	return 0;
@@ -192,8 +193,8 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 			if (true)
 			{
 				// TODO: falloff stuff
-				float distValue = ((DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]) *3; // linear 0-1
-				float angleValue = (DirectionalLightSpread[light] - abs(angle) * 3) / DirectionalLightSpread[light] *0.4 + 0.2; // linear 0-1
+				float distValue = pow(((DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]), FALLOFF_EXP); // exponential curve (0-3)
+				float angleValue = pow((DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light], FALLOFF_EXP); // exponential curve (0-3)
 				return (distValue * angleValue) * (1 - blockVal);
 			}
 		}
