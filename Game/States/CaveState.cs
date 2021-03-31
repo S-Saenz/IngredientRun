@@ -19,7 +19,6 @@ namespace WillowWoodRefuge
             _staticLightManager.AddLight(new Vector2(656, 240), 100);
             _staticLightManager.AddLight(new Vector2(240, 208), 100);
             _staticLightManager.AddLight(new Vector2(0, 35), 300);
-            _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
 
             _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));

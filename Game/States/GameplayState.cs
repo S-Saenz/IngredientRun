@@ -31,6 +31,7 @@ namespace WillowWoodRefuge
 
         // Player instance
         protected Player _player;
+        protected int _playerLightIndex = -1;
 
         // Start location
         public string _startLocLabel;
@@ -87,6 +88,10 @@ namespace WillowWoodRefuge
             _staticLightManager = new LightManager(_lightEffect);
 
             _ditherEffect = content.Load<Effect>("shaders/shadow");
+
+            // Add player light
+            _playerLightIndex = _dynamicLightManager._numDLights;
+            _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
         }
 
         public override void LoadContent()
@@ -149,13 +154,9 @@ namespace WillowWoodRefuge
 
             // Update player
             Vector2 dir = _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
-            if(_dynamicLightManager._numDLights > 0)
+            if(_playerLightIndex != -1)
             {
-                _dynamicLightManager.ChangeDirectionLight(0, loc: _player._pos, direction: -dir);
-            }
-            if (_dynamicLightManager._numALights > 0)
-            {
-                _dynamicLightManager.ChangeAreaLight(0, loc: _player._pos);
+                _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
             }
         }
 
