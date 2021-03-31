@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
-using IngredientRun.States;
 using System.Collections.Generic;
 
 //hi
 //123
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
     public class Game1 : Game
     {
@@ -24,30 +23,54 @@ namespace IngredientRun
 
         // private SpriteBatch _spriteBatch;
 
+        //User Interface
         public Inventory inventory = new Inventory();
+        public Cook cookingGame = new Cook();
+        public RecipeSelection recipeMenu; //assign recipe menu in Game1 constructor
+        public HUD gameHUD = new HUD();
+
 
         // create vatiable for the state manager
 
-        private State _currentState;
+        public State _currentState;
+        public string _currentStateName;
+        public string _changeRequest = null;
 
-        private State _nextState;
+        public State _nextState;
 
         public CameraController _cameraController;
 
         // temp button clicking var so changing scene doesn't happen multiple times
         private bool _wasPressed = false;
 
-        public void ChangeState(string sState)
+        public void ChangeState(string sState, string spawnLocLabel = "Default")
         {
             sounds.stop();
             _nextState = _states[sState];
             _currentState.unloadState();
+            GameplayState state = _nextState as GameplayState;
+            if (state != null) // next state is gameplay state
+            {
+                state = _currentState as CaveState;
+                if (state != null)
+                {
+                    spawnLocLabel = "fromCave";
+                }
+                state = _currentState as CampState;
+                if (state != null)
+                {
+                    spawnLocLabel = "fromCamp";
+                }
+                state = _nextState as GameplayState;
+                state._startLocLabel = spawnLocLabel;
+            }
             _nextState.LoadContent();
+            _currentStateName = sState;
         }
 
         public Game1()
         {
-            this.Window.Title = "Ingredient Time";
+            this.Window.Title = "Willow Wood Refuge";
             graphics = new GraphicsDeviceManager(this);
             _states = new Dictionary<string, State>();
             // create song manager
@@ -57,6 +80,9 @@ namespace IngredientRun
             Content.RootDirectory = "Content";
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             this.IsMouseVisible = true;
+
+
+            this.recipeMenu = new RecipeSelection(this);
         }
 
         protected override void Initialize()
@@ -64,12 +90,16 @@ namespace IngredientRun
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
             _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(512, 288), new Vector2(1728, 972));
-            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 204.8f, 115.2f));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 175f, 98.4375f));
+
+            // Temp debug add print out of new size when resizing
+            _cameraController.AddResizeListener(onResize);
 
             // setup bulk texture managers
             ItemTextures.Initialize(Content);
             EnemyTextures.Initialize(Content);
             FontManager.Initialize(Content);
+            TextureAtlasManager.Initialize(Content);
 
             InitializeConditions();
             base.Initialize();
@@ -84,20 +114,28 @@ namespace IngredientRun
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("CampState", new CampState(this, GraphicsDevice, Content, _spriteBatch));
+            _states.Add("MenuState", new MenuState(this, GraphicsDevice, Content, _spriteBatch));
+            _states.Add("CreditsState", new CreditsState(this, GraphicsDevice, Content, _spriteBatch));
+            _states.Add("TutorialState", new TutorialState(this, GraphicsDevice, Content, _spriteBatch));
 
-            _currentState = _states["CaveState"];
+            _currentState = _states["MenuState"];
             _currentState.LoadContent();
 
             // load inventory
             inventory.Load(Content);
+
+            gameHUD.Load(Content);
         }
 
         protected override void Update(GameTime gameTime)
         {
             input.Update(gameTime);
             //Debug.WriteLine();
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                ChangeState("MenuState");
 
             if(_nextState != null)
             {
@@ -110,17 +148,15 @@ namespace IngredientRun
 
             _currentState.PostUpdate(gameTime);
 
-            if (Keyboard.GetState().IsKeyDown(Keys.D1) && !_wasPressed)
-                ChangeState("colorState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D2) && !_wasPressed)
-                ChangeState("CaveState");
-            else if (Keyboard.GetState().IsKeyDown(Keys.D3) && !_wasPressed)
-                ChangeState("CampState");
+            if (_changeRequest != null)
+            {
+                ChangeState(_changeRequest);
+                _changeRequest = null;
+            }
 
-            if(input.JustPressed("windowed"))
-                _cameraController.MakeWindowed();
-            else if (input.JustPressed("fullScreen"))
-                _cameraController.MakeFullScreen();
+            // toggle windowed/fullscreen
+            if(input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
+                _cameraController.ToggleFullscreen();
 
             if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                     Keyboard.GetState().IsKeyDown(Keys.D2) ||
@@ -145,6 +181,8 @@ namespace IngredientRun
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
+
+            
         }
 
         private void InitializeConditions()
@@ -153,6 +191,38 @@ namespace IngredientRun
             _stateConditions.Add(new Condition("curedPrior", true));
             _stateConditions.Add(new Condition("isMorning", true));
             _stateConditions.Add(new Condition("isRaining", true));
+        }
+
+        public TileMap GetCurrentTilemap()
+        {
+            GameplayState state;
+            if (_nextState != null)
+            {
+                state = _nextState as GameplayState;
+                if (state != null)
+                {
+                    return state._tileMap;
+                }
+            }
+
+            state = _currentState as GameplayState;
+            if (state != null)
+            {
+                return state._tileMap;
+            }
+
+            return null;
+        }
+
+        public void RequestStateChange(string nextState)
+        {
+            _changeRequest = nextState;
+        }
+
+        // called on screen resize
+        private void onResize(Vector2 size)
+        {
+            Debug.WriteLine(size);
         }
     }
 }

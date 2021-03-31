@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using MonoGame.Extended;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
-    class CollisionInfo
+    public class CollisionInfo
     {
         public IPhysicsObject _other { get; } // other object hit
         public string _otherLabel { get; } // label(type/mask) of contact object

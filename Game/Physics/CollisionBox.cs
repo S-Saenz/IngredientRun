@@ -5,17 +5,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace IngredientRun
+namespace WillowWoodRefuge
 {
-    delegate void CollisionEventHandler(CollisionInfo info);
-    delegate void OverlapEventHandler(OverlapInfo info);
-    delegate void MovementEventHandler(Vector2 movement);
+    public delegate void CollisionEventHandler(CollisionInfo info);
+    public delegate void OverlapEventHandler(OverlapInfo info);
+    public delegate void MovementEventHandler(Vector2 movement);
 
-    interface IPhysicsObject
+    public interface IPhysicsObject
     {
     }
 
-    class CollisionBox
+    public class CollisionBox
     {
         public RectangleF _bounds;
         public IPhysicsObject _parent { get; set; }
@@ -30,24 +30,30 @@ namespace IngredientRun
         public float _damping = 0.1f;
         public RectangleF _worldBounds;
 
+        private static float _minFloor = .1f;
+
         PhysicsHandler _collisionHandler;
 
         // Blocked information
         public bool _upBlocked;
         private bool _upWasBlocked;
         public List<CollisionInfo> _upInfo = new List<CollisionInfo>();
+        public RectangleF _upBox;
 
         public bool _downBlocked;
         private bool _downWasBlocked;
         public List<CollisionInfo> _downInfo = new List<CollisionInfo>();
+        public RectangleF _downBox;
 
         public bool _leftBlocked;
         private bool _leftWasBlocked;
         public List<CollisionInfo> _leftInfo = new List<CollisionInfo>();
+        public RectangleF _leftBox;
 
         public bool _rightBlocked;
         private bool _rightWasBlocked;
         public List<CollisionInfo> _rightInfo = new List<CollisionInfo>();
+        public RectangleF _rightBox;
 
         // Events
         private event CollisionEventHandler _onCollision; // called every frame that object is colliding with something
@@ -58,6 +64,8 @@ namespace IngredientRun
         private event MovementEventHandler _onMovementStart;
         private event MovementEventHandler _onMovementEnd;
         private event MovementEventHandler _onMovementChangeDirection;
+
+        public List<Vector2> _cells = new List<Vector2>();
 
         public CollisionBox(RectangleF bounds, PhysicsHandler collisionHandler, IPhysicsObject parent = null, RectangleF worldBounds = new RectangleF(),
                             Vector2? maxSpeed = null, float gravity = 9.8f, float damping = 1, float friction = 1)
@@ -116,7 +124,7 @@ namespace IngredientRun
                         _prevVelocity.X = 0;
                     }
                 }
-                _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction);
+                _velocity.X = MathHelper.Lerp(_prevVelocity.X, _velocity.X, _friction * gameTime.GetElapsedSeconds() * 20);
             }
             // if (_rightBlocked || _leftBlocked) // vertical friction
             // {
@@ -151,12 +159,12 @@ namespace IngredientRun
             }
 
             // Apply final velocity and try move
-            pos += _velocity * gameTime.GetElapsedSeconds();
+            pos += _velocity * gameTime.GetElapsedSeconds() + 0.5f * _acceleration * gameTime.GetElapsedSeconds() * gameTime.GetElapsedSeconds();
             IncrementBlocked();
             _bounds.Position = _collisionHandler.TryMove(this, pos);
 
             // Update velocity based on actual move
-            if (_velocity.Length() > 0)
+            if (_velocity.Length() > 0 && (!_downBlocked || (_downBox.Width > _minFloor)))
             {
                 _velocity = Vector2.Divide(_bounds.Position - _prevPos, gameTime.GetElapsedSeconds());
             }
@@ -190,18 +198,36 @@ namespace IngredientRun
                 _acceleration.X = 0;
             }
 
+            // Stop velocity if against wall
+            if ((_upBlocked && _velocity.Y < 0) ||
+               (_downBlocked && _velocity.Y > 0))
+            {
+                _velocity.Y = 0;
+            }
+            if ((_leftBlocked && _velocity.X < 0) ||
+               (_rightBlocked && _velocity.X > 0))
+            {
+                _velocity.X = 0;
+            }
+
             // update prev velocity before adjusted for next move
             _prevVelocity = _velocity;
 
+            // update side information
             CollisionUpdateSide(ref _upWasBlocked, ref _upBlocked, _upInfo); // check up states
+            CollisionCalcBoxes(_upInfo, out _upBox);
             CollisionUpdateSide(ref _downWasBlocked, ref _downBlocked, _downInfo); // check down states
+            CollisionCalcBoxes(_downInfo, out _downBox);
             CollisionUpdateSide(ref _leftWasBlocked, ref _leftBlocked, _leftInfo); // check left states
+            CollisionCalcBoxes(_leftInfo, out _leftBox);
             CollisionUpdateSide(ref _rightWasBlocked, ref _rightBlocked, _rightInfo); // check right states
+            CollisionCalcBoxes(_rightInfo, out _rightBox);
 
             // Debug.WriteLine(_prevVelocity);
             // Debug.WriteLine("Up: " + _upBlocked + " Left: " + _leftBlocked + " Right: " + _rightBlocked + " Down: " + _downBlocked);
             // Debug.WriteLine("curr: " + _downBlocked + " prev: " + _downWasBlocked);
 
+            _collisionHandler.CheckBox(this, _prevPos);
             return _bounds.Position;
         }
 
@@ -320,6 +346,40 @@ namespace IngredientRun
         public List<CollisionInfo> IsOverlapping()
         {
             return _collisionHandler.IsOverlapping(this);
+        }
+
+        public void CollisionCalcBoxes(List<CollisionInfo> infos, out RectangleF box)
+        {
+            Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+            Vector2 max = Vector2.Zero;
+
+            if (infos.Count > 0)
+            {
+                foreach (CollisionInfo info in infos)
+                {
+                    if (info._overlapRect.Top < min.Y)
+                    {
+                        min.Y = info._overlapRect.Top;
+                    }
+                    if (info._overlapRect.Left < min.X)
+                    {
+                        min.X = info._overlapRect.Left;
+                    }
+                    if (info._overlapRect.Bottom > max.Y)
+                    {
+                        max.Y = info._overlapRect.Bottom;
+                    }
+                    if (info._overlapRect.Right > max.X)
+                    {
+                        max.X = info._overlapRect.Right;
+                    }
+                }
+                box = new RectangleF(min.X, min.Y, max.X - min.X, max.Y - min.Y);
+            }
+            else
+            {
+                box = RectangleF.Empty;
+            }
         }
     }
 }
