@@ -219,7 +219,6 @@
 /processorParam:TextureFormat=Color
 /build:Controls/button.png
 
-#begin dither/dithersheet.png
 #begin Controls/tutorial.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -230,8 +229,6 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:dither/dithersheet.png
-
 /build:Controls/tutorial.png
 
 #begin Ingredient/acornScaled.png
@@ -247,17 +244,6 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/NPCDialogue.spritefont
 
-#begin Ingredient/acorn.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Ingredient/acorn.png
 #begin fonts/NPCDialogueBigBoi.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -865,23 +851,11 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
-#begin shaders/LightShader.fx
+#begin shaders/testShader.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shaders/LightShader.fx
-
-#begin shaders/shadow.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:shaders/shadow.fx
-
-#begin shaders/testEffect.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:shaders/testEffect.fx
+/build:shaders/testShader.fx
 
 #begin soundEffects/stepC.wav
 /importer:WavImporter
