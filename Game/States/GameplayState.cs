@@ -202,7 +202,7 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // render shadow target
-            if (_isDark)
+            if (_isDark && !(_showMiniDebug || _showFullDebug))
             {
                 game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
@@ -271,7 +271,7 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            if (_isDark)
+            if (_isDark && !(_showMiniDebug || _showFullDebug))
             {
                 _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);

@@ -38,14 +38,6 @@ namespace WillowWoodRefuge
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (_showFullDebug || _showMiniDebug)
-            {
-                _isDark = false;
-            }
-            else
-            {
-                _isDark = true;
-            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

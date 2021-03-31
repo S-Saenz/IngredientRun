@@ -20,7 +20,7 @@ namespace WillowWoodRefuge
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
-            _isDark = true;
+            _isDark = false;
 
             // Setup lights
             _staticLightManager.AddLight(new Vector2(64, 256), 50);
@@ -36,14 +36,6 @@ namespace WillowWoodRefuge
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (_showFullDebug || _showMiniDebug)
-            {
-                _isDark = false;
-            }
-            else
-            {
-                _isDark = true;
-            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
