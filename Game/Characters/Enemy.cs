@@ -11,7 +11,7 @@ namespace WillowWoodRefuge
 {
     public class Enemy : AICharacter, ISpawnable
     {
-        float _sightDistance = 80;
+        float _sightDistance = 100;
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
