@@ -10,21 +10,23 @@
 // Constant limits
 #define MAX_AREA_LIGHTS 10
 #define MAX_DIRECTIONAL_LIGHTS 10
-#define FALLOFF_EXP .6
+#define DIRECT_SPREAD 1.2 // 0-2, with 0 being an ellipse and 2 being a triangle
 
 // Area light information
 float2  AreaLightPosition[MAX_AREA_LIGHTS];
 float   AreaLightDistance[MAX_AREA_LIGHTS];
+float   AreaLightFalloff[MAX_AREA_LIGHTS];
 float   AreaLightColor[MAX_AREA_LIGHTS];
 int     NumAreaLights;
 
 // Directional light information
-float2  DirectionalLightPosition[MAX_DIRECTIONAL_LIGHTS];
-float   DirectionalLightDistance[MAX_DIRECTIONAL_LIGHTS];
-float2  DirectionalLightDirection[MAX_DIRECTIONAL_LIGHTS];
-float   DirectionalLightSpread[MAX_DIRECTIONAL_LIGHTS];
-float   DirectionalLightColor[MAX_DIRECTIONAL_LIGHTS];
-int     NumDirectionalLights;
+float2   DirectionalLightPosition[MAX_DIRECTIONAL_LIGHTS];
+float    DirectionalLightDistance[MAX_DIRECTIONAL_LIGHTS];
+float    DirectionalLightFalloff[MAX_DIRECTIONAL_LIGHTS];
+float2   DirectionalLightDirection[MAX_DIRECTIONAL_LIGHTS];
+float    DirectionalLightSpread[MAX_DIRECTIONAL_LIGHTS];
+float    DirectionalLightColor[MAX_DIRECTIONAL_LIGHTS];
+int      NumDirectionalLights;
 
 // Sprite texture parameters (texture that effect is called on in draw, passed in automatically)
 sampler SpriteTexture : register(s0);
@@ -165,7 +167,7 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 		if (true)
 		{
 			// TODO: falloff stuff
-			float distValue = pow((AreaLightDistance[light] - dist) / AreaLightDistance[light], FALLOFF_EXP); // exponential curve (0-3)
+			float distValue = pow((AreaLightDistance[light] - dist) / AreaLightDistance[light], AreaLightFalloff[light]); // exponential curve (0-3)
 			return distValue * (1 - blockVal);
 		}
 	}
@@ -175,30 +177,66 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 // determines the amount of light from one directional light that reaches fragment
 float4 CalculateDirectionalLight(int light, float2 fragPos)
 {
-	// determine angle between vector from light to fragment and light direction
-	float2 fragDir = fragPos - DirectionalLightPosition[light];
+	// Egg curves: http://www.mathematische-basteleien.de/eggcurves.htm
+	float2 lightPos = DirectionalLightPosition[light];
 	float2 lightDir = DirectionalLightDirection[light];
-	float dotp = dot(lightDir, fragDir);
-	float det = lightDir.x * fragDir.y - lightDir.y * fragDir.x;
-	float angle = atan2(det, dotp);	
+	float lightAngle = atan2(lightDir.y, lightDir.x);
 
-	// check inside cone
-	if (abs(angle) < DirectionalLightSpread[light] / 2)
+	float a = DirectionalLightDistance[light] / 2; // half length of ellipse
+	float b = DirectionalLightSpread[light] / 2; // half width of ellipse
+	float c = sqrt(a * a - b * b); // distance from center to foci
+	float2x2 rotateTranslation = float2x2(cos(-lightAngle), -sin(-lightAngle), sin(-lightAngle), cos(-lightAngle)); // translation matrix to align world pos with ellipse
+	float2 tFragPos = mul(rotateTranslation, fragPos - lightPos) - float2(c,0); // translated frag position, proper relation to ellipse without rotation
+
+	// check if fragment outside of light max area
+	if (abs(tFragPos.x) > a)
 	{
-		// check within distance
-		float dist = distance(DirectionalLightPosition[light], fragPos);
-		if (dist < DirectionalLightDistance[light])
-		{
-			float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos);
-			if (true)
-			{
-				// TODO: falloff stuff
-				float distValue = pow(((DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]), FALLOFF_EXP); // exponential curve (0-3)
-				float angleValue = pow((DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light], FALLOFF_EXP); // exponential curve (0-3)
-				return (distValue * angleValue) * (1 - blockVal);
-			}
-		}
+		return 0;
 	}
+
+	// check if outside shape
+	float r = pow(tFragPos.x, 2) / (a * a) + pow(tFragPos.y, 2) / (b * b) *
+		((1 - DIRECT_SPREAD * (tFragPos.x / DirectionalLightDistance[light])) / (1 + DIRECT_SPREAD * (tFragPos.x / DirectionalLightDistance[light])));
+	if (r > 1)
+	{
+		return 0;
+	}
+
+	float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+
+	float fragAngle = atan2(tFragPos.y, tFragPos.x);
+	float2 farPoint = float2(a * cos(fragAngle), b * sin(fragAngle));
+	float maxDist = distance(float2(-c, 0), farPoint);
+
+	float fragDist = distance(lightPos, fragPos);
+	float fromCenterValue = 1 - r; // exponential curve (0-1)
+	float fromSourceValue = tFragPos.x < -c ? ((tFragPos.x + a) / (a - c)) : ((a - tFragPos.x) / (a + c));
+	return pow(fromCenterValue * fromSourceValue, DirectionalLightFalloff[light]) * (1 - blockVal);
+
+	// determine angle between vector from light to fragment and light direction
+	// float2 fragDir = fragPos - DirectionalLightPosition[light];
+	// float2 lightDir = DirectionalLightDirection[light];
+	// float dotp = dot(lightDir, fragDir);
+	// float det = lightDir.x * fragDir.y - lightDir.y * fragDir.x;
+	// float angle = atan2(det, dotp);	
+	// 
+	// // check inside cone
+	// if (abs(angle) < DirectionalLightSpread[light] / 2)
+	// {
+	// 	// check within distance
+	// 	float dist = distance(DirectionalLightPosition[light], fragPos);
+	// 	if (dist < DirectionalLightDistance[light])
+	// 	{
+	// 		float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos);
+	// 		if (true)
+	// 		{
+	// 			// TODO: falloff stuff
+	// 			float distValue = pow(((DirectionalLightDistance[light] - dist) / DirectionalLightDistance[light]), FALLOFF_EXP); // exponential curve (0-3)
+	// 			float angleValue = pow((DirectionalLightSpread[light] - abs(angle) * 2) / DirectionalLightSpread[light], FALLOFF_EXP); // exponential curve (0-3)
+	// 			return (distValue * angleValue) * (1 - blockVal);
+	// 		}
+	// 	}
+	// }
 	return 0;
 }
 
@@ -230,7 +268,7 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	}
 
 	// darken rgb values based on light calculated
-	color.a -= light;
+	color -= light;
 	return color;
 }
 

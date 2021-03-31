@@ -11,14 +11,16 @@ namespace WillowWoodRefuge
         {
             public Vector2 _loc;
             public float _dist;
+            public float _falloff;
 
-            public AreaLight(Vector2 loc, float dist)
+            public AreaLight(Vector2 loc, float dist, float falloff)
             {
                 _loc = loc;
                 _dist = dist;
+                _falloff = falloff;
             }
 
-            public void ChangeLight(Vector2? loc = null, float? dist = null)
+            public void ChangeLight(Vector2? loc = null, float? dist = null, float? falloff = null)
             {
                 if(loc.HasValue)
                 {
@@ -27,6 +29,10 @@ namespace WillowWoodRefuge
                 if(dist.HasValue)
                 {
                     _dist = dist.Value;
+                }
+                if (falloff.HasValue)
+                {
+                    _falloff = falloff.Value;
                 }
             }
         }
