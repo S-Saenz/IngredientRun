@@ -11,8 +11,8 @@ namespace WillowWoodRefuge
 {
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, idleAnimation;
+        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -197,6 +197,9 @@ namespace WillowWoodRefuge
             runLeftAnimation = new Animation(runLeftTex, 1, 10, 50);
             walkLeftTex = Content.Load<Texture2D>("animations/character_1_walk_left");
             walkLeftAnimation = new Animation(walkLeftTex, 1, 12, 50);
+            jumpRightTex = Content.Load<Texture2D>("animations/main_character_jump_right");
+            jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
+
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -220,6 +223,9 @@ namespace WillowWoodRefuge
             animationDict.Add("runLeft", runLeftAnimation);
             animationDict.Add("walkRight", walkRightAnimation);
             animationDict.Add("walkLeft", walkLeftAnimation);
+            animationDict.Add("jumpRight", jumpRightAnimation);
+            animationDict.Add("jump", jumpRightAnimation);
+            animationDict.Add("jumpLeft", jumpRightAnimation);
 
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
@@ -268,13 +274,17 @@ namespace WillowWoodRefuge
             {
                 _currentMoveType = "idle";
             }
-            else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1) // if running
+            else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1 && _collisionBox._downBlocked) // if running
             {
                 _currentMoveType = "run";
             }
-            else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1) // if walking
+            else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1 && _collisionBox._downBlocked) // if walking
             {
                 _currentMoveType = "walk";
+            }
+            else if (!_collisionBox._downBlocked) // if walking
+            {
+                _currentMoveType = "jump";
             }
             currentAnimation = _currentMoveType + _currentDirection;
         }

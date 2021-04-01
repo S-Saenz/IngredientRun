@@ -39,6 +39,18 @@
 /processorParam:TextureFormat=Color
 /build:animations/character_1_walk_right.png
 
+#begin animations/main_character_jump_right.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:animations/main_character_jump_right.png
+
 #begin animations/main_character_run_left.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -231,12 +243,6 @@
 /processorParam:TextureFormat=Color
 /build:Controls/tutorial.png
 
-#begin Ingredient/acornScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
 #begin fonts/NPCDialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
