@@ -255,13 +255,13 @@ namespace WillowWoodRefuge
             // check for debug input
             if (_showFullDebug && Game1.instance.input.JustPressed("debugFullToggle") && Game1.instance.input.IsDown("alternate"))
             {
-                _fullDebugMode = (_fullDebugMode + 1) % 3;
+                _fullDebugMode = (_fullDebugMode + 1) % _numDebugModes;
             }
 
             // check for debug input
             if (_showMiniDebug && Game1.instance.input.JustPressed("debugMiniToggle") && Game1.instance.input.IsDown("alternate"))
             {
-                _miniDebugMode = (_miniDebugMode + 1) % 3;
+                _miniDebugMode = (_miniDebugMode + 1) % _numDebugModes;
             }
 
             // change scene
