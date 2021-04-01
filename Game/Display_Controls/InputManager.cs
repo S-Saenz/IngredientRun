@@ -22,6 +22,16 @@ namespace WillowWoodRefuge
                 Keys.Right,
                 Keys.D
             };
+            List<Keys> downKeys = new List<Keys>()
+            { 
+                Keys.Down,
+                Keys.S
+            };
+            List<Keys> upKeys = new List<Keys>()
+            {
+                Keys.Up,
+                Keys.W
+            };
             List<Keys> jumpKeys = new List<Keys>()
             {
                 Keys.Space
@@ -71,6 +81,8 @@ namespace WillowWoodRefuge
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
+            _buttons.Add("down", new Button(downKeys));
+            _buttons.Add("up", new Button(upKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));

@@ -29,6 +29,7 @@ namespace WillowWoodRefuge
         public float _friction; // 0-1
         public float _damping = 0.1f;
         public RectangleF _worldBounds;
+        public bool _hasGravity = true;
 
         private static float _minFloor = .1f;
 
@@ -111,7 +112,7 @@ namespace WillowWoodRefuge
             _prevPos = _bounds.Position;
 
             // Apply gravity
-            if (!HangTime(gameTime))
+            if (!HangTime(gameTime) && _hasGravity)
             {
                 _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
