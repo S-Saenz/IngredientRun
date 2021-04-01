@@ -79,11 +79,12 @@ namespace WillowWoodRefuge
             }
             if (Game1.instance.input.IsDown("jump"))
             {
-                if (_collisionBox._downBlocked && !_jumpClicked)
+                if (!_jumpClicked && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
                 {
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 _jumpClicked = true;
+                _collisionBox._downLastBlocked = float.NegativeInfinity;
             }
             else
             {

@@ -34,6 +34,10 @@ namespace WillowWoodRefuge
 
         PhysicsHandler _collisionHandler;
 
+        // Hang time
+        public float _downLastBlocked = float.NegativeInfinity;
+        public float _hangTime = .1f;
+
         // Blocked information
         public bool _upBlocked;
         private bool _upWasBlocked;
@@ -91,6 +95,12 @@ namespace WillowWoodRefuge
 
         public Vector2 Update(GameTime gameTime)
         {
+            // update last blocked time
+            if (_downBlocked)
+            {
+                _downLastBlocked = (float)gameTime.TotalGameTime.TotalSeconds;
+            }
+
             // clear out touching info
             _upInfo.Clear();
             _downInfo.Clear();
@@ -101,7 +111,7 @@ namespace WillowWoodRefuge
             _prevPos = _bounds.Position;
 
             // Apply gravity
-            if (!_downBlocked)
+            if (!HangTime(gameTime))
             {
                 _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
@@ -110,7 +120,7 @@ namespace WillowWoodRefuge
             _velocity += _acceleration * gameTime.GetElapsedSeconds();
 
             // Update smoothStep "friction"
-            if(_downBlocked || _upBlocked) // horizontal friction
+            if((_downBlocked || !HangTime(gameTime)) || _upBlocked) // horizontal friction
             {
                 if (Math.Abs(_velocity.X) > Math.Abs(_prevVelocity.X)) // accelerating
                 {
@@ -380,6 +390,11 @@ namespace WillowWoodRefuge
             {
                 box = RectangleF.Empty;
             }
+        }
+
+        public bool HangTime(GameTime gameTime)
+        {
+            return (float)gameTime.TotalGameTime.TotalSeconds - _downLastBlocked < _hangTime;
         }
     }
 }
