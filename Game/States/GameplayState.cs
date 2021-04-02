@@ -14,6 +14,7 @@ namespace WillowWoodRefuge
         protected Effect _ditherEffect;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
+        protected Color _shadowColor = new Microsoft.Xna.Framework.Color(26, 17, 7, 255);
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
@@ -215,7 +216,7 @@ namespace WillowWoodRefuge
                 game.GraphicsDevice.SetRenderTarget(_ditherShadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
 
-                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
+                _spriteBatch.Begin(blendState: BlendState.Additive, sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
                 _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
             }
@@ -477,7 +478,7 @@ namespace WillowWoodRefuge
             _blankTexture = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
             Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
             for (int i = 0; i < data.Length; ++i)
-                data[i] = Color.Black;
+                data[i] = _shadowColor;
             _blankTexture.SetData(data);
 
             // setup caster texture

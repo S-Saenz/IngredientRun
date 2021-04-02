@@ -22,8 +22,6 @@ namespace WillowWoodRefuge
         float[] _aLightDistance, _aLightFalloff;
         bool _aLightDistChanged = false;
         bool _aLightFalloffChanged = false;
-        Vector4[] _aLightColor;
-        bool _aLightColorChanged = false;
         public int _numALights { get; private set; }
         bool _aLightNumChanged = false;
 
@@ -34,8 +32,6 @@ namespace WillowWoodRefuge
         bool _dLightDistChanged = false;
         bool _dLightSpreadChanged = false;
         bool _dLightFalloffChanged = false;
-        Vector4[] _dLightColor;
-        bool _dLightColorChanged = false;
         public int _numDLights { get; private set; }
         bool _dLightNumChanged = false;
 
