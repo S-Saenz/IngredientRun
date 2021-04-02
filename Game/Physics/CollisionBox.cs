@@ -30,6 +30,7 @@ namespace WillowWoodRefuge
         public float _damping = 0.1f;
         public RectangleF _worldBounds;
         public bool _hasGravity = true;
+        public bool _posLock = false; // locks position of collision box, regardless of physics
 
         private static float _minFloor = .1f;
 
@@ -172,7 +173,9 @@ namespace WillowWoodRefuge
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds() + 0.5f * _acceleration * gameTime.GetElapsedSeconds() * gameTime.GetElapsedSeconds();
             IncrementBlocked();
-            _bounds.Position = _collisionHandler.TryMove(this, pos);
+
+            if(!_posLock)
+                _bounds.Position = _collisionHandler.TryMove(this, pos);
 
             // Update velocity based on actual move
             if (_velocity.Length() > 0 && (!_downBlocked || (_downBox.Width > _minFloor)))
@@ -277,6 +280,10 @@ namespace WillowWoodRefuge
             foreach (CollisionInfo info in _leftInfo)
             {
                 spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
+            }
+            if (_rightBlocked)
+            {
+                // Debug.WriteLine(_rightBox.Height + " ");
             }
         }
 
