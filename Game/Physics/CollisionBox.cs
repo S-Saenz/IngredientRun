@@ -370,11 +370,14 @@ namespace WillowWoodRefuge
         {
             Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
             Vector2 max = Vector2.Zero;
+            RectangleF overlapRect;
 
             if (infos.Count > 0)
             {
                 foreach (CollisionInfo info in infos)
                 {
+                    RectangleF.Intersection(ref _bounds, ref info._otherCBox._bounds, out overlapRect);
+                    info.UpdateOverlapRect(overlapRect);
                     if (info._overlapRect.Top < min.Y)
                     {
                         min.Y = info._overlapRect.Top;

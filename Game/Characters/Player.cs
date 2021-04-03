@@ -255,10 +255,15 @@ namespace WillowWoodRefuge
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             _collisionBox.Draw(spriteBatch);
-            if(_collisionBox._leftBlocked)
-            {
-                spriteBatch.DrawRectangle(_collisionBox._leftBox, Color.AliceBlue);
-            }
+            // if(_collisionBox._rightBlocked)
+            // {
+            //     if(_collisionBox._rightBox.Top != _collisionBox._bounds.Top)
+            //         Debug.WriteLine(_collisionBox._rightBox.Height + " " + _collisionBox._rightBox.Top + " " + _collisionBox._bounds.Top);
+            //     foreach (CollisionInfo info in _collisionBox._rightInfo)
+            //     {
+            //         Debug.WriteLine("    " + (info._other as TileMap.Tile)._loc + " " + " " + info._overlapRect.Height);
+            //     }
+            // }
             if (_anchorPoint.HasValue)
             {
                 spriteBatch.DrawPoint(_anchorPoint.Value, Color.DeepPink, 2);
