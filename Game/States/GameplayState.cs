@@ -478,7 +478,10 @@ namespace WillowWoodRefuge
             _blankTexture = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
             Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
             for (int i = 0; i < data.Length; ++i)
+            {
                 data[i] = _shadowColor;
+                // data[i] = new Color((float)(i % _blankTexture.Width) / _blankTexture.Width, 0, (float)(i / _blankTexture.Width) / _blankTexture.Height);
+            }
             _blankTexture.SetData(data);
 
             // setup caster texture
