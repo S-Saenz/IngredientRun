@@ -38,7 +38,7 @@ namespace WillowWoodRefuge
 
         // Hang time
         public float _downLastBlocked = float.NegativeInfinity;
-        public float _hangTime = .1f;
+        public float _hangTime = .09f;
 
         // Blocked information
         public bool _upBlocked;

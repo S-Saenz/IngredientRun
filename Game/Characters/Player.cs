@@ -23,7 +23,7 @@ namespace WillowWoodRefuge
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
         private float _friction = 0.5f; // rate at which player stops
-        private int _jump = 13000; // force on player to move upward
+        private int _jump = 11500; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
@@ -35,7 +35,7 @@ namespace WillowWoodRefuge
         public bool _isRunning = false;
         public Vector2? _anchorPoint = null; // in world
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
-        public float _grabDist = 5f; // amount of top of hit box used for grab
+        public float _grabDist = 10f; // amount of top of hit box used for grab
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
