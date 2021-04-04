@@ -6,11 +6,12 @@ namespace WillowWoodRefuge
     public class CollisionInfo
     {
         public IPhysicsObject _other { get; } // other object hit
+        public CollisionBox _otherCBox { get; }
         public string _otherLabel { get; } // label(type/mask) of contact object
         public Vector2 _loc { get; }  // center point of contact on edge of other
         public Vector2 _hitDir { get; set; } // direction vector of collision (points to side collided)
         public float _overlapDist { get; } // distance overlapped/penetrated
-        public RectangleF _overlapRect { get; } // rectangle describing overlap
+        public RectangleF _overlapRect { get; private set; } // rectangle describing overlap
 
         public CollisionInfo(CollisionBox box1, CollisionBox box2, ref RectangleF overlapRect)
         {
@@ -67,10 +68,16 @@ namespace WillowWoodRefuge
             }
 
             _other = box2._parent;
+            _otherCBox = box2;
             _otherLabel = otherLabel;
             _loc = loc;
             _hitDir = hitDir;
             _overlapDist = overlapDist;
+            _overlapRect = overlapRect;
+        }
+
+        public void UpdateOverlapRect(RectangleF overlapRect)
+        {
             _overlapRect = overlapRect;
         }
     }

@@ -52,10 +52,10 @@ namespace WillowWoodRefuge
         // Debug mode
         static protected bool _showMiniDebug = false;
         static protected bool _showFullDebug = false;
-        // 0 = camera, 1 = physics, 2 = ai
-        static protected int _fullDebugMode = 1;
-        static protected int _miniDebugMode = 0;
-        static protected int _numDebugModes = 3;
+        // 0 = camera, 1 = physics, 2 = ai, 3 = player
+        static protected int _fullDebugMode = 3;
+        static protected int _miniDebugMode = 1;
+        static protected int _numDebugModes = 4;
 
         // Physics handler
         protected PhysicsHandler _physicsHandler;
@@ -345,13 +345,13 @@ namespace WillowWoodRefuge
             // check for debug input
             if (_showFullDebug && Game1.instance.input.JustPressed("debugFullToggle") && Game1.instance.input.IsDown("alternate"))
             {
-                _fullDebugMode = (_fullDebugMode + 1) % 3;
+                _fullDebugMode = (_fullDebugMode + 1) % _numDebugModes;
             }
 
             // check for debug input
             if (_showMiniDebug && Game1.instance.input.JustPressed("debugMiniToggle") && Game1.instance.input.IsDown("alternate"))
             {
-                _miniDebugMode = (_miniDebugMode + 1) % 3;
+                _miniDebugMode = (_miniDebugMode + 1) % _numDebugModes;
             }
 
             // change scene
@@ -392,6 +392,12 @@ namespace WillowWoodRefuge
                             enemy.DrawDebug(spriteBatch);
                         }
                         break;
+                    case 3: // player
+                        if (_player != null)
+                        {
+                            _player.DrawDebug(spriteBatch);
+                        }
+                        break;
                 }
                 spriteBatch.End();
             }
@@ -421,6 +427,12 @@ namespace WillowWoodRefuge
                         foreach (Enemy enemy in _enemies)
                         {
                             enemy.DrawDebug(spriteBatch);
+                        }
+                        break;
+                    case 3: // player
+                        if (_player != null)
+                        {
+                            _player.DrawDebug(spriteBatch);
                         }
                         break;
                 }

@@ -159,19 +159,19 @@ namespace WillowWoodRefuge
                     //     spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
                     // }
 
-                    if (!box._upBox.IsEmpty)
+                    if (box._upBlocked)
                     {
                         spriteBatch.DrawRectangle(box._upBox, Color.Red, 1);
                     }
-                    if (!box._downBox.IsEmpty)
+                    if (box._downBlocked)
                     {
                         spriteBatch.DrawRectangle(box._downBox, Color.Red, 1);
                     }
-                    if (!box._leftBox.IsEmpty)
+                    if (box._leftBlocked)
                     {
                         spriteBatch.DrawRectangle(box._leftBox, Color.Red, 1);
                     }
-                    if (!box._rightBox.IsEmpty)
+                    if (box._rightBlocked)
                     {
                         spriteBatch.DrawRectangle(box._rightBox, Color.Red, 1);
                     }

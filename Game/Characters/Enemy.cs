@@ -16,8 +16,8 @@ namespace WillowWoodRefuge
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
         {
-            _walkSpeed = 50;
-            _runSpeed = 120;
+            _walkSpeed = 45;
+            _runSpeed = 100;
             _collisionBox._friction = 0.5f;
             _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
 

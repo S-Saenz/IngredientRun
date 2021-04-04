@@ -10,8 +10,20 @@ using System.Linq;
 
 namespace WillowWoodRefuge
 {
-    public class TileMap : IPhysicsObject
+    public class TileMap
     {
+        public class Tile : IPhysicsObject
+        {
+            public TileMap _map;
+            public Vector2 _loc;
+
+            public Tile(TileMap map, Vector2 loc)
+            {
+                _map = map;
+                _loc = loc;
+            }
+        }
+
         TiledMap _map;
         TiledMapRenderer _renderer;
         PhysicsHandler _collisionHandler;
@@ -42,7 +54,7 @@ namespace WillowWoodRefuge
                 {
                     collisionHandler.AddObject("Walls", new CollisionBox(
                         new RectangleF(tile.X * _map.TileWidth, tile.Y * _map.TileHeight, _map.TileWidth, _map.TileHeight),
-                        collisionHandler, parent: this));
+                        collisionHandler, parent: new Tile(this, new Vector2(tile.X, tile.Y))));
                 }
             }
             _collisionHandler = collisionHandler;

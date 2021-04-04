@@ -23,7 +23,7 @@ namespace WillowWoodRefuge
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
         private float _friction = 0.5f; // rate at which player stops
-        private int _jump = 13000; // force on player to move upward
+        private int _jump = 11500; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
@@ -33,6 +33,9 @@ namespace WillowWoodRefuge
         string _currentDirection = "";
         string _currentMoveType = "idle";
         public bool _isRunning = false;
+        public Vector2? _anchorPoint = null; // in world
+        public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
+        public float _grabDist = 10f; // amount of top of hit box used for grab
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -62,11 +65,11 @@ namespace WillowWoodRefuge
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
             //Movement
-            if (Game1.instance.input.IsDown("right"))
+            if (Game1.instance.input.IsDown("right") && !_anchorPoint.HasValue)
             {
                 _collisionBox.TryMoveHorizontal(_currSpeed);
             }
-            if (Game1.instance.input.IsDown("left"))
+            if (Game1.instance.input.IsDown("left") && !_anchorPoint.HasValue)
             {
                 _collisionBox.TryMoveHorizontal(-_currSpeed);
             }
@@ -79,11 +82,12 @@ namespace WillowWoodRefuge
             }
             if (Game1.instance.input.IsDown("jump"))
             {
-                if (_collisionBox._downBlocked && !_jumpClicked)
+                if (!_jumpClicked && !_anchorPoint.HasValue &&(_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
                 {
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 _jumpClicked = true;
+                _collisionBox._downLastBlocked = float.NegativeInfinity;
             }
             else
             {
@@ -98,7 +102,30 @@ namespace WillowWoodRefuge
                 _currSpeed = _walkSpeed;
             }
 
-            
+            // Ledge grab controls
+            if (!_anchorPoint.HasValue)
+            {
+                CheckForLedgeGrab(gameTime);
+            }
+            else
+            {
+                if (Game1.instance.input.JustPressed("down") ||
+                    (_grabLeft && Game1.instance.input.JustPressed("right")) ||
+                    (!_grabLeft && Game1.instance.input.JustPressed("left")))
+                {
+                    _collisionBox._posLock = false;
+                    _collisionBox._hasGravity = true;
+                    _anchorPoint = null;
+                }
+                else if (Game1.instance.input.JustPressed("up"))
+                {
+                    _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                                _anchorPoint.Value.Y - _collisionBox._bounds.Height);
+                    _collisionBox._posLock = false;
+                    _collisionBox._hasGravity = true;
+                    _anchorPoint = null;
+                }
+            }
 
             if (Game1.instance.input.JustPressed("interact"))
             {
@@ -225,6 +252,24 @@ namespace WillowWoodRefuge
             }
         }
 
+        public void DrawDebug(SpriteBatch spriteBatch)
+        {
+            _collisionBox.Draw(spriteBatch);
+            // if(_collisionBox._rightBlocked)
+            // {
+            //     if(_collisionBox._rightBox.Top != _collisionBox._bounds.Top)
+            //         Debug.WriteLine(_collisionBox._rightBox.Height + " " + _collisionBox._rightBox.Top + " " + _collisionBox._bounds.Top);
+            //     foreach (CollisionInfo info in _collisionBox._rightInfo)
+            //     {
+            //         Debug.WriteLine("    " + (info._other as TileMap.Tile)._loc + " " + " " + info._overlapRect.Height);
+            //     }
+            // }
+            if (_anchorPoint.HasValue)
+            {
+                spriteBatch.DrawPoint(_anchorPoint.Value, Color.DeepPink, 2);
+            }
+        }
+
         public bool RemoveCollision(PhysicsHandler collisionHandler)
         {
             return collisionHandler.RemoveObject(_collisionBox);
@@ -294,6 +339,68 @@ namespace WillowWoodRefuge
         public void Reset()
         {
             Game1.instance.RequestStateChange(Game1.instance._currentStateName);
+        }
+
+        private void CheckForLedgeGrab(GameTime gameTime)
+        {
+            if(_collisionBox._velocity.Y < 0) // moving up
+            {
+                _anchorPoint = null;
+                _collisionBox._hasGravity = true;
+            }
+            else if (_collisionBox._leftBlocked && Game1.instance.input.IsDown("left") && // check for side hit left grab
+                _collisionBox._leftBox.Top > _collisionBox._bounds.Top &&
+                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist)
+            {
+                _grabLeft = true;
+                _anchorPoint = _collisionBox._leftBox.TopRight;
+                _collisionBox._bounds.Position = (Point2)_anchorPoint - new Vector2(0, _grabDist);
+                _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
+                _collisionBox._posLock = true;
+                _collisionBox._hasGravity = false;
+                Debug.WriteLine("Grabbed left");
+            }
+            else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
+                     _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
+                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist)
+            {
+                _grabLeft = false;
+                _anchorPoint = _collisionBox._rightBox.TopLeft;
+                _collisionBox._bounds.Position = (Point2)_anchorPoint - new Vector2(_collisionBox._bounds.Width, _grabDist);
+                _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
+                _collisionBox._posLock = true;
+                _collisionBox._hasGravity = false;
+                Debug.WriteLine("Grabbed right");
+            }
+            else if(_collisionBox._downBlocked && Game1.instance.input.JustPressed("down") && 
+                    _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
+            {
+                if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left) // down right grab left
+                {
+                    _grabLeft = true;
+                    _anchorPoint = _collisionBox._downBox.TopRight;
+                    _collisionBox._bounds.Position = (Point2)_anchorPoint - new Vector2(0, _grabDist);
+                    _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
+                    _collisionBox._posLock = true;
+                    _collisionBox._hasGravity = false;
+                    Debug.WriteLine("Drop grabbed left");
+                }
+                else // down left grab right
+                {
+                    _grabLeft = false;
+                    _anchorPoint = _collisionBox._downBox.TopLeft;
+                    _collisionBox._bounds.Position = (Point2)_anchorPoint - new Vector2(_collisionBox._bounds.Width, _grabDist);
+                    _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
+                    _collisionBox._posLock = true;
+                    _collisionBox._hasGravity = false;
+                    Debug.WriteLine("Drop grabbed right");
+                }
+            }
+            else
+            {
+                _anchorPoint = null;
+                _collisionBox._hasGravity = true;
+            }
         }
     }
 }
