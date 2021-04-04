@@ -154,7 +154,7 @@ namespace WillowWoodRefuge
             _renderer.Draw(viewMatrix, projMatrix);
         }
 
-        public void DrawLayer(SpriteBatch spriteBatch, Matrix viewMatrix, Matrix projMatrix, string name)
+        public void DrawLayer(SpriteBatch spriteBatch, string name, Matrix? viewMatrix = null, Matrix? projMatrix = null)
         {
             TiledMapLayer layer = _map.GetLayer<TiledMapLayer>(name);
             if (layer != null)
