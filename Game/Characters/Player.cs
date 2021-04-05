@@ -109,7 +109,7 @@ namespace WillowWoodRefuge
             }
             else
             {
-                if (Game1.instance.input.JustPressed("down") ||
+                if (Game1.instance.input.JustPressed("down") || // let go of ledge
                     (_grabLeft && Game1.instance.input.JustPressed("right")) ||
                     (!_grabLeft && Game1.instance.input.JustPressed("left")))
                 {
@@ -117,7 +117,9 @@ namespace WillowWoodRefuge
                     _collisionBox._hasGravity = true;
                     _anchorPoint = null;
                 }
-                else if (Game1.instance.input.JustPressed("up"))
+                else if (Game1.instance.input.JustPressed("up") && // climb up on top of ledge
+                         _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                          _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
                 {
                     _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
                                                                 _anchorPoint.Value.Y - _collisionBox._bounds.Height);
@@ -375,7 +377,8 @@ namespace WillowWoodRefuge
             else if(_collisionBox._downBlocked && Game1.instance.input.JustPressed("down") && 
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
             {
-                if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left) // down right grab left
+                if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left && // down right grab left
+                    _collisionBox.CanFit((Point2)_collisionBox._downBox.TopRight - new Vector2(0, _grabDist)))
                 {
                     _grabLeft = true;
                     _anchorPoint = _collisionBox._downBox.TopRight;
@@ -385,7 +388,7 @@ namespace WillowWoodRefuge
                     _collisionBox._hasGravity = false;
                     Debug.WriteLine("Drop grabbed left");
                 }
-                else // down left grab right
+                else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
                 {
                     _grabLeft = false;
                     _anchorPoint = _collisionBox._downBox.TopLeft;
