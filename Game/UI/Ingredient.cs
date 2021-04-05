@@ -14,29 +14,30 @@ using Microsoft.Xna.Framework.Media;
 
 namespace WillowWoodRefuge
 {
-    public class Ingredient : Sprite
+    public class Ingredient
     {
         public bool holding = false;
-        //public float Rotation;
-        Vector2 Origin;
+        public float Rotation;
+        public Vector2 Origin = new Vector2(0,0);
         public Vector2 index = new Vector2(1, 0);
         public bool falling = false;
-        //public Vector2 pos;
+        public Vector2 pos;
         //public bool highest = false;
-        //public float Scale = 1f;
-        string _name;
+        public float Scale = 1f;
+        public string _name;
 
         public String orientation = "up";           //which way is our ingredient rotated - up, down, left, right
         public bool doubleSquare = false;           //does this ingredient occupy more than one square? 
         public Vector2 index2 = new Vector2(1, 0);  //index of the other square your ingredient occupies 
 
+        public Texture2D img;
 
         public Ingredient(Texture2D image, Vector2 position, string name)
         {
             img = image;
             pos = position;
             Scale = 4f;
-            // Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
+            Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
             _name = name;
         }
 
@@ -51,7 +52,6 @@ namespace WillowWoodRefuge
         {
             //timeSinceLastDrop += (float)gameTime.ElapsedGameTime.TotalSeconds; //add elapsed time to counter
 
-
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -59,8 +59,6 @@ namespace WillowWoodRefuge
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
-
-
         }
 
         //public void resetCounter()
@@ -110,6 +108,22 @@ namespace WillowWoodRefuge
                     break;
             }
 
+        }
+        public Rectangle Bounds()
+        {
+            Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), new Point(img.Width * (int)Scale, img.Height * (int)Scale));
+            return rect;
+        }
+
+        public void SetPosByMouse(Point p)
+        {
+            //pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
+            pos = new Vector2(p.X, p.Y);
+        }
+
+        public bool IsPointOver(Point point)
+        {
+            return this.Bounds().Contains(point.X, point.Y);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics;
 
 using MonoGame.Extended;
 using Microsoft.Xna.Framework;
@@ -10,17 +11,18 @@ using Microsoft.Xna.Framework.Media;
 
 namespace WillowWoodRefuge
 {
-    //gameState can check state to see if player input for movement should be ignored.
-    public enum UIState { None, Inventory, RecipeMenu, CookingGame }; //put it here to make it glcbal
+    //gameState can check state to see if player input for movement should be ignored. 
+    public enum UIState { None, Inventory, RecipeMenu, CookingGame }; //put it here to make it glcbal 
 
-    class UIManager
+    public class UIManager
     {
-        State _gameState;
+        //State _gameState;
         public UIState _currState;
+        KeyboardState oldKeyState; //for DevShortCuts()
 
         public UIManager()
         {
-
+            _currState = UIState.None;
         }
 
         public void Update(GameTime gametime)
@@ -50,10 +52,14 @@ namespace WillowWoodRefuge
                     Game1.instance.cookingGame.Update(Mouse.GetState(), Keyboard.GetState(), gametime);
                     break;
             }
+
+            DevShortCuts(); //allow dev shortcuts for UI
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            //spriteBatch.Begin(transformMatrix: Game1.instance._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+
             // Similarly to the switch statement in Update, this
             // will just clean up drawing the different states
             // without having to worry about errors with
@@ -79,10 +85,12 @@ namespace WillowWoodRefuge
                     Game1.instance.cookingGame.Draw(spriteBatch);
                     break;
             }
+
+            //spriteBatch.End();
         }
 
         public void SwitchState(UIState nextState) {
-
+            Debug.WriteLine($"UI Manager switching from {_currState} to {nextState}");
             // Similar to load, just code reliably called when
             // leaving a state. Clean up unneeded variables, stop
             // and resolve animations, etc. Could be moved to a
@@ -97,10 +105,12 @@ namespace WillowWoodRefuge
 
                     break;
                 case UIState.RecipeMenu:
-                    //pass the chosen recipe to cookingGame
-                    //cookingGame.foodToCook = recipeMenu.chosenRecipe
+                    //mostly handled in RecipeMenu.SwitchToCooking()
+                    //Game1.instance.recipeMenu.chosenRecipe = Game1.instance.cookingGame.foodToCook;
+                    
                     break;
                 case UIState.CookingGame:
+
                     break;
             }
 
@@ -112,16 +122,37 @@ namespace WillowWoodRefuge
             {
                 case UIState.None:
                     //load none
+                    
                     break;
                 case UIState.Inventory:
                     //load inventory
+                    if (!Game1.instance.inventory.loaded)
+                        Game1.instance.inventory.Load(Game1.instance.Content);
                     break;
                 case UIState.RecipeMenu:
+                    //load recipe menu
+                    if(!Game1.instance.recipeMenu.loaded)
+                        Game1.instance.recipeMenu.Load(Game1.instance.Content);
                     break;
                 case UIState.CookingGame:
+                    if (!Game1.instance.cookingGame.loaded)
+                        Game1.instance.cookingGame.Load(Game1.instance.Content);
                     break;
             }
+
+            _currState = nextState;
         }
 
+
+        public void DevShortCuts()
+        {
+            KeyboardState keyState = Keyboard.GetState();
+
+            // ALT + R will switch to recipe selection 
+            if ((oldKeyState.IsKeyUp(Keys.LeftAlt) || oldKeyState.IsKeyUp(Keys.R)) && keyState.IsKeyDown(Keys.LeftAlt) && keyState.IsKeyDown(Keys.R))
+            {
+                Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+            }
+        }
     }
 }

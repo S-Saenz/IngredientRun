@@ -231,12 +231,6 @@
 /processorParam:TextureFormat=Color
 /build:Controls/tutorial.png
 
-#begin Ingredient/acornScaled.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
 #begin fonts/NPCDialogue.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -972,6 +966,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/Temp Inventory.png
+
+#begin ui/UI Container.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/UI Container.png
 
 #begin ui/visionFade.png
 /importer:TextureImporter

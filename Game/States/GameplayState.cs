@@ -110,8 +110,8 @@ namespace WillowWoodRefuge
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
 
-            // Update inventory TODO: make UI manager, update UI manager
-            game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
+            // Update UI manager
+            game.UI.Update(gameTime);
 
             // Update tilemap
             _tileMap.Update(gameTime);
@@ -205,8 +205,7 @@ namespace WillowWoodRefuge
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if (game.inventory.showInv)
-                game.inventory.Draw(_spriteBatch);
+                game.UI.Draw(spriteBatch);
             _spriteBatch.End();
         }
 

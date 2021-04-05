@@ -123,8 +123,10 @@ namespace WillowWoodRefuge
                     {
                         if(area._name == "fire")
                         {
-                            Debug.WriteLine("Fire");
+                            //Debug.WriteLine("Fire");
                             // Open cooking ui
+                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+
                         }
                         else if(area._name.Contains("state"))
                         {
