@@ -20,6 +20,22 @@ namespace WillowWoodRefuge
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
+            _isDark = false;
+
+            // Setup lights
+            _staticLightManager.AddLight(new Vector2(64, 256), 50);
+            _staticLightManager.AddLight(new Vector2(160, 256), 50);
+            _staticLightManager.AddLight(new Vector2(368, 256), 50);
+            _staticLightManager.AddLight(new Vector2(488, 256), 50);
+
+            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            PostConstruction();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -27,7 +43,6 @@ namespace WillowWoodRefuge
             game.GraphicsDevice.Clear(Color.Gray);
             base.Draw(gameTime, spriteBatch);
         }
-
 
         public override void LoadContent()
         {
@@ -62,6 +77,8 @@ namespace WillowWoodRefuge
             // dialogue system
             _dialogueSystem.Load(_characters);
             _dialogueSystem.PlayInteraction(game);
+
+            _isDark = false;
         }
 
         public override void unloadState()

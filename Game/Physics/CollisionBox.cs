@@ -29,10 +29,16 @@ namespace WillowWoodRefuge
         public float _friction; // 0-1
         public float _damping = 0.1f;
         public RectangleF _worldBounds;
+        public bool _hasGravity = true;
+        public bool _posLock = false; // locks position of collision box, regardless of physics
 
         private static float _minFloor = .1f;
 
         PhysicsHandler _collisionHandler;
+
+        // Hang time
+        public float _downLastBlocked = float.NegativeInfinity;
+        public float _hangTime = .09f;
 
         // Blocked information
         public bool _upBlocked;
@@ -91,6 +97,12 @@ namespace WillowWoodRefuge
 
         public Vector2 Update(GameTime gameTime)
         {
+            // update last blocked time
+            if (_downBlocked)
+            {
+                _downLastBlocked = (float)gameTime.TotalGameTime.TotalSeconds;
+            }
+
             // clear out touching info
             _upInfo.Clear();
             _downInfo.Clear();
@@ -101,7 +113,7 @@ namespace WillowWoodRefuge
             _prevPos = _bounds.Position;
 
             // Apply gravity
-            if (!_downBlocked)
+            if (!HangTime(gameTime) && _hasGravity)
             {
                 _acceleration += _gravity * gameTime.GetElapsedSeconds() * 350;
             }
@@ -110,7 +122,7 @@ namespace WillowWoodRefuge
             _velocity += _acceleration * gameTime.GetElapsedSeconds();
 
             // Update smoothStep "friction"
-            if(_downBlocked || _upBlocked) // horizontal friction
+            if((_downBlocked || !HangTime(gameTime)) || _upBlocked) // horizontal friction
             {
                 if (Math.Abs(_velocity.X) > Math.Abs(_prevVelocity.X)) // accelerating
                 {
@@ -161,7 +173,9 @@ namespace WillowWoodRefuge
             // Apply final velocity and try move
             pos += _velocity * gameTime.GetElapsedSeconds() + 0.5f * _acceleration * gameTime.GetElapsedSeconds() * gameTime.GetElapsedSeconds();
             IncrementBlocked();
-            _bounds.Position = _collisionHandler.TryMove(this, pos);
+
+            if(!_posLock)
+                _bounds.Position = _collisionHandler.TryMove(this, pos);
 
             // Update velocity based on actual move
             if (_velocity.Length() > 0 && (!_downBlocked || (_downBox.Width > _minFloor)))
@@ -267,6 +281,10 @@ namespace WillowWoodRefuge
             {
                 spriteBatch.DrawRectangle(info._overlapRect, Color.Red);
             }
+            if (_rightBlocked)
+            {
+                // Debug.WriteLine(_rightBox.Height + " ");
+            }
         }
 
         private void IncrementBlocked() // steps forward blocked bools, setting wasBlocked and resetting blocked
@@ -352,11 +370,14 @@ namespace WillowWoodRefuge
         {
             Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
             Vector2 max = Vector2.Zero;
+            RectangleF overlapRect;
 
             if (infos.Count > 0)
             {
                 foreach (CollisionInfo info in infos)
                 {
+                    RectangleF.Intersection(ref _bounds, ref info._otherCBox._bounds, out overlapRect);
+                    info.UpdateOverlapRect(overlapRect);
                     if (info._overlapRect.Top < min.Y)
                     {
                         min.Y = info._overlapRect.Top;
@@ -380,6 +401,11 @@ namespace WillowWoodRefuge
             {
                 box = RectangleF.Empty;
             }
+        }
+
+        public bool HangTime(GameTime gameTime)
+        {
+            return (float)gameTime.TotalGameTime.TotalSeconds - _downLastBlocked < _hangTime;
         }
     }
 }

@@ -18,11 +18,12 @@ namespace WillowWoodRefuge
 
         static Dictionary<int, float> _typeSpeed = new Dictionary<int, float>()
         {
-            { 1, 0.2f   },
-            { 2, 0.175f },
-            { 3, 0.15f  },
-            { 4, 0.125f },
-            { 5, 0.1f   }
+            //Kall
+            { 1, 0.1f   },
+            { 2, 0.125f },
+            { 3, 0.1f  },
+            { 4, 0.1f },
+            { 5, 0.075f   }
         };
 
         public DialogueLine(string unparsedLine)
