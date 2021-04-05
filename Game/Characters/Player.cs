@@ -404,5 +404,15 @@ namespace WillowWoodRefuge
                 _collisionBox._hasGravity = true;
             }
         }
+
+        public void LockPos()
+        {
+            _collisionBox._posLock = true;
+        }
+
+        public void UnlockPos()
+        {
+            _collisionBox._posLock = false;
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace WillowWoodRefuge
             img = image;
             pos = position;
             Scale = 4f;
-            Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
+            // Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
             _name = name;
         }
 

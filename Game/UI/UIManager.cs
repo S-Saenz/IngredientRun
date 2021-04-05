@@ -107,7 +107,11 @@ namespace WillowWoodRefuge
                 case UIState.RecipeMenu:
                     //mostly handled in RecipeMenu.SwitchToCooking()
                     //Game1.instance.recipeMenu.chosenRecipe = Game1.instance.cookingGame.foodToCook;
-                    
+
+                    GameplayState gameState = Game1.instance._currentState as GameplayState;
+                    if (gameState != null && nextState != UIState.CookingGame)
+                        gameState.UnlockPlayerPos();
+
                     break;
                 case UIState.CookingGame:
 
@@ -133,6 +137,10 @@ namespace WillowWoodRefuge
                     //load recipe menu
                     if(!Game1.instance.recipeMenu.loaded)
                         Game1.instance.recipeMenu.Load(Game1.instance.Content);
+
+                    GameplayState gameState = Game1.instance._currentState as GameplayState;
+                    if (gameState != null)
+                        gameState.LockPlayerPos();
                     break;
                 case UIState.CookingGame:
                     if (!Game1.instance.cookingGame.loaded)

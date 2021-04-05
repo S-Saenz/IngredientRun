@@ -111,12 +111,12 @@ namespace WillowWoodRefuge
 
 
             //space bar held down - move needle
-            if (Keyboard.GetState().IsKeyDown(Keys.F) && _needleX <= _meterEnd && _attemptRemaining)
+            if (Game1.instance.input.IsDown("cook") && _needleX <= _meterEnd && _attemptRemaining)
                 _needleX += _needleSpeed;
             
 
             //space bar is released
-            if(_needleX > _needleStart && Keyboard.GetState().IsKeyUp(Keys.F))
+            if(_needleX > _needleStart && !Game1.instance.input.IsDown("cook"))
             {
                 _attemptRemaining = false;
                 //debug(GradeCooking()); 

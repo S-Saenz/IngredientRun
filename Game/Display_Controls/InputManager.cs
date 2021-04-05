@@ -36,6 +36,10 @@ namespace WillowWoodRefuge
             {
                 Keys.Space
             };
+            List<Keys> cookKeys = new List<Keys>()
+            {
+                Keys.Space
+            };
             List<Keys> interactKeys = new List<Keys>()
             {
                 Keys.E
@@ -84,6 +88,7 @@ namespace WillowWoodRefuge
             _buttons.Add("down", new Button(downKeys));
             _buttons.Add("up", new Button(upKeys));
             _buttons.Add("jump", new Button(jumpKeys));
+            _buttons.Add("cook", new Button(cookKeys));
             _buttons.Add("interact", new Button(interactKeys));
             _buttons.Add("run", new Button(runKeys));
             _buttons.Add("inventory", new Button(inventory));

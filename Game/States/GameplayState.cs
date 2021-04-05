@@ -235,10 +235,10 @@ namespace WillowWoodRefuge
             {
                 area.Draw(spriteBatch, "To Camp", game._cameraController, Color.Gray);
             }
-            // foreach (Area area in _tileMap.GetAreaObject("fire"))
-            // {
-            //     area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
-            // }
+            foreach (Area area in _tileMap.GetAreaObject("fire"))
+            {
+                area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
+            }
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -523,6 +523,16 @@ namespace WillowWoodRefuge
             // Stream stream = File.Create("shadow.png");
             // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
             // stream.Dispose();
+        }
+
+        public void LockPlayerPos()
+        {
+            _player.LockPos();
+        }
+
+        public void UnlockPlayerPos()
+        {
+            _player.UnlockPos();
         }
     }
 }

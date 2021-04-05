@@ -99,9 +99,9 @@ namespace WillowWoodRefuge
             _screenHeight = Game1.instance._cameraController._screenDimensions.Y;
 
             //load in images
-            mainUI = Content.Load<Texture2D>("ui/Fake Recipe Selection");
-             background = Content.Load<Texture2D>("ui/new camp");
-            selectedFood = Content.Load<Texture2D>("ingredient/grilled_fishScaled");
+            // mainUI = Content.Load<Texture2D>("ui/Fake Recipe Selection");
+            // background = Content.Load<Texture2D>("ui/new camp");
+            // selectedFood = Content.Load<Texture2D>("ingredient/grilled_fishScaled");
 
             container = Content.Load<Texture2D>("ui/UI Container");
             box1 = Content.Load<Texture2D>("ui/Recipe/Ingredient Box Single");
