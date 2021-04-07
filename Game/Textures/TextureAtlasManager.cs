@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended;
 using System.Collections.Generic;
 
 namespace WillowWoodRefuge
@@ -28,6 +29,11 @@ namespace WillowWoodRefuge
             {
                 _atlasList[textureType].DrawTexture(spriteBatch, textureName, destinationRectangle, color);
             }
+        }
+
+        public static Size2 GetSize(string textureType, string textureName)
+        {
+            return _atlasList[textureType].GetSize(textureName);
         }
     }
 }

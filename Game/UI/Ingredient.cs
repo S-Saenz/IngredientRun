@@ -24,7 +24,7 @@ namespace WillowWoodRefuge
         //public Vector2 pos;
         //public bool highest = false;
         //public float Scale = 1f;
-        string _name;
+        public string _name { get; private set; }
 
         public String orientation = "up";           //which way is our ingredient rotated - up, down, left, right
         public bool doubleSquare = false;           //does this ingredient occupy more than one square? 

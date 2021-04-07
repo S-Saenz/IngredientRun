@@ -67,11 +67,11 @@ namespace WillowWoodRefuge
 
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acornScaled"), randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fishScaled"), randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meatScaled"), randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("woodScaled"), randomBox(), "wood"));
+            ingredientList.Add(new Ingredient(null, randomBox(), "acorn"));
+            ingredientList.Add(new Ingredient(null, randomBox(), "apple"));
+            ingredientList.Add(new Ingredient(null, randomBox(), "fish"));
+            ingredientList.Add(new Ingredient(null, randomBox(), "meat"));
+            ingredientList.Add(new Ingredient(null, randomBox(), "wood"));
 
             // ACORN = new Ingredient(acorn, randomBox());
             // APPLE = new Ingredient(apple, randomBox());
@@ -96,7 +96,7 @@ namespace WillowWoodRefuge
             foreach (Ingredient ing in ingredientList)
             {
                 //set origin at center
-                ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
+                ing.Origin = (Vector2)TextureAtlasManager.GetSize("Item", ing._name) / 2;
                 //Debug.WriteLine($"{ing.img} is highest = {Highest(ing)}");
             }
 
