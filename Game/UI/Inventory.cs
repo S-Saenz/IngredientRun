@@ -14,10 +14,12 @@ namespace WillowWoodRefuge
 {
     public class Inventory
     {
-        Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
-        public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
+        //Texture Inventory rids need of texture loading but keep inventory texture for now
+        Texture2D inventorySq;
+        //Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
+        //public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
         // List<Texture2D> ingredientTextures;
-        Ingredient FISH, ACORN, APPLE, MEAT, WOOD;
+        //Ingredient FISH, ACORN, APPLE, MEAT, WOOD;
         public bool showInv = false;
         bool handsFull = false;
         public KeyboardState oldKeyState;
@@ -32,23 +34,60 @@ namespace WillowWoodRefuge
         float gridWidthMargin = 140;
         float gridHeightMargin = 140;
         Vector2 topLeft = new Vector2(690, 125);
-
+    
 
         //exit button
         UIButton xButton;
 
+        Random rnd = new Random();
+
+        //temp variable so the UI manager won't load the inventory more than once
+        public bool loaded = false;
+
         public Inventory()
         {
+            initializeInventoryGrid();
+        }
+
+        
+        //initialize an empty inventory for the first time
+        public void initlializeInventory()
+        {
+
+        }
+
+       //reinitialize the inventory with the saved items and their positions
+        public void openInventory(Dictionary<Vector2, String> savedInventory)
+        {
+
+        }
+
+        public void unload()
+        {
+
+        }
+
+        //add items to the inventory for debugging purposes
+        public void addExampleInventory()
+        {
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acorn"), randomBox(), "acorn"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fish"), randomBox(), "fish"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meat"), randomBox(), "meat"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("wood"), randomBox(), "wood"));
+            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("waterjug"), randomBox(), "waterjug"));
         }
 
         public void Load(ContentManager Content)
         {
-            initializeInventoryGrid();
-
+            loaded = true;
+            //initializeInventoryGrid();
+           
             //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
 
             //load ingredient textures
+            /* Tecture Atlas makes this portion redundant and unnecessary
             acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
             apple = Content.Load<Texture2D>("Ingredient/appleScaled");
             appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soupScaled");
@@ -64,48 +103,26 @@ namespace WillowWoodRefuge
             rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soupScaled");
             water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
             wood = Content.Load<Texture2D>("Ingredient/woodScaled");
+            */
 
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acornScaled"), randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fishScaled"), randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meatScaled"), randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("woodScaled"), randomBox(), "wood"));
 
-            // ACORN = new Ingredient(acorn, randomBox());
-            // APPLE = new Ingredient(apple, randomBox());
-            // FISH = new Ingredient(fish, randomBox());
-            // MEAT = new Ingredient(meat, randomBox());
-            // WOOD = new Ingredient(wood, randomBox());    
-
-            // MEAT.scale = .25f;
-            // FISH.scale = .25f;
-            // ACORN.scale = .4f;
-            //Debug.WriteLine(meat.Scale);
-
-            // ingredientList.Add(ACORN);
-            // ingredientList.Add(APPLE);
-            // ingredientList.Add(FISH);
-            // ingredientList.Add(MEAT);
-            // ingredientList.Add(WOOD);
-            // addIngredient(water);
+            addExampleInventory();
 
             shakeBag();
 
+            /* This is done in ingredient constructor
+            //set each ingredient's origin at center
             foreach (Ingredient ing in ingredientList)
-            {
-                //set origin at center
                 ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
-                //Debug.WriteLine($"{ing.img} is highest = {Highest(ing)}");
-            }
+            */
 
-
-            //create exit button 1183 23
-            Vector2 testVector = new Vector2(1183, 23);
+            //create exit button
             Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            xButton = new UIButton(xButtonTexture, testVector);// new Vector2(0, 0));// 1183, 23));
-            xButton.Depth = .01f;// Game1.instance.gameHUD._depth;
+            Vector2 buttonPos = new Vector2(1183, 23);
+            xButton = new UIButton(xButtonTexture, buttonPos);
+            xButton.Depth = .01f;
             xButton.Scale = 3f;
             xButton.Click += xButton_Click;
         }
@@ -114,11 +131,14 @@ namespace WillowWoodRefuge
         private void xButton_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Inventory Exit Clicked!");
-            Game1.instance.inventory.showInv = false;
+            //Game1.instance.inventory.showInv = false;
+            Game1.instance.UI.SwitchState(UIState.None);
+
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
         {
+            Debug.WriteLine("Inventory being updated");
             //bool boxClicked = false;
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
@@ -130,7 +150,7 @@ namespace WillowWoodRefuge
 
                 //Print mouse cursor position to debug console
 
-                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                // Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
@@ -216,7 +236,6 @@ namespace WillowWoodRefuge
             if (oldKeyState.IsKeyUp(Keys.V) && keyState.IsKeyDown(Keys.V))
             {
                 Debug.WriteLine("V pressed");
-                Random rnd = new Random();
                 int randIndex = rnd.Next(ItemTextures._allItems.Count);
                 addIngredient(null, ItemTextures._allItems[randIndex]);
             }
@@ -233,6 +252,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            Debug.WriteLine("Inventory being drawn");
             //spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
             spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
 
@@ -379,10 +399,17 @@ namespace WillowWoodRefuge
                     gridIndex = new Vector2(i, j);
 
                     boxes.Add(boxPos); //rearrange code so this line will not be necessary
+                    
                     boxDict.Add(gridIndex, boxPos); //add the box to the dictionary 
                     //Debug.WriteLine($"{gridIndex}  {boxPos}");
                 }
             }
+        }
+
+        //made this to debug an errror with this dict
+        public void printBoxDict()
+        {
+
         }
 
         //////////////////////////////////////////////////////////////////////////
@@ -427,7 +454,6 @@ namespace WillowWoodRefuge
         //returns grid index of a random box in the inventory
         public Vector2 randomBox()
         {
-            Random rnd = new Random();
             int randIndex = rnd.Next(boxes.Count);
             Vector2 coordinate = boxes[randIndex]; //x,y pos of the grid box
             return findGridIndex(coordinate);

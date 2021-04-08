@@ -49,38 +49,30 @@ namespace WillowWoodRefuge
 
             backpackButton.Click += InventoryButton_Click;
 
-            //create exit button 1183 23
-            Vector2 testVector = new Vector2(1728 / 2, 972 / 2);
-            Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            xButton = new UIButton(xButtonTexture, new Vector2(1183, 23));
-            xButton.Depth = .01f;// Game1.instance.gameHUD._depth;
-            xButton.Scale = 5f;
         }
         public void Update(MouseState mouseState)
         {
-            //temp.. replace this logic with the UImanager
-            if (!Game1.instance.inventory.showInv)
-            {
-                backpackButton.Update(mouseState);
-            }
+            //Debug.WriteLine("HUD update called");
+            backpackButton.Update(mouseState);
             //xButton.Update(mouseState);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            //temp.... replace this logic with the  UIManager
-            if (!Game1.instance.inventory.showInv)
-            {
-                backpackButton.Draw(spriteBatch);
-            }
-            //xButton.Draw(spriteBatch);
+            //Debug.WriteLine("HUD draw being called");   
+            backpackButton.Draw(spriteBatch);
         }
 
         //when inventory button is clicked, open the inventory
         private void InventoryButton_Click(object sender, EventArgs e)
         {
             Debug.WriteLine("Inventory Button Clicked!");
-            Game1.instance.inventory.showInv = true;
+            Game1.instance.UI.SwitchState(UIState.Inventory);
+            //Game1.instance.inventory.showInv = true;
         }
 
+        public void unload()
+        {
+
+        }
     }
 }
