@@ -19,7 +19,7 @@ namespace WillowWoodRefuge
         Dictionary<string, State> _states;
         public SoundManager sounds;
 
-        public List<Condition> _stateConditions = new List<Condition>();
+        public StateConditions stateConditions;
 
         // private SpriteBatch _spriteBatch;
 
@@ -101,7 +101,6 @@ namespace WillowWoodRefuge
             FontManager.Initialize(Content);
             TextureAtlasManager.Initialize(Content);
 
-            InitializeConditions();
             base.Initialize();
             input.Initialize();
         }
@@ -110,6 +109,7 @@ namespace WillowWoodRefuge
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             sounds = new SoundManager(Content);
+            stateConditions = new StateConditions();
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
@@ -183,14 +183,6 @@ namespace WillowWoodRefuge
             base.Draw(gameTime);
 
             
-        }
-
-        private void InitializeConditions()
-        {
-            _stateConditions.Add(new Condition("fedMushroomPrior", true));
-            _stateConditions.Add(new Condition("curedPrior", true));
-            _stateConditions.Add(new Condition("isMorning", true));
-            _stateConditions.Add(new Condition("isRaining", true));
         }
 
         public TileMap GetCurrentTilemap()

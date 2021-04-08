@@ -4,13 +4,16 @@ using System.Text;
 
 namespace WillowWoodRefuge
 {
-    class stateConditions
+    public class StateConditions
     {
-        public List<Condition> _stateConditions = new List<Condition>();
+        public List<Condition> conditionList = new List<Condition>();
 
-        public stateConditions()
+        public StateConditions()
         {
-
+            conditionList.Add(new Condition("fedMushroomPrior", true));
+            conditionList.Add(new Condition("curedPrior", true));
+            conditionList.Add(new Condition("isMorning", true));
+            conditionList.Add(new Condition("isRaining", true));
         }
     }
 }
