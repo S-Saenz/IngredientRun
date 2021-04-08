@@ -15,8 +15,9 @@ namespace WillowWoodRefuge
             _dialogueSystem = new NPCDialogueSystem(game);
 
             // Setup Background Layers
-            _backgroundLayers = new List<Texture2D>();
-            _backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
+            _backgroundLayers = new List<Background>();
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("bg/campsiteprototypemap"), 0.0f, game._cameraController._worldBounds));
+            //_backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
@@ -35,12 +36,14 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+            // _backgroundLayers[0];
             base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             game.GraphicsDevice.Clear(Color.Gray);
+            
             base.Draw(gameTime, spriteBatch);
         }
 

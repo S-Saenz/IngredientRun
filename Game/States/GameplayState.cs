@@ -47,7 +47,7 @@ namespace WillowWoodRefuge
 
         // Backgrounds
         public TileMap _tileMap { protected set; get; }
-        protected List<Texture2D> _backgroundLayers = null; // TODO: make (maybe ordered) list of layer class instances
+        protected List<Background> _backgroundLayers = null; // TODO: make (maybe ordered) list of layer class instances
 
         // Debug mode
         static protected bool _showMiniDebug = false;
@@ -179,9 +179,11 @@ namespace WillowWoodRefuge
                 Rectangle destination = (Rectangle)_tileMap._mapBounds;
                 destination.Height /= 2;
                 destination.Y += destination.Height;
-                foreach (Texture2D layer in _backgroundLayers)
+
+                foreach (Background layer in _backgroundLayers)
                 {
-                    _spriteBatch.Draw(layer, destination, Color.White);
+                    //_spriteBatch.Draw(layer, destination, Color.White);
+                    layer.Draw(spriteBatch, game._cameraController._cameraOffset);
                 }
                 _spriteBatch.End();
             }

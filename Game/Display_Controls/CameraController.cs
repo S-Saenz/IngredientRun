@@ -11,6 +11,7 @@ namespace WillowWoodRefuge
     public class CameraController
     {
         public Vector2 _screenRatio { get; private set; }
+        public Vector2 _cameraOffset { get; private set; }
         public RectangleF? _worldBounds { get; private set; }
         public RectangleF? _playerBounds { get; private set; }
         public OrthographicCamera _camera { get; private set; }
@@ -99,7 +100,20 @@ namespace WillowWoodRefuge
                     newPos.Y = _worldBounds.Value.Bottom - _pixelDimensions.Y / 2;
                 }
             };
+            // parallax when in camp state
+            
             _camera.LookAt(newPos);
+            if (_worldBounds.HasValue)
+            {
+                float worldRight = _worldBounds.Value.Right;
+                // _worldBounds.Value.Center.X;
+                // _camera.BoundingRectangle;
+                Vector2 offset;
+                offset.X = 1 - 2 * (worldRight - _camera.BoundingRectangle.Right) / (worldRight - _camera.BoundingRectangle.Width);
+                // if vertical parrax is needed at some point, this will need actual logic
+                offset.Y = 0;//1 - 2 * (worldRight - _camera.BoundingRectangle.Right) / (worldRight - _camera.BoundingRectangle.Width);
+                _cameraOffset = offset;
+            }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
