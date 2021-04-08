@@ -4,14 +4,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
     class CampState : GameplayState
     {
-        private KeyboardState state = Keyboard.GetState();
+        
 
-        protected WeatherManager _weatherManager;
+        protected WeatherManager _weatherManager = new WeatherManager();
         public CampState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
             : base(game, graphicsDevice, content, spriteBatch)
         {
@@ -39,7 +40,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
-
+            KeyboardState state = Keyboard.GetState();
             base.Update(gameTime);
             
             //simple weather manager toggle
