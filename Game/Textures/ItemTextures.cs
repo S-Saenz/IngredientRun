@@ -36,6 +36,7 @@ namespace WillowWoodRefuge
                     "mushroom",
                     "mushroom_medicine",
                     "rabbit_spice_soup",
+                    "rabbit_spice_soup(1)",
                     "snail",
                     "waterjug",
                     "wood"

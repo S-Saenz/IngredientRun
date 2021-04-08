@@ -147,8 +147,8 @@ namespace WillowWoodRefuge
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
 
-            // Update inventory TODO: make UI manager, update UI manager
-            game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
+            // Update UI manager
+            game.UI.Update(gameTime);
 
             // Update tilemap
             _tileMap.Update(gameTime);
@@ -235,10 +235,10 @@ namespace WillowWoodRefuge
             {
                 area.Draw(spriteBatch, "To Camp", game._cameraController, Color.Gray);
             }
-            // foreach (Area area in _tileMap.GetAreaObject("fire"))
-            // {
-            //     area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
-            // }
+            foreach (Area area in _tileMap.GetAreaObject("fire"))
+            {
+                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.Red);
+            }
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -291,8 +291,7 @@ namespace WillowWoodRefuge
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if (game.inventory.showInv)
-                game.inventory.Draw(_spriteBatch);
+                game.UI.Draw(spriteBatch);
             _spriteBatch.End();
 
             // Stream stream = File.Create("shadow.png");
@@ -524,6 +523,16 @@ namespace WillowWoodRefuge
             // Stream stream = File.Create("shadow.png");
             // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
             // stream.Dispose();
+        }
+
+        public void LockPlayerPos()
+        {
+            _player.LockPos();
+        }
+
+        public void UnlockPlayerPos()
+        {
+            _player.UnlockPos();
         }
     }
 }
