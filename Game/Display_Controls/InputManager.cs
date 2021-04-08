@@ -78,7 +78,7 @@ namespace WillowWoodRefuge
             {
                 Keys.R
             };
-
+            
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("down", new Button(downKeys));
