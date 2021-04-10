@@ -69,9 +69,11 @@ namespace WillowWoodRefuge
             _characters.Add("Aiyo", new NPC("aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, _tileMap._mapBounds, area: campArea));
+
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);
+                character.Injure("apple");
             }
 
             // dialogue system
