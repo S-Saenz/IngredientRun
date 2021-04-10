@@ -869,29 +869,29 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
-#begin shaders/LightShader.fx
+#begin shaders/CastShadows.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shaders/LightShader.fx
+/build:shaders/CastShadows.fx
 
-#begin shaders/shadow.fx
+#begin shaders/DitherGradient.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shaders/shadow.fx
+/build:shaders/DitherGradient.fx
 
-#begin shaders/testEffect.fx
+#begin shaders/DitherGradient.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shaders/testEffect.fx
+/build:shaders/DitherGradient.fx
 
-#begin shaders/testShader.fx
+#begin shaders/DitherOpacity.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
-/build:shaders/testShader.fx
+/build:shaders/DitherOpacity.fx
 
 #begin soundEffects/stepC.wav
 /importer:WavImporter

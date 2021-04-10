@@ -10,8 +10,8 @@ namespace WillowWoodRefuge
     class GameplayState : State
     {
         // Shaders
-        protected Effect _lightEffect;
-        protected Effect _ditherEffect;
+        protected Effect _shadowEffect;
+        protected Effect _ditherOpacityEffect;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
@@ -84,11 +84,11 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
 
             // Setup light shader
-            _lightEffect = content.Load<Effect>("shaders/LightShader");
-            _dynamicLightManager = new LightManager(_lightEffect);
-            _staticLightManager = new LightManager(_lightEffect);
+            _shadowEffect = content.Load<Effect>("shaders/CastShadows");
+            _dynamicLightManager = new LightManager(_shadowEffect);
+            _staticLightManager = new LightManager(_shadowEffect);
 
-            _ditherEffect = content.Load<Effect>("shaders/shadow");
+            _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
 
             // Add player light
             _playerLightIndex = _dynamicLightManager._numDLights;
@@ -119,9 +119,9 @@ namespace WillowWoodRefuge
 
             // Setup lighting
             _dynamicLightManager.CreateShaderArrays();
-            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
+            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
         }
 
         public override void Update(GameTime gameTime)
@@ -209,14 +209,14 @@ namespace WillowWoodRefuge
                 game.GraphicsDevice.Clear(Color.Transparent);
 
                 // Render dynamic lights
-                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
                 _spriteBatch.Draw(_bakedShadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
 
                 game.GraphicsDevice.SetRenderTarget(_ditherShadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
 
-                _spriteBatch.Begin(blendState: BlendState.Additive, sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherEffect);
+                _spriteBatch.Begin(blendState: BlendState.Additive, sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherOpacityEffect);
                 _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
                 _spriteBatch.End();
             }
@@ -505,9 +505,9 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(_spriteBatch, "Foreground");
             _spriteBatch.End();
 
-            _lightEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
+            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
             //dither effect loader
-            _ditherEffect.Parameters["ditherMap"].SetValue(_content.Load<Texture2D>("dither/dithersheet"));
+            _ditherOpacityEffect.Parameters["ditherMap"].SetValue(_content.Load<Texture2D>("dither/dithersheet"));
 
             _staticLightManager.CreateShaderArrays();
 
@@ -515,7 +515,7 @@ namespace WillowWoodRefuge
             game.GraphicsDevice.SetRenderTarget(_bakedShadowBuffer);
             game.GraphicsDevice.Clear(Color.Transparent);
 
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _lightEffect);
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
             _spriteBatch.Draw(_blankTexture, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
