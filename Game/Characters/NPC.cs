@@ -13,6 +13,8 @@ namespace WillowWoodRefuge
         private Vector2 _dialogueLoc;
         public string _cureItem { get; private set; } // name of item needed to cure
         public bool _isCured { get; private set; }
+        private float _cureDisplayTime = 3;
+        private float _currTime = 0;
 
         public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
@@ -31,12 +33,16 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
         {
+            if (_isCured && _currTime < _cureDisplayTime)
+                _currTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
+            if (_isCured && _currTime < _cureDisplayTime)
+                spriteBatch.DrawString(FontManager._dialogueFont, name + " cured!", _pos, Color.Black);
         }
 
         public void DrawDebug(SpriteBatch spriteBatch)
