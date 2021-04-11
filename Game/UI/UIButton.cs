@@ -70,12 +70,17 @@ namespace WillowWoodRefuge
             _currentMouse = Mouse.GetState();
             Point mousePos = mouseState.Position;
 
-            _isHovering = this.IsPointOver(mousePos);
-
-            if(_isHovering)
+            //mouse has just started hovering
+            if(!_isHovering && this.IsPointOver(mousePos))
             {
                 Debug.WriteLine($"Mouse over {this.img}!");
             }
+            else if(_isHovering && !this.IsPointOver(mousePos))
+            {
+                Debug.WriteLine($"Mouse left {this.img}!");
+            }
+            
+            _isHovering = this.IsPointOver(mousePos);
 
             if (_isHovering && mouseClicked())
             {

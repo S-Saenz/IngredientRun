@@ -24,6 +24,7 @@ namespace WillowWoodRefuge
         // private SpriteBatch _spriteBatch;
 
         //User Interface
+        public UIManager UI = new UIManager();
         public Inventory inventory = new Inventory();
         public Cook cookingGame = new Cook();
         public RecipeSelection recipeMenu; //assign recipe menu in Game1 constructor
@@ -123,7 +124,6 @@ namespace WillowWoodRefuge
 
             // load inventory
             inventory.Load(Content);
-
             gameHUD.Load(Content);
         }
 
@@ -172,6 +172,8 @@ namespace WillowWoodRefuge
             }
 
                 base.Update(gameTime);
+
+            this.UI.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -181,8 +183,6 @@ namespace WillowWoodRefuge
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
-
-            
         }
 
         public TileMap GetCurrentTilemap()

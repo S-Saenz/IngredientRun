@@ -33,7 +33,7 @@ namespace WillowWoodRefuge
         public void playSong(string name)
         {
             if (songs.ContainsKey(name))
-                MediaPlayer.Play(songs[name]);
+                MediaPlayer.Play(songs[name]); //Derek doesn't want the music!
             else
                 Debug.WriteLine("Incorrect Song name " + name + ", refrence lines after the comment labeled \"Song names\" in the sound manager class for correct name");
         }
