@@ -9,15 +9,17 @@ namespace WillowWoodRefuge
     class Fog : WeatherElement
     {
         public float _falloff { get; protected set; }
-        private Vector2 _scale = new Vector2(400, 800);
+        public int _steps { get; protected set; }
+        private Vector2 _scale = new Vector2(400, 1200);
 
-        public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, ContentManager content) :
+        public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, int steps, ContentManager content) :
             base(direction, bounds, density, color)
         {
             _effect = content.Load<Effect>("shaders/Fog");
             _falloff = falloff;
+            _steps = steps;
 
-            ChangeParam(direction, bounds, density, color, falloff);
+            ChangeParam(direction, bounds, density, color, falloff, steps);
             GenerateNoiseTexture();
         }
 
@@ -52,12 +54,17 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void ChangeParam(Vector2? direction = null, Vector2? bounds = null, float density = -1, Color? color = null, float? falloff = null)
+        public void ChangeParam(Vector2? direction = null, Vector2? bounds = null, float density = -1, Color? color = null, float? falloff = null, int? steps = null)
         {
             if(falloff.HasValue)
             {
                 _falloff = falloff.Value;
                 _effect.Parameters["Falloff"].SetValue(_falloff);
+            }
+            if (steps.HasValue)
+            {
+                _steps = steps.Value;
+                _effect.Parameters["Steps"].SetValue(_steps);
             }
             base.ChangeParam(direction, bounds, density, color);
         }
