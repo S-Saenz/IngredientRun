@@ -13,7 +13,7 @@ namespace WillowWoodRefuge
         private Vector2 Offset;         //Offset to start drawing our image
         public float Speed;           //Speed of movement of our parallax effect
         public RectangleF? WorldBounds;              //Zoom level of our image
-
+        private float scale;
         //private Viewport Viewport;      //Our game viewport
 
         //Calculate Rectangle dimensions, based on offset/viewport/zoom values
@@ -28,8 +28,9 @@ namespace WillowWoodRefuge
             Offset = Vector2.Zero;
             Speed = speed;
             WorldBounds = worldBounds;
+            scale = WorldBounds.Value.Height / texture.Height;
         }
-
+        
         public void Update(GameTime gametime, Vector2 direction, Viewport viewport)
         {
             float elapsed = (float)gametime.ElapsedGameTime.TotalSeconds;
@@ -47,7 +48,8 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             //spriteBatch.Draw(Texture, Rectangle, Color.White, 0, Vector2.Zero, Zoom, SpriteEffects.None, 1);
-            spriteBatch.Draw(Texture, offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), Color.White);
+            //spriteBatch.Draw(Texture, offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), Color.White);
+            spriteBatch.Draw(Texture, Speed * offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
     }
 }

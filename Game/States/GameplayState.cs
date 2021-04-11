@@ -443,6 +443,7 @@ namespace WillowWoodRefuge
 
         protected void PostConstruction()
         {
+
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
