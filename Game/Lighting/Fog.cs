@@ -9,7 +9,7 @@ namespace WillowWoodRefuge
     class Fog : WeatherElement
     {
         public float _falloff { get; protected set; }
-        private Vector2 _scale = new Vector2(.5f, 4);
+        private Vector2 _scale = new Vector2(.5f, 2);
 
         public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, ContentManager content) :
             base(direction, bounds, density, color)
@@ -38,6 +38,7 @@ namespace WillowWoodRefuge
                     for (int y = 0; y < _bounds.Y; ++y)
                     {
                         int val = (int)(noiseGen.GetNoise(x * _scale.X, y * _scale.Y) * 255);
+                        val = (int)(val * Math.Pow(y / _bounds.Y, _falloff));
                         data[(int)(y * _bounds.X + x)] = new Color(val, val, val, 225);
                     }
                 }
