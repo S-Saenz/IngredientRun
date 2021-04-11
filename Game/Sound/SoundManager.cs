@@ -24,7 +24,7 @@ namespace WillowWoodRefuge
             songs.Add("forestSong", Content.Load<Song>("music/forestSong"));
             songs.Add("caveSong", Content.Load<Song>("music/spooky1test2"));
             // song names end
-
+            MediaPlayer.Volume = 0.65f;
             // sound effects
             // 0
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/stepC"));
