@@ -881,17 +881,17 @@
 /processorParam:DebugMode=Auto
 /build:shaders/DitherGradient.fx
 
-#begin shaders/DitherGradient.fx
-/importer:EffectImporter
-/processor:EffectProcessor
-/processorParam:DebugMode=Auto
-/build:shaders/DitherGradient.fx
-
 #begin shaders/DitherOpacity.fx
 /importer:EffectImporter
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/DitherOpacity.fx
+
+#begin shaders/Rain.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/Rain.fx
 
 #begin soundEffects/stepC.wav
 /importer:WavImporter
