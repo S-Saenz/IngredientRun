@@ -29,8 +29,12 @@ namespace WillowWoodRefuge
             _movement -= _direction * (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (_movement.X < 0)
                 _movement.X += _bounds.X;
+            else if (_movement.X > _bounds.X)
+                _movement.X -= _bounds.X;
             if (_movement.Y < 0)
                 _movement.Y += _bounds.Y;
+            else if (_movement.Y > _bounds.Y)
+                _movement.Y -= _bounds.Y;
             _effect.Parameters["Movement"].SetValue(_movement);
         }
 

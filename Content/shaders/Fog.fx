@@ -10,8 +10,9 @@
 Texture2D SpriteTexture;
 
 float2 TextureDimensions;
-float2 Movement;          // the vector movement in this frame
-float  Density;        // min value for drop to be drawn
+float2 Movement; // the vector movement in this frame
+float  Density;  // min value for drop to be drawn
+float  Falloff;  // height/settling curve of fog
 
 sampler2D SpriteTextureSampler = sampler_state
 {
@@ -45,7 +46,8 @@ float4 MainPS(VertexShaderOutput input) : COLOR
 	float4 pix = GetPixel(SpriteTextureSampler, loc);
 
 	float4 color = input.Color;
-	color.a = pix.r * Density;
+	float intensity = pow(loc.y / (TextureDimensions.y - 16), Falloff);
+	color.a = (pix.r + Density * intensity) * intensity;
 
 	return color;
 }

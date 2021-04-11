@@ -9,7 +9,7 @@ namespace WillowWoodRefuge
     class Fog : WeatherElement
     {
         public float _falloff { get; protected set; }
-        private Vector2 _scale = new Vector2(.5f, 2);
+        private Vector2 _scale = new Vector2(400, 800);
 
         public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, ContentManager content) :
             base(direction, bounds, density, color)
@@ -17,7 +17,7 @@ namespace WillowWoodRefuge
             _effect = content.Load<Effect>("shaders/Fog");
             _falloff = falloff;
 
-            ChangeParam(direction, bounds, density, color);
+            ChangeParam(direction, bounds, density, color, falloff);
             GenerateNoiseTexture();
         }
 
@@ -37,13 +37,29 @@ namespace WillowWoodRefuge
                 {
                     for (int y = 0; y < _bounds.Y; ++y)
                     {
-                        int val = (int)(noiseGen.GetNoise(x * _scale.X, y * _scale.Y) * 255);
-                        val = (int)(val * Math.Pow(y / _bounds.Y, _falloff));
+                        float s = x / _bounds.X;
+                        float t = y / _bounds.Y;
+                        float dx = _scale.X;
+                        float dy = _scale.Y;
+                        float nx = -_scale.X + (float)(Math.Cos(s * 2 * Math.PI) * dx / (2 * Math.PI));
+                        float ny = -_scale.Y + (float)(Math.Cos(t * 2 * Math.PI) * dy / (2 * Math.PI));
+                        float nz = -_scale.X + (float)(Math.Sin(s * 2 * Math.PI) * dx / (2 * Math.PI));
+                        int val = (int)(noiseGen.GetNoise(nx, ny, nz) * 255);
                         data[(int)(y * _bounds.X + x)] = new Color(val, val, val, 225);
                     }
                 }
                 _sourceNoise.SetData(data);
             }
+        }
+
+        public void ChangeParam(Vector2? direction = null, Vector2? bounds = null, float density = -1, Color? color = null, float? falloff = null)
+        {
+            if(falloff.HasValue)
+            {
+                _falloff = falloff.Value;
+                _effect.Parameters["Falloff"].SetValue(_falloff);
+            }
+            base.ChangeParam(direction, bounds, density, color);
         }
     }
 }

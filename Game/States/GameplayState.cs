@@ -104,7 +104,7 @@ namespace WillowWoodRefuge
 
             // Setup weather effects
             _rain = new Rain(new Vector2(0, 150), Vector2.Zero, .001f, Color.Blue, _content);
-            _fog = new Fog(new Vector2(-2, 0), Vector2.Zero, .9f, Color.White, 4f, _content);
+            _fog = new Fog(new Vector2(-50, 0), Vector2.Zero, .7f, Color.White, 3f, _content);
         }
 
         public override void LoadContent()
