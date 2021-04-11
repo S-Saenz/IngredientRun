@@ -14,6 +14,7 @@ namespace WillowWoodRefuge
         protected Effect _ditherOpacityEffect;
 
         protected Rain _rain;
+        protected Fog _fog;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
@@ -35,6 +36,7 @@ namespace WillowWoodRefuge
 
         // Weather info
         protected bool _isRaining = true;
+        protected bool _isFoggy = true;
 
         // Player instance
         protected Player _player;
@@ -102,6 +104,7 @@ namespace WillowWoodRefuge
 
             // Setup weather effects
             _rain = new Rain(new Vector2(0, 150), Vector2.Zero, .001f, Color.Blue, _content);
+            _fog = new Fog(new Vector2(-2, 0), Vector2.Zero, .8f, Color.White, .5f, _content);
         }
 
         public override void LoadContent()
@@ -133,6 +136,7 @@ namespace WillowWoodRefuge
             _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
 
             _rain.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _fog.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
         }
 
         public override void Update(GameTime gameTime)
@@ -173,6 +177,8 @@ namespace WillowWoodRefuge
 
             if(_isRaining)
                 _rain.Update(gameTime);
+            if (_isFoggy)
+                _fog.Update(gameTime);
         }
 
         public override void PostUpdate(GameTime gameTime) { }
@@ -222,6 +228,11 @@ namespace WillowWoodRefuge
             if (_isRaining && !(_showMiniDebug || _showFullDebug))
             {
                 _rain.Draw(spriteBatch);
+            }
+
+            if (_isFoggy && !(_showMiniDebug || _showFullDebug))
+            {
+                _fog.Draw(spriteBatch);
             }
 
             // render shadow target

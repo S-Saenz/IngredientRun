@@ -887,6 +887,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/DitherOpacity.fx
 
+#begin shaders/Fog.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/Fog.fx
+
 #begin shaders/Rain.fx
 /importer:EffectImporter
 /processor:EffectProcessor
