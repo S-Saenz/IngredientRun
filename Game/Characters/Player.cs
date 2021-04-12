@@ -133,6 +133,19 @@ namespace WillowWoodRefuge
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
                 {
+                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                    NPC character = item._other as NPC;
+                    if (character != null)
+                    {
+                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
+                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
+                        {
+                            actionComplete = character.Cure(inv[i]._name);
+                            if (actionComplete)
+                                Game1.instance.inventory.removeIngredient(inv[i]);
+                        }
+                    }
+
                     // check if pickup item
                     PickupItem obj = item._other as PickupItem;
                     if(obj != null)
@@ -143,6 +156,7 @@ namespace WillowWoodRefuge
                         {
                             (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
+                            actionComplete = true;
                         }
                     }
 
@@ -155,20 +169,24 @@ namespace WillowWoodRefuge
                             //Debug.WriteLine("Fire");
                             // Open cooking ui
                             Game1.instance.UI.SwitchState(UIState.RecipeMenu);
-
                         }
                         else if(area._name.Contains("state"))
                         {
                             if(area._name.Contains("Cave"))
                             {
                                 Game1.instance.RequestStateChange("CaveState");
+                                actionComplete = true;
                             }
                             else if(area._name.Contains("Camp"))
                             {
                                 Game1.instance.RequestStateChange("CampState");
+                                actionComplete = true;
                             }
                         }
                     }
+
+                    if (actionComplete)
+                        break;
                 }
             }
 
