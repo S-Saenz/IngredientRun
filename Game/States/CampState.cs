@@ -73,7 +73,7 @@ namespace WillowWoodRefuge
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);
-                character.Injure("apple");
+                character.Injure("mushroom_medicine");
             }
 
             // dialogue system
