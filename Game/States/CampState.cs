@@ -19,6 +19,8 @@ namespace WillowWoodRefuge
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
+            //_tileMap = new TileMap("tilemaps/camp/TempCampMapBig", _content, game.GraphicsDevice, _physicsHandler);
+
             _isDark = false;
 
             // Setup Background Layers

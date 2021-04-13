@@ -171,23 +171,7 @@ namespace WillowWoodRefuge
             
             // Render background target
             game.GraphicsDevice.SetRenderTarget(_backgroundBuffer);
-            game.GraphicsDevice.Clear(Color.Gray);
-            
-            // If background layers, draw in order TODO: parallax
-            if (_backgroundLayers != null)
-            {
-                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                Rectangle destination = (Rectangle)_tileMap._mapBounds;
-                destination.Height /= 2;
-                destination.Y += destination.Height;
-
-                foreach (Background layer in _backgroundLayers)
-                {
-                    //_spriteBatch.Draw(layer, destination, Color.White);
-                    layer.Draw(spriteBatch, game._cameraController._cameraOffset);
-                }
-                _spriteBatch.End();
-            }
+            game.GraphicsDevice.Clear(Color.Transparent);
 
             // Draw tilemap background/walls
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -227,8 +211,24 @@ namespace WillowWoodRefuge
             game.GraphicsDevice.SetRenderTarget(null);
 
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+
+            // If background layers, draw in order TODO: parallax
+            if (_backgroundLayers != null)
+            {
+                Rectangle destination = (Rectangle)_tileMap._mapBounds;
+                destination.Height /= 2;
+                destination.Y += destination.Height;
+
+                foreach (Background layer in _backgroundLayers)
+                {
+                    //_spriteBatch.Draw(layer, destination, Color.White);
+                    layer.Draw(spriteBatch, game._cameraController._cameraOffset);
+                }
+            }
+
             _spriteBatch.Draw(_backgroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
+
             // (temp) Draw scene change areas
             foreach (Area area in _tileMap.GetAreaObject("state.Cave"))
             {
