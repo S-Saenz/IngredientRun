@@ -194,7 +194,8 @@ namespace WillowWoodRefuge
 
             //text for cooking feedback
             _gradeOpacity *= cookingOpacity;
-            spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
+            if(_grade != null)
+                spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
 
 
             //squares don't work :/
