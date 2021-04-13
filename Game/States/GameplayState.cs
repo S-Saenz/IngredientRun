@@ -14,7 +14,7 @@ namespace WillowWoodRefuge
         protected Effect _ditherEffect;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
-        protected Color _shadowColor = new Color(26, 17, 7, 255);
+        protected Color _shadowColor = new Color(0, 0, 134, 255);
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
