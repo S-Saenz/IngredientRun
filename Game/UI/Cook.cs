@@ -199,6 +199,10 @@ namespace WillowWoodRefuge
 
             //squares don't work :/
             //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
+
+            // temp tutorial text
+            spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
+                                   new Vector2(0, 0), Color.White);
         }
 
         void debug(String message)
