@@ -13,7 +13,7 @@ namespace WillowWoodRefuge
         private Vector2 _scale = new Vector2(400, 1200);
 
         public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, int steps, ContentManager content) :
-            base(direction, bounds, density, color)
+            base(direction, bounds, density, color, content)
         {
             _effect = content.Load<Effect>("shaders/Fog");
             _falloff = falloff;

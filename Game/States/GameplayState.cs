@@ -26,7 +26,6 @@ namespace WillowWoodRefuge
         public RenderTarget2D _bakedShadowBuffer;
         public RenderTarget2D _shadowBuffer;
         public RenderTarget2D _ditherShadowBuffer;
-        public RenderTarget2D _weatherBuffer;
 
         // Saved shader textures
         protected Texture2D _blankTexture;
@@ -103,8 +102,8 @@ namespace WillowWoodRefuge
             _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
 
             // Setup weather effects
-            _rain = new Rain(new Vector2(0, 150), Vector2.Zero, .001f, Color.Blue, _content);
-            _fog = new Fog(new Vector2(-10, 0), Vector2.Zero, .7f, Color.White, 3f, 10, _content);
+            _rain = new Rain(new Vector2(30, 200), Vector2.Zero, .00001f, Color.Blue, _content);
+            _fog = new Fog(new Vector2(-10, 0), Vector2.Zero, .5f, Color.White, 6f, 10, _content);
         }
 
         public override void LoadContent()
@@ -136,7 +135,9 @@ namespace WillowWoodRefuge
             _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
 
             _rain.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _rain.Generate(_spriteBatch);
             _fog.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _fog.Generate(_spriteBatch);
         }
 
         public override void Update(GameTime gameTime)
@@ -222,19 +223,6 @@ namespace WillowWoodRefuge
             _tileMap.DrawLayer(spriteBatch, "Foreground");
             spriteBatch.End();
 
-            // render weather target
-            game.GraphicsDevice.SetRenderTarget(_weatherBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
-            if (_isRaining && !(_showMiniDebug || _showFullDebug))
-            {
-                _rain.Draw(spriteBatch);
-            }
-
-            if (_isFoggy && !(_showMiniDebug || _showFullDebug))
-            {
-                _fog.Draw(spriteBatch);
-            }
-
             // render shadow target
             if (_isDark && !(_showMiniDebug || _showFullDebug))
             {
@@ -307,9 +295,12 @@ namespace WillowWoodRefuge
 
             if (_isRaining && !(_showMiniDebug || _showFullDebug))
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _spriteBatch.Draw(_weatherBuffer, Vector2.Zero, Color.White);
-                _spriteBatch.End();
+                _rain.Draw(spriteBatch, game._cameraController.GetViewMatrix());
+            }
+
+            if (_isFoggy && !(_showMiniDebug || _showFullDebug))
+            {
+                _fog.Draw(spriteBatch, game._cameraController.GetViewMatrix());
             }
 
             if (_isDark && !(_showMiniDebug || _showFullDebug))
@@ -518,13 +509,6 @@ namespace WillowWoodRefuge
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
             _ditherShadowBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
-            _weatherBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
                 (int)_tileMap._mapBounds.Width,
                 (int)_tileMap._mapBounds.Height,

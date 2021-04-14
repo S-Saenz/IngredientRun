@@ -35,15 +35,7 @@ float4 GetPixel(const sampler2D sampl, float2 pos)
 
 float4 MainPS(VertexShaderOutput input) : COLOR
 {
-	float2 loc = input.TextureCoordinates * TextureDimensions + Movement;
-	if (loc.x >= TextureDimensions.x)
-	{
-		loc.x -= TextureDimensions.x;
-	}
-	if (loc.y >= TextureDimensions.y)
-	{
-		loc.y -= TextureDimensions.y;
-	}
+	float2 loc = input.TextureCoordinates * TextureDimensions;
 	float4 pix = GetPixel(SpriteTextureSampler, loc);
 
 	float4 color = input.Color;
