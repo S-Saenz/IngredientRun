@@ -5,6 +5,7 @@ using System.Diagnostics;
 using MonoGame.Extended.ViewportAdapters;
 using MonoGame.Extended;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Media;
 
 //hi
 //123
@@ -19,7 +20,7 @@ namespace WillowWoodRefuge
         Dictionary<string, State> _states;
         public SoundManager sounds;
 
-        public List<Condition> _stateConditions = new List<Condition>();
+        public StateConditions stateConditions;
 
         // private SpriteBatch _spriteBatch;
 
@@ -89,8 +90,8 @@ namespace WillowWoodRefuge
         protected override void Initialize()
         {
             // setup camera controller
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-            // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1440, 810));
+            // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1440, 810));
             _cameraController.SetPlayerBounds(new RectangleF(0, 0, 175f, 98.4375f));
 
             // Temp debug add print out of new size when resizing
@@ -102,7 +103,6 @@ namespace WillowWoodRefuge
             FontManager.Initialize(Content);
             TextureAtlasManager.Initialize(Content);
 
-            InitializeConditions();
             base.Initialize();
             input.Initialize();
         }
@@ -111,6 +111,7 @@ namespace WillowWoodRefuge
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             sounds = new SoundManager(Content);
+            stateConditions = new StateConditions();
             //whenever a new state is added, it will need to be added to this list
             _states.Add("CaveState", new CaveState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
@@ -133,7 +134,7 @@ namespace WillowWoodRefuge
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-
+            
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 ChangeState("MenuState");
 
@@ -183,14 +184,6 @@ namespace WillowWoodRefuge
             _currentState.Draw(gameTime, _spriteBatch);
 
             base.Draw(gameTime);
-        }
-
-        private void InitializeConditions()
-        {
-            _stateConditions.Add(new Condition("fedMushroomPrior", true));
-            _stateConditions.Add(new Condition("curedPrior", true));
-            _stateConditions.Add(new Condition("isMorning", true));
-            _stateConditions.Add(new Condition("isRaining", true));
         }
 
         public TileMap GetCurrentTilemap()
