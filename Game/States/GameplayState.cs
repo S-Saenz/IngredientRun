@@ -9,26 +9,15 @@ namespace WillowWoodRefuge
 {
     class GameplayState : State
     {
-        // Shaders
-        protected Effect _shadowEffect;
-        protected Effect _ditherOpacityEffect;
-
+        // Shader manager classes
         protected Rain _rain;
         protected Fog _fog;
-        protected LightManager _staticLightManager;
-        protected LightManager _dynamicLightManager;
+        protected LightManager _lightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
 
         // Render targets
-        public RenderTarget2D _backgroundBuffer;
-        public RenderTarget2D _foregroundBuffer;
-        public RenderTarget2D _casterBuffer;
-        public RenderTarget2D _bakedShadowBuffer;
-        public RenderTarget2D _shadowBuffer;
-        public RenderTarget2D _ditherShadowBuffer;
-
-        // Saved shader textures
-        protected Texture2D _blankTexture;
+        protected RenderTarget2D _backgroundBuffer;
+        protected RenderTarget2D _foregroundBuffer;
 
         // Light info
         protected bool _isDark = false;
@@ -91,20 +80,12 @@ namespace WillowWoodRefuge
 
             _characters = new Dictionary<string, NPC>();
 
-            // Setup light shader
-            _shadowEffect = content.Load<Effect>("shaders/CastShadows");
-            _dynamicLightManager = new LightManager(_shadowEffect);
-            _staticLightManager = new LightManager(_shadowEffect);
-
-            _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
-
-            // Add player light
-            _playerLightIndex = _dynamicLightManager._numDLights;
-            _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
-
             // Setup weather effects
             _rain = new Rain(new Vector2(30, 200), Vector2.Zero, .00001f, Color.Blue, _content);
             _fog = new Fog(new Vector2(-10, 0), Vector2.Zero, .5f, Color.White, 6f, 10, _content);
+
+            // Setup light manager
+            _lightManager = new LightManager(_content);
         }
 
         public override void LoadContent()
@@ -129,16 +110,11 @@ namespace WillowWoodRefuge
             // Setup camera
             game._cameraController.SetWorldBounds(_tileMap._mapBounds);
 
-            // Setup lighting
-            _dynamicLightManager.CreateShaderArrays();
-            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
-
             _rain.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _rain.Generate(_spriteBatch);
             _fog.ChangeParam(bounds: new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _fog.Generate(_spriteBatch);
+            _lightManager.Load(_content);
         }
 
         public override void Update(GameTime gameTime)
@@ -174,13 +150,15 @@ namespace WillowWoodRefuge
             Vector2 dir = _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
             if(_playerLightIndex != -1)
             {
-                _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
+                _lightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
             }
 
             if(_isRaining)
                 _rain.Update(gameTime);
             if (_isFoggy)
                 _fog.Update(gameTime);
+            if (_isDark)
+                _lightManager.Update(_spriteBatch);
         }
 
         public override void PostUpdate(GameTime gameTime) { }
@@ -209,25 +187,6 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             _tileMap.DrawLayer(spriteBatch, "Foreground");
             spriteBatch.End();
-
-            // render shadow target
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
-            {
-                game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
-                game.GraphicsDevice.Clear(Color.Transparent);
-
-                // Render dynamic lights
-                _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
-                _spriteBatch.Draw(_bakedShadowBuffer, Vector2.Zero, Color.White);
-                _spriteBatch.End();
-
-                game.GraphicsDevice.SetRenderTarget(_ditherShadowBuffer);
-                game.GraphicsDevice.Clear(Color.Transparent);
-
-                _spriteBatch.Begin(blendState: BlendState.Additive, sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _ditherOpacityEffect);
-                _spriteBatch.Draw(_shadowBuffer, Vector2.Zero, Color.White);
-                _spriteBatch.End();
-            }
 
             game.GraphicsDevice.SetRenderTarget(null);
 
@@ -291,11 +250,12 @@ namespace WillowWoodRefuge
             }
             _spriteBatch.End();
 
-            // Draw foreground and shadows to screen
+            // Draw foreground to screen
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp); // add dither effect here
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
+            // Draw weather
             if (_isRaining && !(_showMiniDebug || _showFullDebug))
             {
                 _rain.Draw(spriteBatch, game._cameraController.GetViewMatrix());
@@ -306,11 +266,10 @@ namespace WillowWoodRefuge
                 _fog.Draw(spriteBatch, game._cameraController.GetViewMatrix());
             }
 
+            // Draw shadow
             if (_isDark && !(_showMiniDebug || _showFullDebug))
             {
-                _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
-                _spriteBatch.End();
+               _lightManager.Draw(spriteBatch, game._cameraController.GetViewMatrix());
             }
 
             // If dialogue, draw dialogue
@@ -491,73 +450,10 @@ namespace WillowWoodRefuge
                 false,
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
-            _casterBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
-            _shadowBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
-            _bakedShadowBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
-            _ditherShadowBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
 
-            // populate shadow as black
-            _blankTexture = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
-            Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
-            for (int i = 0; i < data.Length; ++i)
-            {
-                data[i] = _shadowColor;
-                // data[i] = new Color((float)(i % _blankTexture.Width) / _blankTexture.Width, 0, (float)(i / _blankTexture.Width) / _blankTexture.Height);
-            }
-            _blankTexture.SetData(data);
-
-            // setup caster texture
-            game.GraphicsDevice.SetRenderTarget(_casterBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _tileMap.DrawLayer(_spriteBatch, "Walls");
-            _tileMap.DrawLayer(_spriteBatch, "Foreground");
-            _spriteBatch.End();
-
-            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
-            //dither effect loader
-            _ditherOpacityEffect.Parameters["ditherMap"].SetValue(_content.Load<Texture2D>("dither/dithersheet"));
-
-            _staticLightManager.CreateShaderArrays();
-
-            // bake static lights
-            game.GraphicsDevice.SetRenderTarget(_bakedShadowBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
-            _spriteBatch.Draw(_blankTexture, Vector2.Zero, Color.White);
-            _spriteBatch.End();
-
-            game.GraphicsDevice.SetRenderTarget(null);
-
-            // Stream stream = File.Create("shadow.png");
-            // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
-            // stream.Dispose();
+            // Add player light
+            _playerLightIndex = 0;
+            _lightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f, false);
         }
 
         public void LockPlayerPos()

@@ -32,13 +32,15 @@ namespace WillowWoodRefuge
             _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-1"), 0.02f, _tileMap._mapBounds));
 
             // Setup lights
-            _staticLightManager.AddLight(new Vector2(64, 256), 50);
-            _staticLightManager.AddLight(new Vector2(160, 256), 50);
-            _staticLightManager.AddLight(new Vector2(368, 256), 50);
-            _staticLightManager.AddLight(new Vector2(488, 256), 50);
+            _lightManager.Initialize(_tileMap, _content.Load<Texture2D>("dither/dithersheet"), _shadowColor);
 
-            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _lightManager.AddLight(new Vector2(64, 256), 50);
+            _lightManager.AddLight(new Vector2(160, 256), 50);
+            _lightManager.AddLight(new Vector2(368, 256), 50);
+            _lightManager.AddLight(new Vector2(488, 256), 50);
+
+            _lightManager.RenderStatic(content);
+
             PostConstruction();
         }
 

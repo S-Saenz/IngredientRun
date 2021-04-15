@@ -15,13 +15,15 @@ namespace WillowWoodRefuge
             _isDark = true;
 
             // Setup lights
-            _staticLightManager.AddLight(new Vector2(224, 608), 100);
-            _staticLightManager.AddLight(new Vector2(656, 240), 100);
-            _staticLightManager.AddLight(new Vector2(240, 208), 100);
-            _staticLightManager.AddLight(new Vector2(0, 35), 300);
+            _lightManager.Initialize(_tileMap, _content.Load<Texture2D>("dither/dithersheet"), _shadowColor);
 
-            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _lightManager.AddLight(new Vector2(224, 608), 100);
+            _lightManager.AddLight(new Vector2(656, 240), 100);
+            _lightManager.AddLight(new Vector2(240, 208), 100);
+            _lightManager.AddLight(new Vector2(0, 35), 300);
+
+            _lightManager.RenderStatic(content);
+
             PostConstruction();
         }
 
