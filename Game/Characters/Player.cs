@@ -11,8 +11,8 @@ namespace WillowWoodRefuge
 {
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation;
+        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -124,6 +124,8 @@ namespace WillowWoodRefuge
                     _collisionBox._posLock = false;
                     _collisionBox._hasGravity = true;
                     _anchorPoint = null;
+                    //put ledge climb animation here.
+                    _currentMoveType = "climb";
                 }
             }
 
@@ -203,6 +205,10 @@ namespace WillowWoodRefuge
             walkLeftAnimation = new Animation(walkLeftTex, 1, 12, 50);
             jumpRightTex = Content.Load<Texture2D>("animations/main_character_jump_right");
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
+            climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
+            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50);
+            hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
+            hangRightAnimation = new Animation(hangRightTex, 1, 1, 50);
 
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
@@ -230,6 +236,8 @@ namespace WillowWoodRefuge
             animationDict.Add("jumpRight", jumpRightAnimation);
             animationDict.Add("jump", jumpRightAnimation);
             animationDict.Add("jumpLeft", jumpRightAnimation);
+            animationDict.Add("climbRight", climbRightAnimation);
+            animationDict.Add("hangRight", hangRightAnimation);
 
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
@@ -279,7 +287,12 @@ namespace WillowWoodRefuge
 
         private void UpdateAnimationInfo()
         {
-            if (_collisionBox._velocity.X == 0) // stopped
+            if (_anchorPoint != null)
+            {
+                _currentMoveType = "hang";
+                Debug.WriteLine("hang");
+            }
+            else if (_collisionBox._velocity.X == 0 && _anchorPoint == null) // stopped
             {
                 _currentMoveType = "idle";
             }
@@ -291,7 +304,7 @@ namespace WillowWoodRefuge
             {
                 _currentMoveType = "walk";
             }
-            else if (!_collisionBox._downBlocked) // if walking
+            else if (!_collisionBox._downBlocked && _anchorPoint == null) // if airborne
             {
                 _currentMoveType = "jump";
             }
@@ -313,6 +326,14 @@ namespace WillowWoodRefuge
             else if (move.X == 0) // horizontal movement stopped
             {
                 _currentDirection = "";
+            }
+            else if (_grabLeft == true)
+            {
+                _currentDirection = "Left";
+            }
+            else if (_grabLeft != true)
+            {
+                _currentDirection = "Right";
             }
 
             if (move.X != 0) // moving horizontally
@@ -361,6 +382,7 @@ namespace WillowWoodRefuge
                 _collisionBox._posLock = true;
                 _collisionBox._hasGravity = false;
                 Debug.WriteLine("Grabbed left");
+                //put ledge hang left animation here
             }
             else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
                      _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
@@ -373,6 +395,8 @@ namespace WillowWoodRefuge
                 _collisionBox._posLock = true;
                 _collisionBox._hasGravity = false;
                 Debug.WriteLine("Grabbed right");
+                //put ledge hang right animation here
+                _currentMoveType = "hang";
             }
             else if(_collisionBox._downBlocked && Game1.instance.input.JustPressed("down") && 
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
