@@ -257,6 +257,11 @@ namespace WillowWoodRefuge
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             _collisionBox.Draw(spriteBatch);
+            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right"))
+            {
+                Game1.instance.sounds.runSound(Game1.instance.);
+                Debug.WriteLine("playing sound");
+            }
             // if(_collisionBox._rightBlocked)
             // {
             //     if(_collisionBox._rightBox.Top != _collisionBox._bounds.Top)
