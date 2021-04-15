@@ -43,7 +43,7 @@ namespace WillowWoodRefuge
             // Populate condition bins
             _conditionBins.Add("noRequirements", new List<int>());
 
-            foreach(Condition cond in game._stateConditions)
+            foreach(Condition cond in game.stateConditions.conditionList)
             {
                 _conditionBins.Add(cond._name, new List<int>());
                 _conditionBins.Add('!' + cond._name, new List<int>());
@@ -85,7 +85,7 @@ namespace WillowWoodRefuge
         {
             // repopulate _valid container
             _valid.Clear();
-            foreach(Condition cond in game._stateConditions)
+            foreach(Condition cond in game.stateConditions.conditionList)
             {
                 if(cond._flag == true)
                 {

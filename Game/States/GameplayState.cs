@@ -49,7 +49,7 @@ namespace WillowWoodRefuge
 
         // Backgrounds
         public TileMap _tileMap { protected set; get; }
-        protected List<Texture2D> _backgroundLayers = null; // TODO: make (maybe ordered) list of layer class instances
+        protected List<Background> _backgroundLayers = null; // TODO: make (maybe ordered) list of layer class instances
 
         // Debug mode
         static protected bool _showMiniDebug = false;
@@ -149,8 +149,8 @@ namespace WillowWoodRefuge
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
 
-            // Update inventory TODO: make UI manager, update UI manager
-            game.inventory.Update(Mouse.GetState(), Keyboard.GetState());
+            // Update UI manager
+            game.UI.Update(gameTime);
 
             // Update tilemap
             _tileMap.Update(gameTime);
@@ -181,9 +181,11 @@ namespace WillowWoodRefuge
                 Rectangle destination = (Rectangle)_tileMap._mapBounds;
                 destination.Height /= 2;
                 destination.Y += destination.Height;
-                foreach (Texture2D layer in _backgroundLayers)
+
+                foreach (Background layer in _backgroundLayers)
                 {
-                    _spriteBatch.Draw(layer, destination, Color.White);
+                    //_spriteBatch.Draw(layer, destination, Color.White);
+                    layer.Draw(spriteBatch, game._cameraController._cameraOffset);
                 }
                 _spriteBatch.End();
             }
@@ -237,10 +239,10 @@ namespace WillowWoodRefuge
             {
                 area.Draw(spriteBatch, "To Camp", game._cameraController, Color.Gray);
             }
-            // foreach (Area area in _tileMap.GetAreaObject("fire"))
-            // {
-            //     area.Draw(spriteBatch, "Fire", game._cameraController, Color.Red);
-            // }
+            foreach (Area area in _tileMap.GetAreaObject("fire"))
+            {
+                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.Red);
+            }
 
             // Draw sprites
             _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
@@ -293,8 +295,7 @@ namespace WillowWoodRefuge
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            if (game.inventory.showInv)
-                game.inventory.Draw(_spriteBatch);
+                game.UI.Draw(spriteBatch);
             _spriteBatch.End();
 
             // Stream stream = File.Create("shadow.png");
@@ -444,6 +445,7 @@ namespace WillowWoodRefuge
 
         protected void PostConstruction()
         {
+
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
@@ -526,6 +528,16 @@ namespace WillowWoodRefuge
             // Stream stream = File.Create("shadow.png");
             // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
             // stream.Dispose();
+        }
+
+        public void LockPlayerPos()
+        {
+            _player.LockPos();
+        }
+
+        public void UnlockPlayerPos()
+        {
+            _player.UnlockPos();
         }
     }
 }

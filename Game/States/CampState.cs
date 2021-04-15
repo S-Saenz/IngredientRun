@@ -19,13 +19,20 @@ namespace WillowWoodRefuge
             // Initialize NPC dialogue content
             _dialogueSystem = new NPCDialogueSystem(game);
 
-            // Setup Background Layers
-            _backgroundLayers = new List<Texture2D>();
-            _backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
+            
+            //_backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
             _isDark = false;
+
+            // Setup Background Layers
+            _backgroundLayers = new List<Background>();
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-5"), 0.1f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-4"), 0.08f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-3"), 0.06f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-2"), 0.04f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-1"), 0.02f, _tileMap._mapBounds));
 
             // Setup lights
             _staticLightManager.AddLight(new Vector2(64, 256), 50);
@@ -41,6 +48,7 @@ namespace WillowWoodRefuge
         public override void Update(GameTime gameTime)
         {
             KeyboardState state = Keyboard.GetState();
+            // _backgroundLayers[0];
             base.Update(gameTime);
             
             //simple weather manager toggle
@@ -65,6 +73,7 @@ namespace WillowWoodRefuge
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             game.GraphicsDevice.Clear(Color.Gray);
+            
             base.Draw(gameTime, spriteBatch);
         }
 
