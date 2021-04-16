@@ -77,6 +77,7 @@ namespace WillowWoodRefuge
             _physicsHandler.SetCollision("Player", "Walls");
             _physicsHandler.SetCollision("NPC", "Walls");
             _physicsHandler.SetCollision("Enemy", "Walls");
+            _physicsHandler.SetOverlap("Player", "NPC");
             _physicsHandler.SetOverlap("Player", "Pickup");
             _physicsHandler.SetOverlap("Enemy", "Player");
             _physicsHandler.SetOverlap("Player", "Areas");
