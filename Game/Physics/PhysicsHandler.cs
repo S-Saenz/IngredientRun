@@ -228,6 +228,26 @@ namespace WillowWoodRefuge
             return others;
         }
 
+        public bool CanFit(CollisionBox box, Vector2 pos)
+        {
+            foreach (string layer in _collisionMask[box._label])
+            {
+                foreach (CollisionBox other in _layers[layer].getNeighbors(box))
+                {
+                    RectangleF newPosBox = box._bounds;
+                    newPosBox.Position = pos;
+                    RectangleF overlapRect;
+                    RectangleF.Intersection(ref newPosBox, ref other._bounds, out overlapRect);
+
+                    if (overlapRect.Width > 0 && overlapRect.Height > 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
         public void CheckBox(CollisionBox box, Vector2 prevLoc)
         {
             _layers[box._label].CheckBox(box, prevLoc);
