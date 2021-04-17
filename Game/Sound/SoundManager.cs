@@ -40,19 +40,19 @@ namespace WillowWoodRefuge
         
         // this is temporary for the playtest
         public void walkSound(GameTime gameTime) {
-            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 550))
+            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
-                float v = 1.0f / (random.Next(90) + 10);
+                float v = (random.Next(5) + 5.0f) / (100);
                 soundeffects[0].Play(volume: v, pitch: 0.0f, pan: 0.0f);
                 walkTimer = (int)gameTime.TotalGameTime.TotalMilliseconds;
             }
         }
         public void runSound(GameTime gameTime)
         {
-            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 550))
+            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
                 float v = 10.0f / (100.0f - random.Next(5));
-                soundeffects[0].Play(volume: v, pitch: 0.0f, pan: 0.0f);
+                soundeffects[0].Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
                 walkTimer = (int)gameTime.TotalGameTime.TotalMilliseconds;
             }
         }
