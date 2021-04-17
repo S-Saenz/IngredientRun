@@ -8,6 +8,7 @@ namespace WillowWoodRefuge
     {
         public List<Condition> conditionList = new List<Condition>();
 
+
         public StateConditions()
         {
             conditionList.Add(new Condition("fedMushroomPrior", true));

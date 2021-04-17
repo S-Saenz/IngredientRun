@@ -2,7 +2,7 @@
 
 namespace WillowWoodRefuge
 {
-    public static class Program
+    public static class TestProgram1
     {
         [STAThread]
         static void Main()
