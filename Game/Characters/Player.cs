@@ -170,6 +170,23 @@ namespace WillowWoodRefuge
                         }
                     }
 
+                    // chec if foragable object
+                    ForageSpot forage = item._other as ForageSpot;
+                    if (forage != null)
+                    {
+                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // TODO: check if inventory is empty before harvesting
+                        if (true)
+                        {
+                            string harvested = forage.TryHarvest();
+                            if (harvested != null) // something harvested
+                            {
+                                Game1.instance.inventory.addIngredient(null, harvested);
+                                actionComplete = true;
+                            }
+                        }
+                    }
+
                     // check if area
                     Area area = item._other as Area;
                     if(area != null)

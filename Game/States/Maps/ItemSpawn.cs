@@ -8,10 +8,10 @@ namespace WillowWoodRefuge
 {
     class ItemSpawn : SpawnPoint
     {
-        public ItemSpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string spawnType = null) : 
+        public ItemSpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string spawnType = null) :
             base(loc, rangeType, physicsHandler, spawnType)
         {
-            
+
         }
 
         public override ISpawnable Spawn()
@@ -36,7 +36,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
-            if(_object != null)
+            if (_object != null)
             {
                 _object.Draw(spriteBatch);
             }

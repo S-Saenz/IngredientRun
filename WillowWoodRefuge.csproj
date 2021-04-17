@@ -15,6 +15,7 @@
     <None Remove="Content\dialogue\NPCDialogue.tsv" />
     <None Remove="Content\dialogue\Tutorial.txt" />
     <None Remove="Content\miscText\credits.txt" />
+    <None Remove="Content\textureAtlas\foragingTextures.json" />
     <None Remove="Content\textureAtlas\itemTextures.json" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
@@ -24,6 +25,7 @@
     <EmbeddedResource Include="Content\dialogue\credits_tools.txt" />
     <EmbeddedResource Include="Content\dialogue\NPCDialogue.tsv" />
     <EmbeddedResource Include="Content\dialogue\Tutorial.txt" />
+    <EmbeddedResource Include="Content\textureAtlas\foragingTextures.json" />
     <EmbeddedResource Include="Content\textureAtlas\itemTextures.json" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />

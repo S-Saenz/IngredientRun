@@ -26,9 +26,9 @@ namespace WillowWoodRefuge
 
         TiledMap _map;
         TiledMapRenderer _renderer;
-        PhysicsHandler _collisionHandler;
 
         List<SpawnPoint> _pickupSpawns;
+        public List<ForageSpot> _forageSpots;
         List<SpawnPoint> _enemySpawns;
         Dictionary<string, List<Area>> _areas;
 
@@ -43,6 +43,7 @@ namespace WillowWoodRefuge
             AddItemSpawnPoints(collisionHandler);
             AddEnemySpawnPoints(collisionHandler);
             AddAreaObjects(collisionHandler);
+            AddForaging(collisionHandler);
         }
 
         private void AddWallCollision(PhysicsHandler collisionHandler)
@@ -57,7 +58,6 @@ namespace WillowWoodRefuge
                         collisionHandler, parent: new Tile(this, new Vector2(tile.X, tile.Y))));
                 }
             }
-            _collisionHandler = collisionHandler;
             _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
         }
 
@@ -71,6 +71,21 @@ namespace WillowWoodRefuge
                 string range = vals[0];
                 string type = vals.Length > 1 ? vals[1] : null;
                 _pickupSpawns.Add(new ItemSpawn(obj.Position, range, collisionHandler, type));
+            }
+        }
+
+        private void AddForaging(PhysicsHandler collisionHandler)
+        {
+            _forageSpots = new List<ForageSpot>();
+            TiledMapObjectLayer layer = _map.GetLayer<TiledMapObjectLayer>("ForagingObjects");
+            if (layer == null)
+                return;
+            foreach (TiledMapObject obj in layer.Objects)
+            {
+                string[] vals = obj.Name.Split('.');
+                string range = vals[0];
+                string type = vals.Length > 1 ? vals[1] : null;
+                _forageSpots.Add(new ForageSpot(obj.Position, range, collisionHandler, type));
             }
         }
 
@@ -174,6 +189,14 @@ namespace WillowWoodRefuge
         public void DrawEnemies(SpriteBatch spriteBatch)
         {
             foreach (EnemySpawn obj in _enemySpawns)
+            {
+                obj.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawForage(SpriteBatch spriteBatch)
+        {
+            foreach(ForageSpot obj in _forageSpots)
             {
                 obj.Draw(spriteBatch);
             }

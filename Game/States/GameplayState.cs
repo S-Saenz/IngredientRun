@@ -40,6 +40,7 @@ namespace WillowWoodRefuge
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
         public List<PickupItem> _items = new List<PickupItem>();
+        static public List<ForageSpot> _forage = new List<ForageSpot>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
@@ -73,12 +74,14 @@ namespace WillowWoodRefuge
             _physicsHandler.AddLayer("Pickup");
             _physicsHandler.AddLayer("Walls");
             _physicsHandler.AddLayer("Areas");
+            _physicsHandler.AddLayer("Foraging");
 
             _physicsHandler.SetCollision("Player", "Walls");
             _physicsHandler.SetCollision("NPC", "Walls");
             _physicsHandler.SetCollision("Enemy", "Walls");
             _physicsHandler.SetOverlap("Player", "NPC");
             _physicsHandler.SetOverlap("Player", "Pickup");
+            _physicsHandler.SetOverlap("Player", "Foraging");
             _physicsHandler.SetOverlap("Enemy", "Player");
             _physicsHandler.SetOverlap("Player", "Areas");
 
@@ -143,6 +146,12 @@ namespace WillowWoodRefuge
             foreach (NPC character in _characters.Values)
             {
                 character.Update(gameTime, _player._pos);
+            }
+
+            // Update foraging
+            foreach(ForageSpot spot in _forage)
+            {
+                spot.Update(gameTime);
             }
 
             // Update camera
@@ -253,16 +262,11 @@ namespace WillowWoodRefuge
                     obj.Draw(spriteBatch);
                 }
             }
-            // Draw enemies
-            foreach(Enemy enemy in _enemies)
-            {
-                enemy.Draw(spriteBatch);
-            }
-            // Draw pickup items
-            foreach (PickupItem item in _items)
-            {
-                item.Draw(spriteBatch);
-            }
+            // Draw entities
+            _tileMap.DrawEnemies(spriteBatch);
+            _tileMap.DrawPickups(spriteBatch);
+            _tileMap.DrawForage(spriteBatch);
+
             // Draw player
             if (_player != null)
             {
@@ -444,6 +448,8 @@ namespace WillowWoodRefuge
 
         protected void PostConstruction()
         {
+            // add forage spots to static forage list
+            _forage.AddRange(_tileMap._forageSpots);
 
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
