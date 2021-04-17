@@ -1005,6 +1005,11 @@
 /processor:TiledMapProcessor
 /build:tilemaps/camp/TempCampMap.tmx
 
+#begin tileMaps/camp/TempCampMapBig.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tileMaps/camp/TempCampMapBig.tmx
+
 #begin tilemaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor

@@ -194,11 +194,16 @@ namespace WillowWoodRefuge
 
             //text for cooking feedback
             _gradeOpacity *= cookingOpacity;
-            spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
+            if(_grade != null)
+                spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
 
 
             //squares don't work :/
             //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
+
+            // temp tutorial text
+            spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
+                                   new Vector2(0, 0), Color.White);
         }
 
         void debug(String message)
