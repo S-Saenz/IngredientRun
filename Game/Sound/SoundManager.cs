@@ -40,6 +40,7 @@ namespace WillowWoodRefuge
         
         // this is temporary for the playtest
         public void walkSound(GameTime gameTime) {
+            // change the 
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
                 float v = (random.Next(5) + 5.0f) / (100);
@@ -51,8 +52,8 @@ namespace WillowWoodRefuge
         {
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
-                float v = 10.0f / (100.0f - random.Next(5));
-                soundeffects[0].Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
+                float v = (10.0f + random.Next(5)) / (100.0f );
+                soundeffects[0].Play(volume: v, pitch: 0.0f, pan: 0.0f);
                 walkTimer = (int)gameTime.TotalGameTime.TotalMilliseconds;
             }
         }
