@@ -40,7 +40,7 @@ namespace WillowWoodRefuge
         
         // this is temporary for the playtest
         public void walkSound(GameTime gameTime) {
-            // change the 
+            // change the last value of the if statement to increace or decreace the tiem between steps
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
                 float v = (random.Next(5) + 5.0f) / (100);
@@ -50,6 +50,7 @@ namespace WillowWoodRefuge
         }
         public void runSound(GameTime gameTime)
         {
+            // change the last value of the if statement to increace or decreace the tiem between steps
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
             {
                 float v = (10.0f + random.Next(5)) / (100.0f );

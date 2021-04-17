@@ -80,15 +80,14 @@ namespace WillowWoodRefuge
             {
                 _collisionBox.TryMoveHorizontal(0);
             }
+
             // movement sound
-            
             if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
             {
                 Game1.instance.sounds.runSound(gameTime);
             } else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
             {
                 Game1.instance.sounds.walkSound(gameTime);
-
             }
 
             if (Game1.instance.input.IsDown("jump"))
