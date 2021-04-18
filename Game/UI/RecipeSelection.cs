@@ -312,8 +312,8 @@ namespace WillowWoodRefuge
                         // spriteBatch.Draw(recipeIngredients.ElementAt(0), new Vector2(point.Value.X + 60*_scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
                         TextureAtlasManager.DrawTexture(spriteBatch, "Item", recipeFood, point.Value, Color.White, _recipeScale);
                         TextureAtlasManager.DrawTexture(spriteBatch, "Item", recipeIngredients.ElementAt(0), 
-                                                        new Vector2(point.Value.X + 60 * _foodScale, point.Value.Y), 
-                                                        Color.White, _scale);
+                                                        new Vector2(point.Value.X + 60 * _scale, point.Value.Y), 
+                                                        Color.White, _foodScale);
                         if(recipeIngredients.Count == 2)
                         {
                             // spriteBatch.Draw(recipeIngredients.ElementAt(1), new Vector2(point.Value.X + 160 * _scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
