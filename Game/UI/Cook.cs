@@ -23,9 +23,9 @@ namespace WillowWoodRefuge
 
         Texture2D meter, needle, startButton, burntText, niceText, perfectText, rawText, square;
         
-        public Texture2D foodImage;
-        public Boolean _cookingVisible = true;
-        public Boolean _finished = false;
+        public string foodName;
+        public bool _cookingVisible = true;
+        public bool _finished = false;
 
         static float _screenWidth = 1728;
         float _screenHeight = 972;
@@ -34,7 +34,7 @@ namespace WillowWoodRefuge
         float _needleX;
         float _needleSpeed = 20.0f;
         float _needleStart = _screenWidth * 0.12f;
-        Boolean _attemptRemaining = true; //you can't spam the space button to move the needle
+        bool _attemptRemaining = true; //you can't spam the space button to move the needle
 
         float _meterEnd = 1517;
 
@@ -54,13 +54,13 @@ namespace WillowWoodRefuge
         float countDuration = 1f; //every  1s.
         float currentTime = 0f;
 
-        Boolean _debugMode = false;
+        bool _debugMode = false;
 
         public bool loaded = false;
 
-        public Cook(Texture2D selectedFood)
+        public Cook(string selectedFood)
         {
-            foodImage = selectedFood;
+            foodName = selectedFood;
             _cookingVisible = true;
         }
 
@@ -186,10 +186,11 @@ namespace WillowWoodRefuge
 
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
+            Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
             float foodScale = Game1.instance.recipeMenu._recipeScale; //reuse the scale value from the recipe menu
-            float foodX = _screenWidth / 2 - foodImage.Width / 2 * foodScale;
-            spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
-
+            float foodX = _screenWidth / 2 - foodSize.Width / 2 * foodScale;
+            // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, _screenHeight / 7), Color.White * cookingOpacity, foodScale);
 
 
             //text for cooking feedback
@@ -206,7 +207,7 @@ namespace WillowWoodRefuge
                                    new Vector2(0, 0), Color.White);
         }
 
-        void debug(String message)
+        void debug(string message)
         {
             Debug.WriteLineIf(_debugMode, message);
         }
@@ -217,7 +218,7 @@ namespace WillowWoodRefuge
             _attemptRemaining = true;
         }
 
-        String GradeCooking()
+        string GradeCooking()
         {
             if (_needleX < _mediumZone) return "rare";
             else if (_needleX < _wellDoneZone) return "medium";
@@ -227,7 +228,7 @@ namespace WillowWoodRefuge
 
         void AssignGrade(ref Texture2D display)
         {
-            String grade = GradeCooking();
+            string grade = GradeCooking();
 
             switch(grade)
             {
@@ -282,18 +283,18 @@ namespace WillowWoodRefuge
         public void UpdateInventoryAfterCooking()
         {
             //add cooked food to inventory
-            Game1.instance.inventory.addIngredient(foodImage, formatFoodName(foodImage.ToString()));
+            Game1.instance.inventory.addIngredient(foodName);
 
             //remove used ingredients from inventory
-            List<Texture2D> ingredients = Game1.instance.recipeMenu._recipes[foodImage];
-            foreach (Texture2D ingredient in ingredients)
+            List<string> ingredients = Game1.instance.recipeMenu._recipes[foodName];
+            foreach (string ingredient in ingredients)
                 Game1.instance.inventory.removeIngredient(ingredient);
         }
 
         //Texture names are formatted as "ingredient/[actualIngredientName]"
-        String formatFoodName(String foodName)
+        string formatFoodName(string foodName)
         {
-            String realName = foodName.Split("/")[1];
+            string realName = foodName.Split("/")[1];
             Debug.WriteLine($"{foodName} -> {realName}");
             return realName;
         }
