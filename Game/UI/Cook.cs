@@ -32,7 +32,7 @@ namespace WillowWoodRefuge
         float _scale = 2.7f;
 
         float _needleX;
-        float _needleSpeed = 40.0f;
+        float _needleSpeed = 20.0f;
         float _needleStart = _screenWidth * 0.12f;
         Boolean _attemptRemaining = true; //you can't spam the space button to move the needle
 
@@ -55,6 +55,8 @@ namespace WillowWoodRefuge
         float currentTime = 0f;
 
         Boolean _debugMode = false;
+
+        public bool loaded = false;
 
         public Cook(Texture2D selectedFood)
         {
@@ -86,7 +88,7 @@ namespace WillowWoodRefuge
             perfectText = Content.Load<Texture2D>("ui/cooking/text/Perfect");
             rawText = Content.Load<Texture2D>("ui/cooking/text/Raw");
 
-            foodImage = Content.Load<Texture2D>("ingredient/acornScaled");
+            //foodImage = Content.Load<Texture2D>("ingredient/acornScaled");
             //square = Content.Load<Texture2D>("ui/1pxSquare");
             square = Content.Load<Texture2D>("ui/Recipe/Food Frame");
 
@@ -109,12 +111,12 @@ namespace WillowWoodRefuge
 
 
             //space bar held down - move needle
-            if (Keyboard.GetState().IsKeyDown(Keys.F) && _needleX <= _meterEnd && _attemptRemaining)
+            if (Game1.instance.input.IsDown("cook") && _needleX <= _meterEnd && _attemptRemaining)
                 _needleX += _needleSpeed;
             
 
             //space bar is released
-            if(_needleX > _needleStart && Keyboard.GetState().IsKeyUp(Keys.F))
+            if(_needleX > _needleStart && !Game1.instance.input.IsDown("cook"))
             {
                 _attemptRemaining = false;
                 //debug(GradeCooking()); 
@@ -183,7 +185,8 @@ namespace WillowWoodRefuge
 
 
             //food being cooked
-            float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
+            //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
+            float foodScale = Game1.instance.recipeMenu._recipeScale; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2 - foodImage.Width / 2 * foodScale;
             spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
 
@@ -191,11 +194,16 @@ namespace WillowWoodRefuge
 
             //text for cooking feedback
             _gradeOpacity *= cookingOpacity;
-            spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
+            if(_grade != null)
+                spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
 
 
             //squares don't work :/
             //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
+
+            // temp tutorial text
+            spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
+                                   new Vector2(0, 0), Color.White);
         }
 
         void debug(String message)
@@ -261,15 +269,34 @@ namespace WillowWoodRefuge
                 counter = 0; //reset counter
                 debug("counter hit limit!");
 
-                //turn off the cooking UI 
-                _cookingVisible = false; 
+                UpdateInventoryAfterCooking();
+
+                //turn off the cooking UI
+                //_cookingVisible = false; 
                 ResetNeedle();
                 _finished = true;
+                Game1.instance.UI.SwitchState(UIState.RecipeMenu); //have UI manager switch back to HUD
             }
         }
 
+        public void UpdateInventoryAfterCooking()
+        {
+            //add cooked food to inventory
+            Game1.instance.inventory.addIngredient(foodImage, formatFoodName(foodImage.ToString()));
 
+            //remove used ingredients from inventory
+            List<Texture2D> ingredients = Game1.instance.recipeMenu._recipes[foodImage];
+            foreach (Texture2D ingredient in ingredients)
+                Game1.instance.inventory.removeIngredient(ingredient);
+        }
 
+        //Texture names are formatted as "ingredient/[actualIngredientName]"
+        String formatFoodName(String foodName)
+        {
+            String realName = foodName.Split("/")[1];
+            Debug.WriteLine($"{foodName} -> {realName}");
+            return realName;
+        }
     }
 
 
