@@ -9,9 +9,9 @@ namespace WillowWoodRefuge
         public NavPointType _pointType;
         public int _platformIndex;
         public Vector2 _location;
-        public Point2 _tileLoc;
+        public Point _tileLoc;
 
-        public NavPoint(NavPointType type, int platformIndex, Vector2 location, Point2 tileLoc)
+        public NavPoint(NavPointType type, int platformIndex, Vector2 location, Point tileLoc)
         {
             _pointType = type;
             _platformIndex = platformIndex;

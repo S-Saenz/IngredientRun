@@ -11,10 +11,10 @@ namespace WillowWoodRefuge
     {
         private Vector2 _dialogueLoc;
 
-        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler,
+        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
-                     : base(name, pos, "NPC", new Vector2(), collisionHandler, worldBounds, animationDict, area)
+                     : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, worldBounds, animationDict, area)
         {
             _walkSpeed = 20;
             _runSpeed = 120;

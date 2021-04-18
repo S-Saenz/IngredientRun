@@ -10,7 +10,7 @@ namespace WillowWoodRefuge
             : base(game, graphicsDevice, content, spriteBatch)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler);
+            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 

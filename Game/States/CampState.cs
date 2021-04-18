@@ -19,7 +19,7 @@ namespace WillowWoodRefuge
             _backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
 
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
+            _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler, "camp");
             _isDark = false;
 
             // Setup lights
@@ -56,19 +56,19 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
             _characters.Add("Lura", new NPC("lura", 
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom), 
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Snäll", new NPC("snall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Kall", new NPC("kall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Arg", new NPC("arg",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Aiyo", new NPC("aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);

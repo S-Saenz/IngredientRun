@@ -28,6 +28,11 @@ namespace WillowWoodRefuge
         protected Vector2 _target;
         protected Vector2 _attackTarget;
         protected float _proxRange = 5;
+        protected string _scene;
+
+        // this is dumb but everyone needs to know what points are occupied
+        protected static Dictionary<string, List<Point>> _occupied = new Dictionary<string, List<Point>>();
+        public static Dictionary<string, List<Point>> _occupiedPoints { get { return _occupied; } }
 
         // temp texture until animation set up
         protected Texture2D _texture;
@@ -42,11 +47,14 @@ namespace WillowWoodRefuge
         protected bool _timerStopped = false;
         protected Vector2 _timerRange = new Vector2(8, 20);
 
-        public AICharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler, 
+        public AICharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler, string scene, 
                            RectangleF worldBounds = default, Dictionary<string, Animation> animationDict = null, Area area = null) 
                            : base(name, pos, collisionLabel, bounds, collisionHandler, worldBounds, animationDict)
         {
             _area = area;
+            _scene = scene;
+            if (!_occupied.ContainsKey(_scene))
+                _occupied.Add(_scene, new List<Point>());
             
             switch (collisionLabel)
             {
@@ -73,6 +81,9 @@ namespace WillowWoodRefuge
             _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds), area: area);
 
             _possibleMoves = _navMesh.GetAllPossible(_pos + new Vector2(0, _collisionBox._bounds.Height / 2));
+
+            _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2));
+            _occupied[_scene].Add(_currPos._tileLoc);
 
             _moveTimer = _rand.Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
         }
@@ -168,12 +179,15 @@ namespace WillowWoodRefuge
             // move
             if (Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _attackTarget) > _proxRange)
             {
-                if(_navMesh.GetClosest(_target) != _navMesh.GetClosest(_attackTarget))
+                NavPoint target = _navMesh.GetClosest(_target);
+                if (target != _navMesh.GetClosest(_attackTarget))
                 {
                     _target = _attackTarget;
+                    _occupied[_scene].Remove(target._tileLoc);
                     _possibleMoves = _navMesh.GetAllPossible(_pos);
                     _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2));
                     NavPoint newTarget = _navMesh.GetClosest(_attackTarget, _possibleMoves);
+                    _occupied[_scene].Add(newTarget._tileLoc);
                     _currTarget = _navMesh.GetPath(_currPos, newTarget, _possibleMoves, out _currPath);
                     _target = _currTarget._location;
                 }
@@ -215,12 +229,15 @@ namespace WillowWoodRefuge
         private void Wander()
         {
             _currPos = _navMesh.GetClosest(_pos);
+            _occupied[_scene].Remove(_currPos._tileLoc);
             _moveTimer = _rand.Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
             _timerStopped = true;
             _possibleMoves = _navMesh.GetAllPossible(_pos);
-            _target = _navMesh.GetRandomPath(_currPos, _possibleMoves, out _currPath)._location;
+            NavPoint newTarget = _navMesh.GetRandomPath(_currPos, _possibleMoves, out _currPath);
+            _occupied[_scene].Add(newTarget._tileLoc);
+            _target = newTarget._location;
 
-            if (_target != null && _currPath.ContainsKey(_currPos))
+            if (_currPath.ContainsKey(_currPos))
             {
                 _currTarget = _currPath[_currPos];
                 _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);

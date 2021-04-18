@@ -12,11 +12,14 @@ namespace WillowWoodRefuge
         public Dictionary<Point, NavPoint> _navPoints { get; private set; }
         public Size _entityTileSize { get; private set; }
         public int _tileSize { get; private set; }
+        private string _scene;
 
-        public NavPointMap(TiledMap tileMap, RectangleF collisionBox)
+        public NavPointMap(TiledMap tileMap, RectangleF collisionBox, string scene)
         {
             // Setup empty navpoint list
             _navPoints = new Dictionary<Point, NavPoint>();
+
+            _scene = scene;
 
             // Save tilesize
             _tileSize = tileMap.TileHeight;
@@ -137,7 +140,7 @@ namespace WillowWoodRefuge
                         spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Purple, 4);
                         break;
                     case NavPointType.platform:
-                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Black, 4);
+                        spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Gray, 4);
                         break;
                     case NavPointType.rightEdge:
                         spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.Green, 4);
@@ -146,6 +149,8 @@ namespace WillowWoodRefuge
                         spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), Color.DarkOrange, 4);
                         break;
                 }
+                spriteBatch.DrawPoint(new Vector2((navPoint.X) * _tileSize, navPoint.Y * _tileSize), 
+                                      AICharacter._occupiedPoints[_scene].Contains(navPoint) ? Color.Black : Color.White, 2);
             }
         }
     }
