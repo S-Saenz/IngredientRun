@@ -32,11 +32,8 @@ namespace WillowWoodRefuge
             {
                 _currState = AIState.Attack;
             }
-            else
-            {
-                _currState = AIState.Wander;
-            }
-            _target = playerLoc;
+
+            _attackTarget = playerLoc;
             base.Update(gameTime);
         }
 

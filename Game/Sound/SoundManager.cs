@@ -32,10 +32,10 @@ namespace WillowWoodRefuge
         }
         public void playSong(string name)
         {
-            if (songs.ContainsKey(name))
-                MediaPlayer.Play(songs[name]);
-            else
-                Debug.WriteLine("Incorrect Song name " + name + ", refrence lines after the comment labeled \"Song names\" in the sound manager class for correct name");
+            // if (songs.ContainsKey(name))
+            //     MediaPlayer.Play(songs[name]);
+            // else
+            //     Debug.WriteLine("Incorrect Song name " + name + ", refrence lines after the comment labeled \"Song names\" in the sound manager class for correct name");
         }
 
         public void playSF(int i) {

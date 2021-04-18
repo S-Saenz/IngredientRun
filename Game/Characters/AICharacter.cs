@@ -24,7 +24,10 @@ namespace WillowWoodRefuge
         protected Dictionary<NavPoint, NavPoint> _currPath;
         protected float _lastDist;
         protected NavPoint _currTarget;
+        protected NavPoint _currPos;
         protected Vector2 _target;
+        protected Vector2 _attackTarget;
+        protected float _proxRange = 5;
 
         // temp texture until animation set up
         protected Texture2D _texture;
@@ -54,7 +57,6 @@ namespace WillowWoodRefuge
                     _texture = Game1.instance.Content.Load<Texture2D>("monsters/" + name);
                     break;
             }
-            
 
             // offset position
             _pos -= new Vector2(_texture.Width * _scale / 2, _texture.Height * _scale);
@@ -107,35 +109,47 @@ namespace WillowWoodRefuge
             if(_moveTimer <= 0)
             {
                 Wander();
-                // Debug.WriteLine(name + ((_currTarget != null) ? (" started wandering to " + _currTarget._location) : " sat down"));
+                Debug.WriteLine(name + ((_currTarget != null) ? (" started wandering to " + _currTarget._location) : " sat down"));
             }
 
             // move
             if (_isMoving)
             {
-                base.Update(gameTime, _pos.X < _currTarget._location.X ? 1 : -1, true);
+                base.Update(gameTime, new Vector2(_pos.X < _currTarget._location.X ? 1 : -1, 0), true);
                 float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
 
-                if(newDist > _lastDist) // moved further away from target point
+                if (newDist >= _lastDist) // moved further away from target point
                 {
                     _timerStopped = false;
                     _isMoving = false;
-                    Debug.WriteLine(name + " broke off of path.");
-                    if(!_possibleMoves.ContainsKey(_navMesh.GetClosest(_pos))) // off of determined possible paths
+                    Debug.WriteLine(name + "'s path broken.");
+                    if (!_possibleMoves.ContainsKey(_navMesh.GetClosest(_pos))) // off of determined possible paths
                     {
                         _possibleMoves = _navMesh.GetAllPossible(_pos + new Vector2(0, _collisionBox._bounds.Height / 2));
                     }
                 }
-                else if(newDist < _proximityCut) // reached point
+                else if (newDist < _proximityCut) // reached point
                 {
-                    // stop moving, restart timer
-                    _timerStopped = false;
-                    _isMoving = false;
+                    if (_currPath.ContainsKey(_currTarget)) // another point in path
+                    {
+                        _currTarget = _currPath[_currTarget];
+                        _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+                    }
+                    else // target reached
+                    {
+                        // stop moving, restart timer
+                        _timerStopped = false;
+                        _isMoving = false;
+                    }
+                }
+                else
+                {
+                    _lastDist = newDist;
                 }
             }
             else // not moving, stop moving
             {
-                base.Update(gameTime, 0, false);
+                base.Update(gameTime, Vector2.Zero, false);
             }
         }
 
@@ -152,24 +166,37 @@ namespace WillowWoodRefuge
         private void AttackUpdate(GameTime gameTime)
         {
             // move
-            _currTarget = _navMesh.GetClosest(_target);
-            _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
-            if (_lastDist > _proximityCut)
+            if (Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _attackTarget) > _proxRange)
             {
-                base.Update(gameTime, _pos.X < _currTarget._location.X ? 1 : -1, true);
-                if (_lastDist < _proximityCut) // reached point
+                if(_navMesh.GetClosest(_target) != _navMesh.GetClosest(_attackTarget))
                 {
-                    // stop moving
-                    _isMoving = false;
+                    _target = _attackTarget;
+                    _possibleMoves = _navMesh.GetAllPossible(_pos);
+                    _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2));
+                    NavPoint newTarget = _navMesh.GetClosest(_attackTarget, _possibleMoves);
+                    _currTarget = _navMesh.GetPath(_currPos, newTarget, _possibleMoves, out _currPath);
+                    _target = _currTarget._location;
                 }
-                else // can still get closer
+                base.Update(gameTime, new Vector2(_pos.X < _currTarget._location.X ? 1 : -1, 0), true);
+                float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+
+                if (newDist < _proximityCut) // reached point
                 {
-                    _isMoving = true;
+                    if (_currPath.ContainsKey(_currTarget)) // another point in path
+                    {
+                        _currTarget = _currPath[_currTarget];
+                        _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+                    }
+                    else // target reached
+                    {
+                        _currState = AIState.Wander;
+                    }
                 }
             }
             else // not moving, stop moving
             {
-                base.Update(gameTime, 0, false);
+                // hit player
+                base.Update(gameTime, Vector2.Zero, false);
             }
         }
 
@@ -177,7 +204,8 @@ namespace WillowWoodRefuge
         {
             if (_isMoving && _currTarget != null)
             {
-                spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.Honeydew, 1);
+                spriteBatch.DrawLine(_target - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.Crimson, 1);
+                spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.DarkGoldenrod, 1);
             }
 
             _navMesh.DrawDebug(spriteBatch);
@@ -186,13 +214,15 @@ namespace WillowWoodRefuge
 
         private void Wander()
         {
-            NavPoint curr = _navMesh.GetClosest(_pos);
+            _currPos = _navMesh.GetClosest(_pos);
             _moveTimer = _rand.Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
             _timerStopped = true;
-            _currTarget = _navMesh.GetRandomPath(curr, _possibleMoves, out _currPath);
+            _possibleMoves = _navMesh.GetAllPossible(_pos);
+            _target = _navMesh.GetRandomPath(_currPos, _possibleMoves, out _currPath)._location;
 
-            if (_currTarget != null)
+            if (_target != null && _currPath.ContainsKey(_currPos))
             {
+                _currTarget = _currPath[_currPos];
                 _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
                 _isMoving = true;
             }

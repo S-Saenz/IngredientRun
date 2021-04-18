@@ -47,18 +47,18 @@ namespace WillowWoodRefuge
                                 !isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is left solo
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.solo, platformIndex, 
-                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                 ++platformIndex;
                             }
                             else // platform left start
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.leftEdge, platformIndex, 
-                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                 
                                 if(!tile.HasValue || tile.Value.IsBlank)
                                 {
                                     _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex,
-                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                 }
                                 else
                                 {
@@ -74,14 +74,14 @@ namespace WillowWoodRefuge
                                 if (isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // overhang edge
                                 {
                                     _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
-                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                     _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.rightEdge, platformIndex, 
-                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize)));
+                                                   new Vector2((tilePoint.X + 1) * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                 }
                                 else // against wall
                                 {
                                     _navPoints.Add(tilePoint, new NavPoint(NavPointType.rightEdge, platformIndex, 
-                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                                   new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                                 }
                                 ++platformIndex;
                                 platformStarted = false;
@@ -89,7 +89,7 @@ namespace WillowWoodRefuge
                             else // platform continued
                             {
                                 _navPoints.Add(tilePoint, new NavPoint(NavPointType.platform, platformIndex, 
-                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                               new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                             }
                         }
                     }
@@ -100,7 +100,7 @@ namespace WillowWoodRefuge
                              isValidLocation(new Point(tilePoint.X + 1, tilePoint.Y), tileLayer)) // tilePoint is right solo
                         {
                             _navPoints.Add(new Point(tilePoint.X + 1, tilePoint.Y), new NavPoint(NavPointType.solo, platformIndex, 
-                                           new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize)));
+                                           new Vector2(tilePoint.X * _tileSize, tilePoint.Y * _tileSize), tilePoint));
                             ++platformIndex;
                         } 
                     }

@@ -53,7 +53,7 @@ namespace WillowWoodRefuge
         static protected bool _showMiniDebug = false;
         static protected bool _showFullDebug = false;
         // 0 = camera, 1 = physics, 2 = ai, 3 = player
-        static protected int _fullDebugMode = 3;
+        static protected int _fullDebugMode = 2;
         static protected int _miniDebugMode = 1;
         static protected int _numDebugModes = 4;
 

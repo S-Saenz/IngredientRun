@@ -107,26 +107,26 @@ namespace WillowWoodRefuge
             parent.Add(start, null);
 
             // set up visited container
-            List<NavPoint> visited = new List<NavPoint>();
-            visited.Add(start);
+            List<NavPoint> discovered = new List<NavPoint>();
+            discovered.Add(start);
 
             // set up queue container
             List<NavPoint> queue = new List<NavPoint>();
             queue.Add(start);
             while(queue.Count > 0)
             {
-                NavPoint vertex = queue[0];
+                NavPoint chosen = queue[0];
                 queue.RemoveAt(0);
 
-                if (_edges.ContainsKey(vertex))
+                if (_edges.ContainsKey(chosen))
                 {
-                    foreach (NavPoint point in _edges[vertex])
+                    foreach (NavPoint destination in _edges[chosen])
                     {
-                        if(!visited.Contains(point))
+                        if(!discovered.Contains(destination))
                         {
-                            visited.Add(point);
-                            queue.Add(point);
-                            parent.Add(point, vertex);
+                            discovered.Add(destination);
+                            queue.Add(destination);
+                            parent.Add(destination, chosen);
                         }
                     }
                 }
@@ -144,6 +144,25 @@ namespace WillowWoodRefuge
                 {
                     closest = point;
                     dist = newDist;
+                }
+            }
+            return closest;
+        }
+        
+        public NavPoint GetClosest(Vector2 loc, Dictionary<NavPoint, NavPoint> web)
+        {
+            NavPoint closest = null;
+            float dist = float.MaxValue;
+            foreach (NavPoint point in web.Values)
+            {
+                if (point != null)
+                {
+                    float newDist = Vector2.DistanceSquared(loc, point._location);
+                    if (newDist < dist)
+                    {
+                        closest = point;
+                        dist = newDist;
+                    }
                 }
             }
             return closest;
@@ -168,11 +187,37 @@ namespace WillowWoodRefuge
             }
 
             path = new Dictionary<NavPoint, NavPoint>();
-            NavPoint endPoint = parent.Values.ElementAt(new Random().Next() % parent.Count); // choose point
+            int choice = new Random().Next(1, parent.Count);
+            NavPoint endPoint = parent.Values.ElementAt(choice); // choose point
             NavPoint point = endPoint;
-            while(point != null && parent[point] != null) // while not first point
+            while(point != pos) // while not first point
             {
-                path.Add(point, parent[point]);
+                path.Add(parent[point], point);
+                point = parent[point];
+            }
+
+            return endPoint;
+        }
+
+        public NavPoint GetPath(NavPoint pos, NavPoint dest, Dictionary<NavPoint, NavPoint> parent, out Dictionary<NavPoint, NavPoint> path)
+        {
+            if (!parent.ContainsKey(pos))
+            {
+                BFS(pos, out parent); // populate tree with all possible edges
+            }
+
+            path = new Dictionary<NavPoint, NavPoint>();
+
+            if (!parent.ContainsValue(dest)) // destination not within navigatable mesh
+            {
+                return null;
+            }
+
+            NavPoint endPoint = dest; // choose point
+            NavPoint point = endPoint;
+            while (point != pos && parent.ContainsKey(point) && parent[point] != null) // while not first point
+            {
+                path.Add(parent[point], point);
                 point = parent[point];
             }
 
