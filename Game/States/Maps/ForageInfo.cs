@@ -8,7 +8,7 @@ namespace WillowWoodRefuge
     {
         static Dictionary<string, ForageInfo> _allForageInfo = new Dictionary<string, ForageInfo>()
         {
-            { "test", new ForageInfo(6, 10) },
+            { "test", new ForageInfo(6, 20) },
 
         };
         public static Dictionary<string, ForageInfo> _forageInfo

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using System;
+using System.Collections.Generic;
 
 namespace WillowWoodRefuge
 {
@@ -14,6 +15,10 @@ namespace WillowWoodRefuge
         public bool _isRipe { get; protected set; } // whether item can currently be foraged or not
         public string _currSpawn { get; protected set; } // the name of the current item being grown
         public int _numPhases { get; protected set; } // number of texture phases
+
+        // Static container of all forage spots
+        static protected List<ForageSpot> _spots = new List<ForageSpot>();
+        static public List<ForageSpot> _forageSpots { get { return _spots; } }
 
         // Timer variables
         public float _timeElapsed { get; protected set; } // current time on clock
@@ -44,6 +49,7 @@ namespace WillowWoodRefuge
             _growDuration = ForageInfo._forageInfo[_spawnType]._growDuration;
             _timeElapsed = 0;
             _growPercent = 0;
+            _forageSpots.Add(this);
         }
 
         public void Update(GameTime gameTime)

@@ -157,7 +157,7 @@ namespace WillowWoodRefuge
                     }
 
                     // check if pickup item
-                    PickupItem obj = item._other as PickupItem;
+                    SpawnItem obj = item._other as SpawnItem;
                     if(obj != null)
                     {
                         Debug.WriteLine(obj._name);

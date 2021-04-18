@@ -39,8 +39,7 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<PickupItem> _items = new List<PickupItem>();
-        static public List<ForageSpot> _forage = new List<ForageSpot>();
+        public List<SpawnItem> _items = new List<SpawnItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
@@ -75,6 +74,7 @@ namespace WillowWoodRefuge
             _physicsHandler.AddLayer("Walls");
             _physicsHandler.AddLayer("Areas");
             _physicsHandler.AddLayer("Foraging");
+            _physicsHandler.AddLayer("PickupItems");
 
             _physicsHandler.SetCollision("Player", "Walls");
             _physicsHandler.SetCollision("NPC", "Walls");
@@ -84,6 +84,7 @@ namespace WillowWoodRefuge
             _physicsHandler.SetOverlap("Player", "Foraging");
             _physicsHandler.SetOverlap("Enemy", "Player");
             _physicsHandler.SetOverlap("Player", "Areas");
+            _physicsHandler.SetOverlap("Player", "PickupItems");
 
             _characters = new Dictionary<string, NPC>();
 
@@ -148,8 +149,8 @@ namespace WillowWoodRefuge
                 character.Update(gameTime, _player._pos);
             }
 
-            // Update foraging
-            foreach(ForageSpot spot in _forage)
+            // Update all foraging (for all scenes)
+            foreach(ForageSpot spot in ForageSpot._forageSpots)
             {
                 spot.Update(gameTime);
             }
@@ -320,7 +321,7 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (PickupItem item in _items)
+            foreach (SpawnItem item in _items)
             {
                 item.RemoveCollision(_physicsHandler);
             }
@@ -448,9 +449,6 @@ namespace WillowWoodRefuge
 
         protected void PostConstruction()
         {
-            // add forage spots to static forage list
-            _forage.AddRange(_tileMap._forageSpots);
-
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
                 game.GraphicsDevice,

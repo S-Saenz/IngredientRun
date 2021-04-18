@@ -28,7 +28,7 @@ namespace WillowWoodRefuge
         TiledMapRenderer _renderer;
 
         List<SpawnPoint> _pickupSpawns;
-        public List<ForageSpot> _forageSpots;
+        List<ForageSpot> _forageSpots;
         List<SpawnPoint> _enemySpawns;
         Dictionary<string, List<Area>> _areas;
 
@@ -131,11 +131,11 @@ namespace WillowWoodRefuge
             return new List<Area>();
         }
 
-        public void SpawnPickups(ref List<PickupItem> items)
+        public void SpawnPickups(ref List<SpawnItem> items)
         {
             foreach(SpawnPoint point in _pickupSpawns)
             {
-                items.Add((PickupItem)point.Spawn());
+                items.Add((SpawnItem)point.Spawn());
             }
         }
 

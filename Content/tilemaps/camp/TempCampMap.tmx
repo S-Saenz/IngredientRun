@@ -102,7 +102,7 @@
   </object>
  </objectgroup>
  <objectgroup id="9" name="ForagingObjects">
-  <object id="17" name="only.test" x="548" y="272">
+  <object id="17" name="only.test" x="702.333" y="272">
    <point/>
   </object>
   <object id="18" name="only.test" x="1266.33" y="272">
