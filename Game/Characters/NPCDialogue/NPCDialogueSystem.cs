@@ -21,6 +21,12 @@ namespace WillowWoodRefuge
         bool _talking = false;
         Dictionary<string, NPC> _characters;
 
+        // timer variables
+        float _timer;
+        float _currTime;
+        bool _isPaused;
+        Vector2 _silenceRange = new Vector2(2, 6);
+
         public NPCDialogueSystem(Game1 game)
         {
             // initialize list
@@ -74,7 +80,7 @@ namespace WillowWoodRefuge
                 }
             }
 
-            RecalculateValid(game);
+            RecalculateValid();
         }
 
         public void Load(Dictionary<string, NPC> characters)
@@ -82,11 +88,11 @@ namespace WillowWoodRefuge
             _characters = characters;
         }
 
-        private void RecalculateValid(Game1 game)
+        private void RecalculateValid()
         {
             // repopulate _valid container
             _valid.Clear();
-            foreach(Condition cond in game.stateConditions.conditionList)
+            foreach(Condition cond in Game1.instance.stateConditions.conditionList)
             {
                 if(cond._flag == true)
                 {
@@ -145,9 +151,9 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void PlayInteraction(Game1 game)
+        public void PlayInteraction()
         {
-            RecalculateValid(game);
+            RecalculateValid();
             float val = new Random(System.DateTime.Now.Second).Next() % _validProbabilityTotal;
             float total = 0;
             int[] elem = _valid.Keys.ToArray();
@@ -198,6 +204,7 @@ namespace WillowWoodRefuge
         public void onInteractionEnded(NPCInteraction interaction)
         {
             _currentInteraction = -1;
+            _isPaused = false;
 
             // free characters
             foreach (string characterName in interaction._characters)
@@ -213,6 +220,19 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime)
         {
+            if(!_isPaused)
+            {
+                _currTime += gameTime.GetElapsedSeconds();
+            }
+
+            if(_currTime >= _timer)
+            {
+                PlayInteraction();
+                _isPaused = true;
+                _currTime = 0;
+                _timer = new Random().Next((int)_silenceRange.X, (int)_silenceRange.Y);
+            }
+
             if (_currentInteraction != -1 && _talking)
             {
                 _interactions[_currentInteraction].Update(gameTime);

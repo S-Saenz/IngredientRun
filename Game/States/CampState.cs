@@ -89,7 +89,6 @@ namespace WillowWoodRefuge
 
             // dialogue system
             _dialogueSystem.Load(_characters);
-            _dialogueSystem.PlayInteraction(game);
 
             _isDark = false;
         }
