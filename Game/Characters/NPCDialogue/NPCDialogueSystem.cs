@@ -18,6 +18,7 @@ namespace WillowWoodRefuge
         Dictionary<int, int> _valid = new Dictionary<int, int>(); // all currently valid interactions and count of validation instances, needs to be updated before searching for interaction
         float _validProbabilityTotal;
         int _currentInteraction;
+        bool _talking = false;
         Dictionary<string, NPC> _characters;
 
         public NPCDialogueSystem(Game1 game)
@@ -163,6 +164,11 @@ namespace WillowWoodRefuge
             if(chosen != -1)
             {
                 _currentInteraction = chosen;
+                _interactions[chosen].Start(_characters);
+                _interactions[chosen].CallCall();
+                _interactions[chosen].AddEndListener(EndInteraction);
+                _interactions[chosen].AddStartListener(onStartInteraction);
+                _talking = false;
 
                 // remove from bins, now invalid
                 string[] requirements = _interactions[chosen].GetRequirements();
@@ -184,21 +190,40 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void EndInteraction()
+        public void EndInteraction(NPCInteraction interaction)
         {
             _currentInteraction = -1;
+
+            // free characters
+            foreach (string characterName in interaction._characters)
+            {
+                _characters[characterName].StopConverse();
+            }
         }
 
-        public void Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch)
+        public void onStartInteraction(NPCInteraction interaction)
         {
-            if (_currentInteraction != -1)
+            _talking = true;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if (_currentInteraction != -1 && _talking)
+            {
+                _interactions[_currentInteraction].Update(gameTime);
+            }
+        }
+
+        public void Draw(OrthographicCamera camera, SpriteBatch spriteBatch)
+        {
+            if (_currentInteraction != -1 && _talking)
             {
                 Dictionary<string, NPC> characters = new Dictionary<string, NPC>();
                 foreach(string name in _interactions[_currentInteraction]._characters)
                 {
                     characters.Add(name, _characters[name]);
                 }
-                _interactions[_currentInteraction].Draw(camera, gameTime, spriteBatch, characters);
+                _interactions[_currentInteraction].Draw(camera, spriteBatch, characters);
             }
         }
     }

@@ -207,6 +207,24 @@ namespace WillowWoodRefuge
             return endPoint;
         }
 
+        public NavPoint GetRandomPoint(NavPoint pos, Dictionary<NavPoint, NavPoint> parent)
+        {
+            if (!parent.ContainsKey(pos))
+            {
+                BFS(pos, out parent); // populate tree with all possible edges
+            }
+
+            NavPoint endPoint; // choose point
+            do
+            {
+                int choice = new Random().Next(1, parent.Count);
+                endPoint = parent.Values.ElementAt(choice);
+            }
+            while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));
+
+            return endPoint;
+        }
+
         public NavPoint GetPath(NavPoint pos, NavPoint dest, Dictionary<NavPoint, NavPoint> parent, out Dictionary<NavPoint, NavPoint> path)
         {
             if (!parent.ContainsKey(pos))

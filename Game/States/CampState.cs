@@ -96,7 +96,7 @@ namespace WillowWoodRefuge
 
         public override void unloadState()
         {
-            _dialogueSystem.EndInteraction();
+            _dialogueSystem.EndInteraction(null);
             base.unloadState();
         }
     }

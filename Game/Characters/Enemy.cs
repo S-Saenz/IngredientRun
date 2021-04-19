@@ -33,7 +33,7 @@ namespace WillowWoodRefuge
                 _currState = AIState.Attack;
             }
 
-            _attackTarget = playerLoc;
+            _interestTarget = playerLoc;
             base.Update(gameTime);
 
             // last seen point reached and player not visible

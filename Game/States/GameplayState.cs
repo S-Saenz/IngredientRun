@@ -142,7 +142,13 @@ namespace WillowWoodRefuge
             // Update NPCs
             foreach (NPC character in _characters.Values)
             {
-                character.Update(gameTime, _player._pos);
+                character.Update(gameTime);
+            }
+
+            // Update dialogue
+            if (_dialogueSystem != null)
+            {
+                _dialogueSystem.Update(gameTime);
             }
 
             // Update camera
@@ -286,7 +292,7 @@ namespace WillowWoodRefuge
             if (_dialogueSystem != null)
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _dialogueSystem.Draw(game._cameraController._camera, gameTime, spriteBatch);
+                _dialogueSystem.Draw(game._cameraController._camera, spriteBatch);
                 spriteBatch.End();
             }
 

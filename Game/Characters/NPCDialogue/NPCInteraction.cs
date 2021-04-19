@@ -15,6 +15,16 @@ namespace WillowWoodRefuge
         List<DialogueLine> _dialogue;
         int _currentLine = 0;
 
+        int _checkInCount = 0;
+
+        // Interaction event delegate
+        public delegate void InteractionEventHandler(NPCInteraction interaction);
+
+        // Interaction events
+        private event InteractionEventHandler _interactionCall;
+        private event InteractionEventHandler _interactionEnd;
+        private event InteractionEventHandler _interactionStart;
+
         public NPCInteraction(string unparsed)
         {
             string[] values = unparsed.Split('\t');
@@ -33,6 +43,16 @@ namespace WillowWoodRefuge
 
             _dialogue = new List<DialogueLine>();
             ParseDialogue(values[4]);
+        }
+
+        public void Start(Dictionary<string, NPC> characters)
+        {
+            Vector2? converseLoc = null;
+            foreach(string characterName in _characters)
+            {
+                converseLoc = characters[characterName].GoConverse(converseLoc);
+                characters[characterName].AddConversationReachedListener(onConversationReached);
+            }
         }
 
         public bool isSatisfied()
@@ -90,9 +110,17 @@ namespace WillowWoodRefuge
             return _requirements;
         }
 
-        public void Draw(OrthographicCamera camera, GameTime time, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
+        public void Update(GameTime gameTime)
         {
-            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(camera, time, spriteBatch, characters))
+            if (_currentLine < _dialogue.Count())
+                _dialogue[_currentLine].Update(gameTime);
+            else
+                CallEnd();
+        }
+
+        public void Draw(OrthographicCamera camera, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
+        {
+            if (_currentLine < _dialogue.Count() && _dialogue[_currentLine].Draw(camera, spriteBatch, characters))
             {
                 _currentLine += 1;
             }
@@ -102,6 +130,45 @@ namespace WillowWoodRefuge
             //     line.Draw();
             // }
             // Debug.WriteLine("\n");
+        }
+
+        private void onConversationReached()
+        {
+            ++_checkInCount;
+            if(_checkInCount == _characters.Length)
+            {
+                CallStart();
+            }
+        }
+
+        public void AddCallListener(InteractionEventHandler interaction)
+        {
+            _interactionCall += interaction;
+        }
+
+        public void AddStartListener(InteractionEventHandler interaction)
+        {
+            _interactionStart += interaction;
+        }
+
+        public void AddEndListener(InteractionEventHandler interaction)
+        {
+            _interactionEnd += interaction;
+        }
+
+        public void CallCall()
+        {
+            _interactionCall?.Invoke(this);
+        }
+
+        protected void CallStart()
+        {
+            _interactionStart?.Invoke(this);
+        }
+
+        protected void CallEnd()
+        {
+            _interactionEnd?.Invoke(this);
         }
     }
 }

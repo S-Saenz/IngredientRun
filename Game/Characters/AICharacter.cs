@@ -26,9 +26,10 @@ namespace WillowWoodRefuge
         protected NavPoint _currTarget;
         protected NavPoint _currPos;
         protected NavPoint _target;
-        protected Vector2 _attackTarget;
+        protected Vector2 _interestTarget;
         protected float _proxRange = 5;
         protected string _scene;
+        protected bool _inConversation = false;
 
         // this is dumb but everyone needs to know what points are occupied
         protected static Dictionary<string, List<Point>> _occupied = new Dictionary<string, List<Point>>();
@@ -119,6 +120,44 @@ namespace WillowWoodRefuge
             base.Update(gameTime);
         }
 
+        public void ChangeState(AIState newState)
+        {
+            // leave old state
+            switch(_currState)
+            {
+                case AIState.Wander:
+                    LeaveWanderState();
+                    break;
+                case AIState.Converse:
+                    LeaveConverseState();
+                    break;
+                case AIState.Stop:
+                    LeaveStopState();
+                    break;
+                case AIState.Attack:
+                    LeaveAttackState();
+                    break;
+            }
+
+            _currState = newState;
+            // enter new state
+            switch (_currState)
+            {
+                case AIState.Wander:
+                    StartWanderState();
+                    break;
+                case AIState.Converse:
+                    StartConverseState();
+                    break;
+                case AIState.Stop:
+                    StartStopState();
+                    break;
+                case AIState.Attack:
+                    StartAttackState();
+                    break;
+            }
+        }
+
         private void MoveUpdate(GameTime gameTime)
         {
             Update(gameTime, new Vector2(_pos.X < _currTarget._location.X ? 1 : -1, 0), true);
@@ -176,7 +215,7 @@ namespace WillowWoodRefuge
 
         private void ConverseUpdate(GameTime gameTime)
         {
-
+            
         }
 
         private void StopUpdate(GameTime gameTime)
@@ -186,7 +225,7 @@ namespace WillowWoodRefuge
 
         private void AttackUpdate(GameTime gameTime)
         {
-            NavPoint attackTarget = _navMesh.GetClosest(_attackTarget, _possibleMoves, _scene, _target?._tileLoc);
+            NavPoint attackTarget = _navMesh.GetClosest(_interestTarget, _possibleMoves, _scene, _target?._tileLoc);
             if (_target != attackTarget) // target has moved and another point in possible points is closer
             {
                 MoveTo(attackTarget);
@@ -252,6 +291,48 @@ namespace WillowWoodRefuge
         {
             RemoveCollision(physicsHandler);
             _occupied[_scene].Remove(_currPos._tileLoc);
+        }
+
+        protected void LeaveWanderState()
+        {
+
+        }
+
+        protected void LeaveAttackState()
+        {
+
+        }
+
+        protected void LeaveConverseState()
+        {
+
+        }
+
+        protected void LeaveStopState()
+        {
+
+        }
+
+        protected void StartWanderState()
+        {
+
+        }
+
+        protected void StartAttackState()
+        {
+
+        }
+
+        protected void StartConverseState()
+        {
+            _inConversation = false;
+            NavPoint targetPoint = _navMesh.GetClosest(_interestTarget, _scene);
+            MoveTo(targetPoint);
+        }
+
+        protected void StartStopState()
+        {
+
         }
     }
 }
