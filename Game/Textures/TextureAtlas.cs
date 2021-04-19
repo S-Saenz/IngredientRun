@@ -15,9 +15,13 @@ namespace WillowWoodRefuge
     {
         Dictionary<string, Rectangle> _textureList = new Dictionary<string, Rectangle>();
         Texture2D _textureAtlas;
+        static Texture2D _textureNotFound;
 
         public TextureAtlas(string filename, ContentManager content)
         {
+            if (_textureNotFound == null)
+                _textureNotFound = content.Load<Texture2D>("textureAtlas/textureNotFoundError");
+
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.textureAtlas." + filename + ".json");
 
             using (StreamReader reader = new StreamReader(stream))
@@ -37,24 +41,36 @@ namespace WillowWoodRefuge
 
         public void DrawTexture(SpriteBatch spriteBatch, string textureName, Vector2 loc, Color color, float scale = 1, bool centered = false)
         {
-            if(_textureList.ContainsKey(textureName))
+            bool textureFound = _textureList.ContainsKey(textureName);
+            Rectangle sourceRect = textureFound ? _textureList[textureName] : _textureNotFound.Bounds;
+
+            if (!centered)
             {
-                Rectangle sourceRect = _textureList[textureName];
-                // (Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-                if(!centered)
-                    spriteBatch.Draw(_textureAtlas, (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
-                else
-                    spriteBatch.Draw(_textureAtlas, (Rectangle)new RectangleF(loc.X - sourceRect.Width * scale / 2, loc.Y - sourceRect.Height * scale / 2, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
+                spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, 
+                                 (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
+            }
+            else
+            {
+                spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, 
+                                 (Rectangle)new RectangleF(loc.X - sourceRect.Width * scale / 2, loc.Y - sourceRect.Height * scale / 2, 
+                                                          sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
             }
         }
 
         public void DrawTexture(SpriteBatch spriteBatch, string textureName, Rectangle destinationRectangle, Color color)
         {
+            bool textureFound = _textureList.ContainsKey(textureName);
+            
+            spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, destinationRectangle, 
+                             textureFound ? _textureList[textureName] : _textureNotFound.Bounds, color);
+        }
+
+        public Size2 GetSize(string textureName)
+        {
             if (_textureList.ContainsKey(textureName))
-            {
-                // (Texture2D texture, Rectangle destinationRectangle, Rectangle? sourceRectangle, Color color, float rotation, Vector2 origin, SpriteEffects effects, float layerDepth);
-                spriteBatch.Draw(_textureAtlas, destinationRectangle, _textureList[textureName], color);
-            }
+                return _textureList[textureName].Size;
+            else
+                return _textureNotFound.Bounds.Size;
         }
 
         private class SourceRectangle

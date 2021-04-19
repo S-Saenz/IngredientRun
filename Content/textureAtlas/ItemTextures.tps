@@ -181,34 +181,16 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../ingredient/acorn.png</key>
-            <key type="filename">../ingredient/apple.png</key>
-            <key type="filename">../ingredient/carrot.png</key>
-            <key type="filename">../ingredient/egg.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,4,8,8</rect>
-                <key>scale9Paddings</key>
-                <rect>4,4,8,8</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../ingredient/apple_mushroom_soup.png</key>
+            <key type="filename">../Ingredient/appleMushroomSoup.png</key>
+            <key type="filename">../Ingredient/carrotSoup.png</key>
+            <key type="filename">../Ingredient/grilledFish.png</key>
+            <key type="filename">../Ingredient/monsterSoup.png</key>
+            <key type="filename">../Ingredient/rabbitSoup.png</key>
             <key type="filename">../ingredient/beetle.png</key>
             <key type="filename">../ingredient/berries.png</key>
-            <key type="filename">../ingredient/carrot_spice_soup.png</key>
             <key type="filename">../ingredient/cricket.png</key>
             <key type="filename">../ingredient/glowing_plant.png</key>
-            <key type="filename">../ingredient/grilled_fish.png</key>
             <key type="filename">../ingredient/honey.png</key>
-            <key type="filename">../ingredient/rabbit_spice_soup(1).png</key>
-            <key type="filename">../ingredient/rabbit_spice_soup.png</key>
             <key type="filename">../ingredient/snail.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -224,13 +206,13 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../Ingredient/water.png</key>
             <key type="filename">../ingredient/fish.png</key>
             <key type="filename">../ingredient/gooseberry.png</key>
             <key type="filename">../ingredient/meat.png</key>
             <key type="filename">../ingredient/mousemelon.png</key>
             <key type="filename">../ingredient/mushroom.png</key>
             <key type="filename">../ingredient/mushroom_medicine.png</key>
-            <key type="filename">../ingredient/waterjug.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -242,6 +224,24 @@
                 <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
                 <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ingredient/acorn.png</key>
+            <key type="filename">../ingredient/apple.png</key>
+            <key type="filename">../ingredient/carrot.png</key>
+            <key type="filename">../ingredient/egg.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -265,27 +265,27 @@
         <array>
             <filename>../ingredient/acorn.png</filename>
             <filename>../ingredient/apple.png</filename>
-            <filename>../ingredient/apple_mushroom_soup.png</filename>
             <filename>../ingredient/beetle.png</filename>
             <filename>../ingredient/berries.png</filename>
             <filename>../ingredient/carrot.png</filename>
-            <filename>../ingredient/carrot_spice_soup.png</filename>
             <filename>../ingredient/cricket.png</filename>
             <filename>../ingredient/egg.png</filename>
             <filename>../ingredient/fish.png</filename>
             <filename>../ingredient/glowing_plant.png</filename>
             <filename>../ingredient/gooseberry.png</filename>
-            <filename>../ingredient/grilled_fish.png</filename>
             <filename>../ingredient/honey.png</filename>
             <filename>../ingredient/meat.png</filename>
             <filename>../ingredient/mousemelon.png</filename>
             <filename>../ingredient/mushroom.png</filename>
             <filename>../ingredient/mushroom_medicine.png</filename>
-            <filename>../ingredient/rabbit_spice_soup(1).png</filename>
-            <filename>../ingredient/rabbit_spice_soup.png</filename>
             <filename>../ingredient/snail.png</filename>
-            <filename>../ingredient/waterjug.png</filename>
             <filename>../ingredient/wood.png</filename>
+            <filename>../Ingredient/carrotSoup.png</filename>
+            <filename>../Ingredient/rabbitSoup.png</filename>
+            <filename>../Ingredient/appleMushroomSoup.png</filename>
+            <filename>../Ingredient/monsterSoup.png</filename>
+            <filename>../Ingredient/water.png</filename>
+            <filename>../Ingredient/grilledFish.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
