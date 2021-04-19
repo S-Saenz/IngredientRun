@@ -4,21 +4,21 @@
 
 'Shift' - Run faster
 
-'I' - Open/Close inventory
+'Space' - Jump
 
+WASD - Left/right movement and climb/drop from ledge
+
+For cooking, hold 'Space' and release when food is cooked but not burnt
+
+Offer refugees ingredients from your inventory with E.
+If you have the correct ingredient, refugee will be cured.
 
 State persists even when returning to main menu.
 State is lost when the game is closed.
 
-
 Debug:
-(if you get stuck or want to see behind the curtain)
 
-'Left Ctrl' - Turn on full debug window
-
-'Right Ctrl' - Turn on mini debug window
-
-'Alt'+'Ctrl' - Change debug mode in respective window
+'Left Ctrl' - Turn on debug window
 
 'R' - Reset player location in scene (while in debug)
 
