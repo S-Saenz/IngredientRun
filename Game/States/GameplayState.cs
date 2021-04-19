@@ -311,7 +311,7 @@ namespace WillowWoodRefuge
             // Remove enemy hitboxes
             foreach (Enemy enemy in _enemies)
             {
-                enemy.RemoveCollision(_physicsHandler);
+                enemy.Destroy(_physicsHandler);
             }
             _enemies.Clear();
 
@@ -325,7 +325,7 @@ namespace WillowWoodRefuge
             // remove NPC hitboxes
             foreach (NPC character in _characters.Values)
             {
-                character.RemoveCollision(_physicsHandler);
+                character.Destroy(_physicsHandler);
             }
             _characters.Clear();
         }

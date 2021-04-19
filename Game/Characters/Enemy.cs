@@ -35,6 +35,12 @@ namespace WillowWoodRefuge
 
             _attackTarget = playerLoc;
             base.Update(gameTime);
+
+            // last seen point reached and player not visible
+            if (_currState == AIState.Attack && Vector2.Distance(playerLoc, _pos) > _sightDistance && _currPos == _target) 
+            {
+                _currState = AIState.Wander;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)

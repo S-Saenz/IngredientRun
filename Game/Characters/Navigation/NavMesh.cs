@@ -12,13 +12,15 @@ namespace WillowWoodRefuge
     {
         NavPointMap _pointMap;
         Dictionary<NavPoint, List<NavPoint>> _edges;
+        string _scene;
 
 
-        public NavMesh(NavPointMap pointMap, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, 
+        public NavMesh(NavPointMap pointMap, string scene, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, 
                        float airControl = 0, Area area = null)
         {
             _pointMap = pointMap;
             _edges = new Dictionary<NavPoint, List<NavPoint>>();
+            _scene = scene;
 
             FillMesh(canJump, canFall, jumpHeight, jumpDist, airControl, area);
         }
@@ -86,16 +88,15 @@ namespace WillowWoodRefuge
         public List<NavPoint> GetPathTo(Vector2 pos, Vector2 target)
         {
             List<NavPoint> path = new List<NavPoint>();
-            path.Add(GetClosest(pos));
+            path.Add(GetClosest(pos, null));
 
             return path;
         }
 
-        public Dictionary<NavPoint, NavPoint> GetAllPossible(Vector2 pos)
+        public Dictionary<NavPoint, NavPoint> GetAllPossible(NavPoint pos)
         {
-            NavPoint loc = GetClosest(pos);
             Dictionary<NavPoint, NavPoint> web;
-            BFS(loc, out web);
+            BFS(pos, out web);
 
             return web;
         }
@@ -133,14 +134,14 @@ namespace WillowWoodRefuge
             }
         }
 
-        public NavPoint GetClosest(Vector2 loc)
+        public NavPoint GetClosest(Vector2 loc, string scene)
         {
             NavPoint closest = null;
             float dist = float.MaxValue;
             foreach(NavPoint point in _pointMap._navPoints.Values)
             {
                 float newDist = Vector2.DistanceSquared(loc, point._location);
-                if (newDist < dist)
+                if (newDist < dist && (scene == null || !AICharacter._occupiedPoints[scene].Contains(point._tileLoc)))
                 {
                     closest = point;
                     dist = newDist;
@@ -149,22 +150,24 @@ namespace WillowWoodRefuge
             return closest;
         }
         
-        public NavPoint GetClosest(Vector2 loc, Dictionary<NavPoint, NavPoint> web)
+        public NavPoint GetClosest(Vector2 loc, Dictionary<NavPoint, NavPoint> web, string scene, Point? ignore = null)
         {
             NavPoint closest = null;
             float dist = float.MaxValue;
-            foreach (NavPoint point in web.Values)
+            foreach (NavPoint point in web.Values) // check all destinations
             {
                 if (point != null)
                 {
                     float newDist = Vector2.DistanceSquared(loc, point._location);
-                    if (newDist < dist)
+                    if (newDist < dist && (scene == null || !AICharacter._occupiedPoints[scene].Contains(point._tileLoc) || 
+                        (ignore.HasValue && ignore.Value == point._tileLoc)))
                     {
                         closest = point;
                         dist = newDist;
                     }
                 }
             }
+
             return closest;
         }
 
@@ -187,10 +190,15 @@ namespace WillowWoodRefuge
             }
 
             path = new Dictionary<NavPoint, NavPoint>();
-            int choice = new Random().Next(1, parent.Count);
-            NavPoint endPoint = parent.Values.ElementAt(choice); // choose point
+            NavPoint endPoint = null; // choose point
+            do
+            {
+                int choice = new Random().Next(1, parent.Count);
+                endPoint = parent.Values.ElementAt(choice);
+            }
+            while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));
             NavPoint point = endPoint;
-            while(point != pos) // while not first point
+            while(point != pos && parent[point] != null) // while not first point
             {
                 path.Add(parent[point], point);
                 point = parent[point];
@@ -202,6 +210,27 @@ namespace WillowWoodRefuge
         public NavPoint GetPath(NavPoint pos, NavPoint dest, Dictionary<NavPoint, NavPoint> parent, out Dictionary<NavPoint, NavPoint> path)
         {
             if (!parent.ContainsKey(pos))
+            {
+                BFS(pos, out parent); // populate tree with all possible edges
+            }
+
+            if (!parent.ContainsValue(dest)) // no viable path
+            {
+                path = new Dictionary<NavPoint, NavPoint>();
+                return null;
+            }
+
+            path = new Dictionary<NavPoint, NavPoint>();
+            NavPoint point = dest;
+            while (point != pos && parent[point] != null) // while not first point
+            {
+                path.Add(parent[point], point);
+                point = parent[point];
+            }
+
+            return dest;
+
+            /*if (!parent.ContainsKey(pos))
             {
                 BFS(pos, out parent); // populate tree with all possible edges
             }
@@ -221,7 +250,7 @@ namespace WillowWoodRefuge
                 point = parent[point];
             }
 
-            return endPoint;
+            return endPoint;*/
         }
     }
 }
