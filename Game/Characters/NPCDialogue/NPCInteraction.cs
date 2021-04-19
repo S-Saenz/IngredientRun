@@ -166,7 +166,7 @@ namespace WillowWoodRefuge
             _interactionStart?.Invoke(this);
         }
 
-        protected void CallEnd()
+        public void CallEnd()
         {
             _interactionEnd?.Invoke(this);
         }

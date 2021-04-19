@@ -166,7 +166,7 @@ namespace WillowWoodRefuge
                 _currentInteraction = chosen;
                 _interactions[chosen].Start(_characters);
                 _interactions[chosen].CallCall();
-                _interactions[chosen].AddEndListener(EndInteraction);
+                _interactions[chosen].AddEndListener(onInteractionEnded);
                 _interactions[chosen].AddStartListener(onStartInteraction);
                 _talking = false;
 
@@ -190,7 +190,12 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void EndInteraction(NPCInteraction interaction)
+        public void EndInteraction()
+        {
+            _interactions[_currentInteraction].CallEnd();
+        }
+
+        public void onInteractionEnded(NPCInteraction interaction)
         {
             _currentInteraction = -1;
 
