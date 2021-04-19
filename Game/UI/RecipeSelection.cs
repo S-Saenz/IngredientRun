@@ -260,10 +260,14 @@ namespace WillowWoodRefuge
             {
                 if (cookableRecipes.Count > 0)
                 {
-                    string recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
-                    Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
-                    if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
-                        SwitchToCooking(recipeFood);
+                    if (numRecipes > 0)
+                    {
+                        string recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
+                        Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
+                        if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
+                            SwitchToCooking(recipeFood);
+                        --numRecipes;
+                    }
                 }
             }
 
@@ -295,8 +299,6 @@ namespace WillowWoodRefuge
                 {
                     if (numRecipes > 0)
                     {
-                        
-
                         string recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
                         List<string> recipeIngredients = _recipes[recipeFood];
 
