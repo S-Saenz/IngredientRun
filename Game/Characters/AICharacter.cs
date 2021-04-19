@@ -186,7 +186,7 @@ namespace WillowWoodRefuge
 
         private void AttackUpdate(GameTime gameTime)
         {
-            NavPoint attackTarget = _navMesh.GetClosest(_attackTarget, _possibleMoves, _scene, _currPos._tileLoc);
+            NavPoint attackTarget = _navMesh.GetClosest(_attackTarget, _possibleMoves, _scene, _target?._tileLoc);
             if (_target != attackTarget) // target has moved and another point in possible points is closer
             {
                 MoveTo(attackTarget);

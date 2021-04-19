@@ -178,6 +178,12 @@
   <object id="1" name="only.spider" x="1042.67" y="144">
    <point/>
   </object>
+  <object id="8" name="only.spider" x="1066.71" y="464">
+   <point/>
+  </object>
+  <object id="19" name="only.spider" x="92" y="618.667">
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="7" name="AreaObjects">
   <object id="12" name="stateCamp" x="560" y="160" width="64" height="16"/>

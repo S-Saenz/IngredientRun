@@ -190,7 +190,7 @@ namespace WillowWoodRefuge
             }
 
             path = new Dictionary<NavPoint, NavPoint>();
-            NavPoint endPoint = null; // choose point
+            NavPoint endPoint; // choose point
             do
             {
                 int choice = new Random().Next(1, parent.Count);
