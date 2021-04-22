@@ -13,6 +13,9 @@ namespace WillowWoodRefuge
     {
         private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, hangLeftTex, FOW, FOWT;
         private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
+        private bool interuptAnimationUpdate = false;
+        private bool interuptInputUpdate = false;
+        private int delayFrames = 0;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -64,148 +67,29 @@ namespace WillowWoodRefuge
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            //Movement
-            if (Game1.instance.input.IsDown("right") && !_anchorPoint.HasValue)
+            if(delayFrames > 0)
             {
-                _collisionBox.TryMoveHorizontal(_currSpeed);
-            }
-            if (Game1.instance.input.IsDown("left") && !_anchorPoint.HasValue)
-            {
-                _collisionBox.TryMoveHorizontal(-_currSpeed);
-            }
-            // Debug.WriteLine(_collisionBox._velocity.X);
-            // Debug.WriteLine(_collisionBox._acceleration.X);
-            if (((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
-               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
-            {
-                _collisionBox.TryMoveHorizontal(0);
-            }
-
-            // movement sound
-            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
-            {
-                Game1.instance.sounds.runSound(gameTime);
-            } else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
-            {
-                Game1.instance.sounds.walkSound(gameTime);
-            }
-
-            if (Game1.instance.input.IsDown("jump"))
-            {
-                if (!_jumpClicked && !_anchorPoint.HasValue &&(_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
-                {
-                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
-                }
-                _jumpClicked = true;
-                _collisionBox._downLastBlocked = float.NegativeInfinity;
+                delayFrames--;
             }
             else
             {
-                _jumpClicked = false;
-            }
-            if(Game1.instance.input.IsDown("run"))
-            {
-                _currSpeed = _runSpeed;
-            }
-            else
-            {
-                _currSpeed = _walkSpeed;
+                interuptAnimationUpdate = false;
+                interuptInputUpdate = false;
             }
 
-            // Ledge grab controls
-            if (!_anchorPoint.HasValue)
+            // read player inputs
+            if(!interuptInputUpdate)
             {
-                CheckForLedgeGrab(gameTime);
-            }
-            else
-            {
-                if (Game1.instance.input.JustPressed("down") || // let go of ledge
-                    (_grabLeft && Game1.instance.input.JustPressed("right")) ||
-                    (!_grabLeft && Game1.instance.input.JustPressed("left")))
-                {
-                    _collisionBox._posLock = false;
-                    _collisionBox._hasGravity = true;
-                    _anchorPoint = null;
-                }
-                else if (Game1.instance.input.JustPressed("up") && // climb up on top of ledge
-                         _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
-                                                          _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
-                {
-                    _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
-                                                                _anchorPoint.Value.Y - _collisionBox._bounds.Height);
-                    _collisionBox._posLock = false;
-                    _collisionBox._hasGravity = true;
-                    _anchorPoint = null;
-                    //put ledge climb animation here.
-                    _currentMoveType = "climb";
-                }
-            }
-
-            if (Game1.instance.input.JustPressed("interact"))
-            {
-                foreach(CollisionInfo item in _collisionBox.IsOverlapping())
-                {
-                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
-                    NPC character = item._other as NPC;
-                    if (character != null)
-                    {
-                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        {
-                            actionComplete = character.Cure(inv[i]._name);
-                            if (actionComplete)
-                                Game1.instance.inventory.removeIngredient(inv[i]);
-                        }
-                    }
-
-                    // check if pickup item
-                    PickupItem obj = item._other as PickupItem;
-                    if(obj != null)
-                    {
-                        Debug.WriteLine(obj._name);
-                        // TODO: try adding to inventory, returning whether successful or not
-                        if(Game1.instance.inventory.addIngredient(null, obj._name))
-                        {
-                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                            obj._spawn.Despawn();
-                            actionComplete = true;
-                        }
-                    }
-
-                    // check if area
-                    Area area = item._other as Area;
-                    if(area != null)
-                    {
-                        if(area._name == "fire")
-                        {
-                            //Debug.WriteLine("Fire");
-                            // Open cooking ui
-                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
-                        }
-                        else if(area._name.Contains("state"))
-                        {
-                            if(area._name.Contains("Cave"))
-                            {
-                                Game1.instance.RequestStateChange("CaveState");
-                                actionComplete = true;
-                            }
-                            else if(area._name.Contains("Camp"))
-                            {
-                                Game1.instance.RequestStateChange("CampState");
-                                actionComplete = true;
-                            }
-                        }
-                    }
-
-                    if (actionComplete)
-                        break;
-                }
+                ReadInputs(gameTime);
             }
 
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
             // update animation type
-            UpdateAnimationInfo();
+            if (!interuptAnimationUpdate)
+            {
+                UpdateAnimationInfo();
+            }
 
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
             FOWTSprite.pos = _pos + _FOWTPos;
@@ -321,30 +205,151 @@ namespace WillowWoodRefuge
             return collisionHandler.RemoveObject(_collisionBox);
         }
 
+        private void ReadInputs(GameTime gameTime)
+        {
+            //Movement
+            if (Game1.instance.input.IsDown("right") && !_anchorPoint.HasValue)
+            {
+                _collisionBox.TryMoveHorizontal(_currSpeed);
+            }
+            if (Game1.instance.input.IsDown("left") && !_anchorPoint.HasValue)
+            {
+                _collisionBox.TryMoveHorizontal(-_currSpeed);
+            }
+            if (((!Game1.instance.input.IsDown("right") && _collisionBox._velocity.X > 0) ||
+               (!Game1.instance.input.IsDown("left") && _collisionBox._velocity.X < 0)) && _collisionBox._downBlocked)
+            {
+                _collisionBox.TryMoveHorizontal(0);
+            }
+            if (Game1.instance.input.IsDown("jump"))
+            {
+                if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
+                {
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                }
+                _jumpClicked = true;
+                _collisionBox._downLastBlocked = float.NegativeInfinity;
+            }
+            else
+            {
+                _jumpClicked = false;
+            }
+            if (Game1.instance.input.IsDown("run"))
+            {
+                _currSpeed = _runSpeed;
+            }
+            else
+            {
+                _currSpeed = _walkSpeed;
+            }
+
+            // Ledge grab controls
+            if (!_anchorPoint.HasValue)
+            {
+                CheckForLedgeGrab(gameTime);
+            }
+            else
+            {
+                ClimbLedge(gameTime);
+            }
+
+            if (Game1.instance.input.JustPressed("interact"))
+            {
+                foreach (CollisionInfo item in _collisionBox.IsOverlapping())
+                {
+                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                    NPC character = item._other as NPC;
+                    if (character != null)
+                    {
+                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
+                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
+                        {
+                            actionComplete = character.Cure(inv[i]._name);
+                            if (actionComplete)
+                                Game1.instance.inventory.removeIngredient(inv[i]);
+                        }
+                    }
+
+                    // check if pickup item
+                    PickupItem obj = item._other as PickupItem;
+                    if (obj != null)
+                    {
+                        Debug.WriteLine(obj._name);
+                        // TODO: try adding to inventory, returning whether successful or not
+                        if (Game1.instance.inventory.addIngredient(null, obj._name))
+                        {
+                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
+                            obj._spawn.Despawn();
+                            actionComplete = true;
+                        }
+                    }
+
+                    // check if area
+                    Area area = item._other as Area;
+                    if (area != null)
+                    {
+                        if (area._name == "fire")
+                        {
+                            //Debug.WriteLine("Fire");
+                            // Open cooking ui
+                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+                        }
+                        else if (area._name.Contains("state"))
+                        {
+                            if (area._name.Contains("Cave"))
+                            {
+                                Game1.instance.RequestStateChange("CaveState");
+                                actionComplete = true;
+                            }
+                            else if (area._name.Contains("Camp"))
+                            {
+                                Game1.instance.RequestStateChange("CampState");
+                                actionComplete = true;
+                            }
+                        }
+                    }
+
+                    if (actionComplete)
+                        break;
+                }
+            }
+            // movement sound
+            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.runSound(gameTime);
+            }
+            else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.walkSound(gameTime);
+            }
+        }
+
         private void UpdateAnimationInfo()
         {
-            if (_anchorPoint != null)
+            if (!interuptAnimationUpdate)
             {
-                _currentMoveType = "hang";
-                Debug.WriteLine("hang");
+                if (_anchorPoint != null)
+                {
+                    _currentMoveType = "hang";
+                }
+                else if (_collisionBox._velocity.X == 0 && _anchorPoint == null) // stopped
+                {
+                    _currentMoveType = "idle";
+                }
+                else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1 && _collisionBox._downBlocked) // if running
+                {
+                    _currentMoveType = "run";
+                }
+                else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1 && _collisionBox._downBlocked) // if walking
+                {
+                    _currentMoveType = "walk";
+                }
+                else if (!_collisionBox._downBlocked && _anchorPoint == null) // if airborne
+                {
+                    _currentMoveType = "jump";
+                }
+                currentAnimation = _currentMoveType + _currentDirection;
             }
-            else if (_collisionBox._velocity.X == 0 && _anchorPoint == null) // stopped
-            {
-                _currentMoveType = "idle";
-            }
-            else if (Math.Abs(_collisionBox._velocity.X) > _walkSpeed + 1 && _collisionBox._downBlocked) // if running
-            {
-                _currentMoveType = "run";
-            }
-            else if (Math.Abs(_collisionBox._velocity.X) < _walkSpeed + 1 && _collisionBox._downBlocked) // if walking
-            {
-                _currentMoveType = "walk";
-            }
-            else if (!_collisionBox._downBlocked && _anchorPoint == null) // if airborne
-            {
-                _currentMoveType = "jump";
-            }
-            currentAnimation = _currentMoveType + _currentDirection;
         }
 
         public void onStartMove(Vector2 move)
@@ -401,8 +406,6 @@ namespace WillowWoodRefuge
                 _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
                 _collisionBox._posLock = true;
                 _collisionBox._hasGravity = false;
-                Debug.WriteLine("Grabbed left");
-                //put ledge hang left animation here
             }
             else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
                      _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
@@ -414,9 +417,6 @@ namespace WillowWoodRefuge
                 _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
                 _collisionBox._posLock = true;
                 _collisionBox._hasGravity = false;
-                Debug.WriteLine("Grabbed right");
-                //put ledge hang right animation here
-                _currentMoveType = "hang";
             }
             else if(_collisionBox._downBlocked && Game1.instance.input.JustPressed("down") && 
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
@@ -430,7 +430,6 @@ namespace WillowWoodRefuge
                     _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
                     _collisionBox._posLock = true;
                     _collisionBox._hasGravity = false;
-                    Debug.WriteLine("Drop grabbed left");
                 }
                 else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
                 {
@@ -440,13 +439,41 @@ namespace WillowWoodRefuge
                     _collisionBox._acceleration = _collisionBox._velocity = Vector2.Zero;
                     _collisionBox._posLock = true;
                     _collisionBox._hasGravity = false;
-                    Debug.WriteLine("Drop grabbed right");
                 }
             }
             else
             {
                 _anchorPoint = null;
                 _collisionBox._hasGravity = true;
+            }
+        }
+
+        private void ClimbLedge(GameTime gameTime)
+        {
+            if (Game1.instance.input.JustPressed("down") || // let go of ledge
+                    (_grabLeft && Game1.instance.input.JustPressed("right")) ||
+                    (!_grabLeft && Game1.instance.input.JustPressed("left")))
+            {
+                _collisionBox._posLock = false;
+                _collisionBox._hasGravity = true;
+                _anchorPoint = null;
+            }
+            else if (Game1.instance.input.JustPressed("up") && // climb up on top of ledge
+                     _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                      _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
+            {
+                interuptAnimationUpdate = true;
+                interuptInputUpdate = true;
+                _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                            _anchorPoint.Value.Y - _collisionBox._bounds.Height);
+                _collisionBox._posLock = false;
+                _collisionBox._hasGravity = true;
+                _anchorPoint = null;
+                //put ledge climb animation here.
+
+                currentAnimation = "climbRight";
+                delayFrames = 60;
+                //interuptAnimationUpdate = false;
             }
         }
 
