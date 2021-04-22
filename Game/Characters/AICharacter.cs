@@ -272,7 +272,8 @@ namespace WillowWoodRefuge
                 _target = _navMesh.GetPath(_currPos, loc, _possibleMoves, out _currPath);
 
             // add new occupation
-            _occupied[_scene].Add(_target._tileLoc);
+            if(_target != null)
+                _occupied[_scene].Add(_target._tileLoc);
 
             // start move (if not path of length 0)
             if (_currPath.Count > 0)

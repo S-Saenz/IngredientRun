@@ -198,7 +198,8 @@ namespace WillowWoodRefuge
 
         public void EndInteraction()
         {
-            _interactions[_currentInteraction].CallEnd();
+            if(_currentInteraction != -1)
+                _interactions[_currentInteraction].CallEnd();
         }
 
         public void onInteractionEnded(NPCInteraction interaction)
