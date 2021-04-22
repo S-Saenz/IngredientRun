@@ -80,6 +80,16 @@ namespace WillowWoodRefuge
             {
                 _collisionBox.TryMoveHorizontal(0);
             }
+
+            // movement sound
+            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.runSound(gameTime);
+            } else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.walkSound(gameTime);
+            }
+
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue &&(_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
@@ -109,7 +119,7 @@ namespace WillowWoodRefuge
             }
             else
             {
-                if (Game1.instance.input.JustPressed("down") ||
+                if (Game1.instance.input.JustPressed("down") || // let go of ledge
                     (_grabLeft && Game1.instance.input.JustPressed("right")) ||
                     (!_grabLeft && Game1.instance.input.JustPressed("left")))
                 {
@@ -117,7 +127,9 @@ namespace WillowWoodRefuge
                     _collisionBox._hasGravity = true;
                     _anchorPoint = null;
                 }
-                else if (Game1.instance.input.JustPressed("up"))
+                else if (Game1.instance.input.JustPressed("up") && // climb up on top of ledge
+                         _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                          _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
                 {
                     _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
                                                                 _anchorPoint.Value.Y - _collisionBox._bounds.Height);
@@ -133,6 +145,19 @@ namespace WillowWoodRefuge
             {
                 foreach(CollisionInfo item in _collisionBox.IsOverlapping())
                 {
+                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                    NPC character = item._other as NPC;
+                    if (character != null)
+                    {
+                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
+                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
+                        {
+                            actionComplete = character.Cure(inv[i]._name);
+                            if (actionComplete)
+                                Game1.instance.inventory.removeIngredient(inv[i]);
+                        }
+                    }
+
                     // check if pickup item
                     PickupItem obj = item._other as PickupItem;
                     if(obj != null)
@@ -143,6 +168,7 @@ namespace WillowWoodRefuge
                         {
                             (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
+                            actionComplete = true;
                         }
                     }
 
@@ -155,20 +181,24 @@ namespace WillowWoodRefuge
                             //Debug.WriteLine("Fire");
                             // Open cooking ui
                             Game1.instance.UI.SwitchState(UIState.RecipeMenu);
-
                         }
                         else if(area._name.Contains("state"))
                         {
                             if(area._name.Contains("Cave"))
                             {
                                 Game1.instance.RequestStateChange("CaveState");
+                                actionComplete = true;
                             }
                             else if(area._name.Contains("Camp"))
                             {
                                 Game1.instance.RequestStateChange("CampState");
+                                actionComplete = true;
                             }
                         }
                     }
+
+                    if (actionComplete)
+                        break;
                 }
             }
 
@@ -265,6 +295,7 @@ namespace WillowWoodRefuge
         public void DrawDebug(SpriteBatch spriteBatch)
         {
             _collisionBox.Draw(spriteBatch);
+            
             // if(_collisionBox._rightBlocked)
             // {
             //     if(_collisionBox._rightBox.Top != _collisionBox._bounds.Top)
@@ -401,7 +432,8 @@ namespace WillowWoodRefuge
             else if(_collisionBox._downBlocked && Game1.instance.input.JustPressed("down") && 
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
             {
-                if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left) // down right grab left
+                if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left && // down right grab left
+                    _collisionBox.CanFit((Point2)_collisionBox._downBox.TopRight - new Vector2(0, _grabDist)))
                 {
                     _grabLeft = true;
                     _anchorPoint = _collisionBox._downBox.TopRight;
@@ -411,7 +443,7 @@ namespace WillowWoodRefuge
                     _collisionBox._hasGravity = false;
                     Debug.WriteLine("Drop grabbed left");
                 }
-                else // down left grab right
+                else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
                 {
                     _grabLeft = false;
                     _anchorPoint = _collisionBox._downBox.TopLeft;

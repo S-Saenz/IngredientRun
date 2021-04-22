@@ -248,8 +248,23 @@ namespace WillowWoodRefuge
                 Debug.WriteLine($"Debug mode turned {_debugMode}");
             }
 
-            if (oldKeyState.IsKeyUp(Keys.H) && keyState.IsKeyDown(Keys.H))
-                //this._visibleUI = true;
+            if (oldKeyState.IsKeyUp(Keys.H) && keyState.IsKeyDown(Keys.H)) { }
+            //this._visibleUI = true;
+
+            // check for recipe selected
+            List<Texture2D> cookableRecipes = CookableRecipes();
+            int numRecipes = cookableRecipes.Count;
+
+            foreach (KeyValuePair<Vector2, Vector2> point in _recipeCoordinates)
+            {
+                if (cookableRecipes.Count > 0)
+                {
+                    Texture2D recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
+                    Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
+                    if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
+                        SwitchToCooking(recipeFood);
+                }
+            }
 
             this.oldKeyState = keyState;
         }
@@ -288,8 +303,6 @@ namespace WillowWoodRefuge
                         //because the mouse position is being used for calculations. I think it could've been done if the recipe boxes were separate object types
                         //with their own draw function. But screw it, this draw function gonna go brazy
                         Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
-                        if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
-                            SwitchToCooking(recipeFood);
 
                         spriteBatch.Draw(box, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
                         spriteBatch.Draw(recipeFrame, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);

@@ -24,6 +24,8 @@ namespace WillowWoodRefuge
 
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
+            //_tileMap = new TileMap("tilemaps/camp/TempCampMapBig", _content, game.GraphicsDevice, _physicsHandler);
+
             _isDark = false;
 
             // Setup Background Layers
@@ -102,9 +104,11 @@ namespace WillowWoodRefuge
             _characters.Add("Aiyo", new NPC("aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, _tileMap._mapBounds, area: campArea));
+
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);
+                character.Injure("mushroom_medicine");
             }
 
             // dialogue system
