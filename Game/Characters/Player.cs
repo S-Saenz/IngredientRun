@@ -11,8 +11,8 @@ namespace WillowWoodRefuge
 {
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation;
+        private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, hangLeftTex, FOW, FOWT;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -237,6 +237,8 @@ namespace WillowWoodRefuge
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
             climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
             climbRightAnimation = new Animation(climbRightTex, 1, 16, 50);
+            hangLeftTex = Content.Load<Texture2D>("animations/ledge_hang_left");
+            hangLeftAnimation = new Animation(hangLeftTex, 1, 1, 50);
             hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
             hangRightAnimation = new Animation(hangRightTex, 1, 1, 50);
 
@@ -259,6 +261,8 @@ namespace WillowWoodRefuge
 
             //create list of Animations
             animationDict.Add("idle", idleAnimation);
+            animationDict.Add("idleLeft", idleAnimation);
+            animationDict.Add("idleRight", idleAnimation);
             animationDict.Add("runRight", runRightAnimation);
             animationDict.Add("runLeft", runLeftAnimation);
             animationDict.Add("walkRight", walkRightAnimation);
@@ -267,6 +271,7 @@ namespace WillowWoodRefuge
             animationDict.Add("jump", jumpRightAnimation);
             animationDict.Add("jumpLeft", jumpRightAnimation);
             animationDict.Add("climbRight", climbRightAnimation);
+            animationDict.Add("hangLeft", hangLeftAnimation);
             animationDict.Add("hangRight", hangRightAnimation);
 
             // Add collision box
@@ -354,18 +359,6 @@ namespace WillowWoodRefuge
             {
                 _currentDirection = "Left";
             }
-            else if (move.X == 0) // horizontal movement stopped
-            {
-                _currentDirection = "";
-            }
-            else if (_grabLeft == true)
-            {
-                _currentDirection = "Left";
-            }
-            else if (_grabLeft != true)
-            {
-                _currentDirection = "Right";
-            }
 
             if (move.X != 0) // moving horizontally
             {
@@ -383,11 +376,7 @@ namespace WillowWoodRefuge
             else if (move.X < 0) // moving left
             {
                 _currentDirection = "Left";
-            }
-            else if (move.X == 0) // horizontal movement stopped
-            {
-                _currentDirection = "";
-            }            
+            }        
         }
 
         public void Reset()
