@@ -91,7 +91,7 @@ namespace WillowWoodRefuge
         {
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1440, 810));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
             _cameraController.SetPlayerBounds(new RectangleF(0, 0, 175f, 98.4375f));
 
             // Temp debug add print out of new size when resizing
