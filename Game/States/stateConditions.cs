@@ -26,7 +26,7 @@ namespace WillowWoodRefuge
         static void c_FedMushroom(object sender, OnEventArgs e)
         {
             
-            Debug.WriteLine("The mushroom was fed at {1}.", e.TimeReached);
+            Debug.WriteLine("The mushroom was fed at {0}.", e.TimeReached);
         }
 
         public class Condition
