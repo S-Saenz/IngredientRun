@@ -24,5 +24,17 @@ namespace WillowWoodRefuge
             _numPhases = numPhases;
             _growDuration = growDuration;
         }
+
+        public static ForageInfo GetInfo(string name)
+        {
+            if(_allForageInfo.ContainsKey(name))
+            {
+                return _allForageInfo[name];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

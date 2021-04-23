@@ -40,13 +40,14 @@ namespace WillowWoodRefuge
 
             }
 
-            _numPhases = ForageInfo._forageInfo[_spawnType]._numPhases;
+            ForageInfo info = ForageInfo.GetInfo(_spawnType);
+            _numPhases = info != null ? info._numPhases : 0;
             _bounds = new CollisionBox(new RectangleF(pos, TextureAtlasManager.GetSize("Foraging",
                                            _spawnType + _numPhases)),
                                            physicsHandler, this);
             _bounds._bounds.Position -= new Vector2(_bounds._bounds.Width / 2, _bounds._bounds.Height);
             physicsHandler.AddObject("Foraging", _bounds);
-            _growDuration = ForageInfo._forageInfo[_spawnType]._growDuration;
+            _growDuration = info != null ? info._growDuration : 0;
             _timeElapsed = 0;
             _growPercent = 0;
             _forageSpots.Add(this);
