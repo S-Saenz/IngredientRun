@@ -49,11 +49,11 @@ namespace WillowWoodRefuge
 
         class EventCondition // and requirements
         {
-            List<Condition> _conditions;
+            List<StateConditions.Condition> _conditions;
 
             public bool isSatisfied()
             {
-                foreach (Condition cond in _conditions)
+                foreach (StateConditions.Condition cond in _conditions)
                 {
                     if (!cond._flag)
                     {

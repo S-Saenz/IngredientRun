@@ -134,7 +134,9 @@ namespace WillowWoodRefuge
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-            
+
+            stateConditions.ConditionUpdate(gameTime);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 ChangeState("MenuState");
 
