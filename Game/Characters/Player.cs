@@ -221,6 +221,17 @@ namespace WillowWoodRefuge
             {
                 _collisionBox.TryMoveHorizontal(0);
             }
+
+            // movement sound
+            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.runSound(gameTime);
+            } else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.walkSound(gameTime);
+
+            }
+
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
@@ -276,7 +287,7 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if (Game1.instance.inventory.addIngredient(null, obj._name))
+                        if (Game1.instance.inventory.addIngredient(obj._name))
                         {
                             (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();

@@ -15,11 +15,18 @@ namespace WillowWoodRefuge
         public bool _isCured { get; private set; }
         private float _cureDisplayTime = 3;
         private float _currTime = 0;
+        private bool _inConversation = false;
 
-        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler,
+        // Event delegate
+        public delegate void NPCEventHandler();
+
+        // Interaction events
+        private event NPCEventHandler _reachedConversation;
+
+        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
-                     : base(name, pos, "NPC", new Vector2(), collisionHandler, worldBounds, animationDict, area)
+                     : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, worldBounds, animationDict, area)
         {
             _walkSpeed = 20;
             _runSpeed = 120;
@@ -31,10 +38,16 @@ namespace WillowWoodRefuge
             _dialogueLoc = new Vector2((_texture.Bounds.Width * _scale) / 2 + 2, -(_texture.Height * _scale) / 2 - 2);
         }
 
-        public void Update(GameTime gameTime, Vector2 playerLoc)
+        public void Update(GameTime gameTime)
         {
             if (_isCured && _currTime < _cureDisplayTime)
                 _currTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_currState == AIState.Converse && !_isMoving && !_inConversation)
+            {
+                _reachedConversation?.Invoke();
+                _inConversation = true;
+            }
             base.Update(gameTime);
         }
 
@@ -87,6 +100,28 @@ namespace WillowWoodRefuge
             _isCured = true;
             Debug.WriteLine(name + " cured with " + item);
             return true;
+        }
+
+        public Vector2 GoConverse(Vector2? loc)
+        {
+            if (loc.HasValue)
+                _interestTarget = loc.Value;
+            else
+                _interestTarget = _navMesh.GetRandomPoint(_currPos, _possibleMoves)._location;
+
+            ChangeState(AIState.Converse);
+            _inConversation = false;
+            return _interestTarget;
+        }
+
+        public void StopConverse()
+        {
+            ChangeState(AIState.Wander);
+        }
+
+        public void AddConversationReachedListener(NPCEventHandler handler)
+        {
+            _reachedConversation += handler;
         }
     }
 }

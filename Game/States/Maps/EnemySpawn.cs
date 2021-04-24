@@ -9,10 +9,11 @@ namespace WillowWoodRefuge
 {
     class EnemySpawn : SpawnPoint
     {
-        public EnemySpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string spawnType = null) : 
+        string _scene;
+        public EnemySpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string scene, string spawnType = null) : 
             base(loc, rangeType, physicsHandler, spawnType)
         {
-            
+            _scene = scene;
         }
 
         public override ISpawnable Spawn()
@@ -23,13 +24,13 @@ namespace WillowWoodRefuge
             switch (_rangeType)
             {
                 case "only":
-                    _object = new Enemy(_spawnType, _location, _physicsHandler);
+                    _object = new Enemy(_spawnType, _location, _physicsHandler, _scene);
                     break;
                 case "family":
                     break;
                 case "any":
                     string spawnType = EnemyTextures._allItems[new Random().Next(EnemyTextures._allItems.Count)];
-                    _object = new Enemy(spawnType, _location, _physicsHandler);
+                    _object = new Enemy(spawnType, _location, _physicsHandler, _scene);
                     break;
             }
             return _object;

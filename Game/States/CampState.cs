@@ -23,7 +23,7 @@ namespace WillowWoodRefuge
             //_backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
 
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler);
+            _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler, "camp");
             //_tileMap = new TileMap("tilemaps/camp/TempCampMapBig", _content, game.GraphicsDevice, _physicsHandler);
 
             _isDark = false;
@@ -42,8 +42,8 @@ namespace WillowWoodRefuge
             _staticLightManager.AddLight(new Vector2(368, 256), 50);
             _staticLightManager.AddLight(new Vector2(488, 256), 50);
 
-            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             PostConstruction();
         }
 
@@ -91,19 +91,19 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
             _characters.Add("Lura", new NPC("lura", 
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom), 
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Snäll", new NPC("snall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Kall", new NPC("kall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Arg", new NPC("arg",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
             _characters.Add("Aiyo", new NPC("aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, _tileMap._mapBounds, area: campArea));
+                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
 
             foreach (NPC character in _characters.Values)
             {
@@ -113,7 +113,6 @@ namespace WillowWoodRefuge
 
             // dialogue system
             _dialogueSystem.Load(_characters);
-            _dialogueSystem.PlayInteraction(game);
 
             _isDark = false;
         }

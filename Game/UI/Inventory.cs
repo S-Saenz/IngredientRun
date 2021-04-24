@@ -15,7 +15,7 @@ namespace WillowWoodRefuge
     public class Inventory
     {
         //Texture Inventory rids need of texture loading but keep inventory texture for now
-        Texture2D inventorySq;
+        static Texture2D inventorySq;
         //Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
         //public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
         // List<Texture2D> ingredientTextures;
@@ -57,7 +57,7 @@ namespace WillowWoodRefuge
         }
 
        //reinitialize the inventory with the saved items and their positions
-        public void openInventory(Dictionary<Vector2, String> savedInventory)
+        public void openInventory(Dictionary<Vector2, string> savedInventory)
         {
 
         }
@@ -70,12 +70,12 @@ namespace WillowWoodRefuge
         //add items to the inventory for debugging purposes
         public void addExampleInventory()
         {
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acorn"), randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fish"), randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meat"), randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("wood"), randomBox(), "wood"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("waterjug"), randomBox(), "waterjug"));
+            ingredientList.Add(new Ingredient(randomBox(), "acorn"));
+            ingredientList.Add(new Ingredient(randomBox(), "apple"));
+            ingredientList.Add(new Ingredient(randomBox(), "fish"));
+            ingredientList.Add(new Ingredient(randomBox(), "meat"));
+            ingredientList.Add(new Ingredient(randomBox(), "wood"));
+            ingredientList.Add(new Ingredient(randomBox(), "water"));
         }
 
         public void Load(ContentManager Content)
@@ -173,7 +173,7 @@ namespace WillowWoodRefuge
                 {
                     //Debug.WriteLine("Rotate!");
 
-                    ingredient.Rotation += Convert.ToSingle(Math.PI) / 2f; //rotate by 90 degrees     
+                    ingredient.Rotation += (float)(Math.PI / 2f); //rotate by 90 degrees     
                     ingredient.updateOrientation();
 
                     //if ingredient is larger than one inventory square
@@ -183,7 +183,7 @@ namespace WillowWoodRefuge
                     }
 
                     //Debug.WriteLine($"{ingredient.img} rotation: pi/{ Math.Round( Math.PI/ingredient.Rotation ) }");
-                    Debug.WriteLine($"{ingredient.img} {ingredient.Rotation}");
+                    Debug.WriteLine($"{ingredient._name} {ingredient.Rotation}");
                 }
 
                 //inventory gravity - objects fall to bottom and stack on each other
@@ -210,7 +210,6 @@ namespace WillowWoodRefuge
                         ingredient.index = targetBox;
                         ingredient.pos = boxDict[targetBox];
                     }
-
                 }
                 else
                 {
@@ -237,7 +236,7 @@ namespace WillowWoodRefuge
             {
                 Debug.WriteLine("V pressed");
                 int randIndex = rnd.Next(ItemTextures._allItems.Count);
-                addIngredient(null, ItemTextures._allItems[randIndex]);
+                addIngredient(ItemTextures._allItems[randIndex]);
             }
             oldKeyState = keyState;
 
@@ -316,10 +315,10 @@ namespace WillowWoodRefuge
             }
         }
 
-        bool IsPointOver(Point xy, Sprite sprite)
-        {
-            return (sprite.Bounds().Contains(xy.X, xy.Y));
-        }
+        // bool IsPointOver(Point xy, Sprite sprite)
+        // {
+        //     return (sprite.Bounds().Contains(xy.X, xy.Y));
+        // }
 
         //check if ingredient can fall down the inventory grid
         public bool canIngredientFall(Ingredient ingredient)
@@ -417,7 +416,7 @@ namespace WillowWoodRefuge
         //////////////////////////////////////////////////////////////////////////
 
         //add a new ingredient into the inventory if there's space!
-        public bool addIngredient(Texture2D texture, string name)
+        public bool addIngredient(string name)
         {
             if (ingredientList.Count == boxes.Count - 1)
             {
@@ -425,7 +424,7 @@ namespace WillowWoodRefuge
                 return false;
             }
 
-            Ingredient newIngredient = new Ingredient(texture, randomBox(), name);
+            Ingredient newIngredient = new Ingredient(randomBox(), name);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
             return true;
@@ -437,12 +436,12 @@ namespace WillowWoodRefuge
             ingredientList.Remove(ingredient);
         }
 
-        public void removeIngredient(Texture2D ingredientTexture)
+        public void removeIngredient(string name)
         {
             bool done = false; //ensure only one ingredient is removed if there are duplicates
             foreach (Ingredient ingredient in ingredientList.ToList())
             {
-                if (ingredient.img == ingredientTexture && !done)
+                if (ingredient._name == name && !done)
                 {
                     ingredientList.Remove(ingredient);
                     done = true;
