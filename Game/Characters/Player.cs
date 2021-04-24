@@ -382,6 +382,10 @@ namespace WillowWoodRefuge
             {
                 _currentDirection = "Left";
             }        
+            else if(_anchorPoint != null)
+            {
+                _currentDirection = _grabLeft ? "Left" : "Right";
+            }
         }
 
         public void Reset()
