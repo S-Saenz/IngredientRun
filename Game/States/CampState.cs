@@ -1,13 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
     class CampState : GameplayState
     {
+        
+
+        protected WeatherManager _weatherManager = new WeatherManager();
         public CampState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
             : base(game, graphicsDevice, content, spriteBatch)
         {
@@ -44,8 +49,27 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+            KeyboardState state = Keyboard.GetState();
             // _backgroundLayers[0];
             base.Update(gameTime);
+            
+            //simple weather manager toggle
+            if(state.IsKeyDown(Keys.N))
+            {
+                _weatherManager.nighttime();
+            }
+            if (state.IsKeyDown(Keys.M))
+            {
+                _weatherManager.daytime();
+            }
+            if (state.IsKeyDown(Keys.K))
+            {
+                _weatherManager.clear();
+            }
+            if (state.IsKeyDown(Keys.L))
+            {
+                _weatherManager.rain();
+            }
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

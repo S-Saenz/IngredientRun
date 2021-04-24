@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
+//using WillowWoodRefuge.Game.Weather;
 
 namespace WillowWoodRefuge
 {
