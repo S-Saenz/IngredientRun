@@ -50,7 +50,7 @@ namespace WillowWoodRefuge
             // Populate condition bins
             _conditionBins.Add("noRequirements", new List<int>());
 
-            foreach(Condition cond in game.stateConditions.conditionList)
+            foreach(StateConditions.Condition cond in game.stateConditions.conditionList)
             {
                 _conditionBins.Add(cond._name, new List<int>());
                 _conditionBins.Add('!' + cond._name, new List<int>());
@@ -80,7 +80,7 @@ namespace WillowWoodRefuge
                 }
             }
 
-            RecalculateValid();
+            RecalculateValid(game);
         }
 
         public void Load(Dictionary<string, NPC> characters)
@@ -88,11 +88,11 @@ namespace WillowWoodRefuge
             _characters = characters;
         }
 
-        private void RecalculateValid()
+        private void RecalculateValid(Game1 game)
         {
             // repopulate _valid container
             _valid.Clear();
-            foreach(Condition cond in Game1.instance.stateConditions.conditionList)
+            foreach(StateConditions.Condition cond in game.stateConditions.conditionList)
             {
                 if(cond._flag == true)
                 {
@@ -151,9 +151,9 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void PlayInteraction()
+        public void PlayInteraction(Game1 game)
         {
-            RecalculateValid();
+            RecalculateValid(game);
             float val = new Random(System.DateTime.Now.Second).Next() % _validProbabilityTotal;
             float total = 0;
             int[] elem = _valid.Keys.ToArray();
@@ -228,7 +228,7 @@ namespace WillowWoodRefuge
 
             if(_currTime >= _timer)
             {
-                PlayInteraction();
+                PlayInteraction(Game1.instance);
                 _isPaused = true;
                 _currTime = 0;
                 _timer = new Random().Next((int)_silenceRange.X, (int)_silenceRange.Y);
