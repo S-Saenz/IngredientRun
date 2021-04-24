@@ -150,7 +150,7 @@ namespace WillowWoodRefuge
 
                 //Print mouse cursor position to debug console
 
-                // Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                //Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
