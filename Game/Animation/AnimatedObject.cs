@@ -27,10 +27,10 @@ namespace WillowWoodRefuge
         {
             //code here
         }*/
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color? color = null)
         {
             //spriteBatch.Draw(idle, _pos, null, Color.White, 0f, new Vector2(idle.Bounds.Center.X, idle.Bounds.Center.Y), _scale, SpriteEffects.None, 0.5f);
-            animationDict[currentAnimation].Draw(spriteBatch, _pos, _scale);
+            animationDict[currentAnimation].Draw(spriteBatch, _pos, _scale, color);
         }
 
         public void Update(GameTime gameTime)

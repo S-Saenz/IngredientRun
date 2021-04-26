@@ -13,8 +13,8 @@ namespace WillowWoodRefuge
         private Vector2 _dialogueLoc;
         public string _cureItem { get; private set; } // name of item needed to cure
         public bool _isCured { get; private set; }
-        private float _cureDisplayTime = 3;
-        private float _currTime = 0;
+        private float _displayTime = 3;
+        private float _currTime = -1;
         private bool _inConversation = false;
 
         // Event delegate
@@ -40,7 +40,7 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime)
         {
-            if (_isCured && _currTime < _cureDisplayTime)
+            if (_currTime >= 0 && _currTime < _displayTime)
                 _currTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (_currState == AIState.Converse && !_isMoving && !_inConversation)
@@ -53,9 +53,12 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
-            if (_isCured && _currTime < _cureDisplayTime)
-                spriteBatch.DrawString(FontManager._dialogueFont, name + " cured!", _pos, Color.Black);
+            base.Draw(spriteBatch, _isCured ? Color.White : Color.Gray);
+            if (_currTime >= 0 && _currTime < _displayTime)
+            {
+                string statement = _isCured ? (name + " cured!") : ("incorrect item");
+                spriteBatch.DrawString(FontManager._dialogueFont, statement, _pos, Color.Black);
+            }
         }
 
         public void DrawDebug(SpriteBatch spriteBatch)
@@ -94,6 +97,7 @@ namespace WillowWoodRefuge
         // Attempts to cure characte with given item, returning whether cure was successful or not
         public bool Cure(string item)
         {
+            _currTime = 0;
             if (_isCured || item != _cureItem)
                 return false;
 

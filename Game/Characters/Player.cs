@@ -270,15 +270,18 @@ namespace WillowWoodRefuge
                 {
                     bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
                     NPC character = item._other as NPC;
-                    if (character != null)
+                    if (character != null && !character._isCured)
                     {
-                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        {
-                            actionComplete = character.Cure(inv[i]._name);
-                            if (actionComplete)
-                                Game1.instance.inventory.removeIngredient(inv[i]);
-                        }
+                        Game1.instance.inventory._gifting = true;
+                        Game1.instance.inventory._recipient = character;
+                        Game1.instance.UI.SwitchState(UIState.Inventory);
+                        // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
+                        // for (int i = 0; i < inv.Count && !character._isCured; ++i)
+                        // {
+                        //     actionComplete = character.Cure(inv[i]._name);
+                        //     if (actionComplete)
+                        //         Game1.instance.inventory.removeIngredient(inv[i]);
+                        // }
                     }
 
                     // check if pickup item
