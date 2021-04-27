@@ -15,6 +15,7 @@ namespace WillowWoodRefuge
         public bool _isRipe { get; protected set; } // whether item can currently be foraged or not
         public string _currSpawn { get; protected set; } // the name of the current item being grown
         public int _numPhases { get; protected set; } // number of texture phases
+        public bool _fromEmpty { get; protected set; } // if first phase is empty space (no texture)
 
         // Static container of all forage spots
         static protected List<ForageSpot> _spots = new List<ForageSpot>();
@@ -42,12 +43,15 @@ namespace WillowWoodRefuge
 
             ForageInfo info = ForageInfo.GetInfo(_spawnType);
             _numPhases = info != null ? info._numPhases : 0;
+            _growDuration = info != null ? info._growDuration : 0;
+            _fromEmpty = info._fromEmpty;
+
             _bounds = new CollisionBox(new RectangleF(pos, TextureAtlasManager.GetSize("Foraging",
                                            _spawnType + _numPhases)),
                                            physicsHandler, this);
             _bounds._bounds.Position -= new Vector2(_bounds._bounds.Width / 2, _bounds._bounds.Height);
             physicsHandler.AddObject("Foraging", _bounds);
-            _growDuration = info != null ? info._growDuration : 0;
+            
             _timeElapsed = 0;
             _growPercent = 0;
             _forageSpots.Add(this);
@@ -74,8 +78,13 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            TextureAtlasManager.DrawTexture(spriteBatch, "Foraging", _currSpawn + (Math.Floor(_growPercent * (_numPhases - 1)) + 1),
-                                            _bounds._bounds.Position, Color.White);
+            int currPhase = (int)Math.Floor(_growPercent * (_numPhases - 1)) + (_fromEmpty ? 0 : 1);
+            if (_isRipe) // fully grown/harvestable
+                currPhase = _numPhases;
+            
+            if (currPhase != 0)
+                TextureAtlasManager.DrawTexture(spriteBatch, "Foraging", _currSpawn + currPhase,
+                                                _bounds._bounds.Position, Color.White);
         }
 
         public string TryHarvest()

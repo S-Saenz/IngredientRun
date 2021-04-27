@@ -285,7 +285,7 @@ namespace WillowWoodRefuge
                     }
 
                     // check if pickup item
-                    PickupItem obj = item._other as PickupItem;
+                    SpawnItem obj = item._other as SpawnItem;
                     if (obj != null)
                     {
                         Debug.WriteLine(obj._name);
@@ -309,7 +309,7 @@ namespace WillowWoodRefuge
                             string harvested = forage.TryHarvest();
                             if (harvested != null) // something harvested
                             {
-                                Game1.instance.inventory.addIngredient(null, harvested);
+                                Game1.instance.inventory.addIngredient(harvested);
                                 actionComplete = true;
                             }
                         }
