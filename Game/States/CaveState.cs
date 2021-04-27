@@ -10,7 +10,7 @@ namespace WillowWoodRefuge
             : base(game, graphicsDevice, content, spriteBatch)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler);
+            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 
@@ -20,8 +20,8 @@ namespace WillowWoodRefuge
             _staticLightManager.AddLight(new Vector2(240, 208), 100);
             _staticLightManager.AddLight(new Vector2(0, 35), 300);
 
-            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             PostConstruction();
         }
 

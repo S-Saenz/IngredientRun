@@ -22,14 +22,15 @@ namespace WillowWoodRefuge
          KeyboardState oldKeyState;
 
 
-        Texture2D mainUI, background, selectedFood;
+        //Texture2D mainUI, background, selectedFood;
+        string selectedFood;
         Texture2D container, box1, box2, box1Selected, box2Selected, recipeFrame, blackPlus, yellowPlus;
 
         //recipes 
-        Texture2D grilledFish, appleMushroomSoup, monsterSoup, rabbitSoup, carrotSoup;
+        //Texture2D grilledFish, appleMushroomSoup, monsterSoup, rabbitSoup, carrotSoup;
 
         //ingredients
-        Texture2D acorn, apple, carrot, egg, fish, gooseberry, meat, mouseMelon, mushroom, water, wood;
+        //Texture2D acorn, apple, carrot, egg, fish, gooseberry, meat, mouseMelon, mushroom, water, wood;
 
         //public bool _visibleUI = true;
 
@@ -47,14 +48,14 @@ namespace WillowWoodRefuge
 
         //dict of ALL recipes
         //KEY = food, VALUE = recipe's ingredients 
-        public Dictionary<Texture2D, List<Texture2D>> _recipes = 
-            new Dictionary<Texture2D, List<Texture2D>>();
+        public Dictionary<string, List<string>> _recipes = 
+            new Dictionary<string, List<string>>();
 
 
         //there are 6 max recipes available
         //Key = [row,height], Value = recipe's end food
-        Dictionary< Vector2, Texture2D> _recipesDisplay
-            = new Dictionary<Vector2, Texture2D>();
+        Dictionary< Vector2, string> _recipesDisplay
+            = new Dictionary<Vector2, string>();
 
         //Key = [row,height], Value = (x,y)
         Dictionary<Vector2, Vector2> _recipeCoordinates
@@ -63,7 +64,7 @@ namespace WillowWoodRefuge
 
         MouseState _mouseState;
 
-         Boolean _debugMode = false;
+        bool _debugMode = false;
 
         public bool loaded = false;
 
@@ -133,31 +134,31 @@ namespace WillowWoodRefuge
             this.rabbitSoup = inventory.rabbitSoup;
             */
 
-            this.acorn = ItemTextures.GetTexture("acorn");
-            this.apple = ItemTextures.GetTexture("apple");
-            this.carrot = ItemTextures.GetTexture("carrot");
-            this.egg = ItemTextures.GetTexture("egg");
-            this.fish = ItemTextures.GetTexture("fish");
-            this.gooseberry = ItemTextures.GetTexture("gooseberry");
-            this.meat = ItemTextures.GetTexture("meat");
-            this.mouseMelon = ItemTextures.GetTexture("mousemelon");
-            this.mushroom = ItemTextures.GetTexture("mushroom");
-            this.water = ItemTextures.GetTexture("waterjug");
-            this.wood = ItemTextures.GetTexture("wood");
+            // this.acorn = ItemTextures.GetTexture("acorn");
+            // this.apple = ItemTextures.GetTexture("apple");
+            // this.carrot = ItemTextures.GetTexture("carrot");
+            // this.egg = ItemTextures.GetTexture("egg");
+            // this.fish = ItemTextures.GetTexture("fish");
+            // this.gooseberry = ItemTextures.GetTexture("gooseberry");
+            // this.meat = ItemTextures.GetTexture("meat");
+            // this.mouseMelon = ItemTextures.GetTexture("mousemelon");
+            // this.mushroom = ItemTextures.GetTexture("mushroom");
+            // this.water = ItemTextures.GetTexture("waterjug");
+            // this.wood = ItemTextures.GetTexture("wood");
 
-            this.grilledFish = ItemTextures.GetTexture("grilled_fish");
-            this.appleMushroomSoup = ItemTextures.GetTexture("apple_mushroom_soup");
-            this.carrotSoup = ItemTextures.GetTexture("carrot_spice_soup");
-            this.monsterSoup = ItemTextures.GetTexture("rabbit_spice_soup(1)");
-            this.rabbitSoup = ItemTextures.GetTexture("rabbit_spice_soup");
+            // this.grilledFish = ItemTextures.GetTexture("grilled_fish");
+            // this.appleMushroomSoup = ItemTextures.GetTexture("apple_mushroom_soup");
+            // this.carrotSoup = ItemTextures.GetTexture("carrot_spice_soup");
+            // this.monsterSoup = ItemTextures.GetTexture("rabbit_spice_soup(1)");
+            // this.rabbitSoup = ItemTextures.GetTexture("rabbit_spice_soup");
 
 
             //ADD RECIPES HERE
-            _recipes.Add(grilledFish, new List<Texture2D>() { fish });
-            _recipes.Add(appleMushroomSoup, new List<Texture2D>() { apple, water });
-            _recipes.Add(carrotSoup, new List<Texture2D>() { carrot, water });
-            _recipes.Add(rabbitSoup, new List<Texture2D>() { meat, water });
-            _recipes.Add(monsterSoup, new List<Texture2D>() { meat, water });
+            _recipes.Add("grilledFish", new List<string>() { "fish" });
+            _recipes.Add("appleMushroomSoup", new List<string>() { "apple", "water" });
+            _recipes.Add("carrotSoup", new List<string>() { "carrot", "water" });
+            _recipes.Add("rabbitSoup", new List<string>() { "meat", "water" });
+            _recipes.Add("monsterSoup", new List<string>() { "meat", "water" });
 
 
             //add in the coordinates where each recipe box will be displayed (assuming origin is at (0,0)
@@ -221,14 +222,14 @@ namespace WillowWoodRefuge
                // _visibleUI = false;
                 cookingUI._finished = false;
                 cookingUI._cookingVisible = true;
-                cookingUI.foodImage = selectedFood; //selectedFood = grilledFish
+                cookingUI.foodName = selectedFood; //selectedFood = grilledFish
             }
 
             //press ALT + E to print available recipes 
             if (oldKeyState.IsKeyUp(Keys.E) && keyState.IsKeyDown(Keys.E) && keyState.IsKeyDown(Keys.LeftAlt) && _debugMode)
             {
                 Debug.WriteLine("Printing recipes: ");
-                foreach (Texture2D food in CookableRecipes())
+                foreach (string food in CookableRecipes())
                 {
                     debug($"{food}");
                 }
@@ -252,17 +253,21 @@ namespace WillowWoodRefuge
             //this._visibleUI = true;
 
             // check for recipe selected
-            List<Texture2D> cookableRecipes = CookableRecipes();
+            List<string> cookableRecipes = CookableRecipes();
             int numRecipes = cookableRecipes.Count;
 
             foreach (KeyValuePair<Vector2, Vector2> point in _recipeCoordinates)
             {
                 if (cookableRecipes.Count > 0)
                 {
-                    Texture2D recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
-                    Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
-                    if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
-                        SwitchToCooking(recipeFood);
+                    if (numRecipes > 0)
+                    {
+                        string recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
+                        Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
+                        if (IsRecipeBeingClicked(this._mouseState.Position, box, point.Value, _scale))
+                            SwitchToCooking(recipeFood);
+                        --numRecipes;
+                    }
                 }
             }
 
@@ -288,16 +293,14 @@ namespace WillowWoodRefuge
                 spriteBatch.Draw(container, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
 
                 //draw the recipes
-                List<Texture2D> cookableRecipes = CookableRecipes();
+                List<string> cookableRecipes = CookableRecipes();
                 int numRecipes = cookableRecipes.Count;
                 foreach(KeyValuePair<Vector2, Vector2> point in _recipeCoordinates)
                 {
                     if (numRecipes > 0)
                     {
-                        
-
-                        Texture2D recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
-                        List<Texture2D> recipeIngredients = _recipes[recipeFood];
+                        string recipeFood = cookableRecipes.ElementAt(numRecipes - 1);
+                        List<string> recipeIngredients = _recipes[recipeFood];
 
                         //ummmmm, I fucked up, but I'm in too deep. The following logic should probably be implemented in update
                         //because the mouse position is being used for calculations. I think it could've been done if the recipe boxes were separate object types
@@ -307,12 +310,19 @@ namespace WillowWoodRefuge
                         spriteBatch.Draw(box, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
                         spriteBatch.Draw(recipeFrame, point.Value, null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
 
-                        spriteBatch.Draw(recipeFood, point.Value, null, Color.White, 0f, Vector2.Zero, _recipeScale, SpriteEffects.None, UIdepth);
-                        spriteBatch.Draw(recipeIngredients.ElementAt(0), new Vector2(point.Value.X + 60*_scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
+                        // spriteBatch.Draw(recipeFood, point.Value, null, Color.White, 0f, Vector2.Zero, _recipeScale, SpriteEffects.None, UIdepth);
+                        // spriteBatch.Draw(recipeIngredients.ElementAt(0), new Vector2(point.Value.X + 60*_scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", recipeFood, point.Value, Color.White, _recipeScale);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", recipeIngredients.ElementAt(0), 
+                                                        new Vector2(point.Value.X + 60 * _scale, point.Value.Y), 
+                                                        Color.White, _foodScale);
                         if(recipeIngredients.Count == 2)
                         {
-                            spriteBatch.Draw(recipeIngredients.ElementAt(1), new Vector2(point.Value.X + 160 * _scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
-                            spriteBatch.Draw(yellowPlus, new Vector2(point.Value.X + 119 * _scale, point.Value.Y + 30), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
+                            // spriteBatch.Draw(recipeIngredients.ElementAt(1), new Vector2(point.Value.X + 160 * _scale, point.Value.Y), null, Color.White, 0f, Vector2.Zero, _foodScale, SpriteEffects.None, UIdepth);
+                            TextureAtlasManager.DrawTexture(spriteBatch, "Item", recipeIngredients.ElementAt(1),
+                                                            new Vector2(point.Value.X + 160 * _scale, point.Value.Y),
+                                                            Color.White, _foodScale);
+                        spriteBatch.Draw(yellowPlus, new Vector2(point.Value.X + 119 * _scale, point.Value.Y + 30), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, UIdepth);
                         }
 
 
@@ -333,27 +343,27 @@ namespace WillowWoodRefuge
             Game1.instance.UI.SwitchState(UIState.None);
         }
 
-        void debug(String message)
+        void debug(string message)
          {
             Debug.WriteLineIf(_debugMode, message);
          }
 
         //will return a list of the foods that can be cooked
-        List<Texture2D> CookableRecipes()
+        List<string> CookableRecipes()
         {
-            List<Texture2D> cookable = new List<Texture2D>();
+            List<string> cookable = new List<string>();
 
-            foreach(KeyValuePair<Texture2D, List<Texture2D>> recipe in _recipes) //iterate through the recipes
+            foreach(KeyValuePair<string, List<string>> recipe in _recipes) //iterate through the recipes
             {
-                List<Texture2D> ingredientsNeeded = recipe.Value;
+                List<string> ingredientsNeeded = recipe.Value;
                 bool ingredientsAvailable = true; //until proven otherwise
 
-                foreach(Texture2D ingredientNeeded in ingredientsNeeded) //iterate through all the ingredientsNeeded for the recipe
+                foreach(string ingredientNeeded in ingredientsNeeded) //iterate through all the ingredientsNeeded for the recipe
                 {
                     bool ingredientFound = false;
                     foreach(Ingredient inventoryIngredient in inventory.ingredientList) //iterate through the available ingredients in inventory 
                     {
-                        if (ingredientNeeded == inventoryIngredient.img) //check if the ingredient needed is in the available ingredients
+                        if (ingredientNeeded == inventoryIngredient._name) //check if the ingredient needed is in the available ingredients
                             ingredientFound = true;
                     }
                     //missing ingredient means we can't make the recipe!
@@ -369,16 +379,16 @@ namespace WillowWoodRefuge
         }
 
         //determine whether a recipe getting displayed gets a short or long box or whether its highlighted or not
-        Texture2D pickBoxForRecipe(Texture2D recipeFood, Vector2 point)
+        Texture2D pickBoxForRecipe(string recipeFood, Vector2 point)
         {
             Texture2D box;
 
             //pick the appropriate sized box for the amount of ingredients
-            List<Texture2D> recipeIngredients = _recipes[recipeFood];
+            List<string> recipeIngredients = _recipes[recipeFood];
             box = recipeIngredients.Count == 1 ? box1 : box2; 
 
             //determine whether or not the mouse is hovering over the box and if so highlight the box!
-            Boolean highlight = IsPointOverRecipeBox(this._mouseState.Position, box, point, _scale);
+            bool highlight = IsPointOverRecipeBox(_mouseState.Position, box, point, _scale);
             if(highlight)
             {
                 box = box == box1 ? box1Selected : box2Selected; 
@@ -392,7 +402,7 @@ namespace WillowWoodRefuge
         //differences include accepting Texture2D as a @param instead of a Sprite and factoring scale into calculations
         bool IsPointOverRecipeBox(Point xy, Texture2D image, Vector2 pos,  float scale)
         {
-            int intScale = Convert.ToInt32(scale);
+            int intScale = (int)scale;
             //assume origin is at (0,0)
             Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), new Point(image.Width*intScale, image.Height*intScale));
             return (rect.Contains(xy.X, xy.Y));
@@ -406,7 +416,7 @@ namespace WillowWoodRefuge
         }
 
         //use this when a recipe box is clicked to cook that recipe!
-        void SwitchToCooking(Texture2D selectedFood)
+        void SwitchToCooking(string selectedFood)
         {
             //make sure the recipe selection UI is active/visible when implementing this logic
             //if (_visibleUI)
@@ -415,7 +425,7 @@ namespace WillowWoodRefuge
                 cookingUI._cookingVisible = true; //cooking ui is now visible
 
                 cookingUI._finished = false; //resets cooking UI
-                cookingUI.foodImage = selectedFood; //display food being cooked in the cooking ui
+                cookingUI.foodName = selectedFood; //display food being cooked in the cooking ui
             //}
 
             //UI Manager switched to cooking

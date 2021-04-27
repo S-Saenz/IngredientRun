@@ -40,16 +40,20 @@ namespace WillowWoodRefuge
         }
 
         // direction: -1 left, 0 not moving, 1 right
-        public void Update(GameTime gameTime, int direction, bool isWalking)
+        public void Update(GameTime gameTime, Vector2 direction, bool isWalking)
         {
+            if(direction.LengthSquared() != 0)
+                direction.Normalize();
             // apply movement velocity
             if (isWalking)
             {
-                _collisionBox.TryMoveHorizontal(_walkSpeed * direction);
+                if(direction.Y == 0)
+                    _collisionBox.TryMoveHorizontal(_walkSpeed * direction.X);
             }
             else
             {
-                _collisionBox.TryMoveHorizontal(_runSpeed * direction);
+                if(direction.Y == 0)
+                    _collisionBox.TryMoveHorizontal(_runSpeed * direction.X);
             }
 
             // update collision box and sprite position (center on collision box)
@@ -62,10 +66,10 @@ namespace WillowWoodRefuge
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color? color = null)
         {
             // draw animation frame of sprite
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, color);
         }
 
 

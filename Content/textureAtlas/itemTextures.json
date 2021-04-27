@@ -17,7 +17,7 @@
 	"sourceSize": {"w":16,"h":16}
 },
 {
-	"filename": "apple_mushroom_soup.png",
+	"filename": "appleMushroomSoup.png",
 	"frame": {"x":64,"y":32,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -49,7 +49,7 @@
 	"sourceSize": {"w":16,"h":16}
 },
 {
-	"filename": "carrot_spice_soup.png",
+	"filename": "carrotSoup.png",
 	"frame": {"x":0,"y":96,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -97,7 +97,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "grilled_fish.png",
+	"filename": "grilledFish.png",
 	"frame": {"x":192,"y":96,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -119,6 +119,14 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
 	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "monsterSoup.png",
+	"frame": {"x":64,"y":160,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
 },
 {
 	"filename": "mousemelon.png",
@@ -145,15 +153,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "rabbit_spice_soup(1).png",
-	"frame": {"x":64,"y":160,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64}
-},
-{
-	"filename": "rabbit_spice_soup.png",
+	"filename": "rabbitSoup.png",
 	"frame": {"x":128,"y":160,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -169,7 +169,7 @@
 	"sourceSize": {"w":64,"h":64}
 },
 {
-	"filename": "waterjug.png",
+	"filename": "water.png",
 	"frame": {"x":32,"y":32,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -191,6 +191,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1163a53112f6a6a7b06f69e739a4ea1b:cd51379411018dac740bd540703c885c:a929daae8872cfde4d11c7f5443a9c91$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2844a1585f9f7d4d80a7cc91158e6687:2748a271a4bd59b256d82de5c1a38e15:a929daae8872cfde4d11c7f5443a9c91$"
 }
 }
