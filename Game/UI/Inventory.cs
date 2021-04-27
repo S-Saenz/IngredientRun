@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
@@ -23,6 +24,12 @@ namespace WillowWoodRefuge
         public bool showInv = false;
         bool handsFull = false;
         public KeyboardState oldKeyState;
+
+        // gifting vars
+        public bool _gifting = false;
+        public Ingredient _selected = null;
+        private UIButton _confirmButton;
+        public NPC _recipient = null;
 
         public List<Ingredient> ingredientList = new List<Ingredient>();
         List<Vector2> boxes = new List<Vector2>();
@@ -119,12 +126,20 @@ namespace WillowWoodRefuge
             */
 
             //create exit button
-            Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
+            Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
             Vector2 buttonPos = new Vector2(1183, 23);
-            xButton = new UIButton(xButtonTexture, buttonPos);
+            xButton = new UIButton(ButtonTexture, buttonPos);
             xButton.Depth = .01f;
             xButton.Scale = 3f;
             xButton.Click += xButton_Click;
+
+            //create exit button
+            ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X - 200, Game1.instance._cameraController._screenDimensions.Y / 2);
+            _confirmButton = new UIButton(ButtonTexture, buttonPos);
+            _confirmButton.Depth = .01f;
+            _confirmButton.Scale = 3f;
+            _confirmButton.Click += ConfirmButton_Click;
         }
 
         //when xButton is clicked, close inventory
@@ -136,14 +151,26 @@ namespace WillowWoodRefuge
 
         }
 
+        private void ConfirmButton_Click(object sender, EventArgs e)
+        {
+            bool result = _recipient.Cure(_selected._name);
+            if(result) // was cured
+            {
+                removeIngredient(_selected);
+            }
+            Debug.WriteLine("Give " + _selected._name);
+            Game1.instance.UI.SwitchState(UIState.None);
+        }
+
         public void Update(MouseState mouseState, KeyboardState keyState)
         {
-            Debug.WriteLine("Inventory being updated");
+            // Debug.WriteLine("Inventory being updated");
             //bool boxClicked = false;
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             xButton.Update(mouseState);
-
+            if (_selected != null) // allow click on gifting option if object is
+                _confirmButton.Update(mouseState);
             if (mouseState.LeftButton == ButtonState.Pressed)
 
             {
@@ -166,7 +193,11 @@ namespace WillowWoodRefuge
 
                 //use mouse to move ingredient if it's in the clicked Box
                 //if(boxDict[ingredient.index] == clickedBox)
-                MoveIngredient(ingredient, mouseState);
+                // update for given state, gifting or moving
+                if (_gifting)
+                    SelectIngredient(ingredient, mouseState);
+                else
+                    MoveIngredient(ingredient, mouseState);
 
                 //rotate objects when space bar pressed
                 if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
@@ -227,10 +258,10 @@ namespace WillowWoodRefuge
             }
 
             //press E for inventory
-            if (oldKeyState.IsKeyUp(Keys.I) && keyState.IsKeyDown(Keys.I))
-            {
-                showInv = !showInv;
-            }
+            // if (oldKeyState.IsKeyUp(Keys.I) && keyState.IsKeyDown(Keys.I))
+            // {
+            //     showInv = !showInv;
+            // }
 
             if (oldKeyState.IsKeyUp(Keys.V) && keyState.IsKeyDown(Keys.V))
             {
@@ -239,8 +270,6 @@ namespace WillowWoodRefuge
                 addIngredient(ItemTextures._allItems[randIndex]);
             }
             oldKeyState = keyState;
-
-
 
             //-------------------------------------------- DEBUGGING -----------------------------------------
             //rotation testing 
@@ -251,7 +280,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Debug.WriteLine("Inventory being drawn");
+            // Debug.WriteLine("Inventory being drawn");
             //spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
             spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
 
@@ -267,6 +296,15 @@ namespace WillowWoodRefuge
             }
 
             xButton.Draw(spriteBatch);
+
+            if(_gifting)
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gifting", new Vector2(16, 16), Color.White);
+            if (_selected != null)
+            {
+                Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
+                spriteBatch.DrawRectangle(_selected.pos - (Vector2)size / 2, size, Color.White);
+                _confirmButton.Draw(spriteBatch);
+            }
         }
 
 
@@ -312,6 +350,23 @@ namespace WillowWoodRefuge
                 ing.pos = closestEmptyBox(ing);
                 ing.index = findGridIndex(ing.pos);
                 //Debug.WriteLine($"{ing.img} - {ing.index}"); //ingredient snaps where?
+            }
+        }
+
+        // sets an ingredient as selected
+        void SelectIngredient(Ingredient ing, MouseState mouseState)
+        {
+            if (mouseState.LeftButton == ButtonState.Pressed) //if player is not holding anything and clicks
+            {
+                //this is the box that has been clicked (will return an invalid box if player clicks outside of inventory) 
+                Vector2 clickedBox = closestBoxToMouse(mouseState);
+
+                //make sure there is not another ingredient above AND the ingredient's box is being clicked
+                if (boxDict[ing.index] == clickedBox)
+                {
+                    _selected = ing;
+                    Debug.WriteLine(ing._name);
+                }
             }
         }
 

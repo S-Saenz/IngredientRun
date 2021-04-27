@@ -66,10 +66,10 @@ namespace WillowWoodRefuge
             base.Update(gameTime);
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Color? color = null)
         {
             // draw animation frame of sprite
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, color);
         }
 
 

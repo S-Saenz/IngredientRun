@@ -102,7 +102,9 @@ namespace WillowWoodRefuge
                     break;
                 case UIState.Inventory:
                     //unload inventory
-
+                    Game1.instance.inventory._gifting = false;
+                    Game1.instance.inventory._selected = null;
+                    Game1.instance.inventory._recipient = null;
                     break;
                 case UIState.RecipeMenu:
                     //mostly handled in RecipeMenu.SwitchToCooking()
