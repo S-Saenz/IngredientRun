@@ -49,7 +49,7 @@ namespace WillowWoodRefuge
         {
             //spriteBatch.Draw(Texture, Rectangle, Color.White, 0, Vector2.Zero, Zoom, SpriteEffects.None, 1);
             //spriteBatch.Draw(Texture, offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), Color.White);
-            spriteBatch.Draw(Texture, Speed * offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(Texture, Speed * offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0) - new Vector2(0, 16), null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
     }
 }

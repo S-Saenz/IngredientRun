@@ -18,33 +18,28 @@ namespace WillowWoodRefuge
         {
             // Initialize NPC dialogue content
             _dialogueSystem = new NPCDialogueSystem(game);
+        }
 
-            
-            //_backgroundLayers.Add(_content.Load<Texture2D>("bg/campsiteprototypemap"));
-
+        protected override void LoadTilemap(ContentManager content)
+        {
             // Setup Tilemap
             _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler, "camp");
-            //_tileMap = new TileMap("tilemaps/camp/TempCampMapBig", _content, game.GraphicsDevice, _physicsHandler);
 
             _isDark = false;
 
             // Setup Background Layers
             _backgroundLayers = new List<Background>();
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-5"), 0.1f, _tileMap._mapBounds));
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-4"), 0.08f, _tileMap._mapBounds));
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-3"), 0.06f, _tileMap._mapBounds));
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-2"), 0.04f, _tileMap._mapBounds));
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-1"), 0.02f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/test"), 0.1f, _tileMap._mapBounds));
+            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/2"), 0.08f, _tileMap._mapBounds));
+            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/3"), 0.06f, _tileMap._mapBounds));
+            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/4"), 0.04f, _tileMap._mapBounds));
+            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/5"), 0.02f, _tileMap._mapBounds));
 
             // Setup lights
-            _staticLightManager.AddLight(new Vector2(64, 256), 50);
-            _staticLightManager.AddLight(new Vector2(160, 256), 50);
-            _staticLightManager.AddLight(new Vector2(368, 256), 50);
-            _staticLightManager.AddLight(new Vector2(488, 256), 50);
-
-            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            PostConstruction();
+            // _staticLightManager.AddLight(new Vector2(64, 256), 50);
+            // _staticLightManager.AddLight(new Vector2(160, 256), 50);
+            // _staticLightManager.AddLight(new Vector2(368, 256), 50);
+            // _staticLightManager.AddLight(new Vector2(488, 256), 50);
         }
 
         public override void Update(GameTime gameTime)

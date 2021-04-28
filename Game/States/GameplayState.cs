@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 
 namespace WillowWoodRefuge
 {
-    class GameplayState : State
+    abstract class GameplayState : State
     {
         // Shaders
         protected Effect _shadowEffect;
@@ -17,6 +17,9 @@ namespace WillowWoodRefuge
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+
+        // Camera zoom
+        protected int zoom;
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
@@ -96,7 +99,17 @@ namespace WillowWoodRefuge
             // Add player light
             _playerLightIndex = _dynamicLightManager._numDLights;
             _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
+
+            // Load Tilemap
+            LoadTilemap(content);
+
+            // Setup shader buffers
+            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            PostConstruction();
         }
+
+        abstract protected void LoadTilemap(ContentManager content);
 
         public override void LoadContent()
         {
