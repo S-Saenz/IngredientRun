@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
@@ -9,7 +10,8 @@ namespace WillowWoodRefuge
         public CaveState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
             : base(game, graphicsDevice, content, spriteBatch)
         {
-            
+            _cameraSize = new Vector2(480, 270);
+            _playerCamBounds = new RectangleF(0, 0, 160f, 90f);
         }
 
         protected override void LoadTilemap(ContentManager content)

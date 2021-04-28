@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,9 @@ namespace WillowWoodRefuge
         {
             // Initialize NPC dialogue content
             _dialogueSystem = new NPCDialogueSystem(game);
+
+            _cameraSize = new Vector2(240, 135);
+            _playerCamBounds = new RectangleF(0, 0, 80f, 45f);
         }
 
         protected override void LoadTilemap(ContentManager content)

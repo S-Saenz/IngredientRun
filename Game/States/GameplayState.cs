@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -19,7 +20,8 @@ namespace WillowWoodRefuge
         protected Color _shadowColor = new Color(26, 17, 7, 255);
 
         // Camera zoom
-        protected int zoom;
+        protected Vector2 _cameraSize;
+        protected RectangleF _playerCamBounds;
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
@@ -132,6 +134,8 @@ namespace WillowWoodRefuge
 
             // Setup camera
             game._cameraController.SetWorldBounds(_tileMap._mapBounds);
+            game._cameraController.SetPixelDimensions(_cameraSize);
+            game._cameraController.SetPlayerBounds(_playerCamBounds);
 
             // Setup lighting
             _dynamicLightManager.CreateShaderArrays();
