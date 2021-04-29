@@ -8,17 +8,18 @@ namespace WillowWoodRefuge
     {
         static Dictionary<string, ForageInfo> _allForageInfo = new Dictionary<string, ForageInfo>()
         {
-            { "test", new ForageInfo(6, 10, false) },
-            { "Bay_Nut", new ForageInfo(3, 10, false) },
-            { "Calamint", new ForageInfo(2, 10, false) },
-            { "Huckleberry", new ForageInfo(2, 10, false) },
-            { "Hummingbird_Sage", new ForageInfo(1, 10, true) },
-            { "Mazanita", new ForageInfo(2, 10, false) },
-            { "Nodding_Onion", new ForageInfo(1, 10, true) },
-            { "Oyster_Mushroom", new ForageInfo(1, 10, true) },
-            { "Thimbleberry", new ForageInfo(2, 10, false) },
-            { "Toothwort", new ForageInfo(1, 10, true) },
-            { "Wolfberry", new ForageInfo(2, 10, false) },
+            // Name                           phases  duration  fromEmpty
+            { "test",             new ForageInfo(6,      10,      false) },
+            { "Bay_Nut",          new ForageInfo(3,      10,      false) },
+            { "Calamint",         new ForageInfo(2,      10,      false) },
+            { "Huckleberry",      new ForageInfo(2,      10,      false) },
+            { "Hummingbird_Sage", new ForageInfo(1,      10,      true ) },
+            { "Mazanita",         new ForageInfo(2,      10,      false) },
+            { "Nodding_Onion",    new ForageInfo(1,      10,      true ) },
+            { "Oyster_Mushroom",  new ForageInfo(1,      10,      true ) },
+            { "Thimbleberry",     new ForageInfo(2,      10,      false) },
+            { "Toothwort",        new ForageInfo(1,      10,      true ) },
+            { "Wolfberry",        new ForageInfo(2,      10,      false) },
         };
         public static Dictionary<string, ForageInfo> _forageInfo
         {

@@ -8,7 +8,7 @@ namespace WillowWoodRefuge
 {
     public class ForageSpot : IPhysicsObject
     {
-        public CollisionBox _bounds { get; protected set; }
+        public CollisionBox _collisionBox { get; protected set; }
         public string _rangeType { get; protected set; } // any, only, family (what pool of possible items to spawn
         public string _spawnType { get; protected set; } // item name or family name (null if rangeType any)
         public float _growDuration { get; protected set; } // how long it takes before it can be foraged again
@@ -46,11 +46,11 @@ namespace WillowWoodRefuge
             _growDuration = info != null ? info._growDuration : 0;
             _fromEmpty = info._fromEmpty;
 
-            _bounds = new CollisionBox(new RectangleF(pos, TextureAtlasManager.GetSize("Foraging",
+            _collisionBox = new CollisionBox(new RectangleF(pos, TextureAtlasManager.GetSize("Foraging",
                                            _spawnType + _numPhases)),
                                            physicsHandler, this);
-            _bounds._bounds.Position -= new Vector2(_bounds._bounds.Width / 2, _bounds._bounds.Height);
-            physicsHandler.AddObject("Foraging", _bounds);
+            _collisionBox._bounds.Position -= new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height);
+            physicsHandler.AddObject("Foraging", _collisionBox);
             
             _timeElapsed = 0;
             _growPercent = 0;
@@ -81,10 +81,14 @@ namespace WillowWoodRefuge
             int currPhase = (int)Math.Floor(_growPercent * (_numPhases - 1)) + (_fromEmpty ? 0 : 1);
             if (_isRipe) // fully grown/harvestable
                 currPhase = _numPhases;
-            
+
             if (currPhase != 0)
+            {
+                Size2 size = TextureAtlasManager.GetSize("Foraging", _spawnType + _numPhases);
+                Vector2 pos = _collisionBox._bounds.Position + new Vector2((_collisionBox._bounds.Width - size.Width) / 2, _collisionBox._bounds.Height - size.Height);
                 TextureAtlasManager.DrawTexture(spriteBatch, "Foraging", _currSpawn + currPhase,
-                                                _bounds._bounds.Position, Color.White);
+                                                pos, Color.White);
+            }
         }
 
         public string TryHarvest()
