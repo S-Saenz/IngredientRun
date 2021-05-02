@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 //using WillowWoodRefuge.Game.Weather;
@@ -183,6 +184,8 @@ namespace WillowWoodRefuge
             {
                 _isDark = !_isDark;
             }
+
+            Debug.WriteLine(_occlusion);
         }
 
         public override void PostUpdate(GameTime gameTime) { }

@@ -208,7 +208,13 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 	}
 
 	// float blockVal = Occlusion ? IsBlocked(DirectionalLightPosition[light], fragPos) : 0; // amount of light blocked between lightPos and fragPos
-	float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+	// float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+
+	float blockVal = 0;
+	if (Occlusion == true)
+	{
+		blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+	}
 
 	float fragAngle = atan2(tFragPos.y, tFragPos.x);
 	float2 farPoint = float2(a * cos(fragAngle), b * sin(fragAngle));
