@@ -184,8 +184,6 @@ namespace WillowWoodRefuge
             {
                 _isDark = !_isDark;
             }
-
-            Debug.WriteLine(_occlusion);
         }
 
         public override void PostUpdate(GameTime gameTime) { }
