@@ -417,7 +417,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._leftBlocked && Game1.instance.input.IsDown("left") && // check for side hit left grab
                 _collisionBox._leftBox.Top > _collisionBox._bounds.Top &&
-                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                _collisionBox.CanFit(_collisionBox._leftBox.TopRight - new Vector2(0, _grabDist), _yClearance))
             {
                 _grabLeft = true;
                 _anchorPoint = _collisionBox._leftBox.TopRight;
@@ -428,7 +429,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
                      _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
-                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                     _collisionBox.CanFit(_collisionBox._rightBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance))
             {
                 _grabLeft = false;
                 _anchorPoint = _collisionBox._rightBox.TopLeft;
