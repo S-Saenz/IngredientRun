@@ -9,6 +9,7 @@ namespace WillowWoodRefuge
 {
     public class StateConditions
     {
+        public List<List <Condition>> masterConditionList = new List<List<Condition>>();
         public List<Condition> generalConditionList = new List<Condition>();
         public List<Condition> weatherConditions = new List<Condition>();
         public List<Condition> curedCondtions = new List<Condition>();
@@ -16,7 +17,11 @@ namespace WillowWoodRefuge
 
         public StateConditions()
         {
-            // add all the game's onditions
+            // master condition list
+            masterConditionList.Add(generalConditionList);
+            masterConditionList.Add(weatherConditions);
+            masterConditionList.Add(curedCondtions);
+            // add all the game's conditions
 
             // general conditions
             generalConditionList.Add(new Condition("isMorning", true));
