@@ -86,6 +86,10 @@ namespace WillowWoodRefuge
             {
                 Keys.P
             };
+            List<Keys> toggleLight = new List<Keys>()
+            {
+                Keys.L
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -104,6 +108,7 @@ namespace WillowWoodRefuge
             _buttons.Add("changeCaveState", new Button(changeCaveState));
             _buttons.Add("restartState", new Button(restartState));
             _buttons.Add("performance", new Button(togglePerformance));
+            _buttons.Add("light", new Button(toggleLight));
         }
 
         public void Update(GameTime time)

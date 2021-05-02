@@ -177,6 +177,12 @@ namespace WillowWoodRefuge
                 _occlusion = !_occlusion;
                 _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
             }
+
+            // Toggle lighting
+            if(game.input.JustPressed("light"))
+            {
+                _isDark = !_isDark;
+            }
         }
 
         public override void PostUpdate(GameTime gameTime) { }
