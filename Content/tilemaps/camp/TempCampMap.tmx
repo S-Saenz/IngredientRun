@@ -50,7 +50,7 @@
  </objectgroup>
  <objectgroup id="3" name="AreaObjects">
   <object id="6" name="Camp" x="64" y="96" width="256" height="16"/>
-  <object id="8" name="fire" x="215" y="96" width="64" height="16"/>
+  <object id="8" name="fire" x="225.727" y="96" width="34.1818" height="16"/>
   <object id="12" name="water" x="25.6667" y="96" width="16" height="16"/>
   <object id="14" name="state.Cave" x="768" y="96" width="128" height="16"/>
  </objectgroup>
