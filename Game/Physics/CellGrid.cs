@@ -115,6 +115,32 @@ namespace WillowWoodRefuge
             return neighbors;
         }
 
+        public List<CollisionBox> getNeighbors(RectangleF box)
+        {
+            List<CollisionBox> neighbors = new List<CollisionBox>();
+
+            Vector2 lowerBound = worldToGrid(box.TopLeft);// - new Vector2(1,1);
+            Vector2 upperBound = worldToGrid(box.BottomRight);// + new Vector2(1,1);
+
+            for (int x = (int)lowerBound.X; x <= (int)upperBound.X; ++x)
+            {
+                for (int y = (int)lowerBound.Y; y <= (int)upperBound.Y; ++y)
+                {
+                    if (_container.ContainsKey(new Vector2(x, y)))
+                    {
+                        _checked.Add(new Vector2(x, y));
+                        foreach (CollisionBox other in _container[new Vector2(x, y)])
+                        {
+                            if (!neighbors.Contains(other))
+                                neighbors.Add(other);
+                        }
+                    }
+                }
+            }
+
+            return neighbors;
+        }
+
         // Returns list of all elements in layer
         public List<CollisionBox> getList()
         {

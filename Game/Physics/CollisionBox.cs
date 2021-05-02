@@ -246,9 +246,9 @@ namespace WillowWoodRefuge
         }
 
         // Returns whether or not collision box will fit in given position without overlapping collisions
-        public bool CanFit(Vector2 pos)
+        public bool CanFit(Vector2 pos, float yClearance = 0)
         {
-            return _collisionHandler.CanFit(this, pos);
+            return _collisionHandler.CanFit(this, pos, yClearance);
         }
 
         // tries to move collision box at desired velocity, taking into account momentum and friction

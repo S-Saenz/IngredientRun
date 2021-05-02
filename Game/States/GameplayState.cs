@@ -2,14 +2,16 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 //using WillowWoodRefuge.Game.Weather;
 
 namespace WillowWoodRefuge
 {
-    class GameplayState : State
+    abstract class GameplayState : State
     {
         // Shaders
         protected Effect _shadowEffect;
@@ -17,6 +19,11 @@ namespace WillowWoodRefuge
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+        static protected bool _occlusion = true;
+
+        // Camera zoom
+        protected Vector2 _cameraSize;
+        protected RectangleF _playerCamBounds;
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
@@ -92,11 +99,22 @@ namespace WillowWoodRefuge
             _staticLightManager = new LightManager(_shadowEffect);
 
             _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
+            _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
 
             // Add player light
             _playerLightIndex = _dynamicLightManager._numDLights;
             _dynamicLightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
+
+            // Load Tilemap
+            LoadTilemap(content);
+
+            // Setup shader buffers
+            _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+            PostConstruction();
         }
+
+        abstract protected void LoadTilemap(ContentManager content);
 
         public override void LoadContent()
         {
@@ -119,6 +137,8 @@ namespace WillowWoodRefuge
 
             // Setup camera
             game._cameraController.SetWorldBounds(_tileMap._mapBounds);
+            game._cameraController.SetPixelDimensions(_cameraSize);
+            game._cameraController.SetPlayerBounds(_playerCamBounds);
 
             // Setup lighting
             _dynamicLightManager.CreateShaderArrays();
@@ -167,6 +187,19 @@ namespace WillowWoodRefuge
             if(_playerLightIndex != -1)
             {
                 _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
+            }
+
+            // Toggle performance (wall occlusion for shader)
+            if (game.input.JustPressed("performance"))
+            {
+                _occlusion = !_occlusion;
+                _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
+            }
+
+            // Toggle lighting
+            if(game.input.JustPressed("light"))
+            {
+                _isDark = !_isDark;
             }
         }
 
@@ -248,7 +281,7 @@ namespace WillowWoodRefuge
             }
             foreach (Area area in _tileMap.GetAreaObject("fire"))
             {
-                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.Red);
+                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.White);
             }
 
             // Draw sprites

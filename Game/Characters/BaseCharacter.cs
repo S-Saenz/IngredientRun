@@ -26,17 +26,20 @@ namespace WillowWoodRefuge
         protected string _currentDirection = "";
         protected string _currentMoveType = "idle";
 
+        // animations
+        protected Animation _walkRightAnim, _walkLeftAnim, _idleAnim;
+
         public BaseCharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null) 
-                             : base(animationDict, name, pos)
+                             : base(new Dictionary<string, Animation>(), name, pos)
         {
             // Add collision box
-            _collisionBox = new CollisionBox(new RectangleF(_pos,
-                new Size2(bounds.X, bounds.Y)), collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
-                friction: _friction);
-            _collisionBox.AddMovementStartListener(onStartMove);
-            _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
-            collisionHandler.AddObject(collisionLabel, _collisionBox);
+            // _collisionBox = new CollisionBox(new RectangleF(_pos,
+            //     new Size2(bounds.X, bounds.Y)), collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
+            //     friction: _friction);
+            // _collisionBox.AddMovementStartListener(onStartMove);
+            // _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
+            // collisionHandler.AddObject(collisionLabel, _collisionBox);
         }
 
         // direction: -1 left, 0 not moving, 1 right

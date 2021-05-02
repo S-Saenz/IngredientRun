@@ -28,7 +28,7 @@ namespace WillowWoodRefuge
             Offset = Vector2.Zero;
             Speed = speed;
             WorldBounds = worldBounds;
-            scale = WorldBounds.Value.Height / texture.Height;
+            scale = 1;// WorldBounds.Value.Height / texture.Height;
         }
         
         public void Update(GameTime gametime, Vector2 direction, Viewport viewport)
@@ -49,7 +49,9 @@ namespace WillowWoodRefuge
         {
             //spriteBatch.Draw(Texture, Rectangle, Color.White, 0, Vector2.Zero, Zoom, SpriteEffects.None, 1);
             //spriteBatch.Draw(Texture, offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), Color.White);
-            spriteBatch.Draw(Texture, Speed * offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0), null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
+            Vector2 pos = Speed * offset * (WorldBounds.HasValue ? WorldBounds.Value.Width : 0);
+            pos += new Vector2(0, (WorldBounds.HasValue ? WorldBounds.Value.Height - (16 + Texture.Height * scale) : 0));
+            spriteBatch.Draw(Texture, pos, null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0);
         }
     }
 }

@@ -160,6 +160,12 @@ namespace WillowWoodRefuge
             }
         }
 
+        public void SetPixelDimensions(Vector2 pixelDimensions)
+        {
+            _pixelDimensions = pixelDimensions;
+            RecalculateScreenDimensions(_screenDimensions);
+        }
+
         private void RecalculateScreenDimensions(Vector2 screenDimensions, Vector2? pos = null)
         {
             // calculate dimensions restrained by screenRatio
