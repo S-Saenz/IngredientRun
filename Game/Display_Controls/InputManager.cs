@@ -34,7 +34,9 @@ namespace WillowWoodRefuge
             };
             List<Keys> jumpKeys = new List<Keys>()
             {
-                Keys.Space
+                Keys.Space,
+                Keys.Up,
+                Keys.W
             };
             List<Keys> cookKeys = new List<Keys>()
             {
