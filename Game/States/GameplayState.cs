@@ -280,7 +280,7 @@ namespace WillowWoodRefuge
             }
             foreach (Area area in _tileMap.GetAreaObject("fire"))
             {
-                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.Red);
+                area.Draw(spriteBatch, "    Fire\n", game._cameraController, Color.White);
             }
 
             // Draw sprites

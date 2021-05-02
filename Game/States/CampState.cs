@@ -33,11 +33,11 @@ namespace WillowWoodRefuge
 
             // Setup Background Layers
             _backgroundLayers = new List<Background>();
-            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/test"), 0.1f, _tileMap._mapBounds));
-            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/2"), 0.08f, _tileMap._mapBounds));
-            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/3"), 0.06f, _tileMap._mapBounds));
-            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/4"), 0.04f, _tileMap._mapBounds));
-            // _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/5"), 0.02f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-5"), 0.1f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-4"), 0.08f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-3"), 0.06f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-2"), 0.04f, _tileMap._mapBounds));
+            _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-1"), 0.00f, _tileMap._mapBounds));
 
             // Setup lights
             // _staticLightManager.AddLight(new Vector2(64, 256), 50);
