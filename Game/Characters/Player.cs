@@ -39,6 +39,7 @@ namespace WillowWoodRefuge
         public Vector2? _anchorPoint = null; // in world
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
+        public float _yClearance = 16;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -440,7 +441,7 @@ namespace WillowWoodRefuge
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
             {
                 if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left && // down right grab left
-                    _collisionBox.CanFit((Point2)_collisionBox._downBox.TopRight - new Vector2(0, _grabDist)))
+                    _collisionBox.CanFit(_collisionBox._downBox.TopRight - new Vector2(0, _grabDist), _yClearance))
                 {
                     _grabLeft = true;
                     _anchorPoint = _collisionBox._downBox.TopRight;
@@ -449,7 +450,7 @@ namespace WillowWoodRefuge
                     _collisionBox._posLock = true;
                     _collisionBox._hasGravity = false;
                 }
-                else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
+                else if(_collisionBox.CanFit(_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance)) // down left grab right
                 {
                     _grabLeft = false;
                     _anchorPoint = _collisionBox._downBox.TopLeft;
