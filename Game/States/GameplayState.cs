@@ -17,6 +17,7 @@ namespace WillowWoodRefuge
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+        static protected bool _occlusion = true;
 
         // Render targets
         public RenderTarget2D _backgroundBuffer;
@@ -92,6 +93,7 @@ namespace WillowWoodRefuge
             _staticLightManager = new LightManager(_shadowEffect);
 
             _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
+            _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
 
             // Add player light
             _playerLightIndex = _dynamicLightManager._numDLights;
@@ -167,6 +169,13 @@ namespace WillowWoodRefuge
             if(_playerLightIndex != -1)
             {
                 _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
+            }
+
+            // Toggle performance (wall occlusion for shader)
+            if (game.input.JustPressed("performance"))
+            {
+                _occlusion = !_occlusion;
+                _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
             }
         }
 
