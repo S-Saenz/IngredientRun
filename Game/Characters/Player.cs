@@ -276,6 +276,7 @@ namespace WillowWoodRefuge
                         Game1.instance.inventory._gifting = true;
                         Game1.instance.inventory._recipient = character;
                         Game1.instance.UI.SwitchState(UIState.Inventory);
+                        actionComplete = true;
                         // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
                         // for (int i = 0; i < inv.Count && !character._isCured; ++i)
                         // {
