@@ -135,7 +135,7 @@ namespace WillowWoodRefuge
 
             //create exit button
             ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
-            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X - 200, Game1.instance._cameraController._screenDimensions.Y / 2);
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             _confirmButton = new UIButton(ButtonTexture, buttonPos);
             _confirmButton.Depth = .01f;
             _confirmButton.Scale = 3f;
