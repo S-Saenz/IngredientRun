@@ -44,6 +44,7 @@ namespace WillowWoodRefuge
                 currentAnimation = "idle";
             }
         }
+
     }
 
 

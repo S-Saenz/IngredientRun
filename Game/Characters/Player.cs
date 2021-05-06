@@ -67,7 +67,9 @@ namespace WillowWoodRefuge
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            if(delayFrames > 0)
+
+
+            if (delayFrames > 0)
             {
                 delayFrames--;
             }
@@ -76,9 +78,8 @@ namespace WillowWoodRefuge
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
             }
-
             // read player inputs
-            if(!interuptInputUpdate)
+            if (!interuptInputUpdate)
             {
                 ReadInputs(gameTime);
             }
@@ -167,6 +168,8 @@ namespace WillowWoodRefuge
             _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject("Player", _collisionBox);
             _pos = _collisionBox._bounds.Center;
+
+            climbRightAnimation.AddAnimationEndListener(onClimbAnimationEnd);
         }
 
 
@@ -466,18 +469,21 @@ namespace WillowWoodRefuge
                      _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
                                                       _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
             {
+                Debug.WriteLine("please climb");
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
-                _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
-                                                            _anchorPoint.Value.Y - _collisionBox._bounds.Height);
-                _collisionBox._posLock = false;
-                _collisionBox._hasGravity = true;
-                _anchorPoint = null;
-                //put ledge climb animation here.
 
+                //put ledge climb animation here.
                 currentAnimation = "climbRight";
+                //_collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                //                                            _anchorPoint.Value.Y - _collisionBox._bounds.Height);
+                //_collisionBox._posLock = false;
+                //_collisionBox._hasGravity = true;
+                //_anchorPoint = null;
+                
                 delayFrames = 60;
-                //interuptAnimationUpdate = false;
+                climbRightAnimation.startAnimation(60);
+                interuptAnimationUpdate = false;
             }
         }
 
@@ -489,6 +495,20 @@ namespace WillowWoodRefuge
         public void UnlockPos()
         {
             _collisionBox._posLock = false;
+        }
+
+        public void onClimbAnimationEnd(int frame)
+        {
+            if (_anchorPoint.HasValue)
+            {
+                currentAnimation = "climbRight";
+                _collisionBox._bounds.Position = new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
+                                                            _anchorPoint.Value.Y - _collisionBox._bounds.Height);
+                _collisionBox._posLock = false;
+                _collisionBox._hasGravity = true;
+                _anchorPoint = null;
+
+            }
         }
     }
 }

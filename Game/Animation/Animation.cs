@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
@@ -12,9 +13,13 @@ namespace WillowWoodRefuge
         public Texture2D texture { get; set; }
         public int rows { get; set; }
         public int columns { get; set; }
+        public delegate void AnimationEventHandler(int frame);
         private int currentFrame;
         private int totalFrames;
+        private int delayFrames = 0;
 
+        //events
+        public event AnimationEventHandler _onAnimationEnd;
 
         //slow down frame animation
         private int timeSinceLastFrame = 0;
@@ -38,8 +43,12 @@ namespace WillowWoodRefuge
                 currentFrame++;
                 timeSinceLastFrame = 0;
                 if (currentFrame == totalFrames)
+                {
                     currentFrame = 0;
+                    CallAnimationEnd(0);
+                }
             }
+
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 location, float scale)
@@ -54,6 +63,26 @@ namespace WillowWoodRefuge
             
             spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, 
                 new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), scale, SpriteEffects.None, 0.5f);
+        }
+
+        public void AddAnimationEndListener(AnimationEventHandler animationFunction)
+        {
+            _onAnimationEnd += animationFunction;
+        }
+
+        public void startAnimation(int frame)
+        {
+            delayFrames = frame;
+        }
+
+        public void CallAnimationEnd(int frame)
+        {
+            _onAnimationEnd?.Invoke(frame);
+        }
+
+        public int getDelayFrames()
+        {
+            return delayFrames;
         }
     }
 }
