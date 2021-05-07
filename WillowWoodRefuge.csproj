@@ -16,6 +16,7 @@
     <None Remove="Content\dialogue\Tutorial.txt" />
     <None Remove="Content\miscText\credits.txt" />
     <None Remove="Content\textureAtlas\itemTextures.json" />
+    <None Remove="Content\textureAtlas\uiTextures.json" />
     <None Remove="Icon.ico" />
     <None Remove="Icon.bmp" />
   </ItemGroup>
@@ -25,6 +26,7 @@
     <EmbeddedResource Include="Content\dialogue\NPCDialogue.tsv" />
     <EmbeddedResource Include="Content\dialogue\Tutorial.txt" />
     <EmbeddedResource Include="Content\textureAtlas\itemTextures.json" />
+    <EmbeddedResource Include="Content\textureAtlas\uiTextures.json" />
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
   </ItemGroup>
