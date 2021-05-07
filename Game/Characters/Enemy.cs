@@ -12,9 +12,9 @@ namespace WillowWoodRefuge
     public class Enemy : AICharacter, ISpawnable
     {
         float _sightDistance = 100;
-        public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler,
+        public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
-                     : base(type, pos, "Enemy", new Vector2(), collisionHandler, worldBounds, animationDict)
+                     : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, worldBounds, animationDict)
         {
             _walkSpeed = 45;
             _runSpeed = 100;
@@ -32,12 +32,15 @@ namespace WillowWoodRefuge
             {
                 _currState = AIState.Attack;
             }
-            else
+
+            _interestTarget = playerLoc;
+            base.Update(gameTime);
+
+            // last seen point reached and player not visible
+            if (_currState == AIState.Attack && Vector2.Distance(playerLoc, _pos) > _sightDistance && _currPos == _target) 
             {
                 _currState = AIState.Wander;
             }
-            _target = playerLoc;
-            base.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -12,6 +12,9 @@
 #define MAX_DIRECTIONAL_LIGHTS 10
 #define DIRECT_SPREAD 1.2 // 0-2, with 0 being an ellipse and 2 being a triangle
 
+// Performance variable
+bool Occlusion;
+
 // Area light information
 float2  AreaLightPosition[MAX_AREA_LIGHTS];
 float   AreaLightDistance[MAX_AREA_LIGHTS];
@@ -163,7 +166,12 @@ float4 CalculateAreaLight(int light, float2 fragPos)
 	float dist = distance(AreaLightPosition[light], fragPos);
 	if (dist < AreaLightDistance[light])
 	{
-		float blockVal = IsBlocked(AreaLightPosition[light], fragPos);
+		float blockVal = 0;
+		if (Occlusion == true)
+		{
+			blockVal = IsBlocked(AreaLightPosition[light], fragPos);
+		}
+
 		if (true)
 		{
 			// TODO: falloff stuff
@@ -202,7 +210,11 @@ float4 CalculateDirectionalLight(int light, float2 fragPos)
 		return 0;
 	}
 
-	float blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+	float blockVal = 0;
+	if (Occlusion == true)
+	{
+		blockVal = IsBlocked(DirectionalLightPosition[light], fragPos); // amount of light blocked between lightPos and fragPos
+	}
 
 	float fragAngle = atan2(tFragPos.y, tFragPos.x);
 	float2 farPoint = float2(a * cos(fragAngle), b * sin(fragAngle));

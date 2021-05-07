@@ -18,7 +18,14 @@ namespace WillowWoodRefuge
         Dictionary<int, int> _valid = new Dictionary<int, int>(); // all currently valid interactions and count of validation instances, needs to be updated before searching for interaction
         float _validProbabilityTotal;
         int _currentInteraction;
+        bool _talking = false;
         Dictionary<string, NPC> _characters;
+
+        // timer variables
+        float _timer;
+        float _currTime;
+        bool _isPaused;
+        Vector2 _silenceRange = new Vector2(2, 6);
 
         public NPCDialogueSystem(Game1 game)
         {
@@ -169,6 +176,11 @@ namespace WillowWoodRefuge
             if(chosen != -1)
             {
                 _currentInteraction = chosen;
+                _interactions[chosen].Start(_characters);
+                _interactions[chosen].CallCall();
+                _interactions[chosen].AddEndListener(onInteractionEnded);
+                _interactions[chosen].AddStartListener(onStartInteraction);
+                _talking = false;
 
                 // remove from bins, now invalid
                 string[] requirements = _interactions[chosen].GetRequirements();
@@ -192,19 +204,58 @@ namespace WillowWoodRefuge
 
         public void EndInteraction()
         {
-            _currentInteraction = -1;
+            if(_currentInteraction != -1)
+                _interactions[_currentInteraction].CallEnd();
         }
 
-        public void Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch)
+        public void onInteractionEnded(NPCInteraction interaction)
         {
-            if (_currentInteraction != -1)
+            _currentInteraction = -1;
+            _isPaused = false;
+
+            // free characters
+            foreach (string characterName in interaction._characters)
+            {
+                _characters[characterName].StopConverse();
+            }
+        }
+
+        public void onStartInteraction(NPCInteraction interaction)
+        {
+            _talking = true;
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            if(!_isPaused)
+            {
+                _currTime += gameTime.GetElapsedSeconds();
+            }
+
+            if(_currTime >= _timer)
+            {
+                PlayInteraction(Game1.instance);
+                _isPaused = true;
+                _currTime = 0;
+                _timer = new Random().Next((int)_silenceRange.X, (int)_silenceRange.Y);
+            }
+
+            if (_currentInteraction != -1 && _talking)
+            {
+                _interactions[_currentInteraction].Update(gameTime);
+            }
+        }
+
+        public void Draw(OrthographicCamera camera, SpriteBatch spriteBatch)
+        {
+            if (_currentInteraction != -1 && _talking)
             {
                 Dictionary<string, NPC> characters = new Dictionary<string, NPC>();
                 foreach(string name in _interactions[_currentInteraction]._characters)
                 {
                     characters.Add(name, _characters[name]);
                 }
-                _interactions[_currentInteraction].Draw(camera, gameTime, spriteBatch, characters);
+                _interactions[_currentInteraction].Draw(camera, spriteBatch, characters);
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
@@ -9,8 +10,14 @@ namespace WillowWoodRefuge
         public CaveState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spriteBatch)
             : base(game, graphicsDevice, content, spriteBatch)
         {
+            _cameraSize = new Vector2(480, 270);
+            _playerCamBounds = new RectangleF(0, 0, 160f, 90f);
+        }
+
+        protected override void LoadTilemap(ContentManager content)
+        {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler);
+            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 
@@ -19,10 +26,6 @@ namespace WillowWoodRefuge
             _staticLightManager.AddLight(new Vector2(656, 240), 100);
             _staticLightManager.AddLight(new Vector2(240, 208), 100);
             _staticLightManager.AddLight(new Vector2(0, 35), 300);
-
-            _lightEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _ditherEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            PostConstruction();
         }
 
         public override void LoadContent()

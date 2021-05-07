@@ -27,6 +27,7 @@ namespace WillowWoodRefuge
         TiledMap _map;
         TiledMapRenderer _renderer;
         PhysicsHandler _collisionHandler;
+        string _scene;
 
         List<SpawnPoint> _pickupSpawns;
         List<SpawnPoint> _enemySpawns;
@@ -34,8 +35,9 @@ namespace WillowWoodRefuge
 
         public RectangleF _mapBounds { private set; get; }
 
-        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, PhysicsHandler collisionHandler)
+        public TileMap(string mapPath, ContentManager content, GraphicsDevice graphics, PhysicsHandler collisionHandler, string scene)
         {
+            _scene = scene;
             _map = content.Load<TiledMap>(mapPath);
             _renderer = new TiledMapRenderer(graphics, _map);
 
@@ -84,7 +86,7 @@ namespace WillowWoodRefuge
                 string[] vals = obj.Name.Split('.');
                 string range = vals[0];
                 string type = vals.Length > 1 ? vals[1] : null;
-                _enemySpawns.Add(new EnemySpawn(obj.Position, range, collisionHandler, type));
+                _enemySpawns.Add(new EnemySpawn(obj.Position, range, collisionHandler, _scene, type));
             }
         }
 
@@ -194,7 +196,7 @@ namespace WillowWoodRefuge
 
         public NavPointMap GenerateNavPointMap(RectangleF collisionBox)
         {
-            return new NavPointMap(_map, collisionBox);
+            return new NavPointMap(_map, collisionBox, _scene);
         }
     }
 }

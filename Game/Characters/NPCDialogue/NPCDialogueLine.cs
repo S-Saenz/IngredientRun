@@ -111,7 +111,7 @@ namespace WillowWoodRefuge
         }
 
         // returns whether line ended or not
-        public bool Draw(OrthographicCamera camera, GameTime gameTime, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
+        public bool Draw(OrthographicCamera camera, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
             string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
             Vector2 loc = characters[_character].GetDialogueLoc(camera);
@@ -119,7 +119,6 @@ namespace WillowWoodRefuge
             loc.Y -= size.Y;
             spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
             spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
-            _currTime += gameTime.GetElapsedSeconds();
             if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
             {
                 return true;

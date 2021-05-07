@@ -42,7 +42,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 location, float scale)
+        public void Draw(SpriteBatch spriteBatch, Vector2 location, float scale, Color? color = null)
         {
             int width = texture.Width / columns;
             int height = texture.Height / rows;
@@ -52,7 +52,7 @@ namespace WillowWoodRefuge
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
             Rectangle destinationRectangle = new Rectangle((int)location.X, (int)location.Y, width, height);
             
-            spriteBatch.Draw(texture, location, sourceRectangle, Color.White, 0f, 
+            spriteBatch.Draw(texture, location, sourceRectangle, color.HasValue ? color.Value : Color.White, 0f, 
                 new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), scale, SpriteEffects.None, 0.5f);
         }
     }

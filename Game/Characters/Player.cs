@@ -39,6 +39,7 @@ namespace WillowWoodRefuge
         public Vector2? _anchorPoint = null; // in world
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
+        public float _yClearance = 16;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -221,6 +222,17 @@ namespace WillowWoodRefuge
             {
                 _collisionBox.TryMoveHorizontal(0);
             }
+
+            // movement sound
+            if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.runSound(gameTime);
+            } else if (_collisionBox._downBlocked && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
+            {
+                Game1.instance.sounds.walkSound(gameTime);
+
+            }
+
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
@@ -259,15 +271,18 @@ namespace WillowWoodRefuge
                 {
                     bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
                     NPC character = item._other as NPC;
-                    if (character != null)
+                    if (character != null && !character._isCured)
                     {
-                        List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        {
-                            actionComplete = character.Cure(inv[i]._name);
-                            if (actionComplete)
-                                Game1.instance.inventory.removeIngredient(inv[i]);
-                        }
+                        Game1.instance.inventory._gifting = true;
+                        Game1.instance.inventory._recipient = character;
+                        Game1.instance.UI.SwitchState(UIState.Inventory);
+                        // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
+                        // for (int i = 0; i < inv.Count && !character._isCured; ++i)
+                        // {
+                        //     actionComplete = character.Cure(inv[i]._name);
+                        //     if (actionComplete)
+                        //         Game1.instance.inventory.removeIngredient(inv[i]);
+                        // }
                     }
 
                     // check if pickup item
@@ -276,7 +291,7 @@ namespace WillowWoodRefuge
                     {
                         Debug.WriteLine(obj._name);
                         // TODO: try adding to inventory, returning whether successful or not
-                        if (Game1.instance.inventory.addIngredient(null, obj._name))
+                        if (Game1.instance.inventory.addIngredient(obj._name))
                         {
                             (Game1.instance._currentState as GameplayState)._items.Remove(obj);
                             obj._spawn.Despawn();
@@ -402,7 +417,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._leftBlocked && Game1.instance.input.IsDown("left") && // check for side hit left grab
                 _collisionBox._leftBox.Top > _collisionBox._bounds.Top &&
-                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                _collisionBox.CanFit(_collisionBox._leftBox.TopRight - new Vector2(0, _grabDist), _yClearance))
             {
                 _grabLeft = true;
                 _anchorPoint = _collisionBox._leftBox.TopRight;
@@ -413,7 +429,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
                      _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
-                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                     _collisionBox.CanFit(_collisionBox._rightBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance))
             {
                 _grabLeft = false;
                 _anchorPoint = _collisionBox._rightBox.TopLeft;
@@ -426,7 +443,7 @@ namespace WillowWoodRefuge
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
             {
                 if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left && // down right grab left
-                    _collisionBox.CanFit((Point2)_collisionBox._downBox.TopRight - new Vector2(0, _grabDist)))
+                    _collisionBox.CanFit(_collisionBox._downBox.TopRight - new Vector2(0, _grabDist), _yClearance))
                 {
                     _grabLeft = true;
                     _anchorPoint = _collisionBox._downBox.TopRight;
@@ -435,7 +452,7 @@ namespace WillowWoodRefuge
                     _collisionBox._posLock = true;
                     _collisionBox._hasGravity = false;
                 }
-                else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
+                else if(_collisionBox.CanFit(_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance)) // down left grab right
                 {
                     _grabLeft = false;
                     _anchorPoint = _collisionBox._downBox.TopLeft;
