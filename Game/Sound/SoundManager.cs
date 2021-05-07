@@ -27,6 +27,10 @@ namespace WillowWoodRefuge
             // sound effects
             // 0
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/stepC"));
+            // 1
+            soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Jump"));
+            // 2
+            soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Landing"));
             // Sound effects end
         }
         public void playSong(string name)
@@ -57,6 +61,16 @@ namespace WillowWoodRefuge
                 soundeffects[0].Play(volume: v, pitch: 0.0f, pan: 0.0f);
                 walkTimer = (int)gameTime.TotalGameTime.TotalMilliseconds;
             }
+        }
+
+        public void jumpSound()
+        {
+            soundeffects[1].Play();
+        }
+
+        public void landSound()
+        {
+            soundeffects[2].Play();
         }
 
         public void stop()
