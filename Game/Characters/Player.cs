@@ -30,7 +30,7 @@ namespace WillowWoodRefuge
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
-        CollisionBox _collisionBox;
+        public CollisionBox _collisionBox { get; private set; }
         public bool _isDark = false;
         public bool _inAir = false;
         string _currentDirection = "";
@@ -92,17 +92,9 @@ namespace WillowWoodRefuge
                 UpdateAnimationInfo();
             }
 
-            Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            FOWTSprite.pos = _pos + _FOWTPos;
-            Vector2 FOWPosVec = camera.WorldToScreen(FOWTSprite.pos) - mousePosition;
-            FOWTSprite.Rotation = 0 - (float)((Math.Atan2(
-                FOWPosVec.X,
-                FOWPosVec.Y
-                ))) - 1.5f;
-
             base.Update(gameTime);
 
-            return FOWPosVec;
+            return _pos;
         }
 
 

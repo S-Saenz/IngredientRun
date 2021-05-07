@@ -45,6 +45,8 @@ namespace WillowWoodRefuge
 
         // Start location
         public string _startLocLabel;
+        protected Vector2 _mouseStartPos = new Vector2(0.5f, 0.5f); // relative start location of mouse cursor (0-1 float with 0 being left/top, 1 being right/bottom)
+        protected Vector2 _prevPlayerScreenLoc;
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
@@ -145,6 +147,10 @@ namespace WillowWoodRefuge
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
+
+            Mouse.SetPosition((int)(_mouseStartPos.X * Game1.instance._cameraController._screenDimensions.X),
+                              (int)(_mouseStartPos.Y * Game1.instance._cameraController._screenDimensions.Y));
+            _prevPlayerScreenLoc = _player._pos;
         }
 
         public override void Update(GameTime gameTime)
@@ -183,10 +189,26 @@ namespace WillowWoodRefuge
             _tileMap.Update(gameTime);
 
             // Update player
-            Vector2 dir = _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
-            if(_playerLightIndex != -1)
+            Vector2 loc = _player.Update(Mouse.GetState(), Keyboard.GetState(), game._cameraController._camera, gameTime);
+            if(_playerLightIndex != -1 && _isDark)
             {
-                _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: _player._pos, direction: -dir);
+                Vector2 mousePos = new Vector2(Mouse.GetState().Position.X, Mouse.GetState().Position.Y);
+                // direction relative to center of window
+                // Vector2 origin = game._cameraController._screenDimensions / 2;
+
+                // direction relative to player
+                Vector2 origin = game._cameraController._camera.WorldToScreen(loc);
+
+                // update mouse pos based on player movement
+                if(_prevPlayerScreenLoc != game._cameraController._camera.WorldToScreen(loc))
+                {
+                    mousePos += game._cameraController._camera.WorldToScreen(loc) - _prevPlayerScreenLoc;
+                    Mouse.SetPosition((int)mousePos.X, (int)mousePos.Y);
+                }
+
+                Vector2 dir = mousePos - origin; 
+
+                _dynamicLightManager.ChangeDirectionLight(_playerLightIndex, loc: loc, direction: dir);
             }
 
             // Toggle performance (wall occlusion for shader)
@@ -201,6 +223,9 @@ namespace WillowWoodRefuge
             {
                 _isDark = !_isDark;
             }
+
+            // update previous player's screen location 
+            _prevPlayerScreenLoc = game._cameraController._camera.WorldToScreen(loc);
         }
 
         public override void PostUpdate(GameTime gameTime) { }
