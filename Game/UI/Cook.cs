@@ -187,7 +187,7 @@ namespace WillowWoodRefuge
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
             Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
-            float foodScale = Game1.instance.recipeMenu._recipeScale; //reuse the scale value from the recipe menu
+            float foodScale = 4; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2 - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
             TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, _screenHeight / 7), Color.White * cookingOpacity, foodScale);
@@ -286,7 +286,7 @@ namespace WillowWoodRefuge
             Game1.instance.inventory.addIngredient(foodName);
 
             //remove used ingredients from inventory
-            List<string> ingredients = Game1.instance.recipeMenu._recipes[foodName];
+            List<string> ingredients = Game1.instance.recipeMenu.GetIngredients(foodName);
             foreach (string ingredient in ingredients)
                 Game1.instance.inventory.removeIngredient(ingredient);
         }
