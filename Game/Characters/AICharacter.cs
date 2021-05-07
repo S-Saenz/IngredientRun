@@ -37,7 +37,7 @@ namespace WillowWoodRefuge
 
         // temp texture until animation set up
         protected Texture2D _texture;
-        
+
         // State info
         protected AIState _currState = AIState.Wander;
         protected bool _isMoving = false;
@@ -70,9 +70,11 @@ namespace WillowWoodRefuge
             // offset position
             _pos -= new Vector2(_texture.Width * _scale / 2, _texture.Height * _scale);
 
-            collisionHandler.RemoveObject(_collisionBox); // remove default collision box
+            // collisionHandler.RemoveObject(_collisionBox); // remove default collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos, new Size2(_texture.Width * _scale, _texture.Height * _scale)),
                 collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500), friction: _friction);
+            _collisionBox.AddMovementStartListener(onStartMove);
+            _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
             collisionHandler.AddObject(collisionLabel, _collisionBox);
 
             // add navigation mesh
@@ -116,8 +118,6 @@ namespace WillowWoodRefuge
             {
                 Update(gameTime, Vector2.Zero, false);
             }
-
-            base.Update(gameTime);
         }
 
         public void ChangeState(AIState newState)

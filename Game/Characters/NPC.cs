@@ -28,7 +28,7 @@ namespace WillowWoodRefuge
                              Area area = null)
                      : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, worldBounds, animationDict, area)
         {
-            _walkSpeed = 20;
+            _walkSpeed = 25;
             _runSpeed = 120;
             _collisionBox._friction = 0.5f;
             _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
@@ -74,12 +74,19 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
-            animationDict = new Dictionary<string, Animation>();
-            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runRight", new Animation(_texture, 1, 1, 100));
+            if (name == "aiyo")
+            {
+                animationDict = new Dictionary<string, Animation>();
+                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
+            }
+            else
+            {
+                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
+                animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
+            }
         }
 
         // Adds an "injury" to npc, along with assigning what item is needed to remove the injury.
