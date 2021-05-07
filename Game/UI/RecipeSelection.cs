@@ -14,6 +14,8 @@ using Microsoft.Xna.Framework.Media;
 
 using MonoGame.Extended.Shapes;
 using MonoGame.Extended;
+using System.IO;
+using System.Reflection;
 
 namespace WillowWoodRefuge
 {
@@ -164,22 +166,25 @@ namespace WillowWoodRefuge
 
 
             //ADD RECIPES HERE
-            _recipes.Add("grilledFish", new Recipe("grilledFish", new List<string>() { "fish" }, true,
-                         new Point(1, 1), GetGridRect(new Point(1, 1))));
-            _recipes.Add("appleMushroomSoup", new Recipe("appleMushroomSoup", new List<string>() { "apple", "water" }, true,
-                         new Point(1, 2), GetGridRect(new Point(1, 2))));
-            _recipes.Add("carrotSoup", new Recipe("carrotSoup", new List<string>() { "carrot", "water" }, true, 
-                         new Point(1, 3), GetGridRect(new Point(1, 3))));
-            _recipes.Add("rabbitSoup", new Recipe("rabbitSoup", new List<string>() { "meat", "water" }, true,
-                         new Point(2, 1), GetGridRect(new Point(2, 1))));
-            _recipes.Add("monsterSoup", new Recipe("monsterSoup", new List<string>() { "meat", "water" }, true,
-                         new Point(2, 2), GetGridRect(new Point(2, 2))));
-            
+            // _recipes.Add("grilledFish", new Recipe("grilledFish", new List<string>() { "fish" }, true,
+            //              new Point(1, 1), GetGridRect(new Point(1, 1))));
+            // _recipes.Add("appleMushroomSoup", new Recipe("appleMushroomSoup", new List<string>() { "apple", "water" }, true,
+            //              new Point(1, 2), GetGridRect(new Point(1, 2))));
+            // _recipes.Add("carrotSoup", new Recipe("carrotSoup", new List<string>() { "carrot", "water" }, true, 
+            //              new Point(1, 3), GetGridRect(new Point(1, 3))));
+            // _recipes.Add("rabbitSoup", new Recipe("rabbitSoup", new List<string>() { "meat", "water" }, true,
+            //              new Point(2, 1), GetGridRect(new Point(2, 1))));
+            // _recipes.Add("monsterSoup", new Recipe("monsterSoup", new List<string>() { "meat", "water" }, true,
+            //              new Point(2, 2), GetGridRect(new Point(2, 2))));
+
             // save recipe grid locations
-            foreach(Recipe recipe in _recipes.Values)
-            {
-                _recipesDisplay.Add(recipe._gridCoord, recipe._name);
-            }
+            // foreach(Recipe recipe in _recipes.Values)
+            // {
+            //     _recipesDisplay.Add(recipe._gridCoord, recipe._name);
+            // }
+
+            // Load recipes from file
+            LoadRecipes();
 
             // Fill empty space
             Point loc;
@@ -308,11 +313,11 @@ namespace WillowWoodRefuge
             // check for recipe selected
             foreach (Recipe recipe in _recipes.Values)
             {
-                if (recipe._canCook && recipe._area.Contains(mouseState.Position))
+                if (recipe._area.Contains(mouseState.Position))
                 {
                     string recipeFood = recipe._name;
                     // Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    if (mouseState.LeftButton == ButtonState.Pressed && recipe._canCook)
                         SwitchToCooking(recipeFood);
                     else
                         _hoverOver = recipe._gridCoord;
@@ -577,6 +582,52 @@ namespace WillowWoodRefuge
         {
             _screenWidth = size.X;
             _screenHeight = size.Y;
+        }
+        
+        void LoadRecipes()
+        {
+            // Set up stream
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.Recipe_Info.tsv");
+
+            // grow system from file
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                // throw away first line (headers)
+                string line = reader.ReadLine();
+
+                // list info
+                Point loc = new Point(1, 1);
+
+                while (!reader.EndOfStream)
+                {
+                    RectangleF area = GetGridRect(loc);
+                    line = reader.ReadLine();
+
+                    // create new recipe
+                    Recipe recipe = ParseRecipe(line, loc, area);
+                    _recipes.Add(recipe._name, recipe);
+                    _recipesDisplay.Add(loc, recipe._name);
+
+                    // jump to next entry coord
+                    loc.Y += loc.X >= _dimensions.Width ? 1 : 0;
+                    loc.X = (loc.X) % _dimensions.Width + 1;
+                }
+            }
+        }
+
+        Recipe ParseRecipe(string unparsed, Point pos, RectangleF area)
+        {
+            string[] values = unparsed.Split('\t');
+
+            // add all listed ingredients
+            List<string> ingredients = new List<string>();
+            for(int i = 4; i < values.Length; ++i)
+            {
+                if(values[i].Length > 0)
+                    ingredients.Add(values[i]);
+            }
+
+            return new Recipe(values[0], values[1], values[2], values[3], ingredients, false, pos, area);
         }
     }
 }
