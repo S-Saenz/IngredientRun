@@ -68,6 +68,8 @@ namespace WillowWoodRefuge
             Player player = info._other as Player;
             if(player != null)
             {
+                Game1.instance.sounds.hitSound();
+                Debug.WriteLine("player hit");
                 player.Reset();
             }
         }
