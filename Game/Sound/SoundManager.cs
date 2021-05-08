@@ -31,6 +31,8 @@ namespace WillowWoodRefuge
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Jump"));
             // 2
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Landing"));
+            // 3
+            soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Hit"));
             // Sound effects end
         }
         public void playSong(string name)
@@ -71,6 +73,11 @@ namespace WillowWoodRefuge
         public void landSound()
         {
             soundeffects[2].Play();
+        }
+
+        public void hitSound()
+        {
+            soundeffects[3].Play();
         }
 
         public void stop()

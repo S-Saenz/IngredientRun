@@ -527,6 +527,12 @@
 /processorParam:DebugMode=Auto
 /build:shaders/DitherOpacity.fx
 
+#begin soundEffects/Player_Hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Player_Hit.wav
+
 #begin soundEffects/Player_Jump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
