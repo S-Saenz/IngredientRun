@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -106,6 +107,45 @@ namespace WillowWoodRefuge
                     _areas.Add(obj.Name, new List<Area>());
                 }
                 _areas[obj.Name].Add(new Area(collisionHandler, new RectangleF(obj.Position, obj.Size), obj.Name));
+            }
+        }
+
+        public void AddLightObjects(LightManager lightManager)
+        {
+            TiledMapObjectLayer lightObj = _map.GetLayer<TiledMapObjectLayer>("LightObjects");
+            if (lightObj == null)
+            {
+                return;
+            }
+
+            foreach (TiledMapObject obj in lightObj.Objects)
+            {
+                if (obj.Name == "pointLight")
+                {
+                    if (obj.Properties.ContainsKey("falloff"))
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]), float.Parse(obj.Properties["falloff"]));
+                    }
+                    else
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]));
+                    }
+                }
+                else if (obj.Name == "directionalLight")
+                {
+                    float angle = float.Parse(obj.Properties["angle"]) * (MathF.PI / 180);
+                    if (obj.Properties.ContainsKey("falloff"))
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]),
+                                              new Vector2(MathF.Cos(angle), MathF.Sin(angle)), float.Parse(obj.Properties["spread"]),
+                                              float.Parse(obj.Properties["falloff"]));
+                    }
+                    else
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]),
+                                              new Vector2(MathF.Cos(angle), MathF.Sin(angle)), float.Parse(obj.Properties["spread"]));
+                    }
+                }
             }
         }
 

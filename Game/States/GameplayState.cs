@@ -108,6 +108,9 @@ namespace WillowWoodRefuge
             // Load Tilemap
             LoadTilemap(content);
 
+            // Add tilemap lighting
+            _tileMap.AddLightObjects(_staticLightManager);
+
             // Setup shader buffers
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
