@@ -68,14 +68,20 @@ namespace WillowWoodRefuge
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            if(delayFrames > 0)
-            {
-                delayFrames--;
-            }
-            else
+            //if(delayFrames > 0)
+            //{
+            //    delayFrames--;
+            //}
+            //else if(delayFrames == 0)
+            //{
+            //    interuptAnimationUpdate = false;
+            //    interuptInputUpdate = false;
+            //}
+            if(climbRightAnimation.currentFrame == climbRightAnimation.totalFrames - 1)
             {
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
+                //climbRightAnimation.reset();
             }
 
             // read player inputs
@@ -121,7 +127,7 @@ namespace WillowWoodRefuge
             jumpRightTex = Content.Load<Texture2D>("animations/main_character_jump_right");
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
             climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
-            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50);
+            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50, new Vector2(-7, 13));
             hangLeftTex = Content.Load<Texture2D>("animations/ledge_hang_left");
             hangLeftAnimation = new Animation(hangLeftTex, 1, 1, 50);
             hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
@@ -492,9 +498,8 @@ namespace WillowWoodRefuge
                 _anchorPoint = null;
                 //put ledge climb animation here.
 
+                climbRightAnimation.reset();
                 currentAnimation = "climbRight";
-                delayFrames = 60;
-                //interuptAnimationUpdate = false;
             }
         }
 
