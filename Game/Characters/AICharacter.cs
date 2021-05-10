@@ -30,6 +30,7 @@ namespace WillowWoodRefuge
         protected float _proxRange = 5;
         protected string _scene;
         protected bool _inConversation = false;
+        protected Point? _occupying = null;
 
         // this is dumb but everyone needs to know what points are occupied
         protected static Dictionary<string, List<Point>> _occupied = new Dictionary<string, List<Point>>();
@@ -84,6 +85,7 @@ namespace WillowWoodRefuge
             _possibleMoves = _navMesh.GetAllPossible(_currPos);
             _collisionBox._bounds.Position = _currPos._location - new Vector2(_texture.Width * _scale / 2, _texture.Height * _scale);
             _occupied[_scene].Add(_currPos._tileLoc);
+            _occupying = _currPos._tileLoc;
 
             _moveTimer = _rand.Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
 
@@ -170,10 +172,12 @@ namespace WillowWoodRefuge
                 Debug.WriteLine(name + "'s path broken.");
                 if (!_possibleMoves.ContainsKey(_navMesh.GetClosest(_pos, _scene))) // off of determined possible paths
                 {
-                    _occupied[_scene].Remove(_currTarget._tileLoc);
+                    if(_occupying.HasValue)
+                        _occupied[_scene].Remove(_occupying.Value);
                     _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _scene);
                     _possibleMoves = _navMesh.GetAllPossible(_currPos);
-                    _occupied[_scene].Add(_currPos._tileLoc);
+                    _occupying = _currPos._tileLoc;
+                    _occupied[_scene].Add(_occupying.Value);
                 }
             }
             else if (newDist < _proximityCut) // reached point
@@ -261,10 +265,8 @@ namespace WillowWoodRefuge
         private void MoveTo(NavPoint loc = null)
         {
             // remove occupations
-            if(_currPos != null)
-                _occupied[_scene].Remove(_currPos._tileLoc);
-            if(_target != null)
-                _occupied[_scene].Remove(_target._tileLoc);
+            if(_occupying.HasValue)
+                _occupied[_scene].Remove(_occupying.Value);
 
             // setup navigation options for current position
             _currPos = _navMesh.GetClosest(_pos, _scene);
@@ -277,8 +279,11 @@ namespace WillowWoodRefuge
                 _target = _navMesh.GetPath(_currPos, loc, _possibleMoves, out _currPath);
 
             // add new occupation
-            if(_target != null)
-                _occupied[_scene].Add(_target._tileLoc);
+            if (_target != null)
+            {
+                _occupying = _target._tileLoc;
+                _occupied[_scene].Add(_occupying.Value);
+            }
 
             // start move (if not path of length 0)
             if (_currPath.Count > 0)
@@ -296,7 +301,8 @@ namespace WillowWoodRefuge
         public void Destroy(PhysicsHandler physicsHandler)
         {
             RemoveCollision(physicsHandler);
-            _occupied[_scene].Remove(_currPos._tileLoc);
+            if(_occupying.HasValue)
+                _occupied[_scene].Remove(_occupying.Value);
         }
 
         protected void LeaveWanderState()
