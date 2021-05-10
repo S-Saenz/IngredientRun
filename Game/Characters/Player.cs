@@ -18,7 +18,7 @@ namespace WillowWoodRefuge
         private Animation jumpSquatRightAnimation, risingRightAnimation, apexRightAnimation, fallingRightAnimation, landingRightAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
-        private bool hasJumped = false;
+        private bool jumpSquatLanding = false;
         private int delayFrames = 0;
         private Vector2 _FOWTPos;
         private int hp = 25;
@@ -87,12 +87,29 @@ namespace WillowWoodRefuge
                 interuptInputUpdate = false;
                 //climbRightAnimation.reset();
             }
-
+            if(jumpSquatRightAnimation.currentFrame == jumpSquatRightAnimation.totalFrames - 1)
+            {
+                interuptAnimationUpdate = false;
+                interuptInputUpdate = false;
+                jumpSquatLanding = false;
+                if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
+                {
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                }
+                _jumpClicked = true;
+                _collisionBox._downLastBlocked = float.NegativeInfinity;
+                jumpSquatRightAnimation.reset();
+            }
+            if (jumpSquatLanding)
+            {
+                _collisionBox._velocity.X = 0;
+            }
             // read player inputs
-            if(!interuptInputUpdate)
+            if (!interuptInputUpdate)
             {
                 ReadInputs(gameTime);
             }
+            
 
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
 
@@ -138,7 +155,7 @@ namespace WillowWoodRefuge
             hangRightAnimation = new Animation(hangRightTex, 1, 1, 50);
 
             jumpSquatRightTex = Content.Load<Texture2D>("animations/jumpSquat_right");
-            jumpRightAnimation = new Animation(jumpSquatRightTex, 1, 3, 50);
+            jumpSquatRightAnimation = new Animation(jumpSquatRightTex, 1, 3, 30, new Vector2(0, -16));
             risingRightTex = Content.Load<Texture2D>("animations/rising_right");
             risingRightAnimation = new Animation(risingRightTex, 1, 1, 0);
             apexRightTex = Content.Load<Texture2D>("animations/apex_right");
@@ -146,7 +163,7 @@ namespace WillowWoodRefuge
             fallingRightTex = Content.Load<Texture2D>("animations/falling_right");
             fallingRightAnimation = new Animation(fallingRightTex, 1, 1, 0);
             landingRightTex = Content.Load<Texture2D>("animations/landing_right");
-            landingRightAnimation = new Animation(landingRightTex, 1, 3, 50);
+            landingRightAnimation = new Animation(landingRightTex, 1, 3, 30, new Vector2(0, -16));
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -179,10 +196,12 @@ namespace WillowWoodRefuge
             animationDict.Add("hangLeft", hangLeftAnimation);
             animationDict.Add("hangRight", hangRightAnimation);
 
+            animationDict.Add("jumpSquatRight", jumpSquatRightAnimation);
             animationDict.Add("risingRight", risingRightAnimation);
             animationDict.Add("apexRight", apexRightAnimation);
             animationDict.Add("fallingRight", fallingRightAnimation);
 
+            animationDict.Add("jumpSquatLeft", jumpSquatRightAnimation);
             animationDict.Add("risingLeft", risingRightAnimation);
             animationDict.Add("apexLeft", apexRightAnimation);
             animationDict.Add("fallingLeft", fallingRightAnimation);
@@ -260,23 +279,20 @@ namespace WillowWoodRefuge
                 Game1.instance.sounds.walkSound(gameTime);
 
             }
-            if (hasJumped && _collisionBox._downBlocked)
+
+            if (Game1.instance.input.IsDown("jump") && _collisionBox._downBlocked)
             {
-                hasJumped = false;
-                Debug.WriteLine("landed");
-                Game1.instance.sounds.landSound();
-            }
-            if (Game1.instance.input.IsDown("jump"))
-            {
-                if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
-                {
-                    Game1.instance.sounds.jumpSound();
-                    hasJumped = true;
-                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
-                }
-                
-                _jumpClicked = true;
-                _collisionBox._downLastBlocked = float.NegativeInfinity;
+                jumpSquatRightAnimation.reset();
+                currentAnimation = "jumpSquatRight";
+                interuptAnimationUpdate = true;
+                interuptInputUpdate = true;
+                jumpSquatLanding = true;
+                //if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
+                //{
+                //    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
+                //}
+                //_jumpClicked = true;
+                //_collisionBox._downLastBlocked = float.NegativeInfinity;
             }
             else
             {
