@@ -12,7 +12,10 @@ namespace WillowWoodRefuge
     class Player : AnimatedObject,  IPhysicsObject
     {
         private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, hangLeftTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
+        private Texture2D jumpSquatRightTex, risingRightTex, apexRightTex, fallingRightTex, landingRightTex;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, 
+                          idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
+        private Animation jumpSquatRightAnimation, risingRightAnimation, apexRightAnimation, fallingRightAnimation, landingRightAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
         private bool hasJumped = false;
@@ -69,14 +72,20 @@ namespace WillowWoodRefuge
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            if(delayFrames > 0)
-            {
-                delayFrames--;
-            }
-            else
+            //if(delayFrames > 0)
+            //{
+            //    delayFrames--;
+            //}
+            //else if(delayFrames == 0)
+            //{
+            //    interuptAnimationUpdate = false;
+            //    interuptInputUpdate = false;
+            //}
+            if(climbRightAnimation.currentFrame == climbRightAnimation.totalFrames - 1)
             {
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
+                //climbRightAnimation.reset();
             }
 
             // read player inputs
@@ -122,12 +131,22 @@ namespace WillowWoodRefuge
             jumpRightTex = Content.Load<Texture2D>("animations/main_character_jump_right");
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
             climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
-            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50);
+            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50, new Vector2(-7, 13));
             hangLeftTex = Content.Load<Texture2D>("animations/ledge_hang_left");
             hangLeftAnimation = new Animation(hangLeftTex, 1, 1, 50);
             hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
             hangRightAnimation = new Animation(hangRightTex, 1, 1, 50);
 
+            jumpSquatRightTex = Content.Load<Texture2D>("animations/jumpSquat_right");
+            jumpRightAnimation = new Animation(jumpSquatRightTex, 1, 3, 50);
+            risingRightTex = Content.Load<Texture2D>("animations/rising_right");
+            risingRightAnimation = new Animation(risingRightTex, 1, 1, 0);
+            apexRightTex = Content.Load<Texture2D>("animations/apex_right");
+            apexRightAnimation = new Animation(apexRightTex, 1, 1, 0);
+            fallingRightTex = Content.Load<Texture2D>("animations/falling_right");
+            fallingRightAnimation = new Animation(fallingRightTex, 1, 1, 0);
+            landingRightTex = Content.Load<Texture2D>("animations/landing_right");
+            landingRightAnimation = new Animation(landingRightTex, 1, 3, 50);
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -159,6 +178,14 @@ namespace WillowWoodRefuge
             animationDict.Add("climbRight", climbRightAnimation);
             animationDict.Add("hangLeft", hangLeftAnimation);
             animationDict.Add("hangRight", hangRightAnimation);
+
+            animationDict.Add("risingRight", risingRightAnimation);
+            animationDict.Add("apexRight", apexRightAnimation);
+            animationDict.Add("fallingRight", fallingRightAnimation);
+
+            animationDict.Add("risingLeft", risingRightAnimation);
+            animationDict.Add("apexLeft", apexRightAnimation);
+            animationDict.Add("fallingLeft", fallingRightAnimation);
 
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
@@ -368,9 +395,17 @@ namespace WillowWoodRefuge
                 {
                     _currentMoveType = "walk";
                 }
-                else if (!_collisionBox._downBlocked && _anchorPoint == null) // if airborne
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y < -60) // if airborne and rising
                 {
-                    _currentMoveType = "jump";
+                    _currentMoveType = "rising";
+                }
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y <= 60 && _collisionBox._velocity.Y >= -60) // if airborne and apex
+                {
+                    _currentMoveType = "apex";
+                }
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y > 60) // if airborne and falling
+                {
+                    _currentMoveType = "falling";
                 }
                 currentAnimation = _currentMoveType + _currentDirection;
             }
@@ -501,9 +536,8 @@ namespace WillowWoodRefuge
                 _anchorPoint = null;
                 //put ledge climb animation here.
 
+                climbRightAnimation.reset();
                 currentAnimation = "climbRight";
-                delayFrames = 60;
-                //interuptAnimationUpdate = false;
             }
         }
 
