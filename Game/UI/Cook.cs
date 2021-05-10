@@ -203,8 +203,10 @@ namespace WillowWoodRefuge
             //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
 
             // temp tutorial text
+            Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Hold 'Space' and release when food is cooked but not burnt");
             spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
-                                   new Vector2(0, 0), Color.White);
+                                   new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - textSize.X / 2, Game1.instance._cameraController._screenDimensions.Y / 2),
+                                   Color.White);
         }
 
         void debug(string message)
