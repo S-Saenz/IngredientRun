@@ -18,6 +18,7 @@ namespace WillowWoodRefuge
         private Animation jumpSquatRightAnimation, risingRightAnimation, apexRightAnimation, fallingRightAnimation, landingRightAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
+        private bool hasJumped = false;
         private int delayFrames = 0;
         private Vector2 _FOWTPos;
         private int hp = 25;
@@ -259,13 +260,21 @@ namespace WillowWoodRefuge
                 Game1.instance.sounds.walkSound(gameTime);
 
             }
-
+            if (hasJumped && _collisionBox._downBlocked)
+            {
+                hasJumped = false;
+                Debug.WriteLine("landed");
+                Game1.instance.sounds.landSound();
+            }
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
                 {
+                    Game1.instance.sounds.jumpSound();
+                    hasJumped = true;
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
+                
                 _jumpClicked = true;
                 _collisionBox._downLastBlocked = float.NegativeInfinity;
             }

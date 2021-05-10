@@ -50,10 +50,13 @@ namespace WillowWoodRefuge
             // Populate condition bins
             _conditionBins.Add("noRequirements", new List<int>());
 
-            foreach(StateConditions.Condition cond in game.stateConditions.conditionList)
+            foreach(List<StateConditions.Condition> list in game.stateConditions.masterConditionList)
             {
-                _conditionBins.Add(cond._name, new List<int>());
-                _conditionBins.Add('!' + cond._name, new List<int>());
+                foreach(StateConditions.Condition cond in list)
+                {
+                    _conditionBins.Add(cond._name, new List<int>());
+                    _conditionBins.Add('!' + cond._name, new List<int>());
+                }
             }
 
             for(int i = 0; i < _interactions.Count; ++i)
@@ -92,38 +95,41 @@ namespace WillowWoodRefuge
         {
             // repopulate _valid container
             _valid.Clear();
-            foreach(StateConditions.Condition cond in game.stateConditions.conditionList)
+            foreach (List<StateConditions.Condition> list in game.stateConditions.masterConditionList)
             {
-                if(cond._flag == true)
+                foreach (StateConditions.Condition cond in list)
                 {
-                    if (_conditionBins.ContainsKey(cond._name))
+                    if (cond._flag == true)
                     {
-                        foreach (int npcEvent in _conditionBins[cond._name])
+                        if (_conditionBins.ContainsKey(cond._name))
                         {
-                            if (_valid.ContainsKey(npcEvent))
+                            foreach (int npcEvent in _conditionBins[cond._name])
                             {
-                                _valid[npcEvent] += 1;
-                            }
-                            else
-                            {
-                                _valid.Add(npcEvent, 1);
+                                if (_valid.ContainsKey(npcEvent))
+                                {
+                                    _valid[npcEvent] += 1;
+                                }
+                                else
+                                {
+                                    _valid.Add(npcEvent, 1);
+                                }
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (_conditionBins.ContainsKey('!' + cond._name))
+                    else
                     {
-                        foreach (int npcEvent in _conditionBins['!' + cond._name])
+                        if (_conditionBins.ContainsKey('!' + cond._name))
                         {
-                            if (_valid.ContainsKey(npcEvent))
+                            foreach (int npcEvent in _conditionBins['!' + cond._name])
                             {
-                                _valid[npcEvent] += 1;
-                            }
-                            else
-                            {
-                                _valid.Add(npcEvent, 1);
+                                if (_valid.ContainsKey(npcEvent))
+                                {
+                                    _valid[npcEvent] += 1;
+                                }
+                                else
+                                {
+                                    _valid.Add(npcEvent, 1);
+                                }
                             }
                         }
                     }

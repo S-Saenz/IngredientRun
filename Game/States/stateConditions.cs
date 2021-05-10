@@ -9,18 +9,32 @@ namespace WillowWoodRefuge
 {
     public class StateConditions
     {
-        public List<Condition> conditionList = new List<Condition>();
+        public List<List <Condition>> masterConditionList = new List<List<Condition>>();
+        public List<Condition> generalConditionList = new List<Condition>();
+        public List<Condition> weatherConditions = new List<Condition>();
+        public List<Condition> curedCondtions = new List<Condition>();
         delegate void NPCAction();
 
         public StateConditions()
         {
-            // add all the game's onditions
-            conditionList.Add(new Condition("fedMushroomPrior", true));
-            conditionList.Add(new Condition("curedPrior", true));
-            conditionList.Add(new Condition("isMorning", true));
-            conditionList.Add(new Condition("isRaining", false));
+            // master condition list
+            masterConditionList.Add(generalConditionList);
+            masterConditionList.Add(weatherConditions);
+            masterConditionList.Add(curedCondtions);
+            // add all the game's conditions
+
+            // general conditions
+            generalConditionList.Add(new Condition("isMorning", true));
+
+            //cured (quest) conditions
+            curedCondtions.Add(new Condition("fedMushroomPrior", true));
+            curedCondtions.Add(new Condition("curedPrior", true));
+            
+            // weather Conditions
+            weatherConditions.Add(new Condition("isRaining", false));
+            weatherConditions.Add(new Condition("isFoggy", false));
             // add the events that will ocurr on each event
-            conditionList[0].ThisEvent += c_FedMushroom;
+            generalConditionList[0].ThisEvent += c_FedMushroom;
         }
         // create the event methods
         static void c_FedMushroom(object sender, OnEventArgs e)
@@ -62,7 +76,7 @@ namespace WillowWoodRefuge
             {
                 OnEventArgs args = new OnEventArgs();
                 args.TimeReached = DateTime.Now;
-                conditionList[0].OnEvent(args);
+                generalConditionList[0].OnEvent(args);
             }
         }
 
