@@ -138,7 +138,7 @@ namespace WillowWoodRefuge
             buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             _confirmButton = new UIButton(ButtonTexture, buttonPos);
             _confirmButton.Depth = .01f;
-            _confirmButton.Scale = 3f;
+            _confirmButton.Scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
         }
 
