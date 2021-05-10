@@ -297,8 +297,14 @@ namespace WillowWoodRefuge
 
             xButton.Draw(spriteBatch);
 
-            if(_gifting)
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gifting", new Vector2(16, 16), Color.White);
+            if (_gifting)
+            {
+                string message = "Select item to give to " + _recipient.name + "\n(cured by " + _recipient._cureItem + ")";
+                Vector2 messageSize = FontManager._bigdialogueFont.MeasureString(message);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
+                Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+            }
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
