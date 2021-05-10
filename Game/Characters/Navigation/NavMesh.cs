@@ -190,10 +190,15 @@ namespace WillowWoodRefuge
             }
 
             path = new Dictionary<NavPoint, NavPoint>();
+            if(parent.Count <= 1) // only one possible point
+            {
+                return pos;
+            }
+
             NavPoint endPoint; // choose point
             do
             {
-                int choice = new Random().Next(1, parent.Count);
+                int choice = new Random().Next(1, parent.Count - 1);
                 endPoint = parent.Values.ElementAt(choice);
             }
             while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));
@@ -217,7 +222,7 @@ namespace WillowWoodRefuge
             NavPoint endPoint; // choose point
             do
             {
-                int choice = new Random().Next(1, parent.Count);
+                int choice = new Random().Next(1, parent.Count - 1);
                 endPoint = parent.Values.ElementAt(choice);
             }
             while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));

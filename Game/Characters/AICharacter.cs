@@ -205,6 +205,11 @@ namespace WillowWoodRefuge
                 _moveTimer -= gameTime.GetElapsedSeconds();
             }
 
+            if(_timerStopped && !_isMoving)
+            {
+                _timerStopped = false;
+            }
+
             // timer ended, start new wander
             if(_moveTimer <= 0)
             {
