@@ -194,7 +194,7 @@ namespace WillowWoodRefuge
 
 
             //progress bar
-            string progressBar = "progress" + Math.Min((int)(roundByFive(_progress)/5),20);
+            string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, width/630.0f, true);
 
             //hot zones
