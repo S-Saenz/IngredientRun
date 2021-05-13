@@ -43,7 +43,7 @@ namespace WillowWoodRefuge
         float countDuration = 1f; //every  1s.
         float currentTime = 0f;
 
-        bool _debugMode = true;
+        bool _debugMode = false;
 
         public bool loaded = false;
 
@@ -80,13 +80,13 @@ namespace WillowWoodRefuge
 
             //space bar held down - move needle
             if (Game1.instance.input.IsDown("cook") && _needleX <= _meterEnd && _attemptRemaining)
-                _needleX += _needleSpeed;
+                _needleX += _needleSpeed * gameTime.GetElapsedSeconds() * 100;
             //needle moves left by itself, if space bar not pressed
             else if (!Game1.instance.input.IsDown("cook") && _needleX >= _meterStart && _attemptRemaining)
-                _needleX -= _needleSpeed;
+                _needleX -= _needleSpeed * gameTime.GetElapsedSeconds() * 100;
 
             //press ENTER while needle is in the hottest zone for a lil jump
-            if (Game1.instance.input.IsDown("superCook") && _needleX <= (_zoneX + 25) && _needleX >= (_zoneX - 25))
+            if (Game1.instance.input.JustPressed("superCook") && _needleX <= (_zoneX + 25) && _needleX >= (_zoneX - 25))
                 _progress += 15;
 
             //don't let needle move past the end of the meter
@@ -194,7 +194,7 @@ namespace WillowWoodRefuge
 
 
             //progress bar
-            String progressBar = "progress" + (roundByFive(_progress)/5).ToString();
+            string progressBar = "progress" + Math.Min((int)(roundByFive(_progress)/5),20);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, width/630.0f, true);
 
             //hot zones
