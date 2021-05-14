@@ -187,7 +187,7 @@ namespace WillowWoodRefuge
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
             Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
-            float foodScale = Game1.instance.recipeMenu._recipeScale; //reuse the scale value from the recipe menu
+            float foodScale = 4; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2 - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
             TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, _screenHeight / 7), Color.White * cookingOpacity, foodScale);
@@ -203,8 +203,10 @@ namespace WillowWoodRefuge
             //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
 
             // temp tutorial text
+            Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Hold 'Space' and release when food is cooked but not burnt");
             spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
-                                   new Vector2(0, 0), Color.White);
+                                   new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - textSize.X / 2, Game1.instance._cameraController._screenDimensions.Y / 2),
+                                   Color.White);
         }
 
         void debug(string message)
@@ -286,7 +288,7 @@ namespace WillowWoodRefuge
             Game1.instance.inventory.addIngredient(foodName);
 
             //remove used ingredients from inventory
-            List<string> ingredients = Game1.instance.recipeMenu._recipes[foodName];
+            List<string> ingredients = Game1.instance.recipeMenu.GetIngredients(foodName);
             foreach (string ingredient in ingredients)
                 Game1.instance.inventory.removeIngredient(ingredient);
         }
