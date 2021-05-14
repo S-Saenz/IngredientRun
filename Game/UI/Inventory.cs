@@ -77,11 +77,11 @@ namespace WillowWoodRefuge
         //add items to the inventory for debugging purposes
         public void addExampleInventory()
         {
-            ingredientList.Add(new Ingredient(randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(randomBox(), "wood"));
+            //ingredientList.Add(new Ingredient(randomBox(), "acorn"));
+            //ingredientList.Add(new Ingredient(randomBox(), "apple"));
+            //ingredientList.Add(new Ingredient(randomBox(), "fish"));
+            //ingredientList.Add(new Ingredient(randomBox(), "meat"));
+            //ingredientList.Add(new Ingredient(randomBox(), "wood"));
             ingredientList.Add(new Ingredient(randomBox(), "water"));
         }
 
