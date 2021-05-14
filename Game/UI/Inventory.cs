@@ -115,7 +115,7 @@ namespace WillowWoodRefuge
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
 
-            addExampleInventory();
+            // addExampleInventory();
 
             shakeBag();
 
