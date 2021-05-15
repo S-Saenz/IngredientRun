@@ -21,9 +21,8 @@ namespace WillowWoodRefuge
 
         // navigation variables
         protected Dictionary<NavPoint, NavPoint> _possibleMoves;
-        protected Dictionary<NavPoint, NavPoint> _currPath;
+        // protected Dictionary<NavPoint, NavPoint> _currPath;
         protected float _lastDist;
-        protected NavPoint _currTarget;
         protected NavPoint _currPos;
         protected NavPoint _target;
         protected Vector2 _interestTarget;
@@ -31,10 +30,21 @@ namespace WillowWoodRefuge
         protected string _scene;
         protected bool _inConversation = false;
         protected Point? _occupying = null;
+        protected bool _pointReached = true;
+
+        // path abandon variables (how long before entity gives up after making no progress)
+        protected float _abandonTimer = 0;
+        protected float _abandonTime = 2;
 
         // this is dumb but everyone needs to know what points are occupied
         protected static Dictionary<string, List<Point>> _occupied = new Dictionary<string, List<Point>>();
         public static Dictionary<string, List<Point>> _occupiedPoints { get { return _occupied; } }
+
+        // Interaction events
+        private event AIEventHandler _reachedConversation;
+
+        // Event delegate
+        public delegate void AIEventHandler();
 
         // temp texture until animation set up
         protected Texture2D _texture;
@@ -162,43 +172,48 @@ namespace WillowWoodRefuge
 
         private void MoveUpdate(GameTime gameTime)
         {
-            Update(gameTime, new Vector2(_pos.X < _currTarget._location.X ? 1 : -1, 0), true);
-            float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+            Update(gameTime, new Vector2(_pos.X < _target._location.X ? 1 : -1, 0), true);
+            float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
 
-            if (newDist >= _lastDist) // moved further away from target point
+            if (newDist >= _lastDist) // not making or losing progress
             {
+                _abandonTimer += gameTime.GetElapsedSeconds();
+            }
+            else // moving toward target
+            {
+                _abandonTimer = 0;
+            }
+
+            if(_abandonTimer >= _abandonTime) // spent max time trying to make progress
+            {
+                _abandonTimer = 0;
                 _timerStopped = false;
                 _isMoving = false;
-                Debug.WriteLine(name + "'s path broken.");
-                if (!_possibleMoves.ContainsKey(_navMesh.GetClosest(_pos, _scene))) // off of determined possible paths
-                {
-                    if(_occupying.HasValue)
-                        _occupied[_scene].Remove(_occupying.Value);
-                    _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _scene);
-                    _possibleMoves = _navMesh.GetAllPossible(_currPos);
-                    _occupying = _currPos._tileLoc;
-                    _occupied[_scene].Add(_occupying.Value);
-                }
+                Debug.WriteLine(name + "gave up.");
+
+                if(_occupying.HasValue)
+                    _occupied[_scene].Remove(_occupying.Value);
+                _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _scene);
+                _possibleMoves = _navMesh.GetAllPossible(_currPos);
+                _occupying = _currPos._tileLoc;
+                _occupied[_scene].Add(_occupying.Value);
+                _pointReached = true;
+                return;
             }
             else if (newDist < _proximityCut) // reached point
             {
-                if (_currPath.ContainsKey(_currTarget)) // another point in path
-                {
-                    _currTarget = _currPath[_currTarget];
-                    _lastDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
-                }
-                else // target reached
-                {
-                    // stop moving, restart timer
-                    _timerStopped = false;
-                    _isMoving = false;
-                    _currPos = _currTarget;
-                }
+                // stop moving, restart timer
+                _timerStopped = false;
+                _isMoving = false;
+                _pointReached = true;
             }
             else
             {
                 _lastDist = newDist;
+                _pointReached = false;
             }
+
+            _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _scene, true);
         }
 
         private void WanderUpdate(GameTime gameTime)
@@ -218,13 +233,17 @@ namespace WillowWoodRefuge
             if(_moveTimer <= 0)
             {
                 Wander();
-                Debug.WriteLine(name + ((_currTarget != null) ? (" started wandering to " + _currTarget._location) : " sat down"));
+                Debug.WriteLine(name + ((_target != null) ? (" started wandering to " + _target._location) : " sat down"));
             }
         }
 
         private void ConverseUpdate(GameTime gameTime)
         {
-            
+            if(!_inConversation && _pointReached)
+            {
+                _reachedConversation?.Invoke();
+                _inConversation = true;
+            }
         }
 
         private void StopUpdate(GameTime gameTime)
@@ -243,15 +262,19 @@ namespace WillowWoodRefuge
 
         public void DrawDebug(SpriteBatch spriteBatch)
         {
-            if (_isMoving && _currTarget != null)
+            if (_isMoving && _target != null)
             {
                 spriteBatch.DrawLine(_target._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.Crimson, 1);
-                spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.DarkGoldenrod, 1);
+                // spriteBatch.DrawLine(_currTarget._location - new Vector2(0, _collisionBox._bounds.Height / 2), _pos, Color.DarkGoldenrod, 1);
             }
 
-            _navMesh.DrawDebug(spriteBatch);
-            _navMesh.DrawPaths(spriteBatch, _possibleMoves);
+            // _navMesh.DrawDebug(spriteBatch);
+            // _navMesh.DrawPaths(spriteBatch, _possibleMoves);
             // spriteBatch.DrawPoint(_currPos._location, Color.BurlyWood, 4);
+
+            spriteBatch.DrawPoint(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), Color.GreenYellow);
+            if(_target != null)
+                spriteBatch.DrawPoint(_target._location, Color.Maroon);
         }
 
         private void Wander()
@@ -274,9 +297,9 @@ namespace WillowWoodRefuge
 
             // assign target
             if (loc == null) // random path
-                _target = _navMesh.GetRandomPath(_currPos, _possibleMoves, out _currPath);
+                _target = _navMesh.GetRandomPoint(_currPos, _possibleMoves);
             else
-                _target = _navMesh.GetPath(_currPos, loc, _possibleMoves, out _currPath);
+                _target = loc;
 
             // add new occupation
             if (_target != null)
@@ -284,17 +307,22 @@ namespace WillowWoodRefuge
                 _occupying = _target._tileLoc;
                 _occupied[_scene].Add(_occupying.Value);
             }
+            else // no new occupation, reassign old 
+            {
+                _occupied[_scene].Add(_occupying.Value);
+            }
 
             // start move (if not path of length 0)
-            if (_currPath.Count > 0)
+            if (_target != null)//_currPath.Count > 0)
             {
-                _currTarget = _currPath[_currPos];
-                _lastDist = Vector2.Distance(_collisionBox._bounds.Center + new Vector2(0, _collisionBox._bounds.Height / 2), _currTarget._location);
+                _lastDist = Vector2.Distance(_collisionBox._bounds.Center + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
                 _isMoving = true;
+                _pointReached = false;
             }
             else
             {
                 _isMoving = false;
+                _pointReached = true;
             }
         }
 
@@ -345,6 +373,10 @@ namespace WillowWoodRefuge
         protected void StartStopState()
         {
 
+        }
+        public void AddConversationReachedListener(AIEventHandler handler)
+        {
+            _reachedConversation += handler;
         }
     }
 }
