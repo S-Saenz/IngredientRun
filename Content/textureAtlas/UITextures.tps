@@ -181,6 +181,32 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-1.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-10.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-11.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-12.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-2.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-3.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-4.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-5.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-6.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-7.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-8.png</key>
+            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,35,70,70</rect>
+                <key>scale9Paddings</key>
+                <rect>35,35,70,70</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -646,6 +672,18 @@
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Spoon.png</filename>
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/X_Button.png</filename>
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-1.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-10.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-11.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-12.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-2.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-3.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-4.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-5.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-6.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-7.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-8.png</filename>
+            <filename>../../../../../Downloads/Campfire Frames/campfire-9.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

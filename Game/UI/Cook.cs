@@ -32,20 +32,25 @@ namespace WillowWoodRefuge
         float _zoneX = 500;
         float _zoneVelocity = 2.5f;
 
-        float _progress = 0;
+        float _progress = 0; //progress bar - range from 0 - 100
 
         //var rand = new Random();
-        float target;
+        float target; // guide for hotzone bounces
 
         //for the timer to turn the UI off
         int counter = 1;
         int limit = 3;
-        float countDuration = 1f; //every  1s.
+        float countDuration = 0.25f; //every  1s.
         float currentTime = 0f;
+
+        int fireFrame; //which frame to display for the fire animation
+        string fireTexture = "campfire-2";
 
         bool _debugMode = false;
 
         public bool loaded = false;
+
+
 
         public Cook(string selectedFood)
         {
@@ -142,6 +147,8 @@ namespace WillowWoodRefuge
             if (!_attemptRemaining)
                 CookingFinished(gameTime);
 
+            fireAnimationFrameRateModerator(gameTime);
+
             ////////////////////////////// debugging tools \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             //press 1 to check needleX
             if (oldKeyState.IsKeyUp(Keys.D1) && keyState.IsKeyDown(Keys.D1) && keyState.IsKeyDown(Keys.LeftAlt))
@@ -192,6 +199,9 @@ namespace WillowWoodRefuge
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
             TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, foodScale * .7f, true);
 
+            //fire 
+            //string fireTexture = this.chooseFireTexture();
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height/4), Color.White, width / 1000, true);
 
             //progress bar
             string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
@@ -291,6 +301,31 @@ namespace WillowWoodRefuge
                 return num + 5.0f - mod;
             else //round down
                 return num - mod;
+        }
+
+        // 
+        string chooseFireTexture()
+        {
+            //fireFrames range is (1-12)
+            int totalFrames = 12;
+
+            this.fireFrame = this.fireFrame % totalFrames; //range is now (0 -11)
+            this.fireFrame++; // increment!   range is now from (1 - 12)
+            return "campfire-" + this.fireFrame;
+        }
+
+        void fireAnimationFrameRateModerator(GameTime gameTime)
+        {
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+
+            if (currentTime >= countDuration) //this is true at least once every sec
+            {
+                //update how much time has passed
+                counter++;
+                currentTime -= countDuration; // "use up" the time & recalibrate the currentTime      
+                
+                this.fireTexture = chooseFireTexture();
+            }
         }
     }
 
