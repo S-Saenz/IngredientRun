@@ -11,13 +11,13 @@ namespace WillowWoodRefuge
 {
     public class Enemy : AICharacter, ISpawnable
     {
-        float _sightDistance = 100;
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, worldBounds, animationDict)
         {
             _walkSpeed = 45;
             _runSpeed = 100;
+            _jumpHeight = 7500;
             _collisionBox._friction = 0.5f;
             _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
 

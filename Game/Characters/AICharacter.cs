@@ -24,6 +24,7 @@ namespace WillowWoodRefuge
         // protected Dictionary<NavPoint, NavPoint> _currPath;
         protected float _lastDist;
         protected NavPoint _currPos;
+        protected NavPoint _lastPos;
         protected NavPoint _target;
         protected Vector2 _interestTarget;
         protected float _proxRange = 5;
@@ -35,6 +36,10 @@ namespace WillowWoodRefuge
         // path abandon variables (how long before entity gives up after making no progress)
         protected float _abandonTimer = 0;
         protected float _abandonTime = 2;
+
+        // sense variables
+        protected float _sightDistance = 100;
+        protected float _soundDistance = 150;
 
         // this is dumb but everyone needs to know what points are occupied
         protected static Dictionary<string, List<Point>> _occupied = new Dictionary<string, List<Point>>();
@@ -175,7 +180,7 @@ namespace WillowWoodRefuge
             Update(gameTime, new Vector2(_pos.X < _target._location.X ? 1 : -1, 0), true);
             float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
 
-            if (newDist >= _lastDist) // not making or losing progress
+            if (_currPos == _lastPos) // not making progress
             {
                 _abandonTimer += gameTime.GetElapsedSeconds();
             }
@@ -189,7 +194,7 @@ namespace WillowWoodRefuge
                 _abandonTimer = 0;
                 _timerStopped = false;
                 _isMoving = false;
-                Debug.WriteLine(name + "gave up.");
+                Debug.WriteLine(name + " gave up.");
 
                 if(_occupying.HasValue)
                     _occupied[_scene].Remove(_occupying.Value);
@@ -214,6 +219,13 @@ namespace WillowWoodRefuge
             }
 
             _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _scene, true);
+
+            if(_isMoving && _collisionBox._velocity.X == 0)
+            {
+                Jump(gameTime);
+            }
+
+            _lastPos = _currPos;
         }
 
         private void WanderUpdate(GameTime gameTime)
@@ -254,10 +266,12 @@ namespace WillowWoodRefuge
         private void AttackUpdate(GameTime gameTime)
         {
             NavPoint attackTarget = _navMesh.GetClosest(_interestTarget, _scene, true);
-            if (_target != attackTarget) // target has moved and another point in possible points is closer
+            if (_target != attackTarget && Vector2.Distance(_interestTarget, _pos) <= _sightDistance) // target is visible and has moved
             {
                 MoveTo(attackTarget);
             }
+            else if (!_isMoving)
+                ChangeState(AIState.Wander);
         }
 
         public void DrawDebug(SpriteBatch spriteBatch)
@@ -355,7 +369,7 @@ namespace WillowWoodRefuge
 
         protected void StartWanderState()
         {
-
+            _target = null;
         }
 
         protected void StartAttackState()
