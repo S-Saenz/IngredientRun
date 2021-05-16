@@ -11,6 +11,9 @@ namespace WillowWoodRefuge
 {
     public class Enemy : AICharacter, ISpawnable
     {
+        float _attackCooldown = 2;
+        float _cooldownTimer = 0;
+        float _attackDamage = 1;
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, worldBounds, animationDict)
@@ -32,6 +35,8 @@ namespace WillowWoodRefuge
             {
                 _currState = AIState.Attack;
             }
+
+            _cooldownTimer += gameTime.GetElapsedSeconds();
 
             _interestTarget = playerLoc;
             base.Update(gameTime);
@@ -68,9 +73,15 @@ namespace WillowWoodRefuge
             Player player = info._other as Player;
             if(player != null)
             {
-                Game1.instance.sounds.hitSound();
-                Debug.WriteLine("player hit");
-                player.Reset();
+                if (_cooldownTimer >= _attackCooldown && _currState == AIState.Attack)
+                {
+                    Game1.instance.sounds.hitSound();
+                    Debug.WriteLine("player hit");
+                    // player.Reset();
+
+                    player.Hit(_attackDamage);
+                    _cooldownTimer = 0;
+                }
             }
         }
     }

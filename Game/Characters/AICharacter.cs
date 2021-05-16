@@ -175,7 +175,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        private void MoveUpdate(GameTime gameTime)
+        protected void MoveUpdate(GameTime gameTime)
         {
             Update(gameTime, new Vector2(_pos.X < _target._location.X ? 1 : -1, 0), true);
             float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
@@ -228,7 +228,7 @@ namespace WillowWoodRefuge
             _lastPos = _currPos;
         }
 
-        private void WanderUpdate(GameTime gameTime)
+        protected void WanderUpdate(GameTime gameTime)
         {
             // increment timer
             if(!_timerStopped)
@@ -249,7 +249,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        private void ConverseUpdate(GameTime gameTime)
+        protected void ConverseUpdate(GameTime gameTime)
         {
             if(!_inConversation && _pointReached)
             {
@@ -258,12 +258,12 @@ namespace WillowWoodRefuge
             }
         }
 
-        private void StopUpdate(GameTime gameTime)
+        protected void StopUpdate(GameTime gameTime)
         {
 
         }
 
-        private void AttackUpdate(GameTime gameTime)
+        protected void AttackUpdate(GameTime gameTime)
         {
             NavPoint attackTarget = _navMesh.GetClosest(_interestTarget, _scene, true);
             if (_target != attackTarget && Vector2.Distance(_interestTarget, _pos) <= _sightDistance) // target is visible and has moved
@@ -291,7 +291,7 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawPoint(_target._location, Color.Maroon);
         }
 
-        private void Wander()
+        protected void Wander()
         {
             _moveTimer = _rand.Next() % (_timerRange.Y - _timerRange.X) + _timerRange.X;
             _timerStopped = true;
