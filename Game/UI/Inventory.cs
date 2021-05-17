@@ -36,7 +36,7 @@ namespace WillowWoodRefuge
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //config for backpack inventory - inluding side pockets
-        int gridWidth = 5;
+        int gridWidth = 7;
         int gridHeight = 6;
         float gridWidthMargin = 100;
         float gridHeightMargin = 100;
@@ -127,7 +127,7 @@ namespace WillowWoodRefuge
 
             //create exit button
             Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(1183, 23);
+            Vector2 buttonPos = new Vector2( (int)Game1.instance._cameraController._screenDimensions.X - 100, 23);
             xButton = new UIButton(ButtonTexture, buttonPos);
             xButton.Depth = .01f;
             xButton.Scale = 3f;
