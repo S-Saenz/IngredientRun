@@ -55,9 +55,6 @@
   <object id="14" name="state.Cave" x="768" y="96" width="128" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="ItemObjects">
-  <object id="2" name="only.wood" x="631" y="112">
-   <point/>
-  </object>
   <object id="3" name="only.water" x="33.3337" y="112">
    <point/>
   </object>

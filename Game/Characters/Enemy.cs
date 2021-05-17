@@ -31,6 +31,10 @@ namespace WillowWoodRefuge
             if(Vector2.Distance(playerLoc, _pos) <= _sightDistance)
             {
                 _currState = AIState.Attack;
+                if (name.Equals("spider"))
+                {
+
+                }
             }
 
             _interestTarget = playerLoc;
@@ -68,6 +72,8 @@ namespace WillowWoodRefuge
             Player player = info._other as Player;
             if(player != null)
             {
+                Game1.instance.sounds.hitSound();
+                Debug.WriteLine("player hit");
                 player.Reset();
             }
         }

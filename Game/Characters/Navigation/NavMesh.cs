@@ -13,6 +13,7 @@ namespace WillowWoodRefuge
         NavPointMap _pointMap;
         Dictionary<NavPoint, List<NavPoint>> _edges;
         string _scene;
+        int _maxRandAttempts = 30;
 
 
         public NavMesh(NavPointMap pointMap, string scene, bool canJump = false, bool canFall = false, float jumpHeight = 0, float jumpDist = 0, 
@@ -190,10 +191,15 @@ namespace WillowWoodRefuge
             }
 
             path = new Dictionary<NavPoint, NavPoint>();
+            if(parent.Count <= 1) // only one possible point
+            {
+                return pos;
+            }
+
             NavPoint endPoint; // choose point
             do
             {
-                int choice = new Random().Next(1, parent.Count);
+                int choice = new Random().Next(1, parent.Count - 1);
                 endPoint = parent.Values.ElementAt(choice);
             }
             while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));
@@ -214,15 +220,22 @@ namespace WillowWoodRefuge
                 BFS(pos, out parent); // populate tree with all possible edges
             }
 
+            if(parent.Count <= 1)
+            {
+                return pos;
+            }
+
             NavPoint endPoint; // choose point
+            int attempts = 0;
             do
             {
-                int choice = new Random().Next(1, parent.Count);
+                int choice = new Random().Next(1, parent.Count - 1);
                 endPoint = parent.Values.ElementAt(choice);
+                ++attempts;
             }
-            while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc));
+            while (AICharacter._occupiedPoints[_scene].Contains(endPoint._tileLoc) && attempts < _maxRandAttempts);
 
-            return endPoint;
+            return attempts < _maxRandAttempts ? endPoint : pos;
         }
 
         public NavPoint GetPath(NavPoint pos, NavPoint dest, Dictionary<NavPoint, NavPoint> parent, out Dictionary<NavPoint, NavPoint> path)

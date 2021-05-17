@@ -131,6 +131,7 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
+            
             input.Update(gameTime);
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)

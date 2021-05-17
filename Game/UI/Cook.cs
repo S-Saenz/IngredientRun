@@ -225,8 +225,10 @@ namespace WillowWoodRefuge
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX, height * (.45f)), Color.White, width / 300, true);
 
             // temp tutorial text
-            spriteBatch.DrawString(FontManager._bigdialogueFont, "Keep the spoon in the hot zone with [SPACE] to make food!\nPress [ENTER] while in the sweet spot to cook faster!",
-                                   new Vector2(0, 0), Color.White);
+            Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!");
+            spriteBatch.DrawString(FontManager._bigdialogueFont, "Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!", 
+                                   new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - textSize.X / 2, Game1.instance._cameraController._screenDimensions.Y / 2),
+                                   Color.White);
         }
 
         void debug(string message)
