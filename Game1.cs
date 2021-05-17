@@ -178,7 +178,7 @@ namespace WillowWoodRefuge
 
                 base.Update(gameTime);
 
-            this.UI.Update(gameTime);
+            // this.UI.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
