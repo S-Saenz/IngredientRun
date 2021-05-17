@@ -70,9 +70,17 @@ namespace WillowWoodRefuge
             soundeffects[1].Play();
         }
 
-        public void landSound()
+        public void landSound(float velocity, float maxVelocity)
         {
-            soundeffects[2].Play();
+
+            float volume = velocity / maxVelocity;
+            volume = volume * ( (90.0f + random.Next(10)) / (100.0f) );
+            if (volume > 1)
+            {
+                volume = 1;
+            }
+            Debug.WriteLine("max: " + maxVelocity + " curr: " + velocity + " volume: " + volume);
+            soundeffects[2].Play(volume: volume, pitch: 0.0f, pan: 0.0f);
         }
 
         public void hitSound()

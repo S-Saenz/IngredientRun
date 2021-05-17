@@ -36,6 +36,10 @@ namespace WillowWoodRefuge
             if(Vector2.Distance(playerLoc, _pos) <= _sightDistance && _currState != AIState.Stop)
             {
                 _currState = AIState.Attack;
+                if (name.Equals("spider"))
+                {
+
+                }
             }
 
             _cooldownTimer += gameTime.GetElapsedSeconds();
