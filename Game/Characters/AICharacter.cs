@@ -37,6 +37,11 @@ namespace WillowWoodRefuge
         protected float _abandonTimer = 0;
         protected float _abandonTime = 2;
 
+        // stop variables
+        protected float _stopCooldown = 0; // countdown to switch from stop state to previous state
+        protected bool  _stopTimerEnabled = false; // true  = countdown enabled, switch states when countdown reaches 0
+                                                   // false = countdown disabled, wait for manual switch
+
         // sense variables
         protected float _sightDistance = 100;
         protected float _soundDistance = 150;
@@ -56,6 +61,7 @@ namespace WillowWoodRefuge
 
         // State info
         protected AIState _currState = AIState.Wander;
+        protected AIState _prevState = AIState.Stop;
         protected bool _isMoving = false;
         protected bool _isSitting = false;
 
@@ -139,8 +145,12 @@ namespace WillowWoodRefuge
 
         public void ChangeState(AIState newState)
         {
+            // update states
+            _prevState = _currState;
+            _currState = newState;
+
             // leave old state
-            switch(_currState)
+            switch (_prevState)
             {
                 case AIState.Wander:
                     LeaveWanderState();
@@ -156,7 +166,6 @@ namespace WillowWoodRefuge
                     break;
             }
 
-            _currState = newState;
             // enter new state
             switch (_currState)
             {
@@ -260,7 +269,12 @@ namespace WillowWoodRefuge
 
         protected void StopUpdate(GameTime gameTime)
         {
-
+            if(_stopTimerEnabled)
+            {
+                _stopCooldown -= gameTime.GetElapsedSeconds();
+                if (_stopCooldown <= 0)
+                    ChangeState(_prevState);
+            }
         }
 
         protected void AttackUpdate(GameTime gameTime)
@@ -362,9 +376,9 @@ namespace WillowWoodRefuge
 
         }
 
-        protected void LeaveStopState()
+        virtual protected void LeaveStopState()
         {
-
+            _stopTimerEnabled = false;
         }
 
         protected void StartWanderState()
@@ -386,7 +400,8 @@ namespace WillowWoodRefuge
 
         protected void StartStopState()
         {
-
+            _isMoving = false;
+            _timerStopped = true;
         }
         public void AddConversationReachedListener(AIEventHandler handler)
         {

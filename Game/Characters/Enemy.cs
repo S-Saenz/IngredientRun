@@ -14,6 +14,8 @@ namespace WillowWoodRefuge
         float _attackCooldown = 2;
         float _cooldownTimer = 0;
         float _attackDamage = 1;
+        bool _isAttacking = false;
+        float _attackDuration = 0.5f;
         public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
                      : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, worldBounds, animationDict)
@@ -31,7 +33,7 @@ namespace WillowWoodRefuge
 
         public void Update(GameTime gameTime, Vector2 playerLoc)
         {
-            if(Vector2.Distance(playerLoc, _pos) <= _sightDistance)
+            if(Vector2.Distance(playerLoc, _pos) <= _sightDistance && _currState != AIState.Stop)
             {
                 _currState = AIState.Attack;
             }
@@ -50,7 +52,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, _isAttacking ? Color.Lerp(Color.Red, Color.Yellow, (_stopCooldown / _attackDuration)) : Color.White);
         }
 
         public void DrawDebug(SpriteBatch spriteBatch)
@@ -75,13 +77,32 @@ namespace WillowWoodRefuge
             {
                 if (_cooldownTimer >= _attackCooldown && _currState == AIState.Attack)
                 {
-                    Game1.instance.sounds.hitSound();
-                    // Debug.WriteLine("player hit");
                     // player.Reset();
 
-                    player.Hit(_attackDamage);
-                    _cooldownTimer = 0;
+                    _isAttacking = true;
+                    _stopCooldown = _attackDuration; // set stop movement to attack
+                    _stopTimerEnabled = true;
+                    ChangeState(AIState.Stop);
                 }
+            }
+        }
+
+        override protected void LeaveStopState()
+        {
+            base.LeaveStopState();
+            if(_isAttacking) // returned from stop state after attack cooldown
+            {
+                foreach (OverlapInfo info in _collisionBox.IsOverlapping())
+                {
+                    Player player = info._other as Player;
+                    if(player != null) // overlapping player
+                    {
+                        Game1.instance.sounds.hitSound();
+                        player.Hit(_attackDamage);
+                    }
+                }
+                _isAttacking = false;
+                _cooldownTimer = 0;
             }
         }
     }
