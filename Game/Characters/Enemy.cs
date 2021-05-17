@@ -76,7 +76,7 @@ namespace WillowWoodRefuge
                 if (_cooldownTimer >= _attackCooldown && _currState == AIState.Attack)
                 {
                     Game1.instance.sounds.hitSound();
-                    Debug.WriteLine("player hit");
+                    // Debug.WriteLine("player hit");
                     // player.Reset();
 
                     player.Hit(_attackDamage);
