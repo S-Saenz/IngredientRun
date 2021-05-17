@@ -77,11 +77,11 @@ namespace WillowWoodRefuge
         //add items to the inventory for debugging purposes
         public void addExampleInventory()
         {
-            ingredientList.Add(new Ingredient(randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(randomBox(), "wood"));
+            //ingredientList.Add(new Ingredient(randomBox(), "acorn"));
+            //ingredientList.Add(new Ingredient(randomBox(), "apple"));
+            //ingredientList.Add(new Ingredient(randomBox(), "fish"));
+            //ingredientList.Add(new Ingredient(randomBox(), "meat"));
+            //ingredientList.Add(new Ingredient(randomBox(), "wood"));
             ingredientList.Add(new Ingredient(randomBox(), "water"));
         }
 
@@ -115,7 +115,7 @@ namespace WillowWoodRefuge
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
 
-            addExampleInventory();
+            // addExampleInventory();
 
             shakeBag();
 
@@ -135,10 +135,10 @@ namespace WillowWoodRefuge
 
             //create exit button
             ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
-            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X - 200, Game1.instance._cameraController._screenDimensions.Y / 2);
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             _confirmButton = new UIButton(ButtonTexture, buttonPos);
             _confirmButton.Depth = .01f;
-            _confirmButton.Scale = 3f;
+            _confirmButton.Scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
         }
 
@@ -297,8 +297,14 @@ namespace WillowWoodRefuge
 
             xButton.Draw(spriteBatch);
 
-            if(_gifting)
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gifting", new Vector2(16, 16), Color.White);
+            if (_gifting)
+            {
+                string message = "Select item to give to " + _recipient.name + "\n(cured by " + _recipient._cureItem + ")";
+                Vector2 messageSize = FontManager._bigdialogueFont.MeasureString(message);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
+                Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+            }
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;

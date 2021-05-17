@@ -1,0 +1,164 @@
+{"frames": [
+
+{
+	"filename": "backPackTiny.png",
+	"frame": {"x":112,"y":0,"w":33,"h":25},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":25},
+	"sourceSize": {"w":33,"h":25}
+},
+{
+	"filename": "Black Plus.png",
+	"frame": {"x":10,"y":0,"w":23,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":22},
+	"sourceSize": {"w":23,"h":22}
+},
+{
+	"filename": "Burnt.png",
+	"frame": {"x":994,"y":0,"w":219,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":219,"h":40},
+	"sourceSize": {"w":219,"h":40}
+},
+{
+	"filename": "ButtonNormal.png",
+	"frame": {"x":145,"y":0,"w":64,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":30},
+	"sourceSize": {"w":64,"h":30}
+},
+{
+	"filename": "ButtonPressed.png",
+	"frame": {"x":209,"y":0,"w":64,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":30},
+	"sourceSize": {"w":64,"h":30}
+},
+{
+	"filename": "confirmButton.png",
+	"frame": {"x":80,"y":0,"w":32,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":16},
+	"sourceSize": {"w":32,"h":16}
+},
+{
+	"filename": "Cooking-UI-2.png",
+	"frame": {"x":0,"y":204,"w":640,"h":360},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":360},
+	"sourceSize": {"w":640,"h":360}
+},
+{
+	"filename": "CureScreen.png",
+	"frame": {"x":337,"y":0,"w":102,"h":130},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":130},
+	"sourceSize": {"w":102,"h":130}
+},
+{
+	"filename": "Green-Button-2.png",
+	"frame": {"x":439,"y":0,"w":172,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":172,"h":43},
+	"sourceSize": {"w":172,"h":43}
+},
+{
+	"filename": "Inventory Backpack and Grid.png",
+	"frame": {"x":0,"y":564,"w":1742,"h":806},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1742,"h":806},
+	"sourceSize": {"w":1742,"h":806}
+},
+{
+	"filename": "Menu.png",
+	"frame": {"x":790,"y":0,"w":204,"h":204},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":204,"h":204},
+	"sourceSize": {"w":204,"h":204}
+},
+{
+	"filename": "needle.png",
+	"frame": {"x":0,"y":0,"w":10,"h":66},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":66},
+	"sourceSize": {"w":10,"h":66}
+},
+{
+	"filename": "Nice.png",
+	"frame": {"x":611,"y":0,"w":179,"h":40},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":179,"h":40},
+	"sourceSize": {"w":179,"h":40}
+},
+{
+	"filename": "Perfect.png",
+	"frame": {"x":1441,"y":0,"w":287,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":287,"h":41},
+	"sourceSize": {"w":287,"h":41}
+},
+{
+	"filename": "QuestionMark.png",
+	"frame": {"x":273,"y":0,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "Raw.png",
+	"frame": {"x":1213,"y":0,"w":228,"h":50},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":50},
+	"sourceSize": {"w":228,"h":50}
+},
+{
+	"filename": "UI Container.png",
+	"frame": {"x":640,"y":204,"w":640,"h":360},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":360},
+	"sourceSize": {"w":640,"h":360}
+},
+{
+	"filename": "x-button.png",
+	"frame": {"x":56,"y":0,"w":24,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":22},
+	"sourceSize": {"w":24,"h":22}
+},
+{
+	"filename": "Yellow Plus.png",
+	"frame": {"x":33,"y":0,"w":23,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":22},
+	"sourceSize": {"w":23,"h":22}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "uiTextures.png",
+	"format": "RGBA8888",
+	"size": {"w":1742,"h":1370},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:d16c4c56735b7f1d7b035ae9945ffc49:d639ea06b72bd6cc1ad64b7f2507402f:2f8c81028f9da77ea81f6b26ee9fc217$"
+}
+}
