@@ -1,19 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-
-using MonoGame.Extended.Shapes;
 using MonoGame.Extended;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
@@ -21,8 +13,6 @@ namespace WillowWoodRefuge
     {
         KeyboardState oldKeyState;
 
-        Texture2D meter, needle, startButton, burntText, niceText, perfectText, rawText, square;
-        
         public string foodName;
         public bool _cookingVisible = true;
         public bool _finished = false;
@@ -32,31 +22,35 @@ namespace WillowWoodRefuge
         float _scale = 2.7f;
 
         float _needleX;
-        float _needleSpeed = 20.0f;
-        float _needleStart = _screenWidth * 0.12f;
+        float _needleSpeed = 4f;
+        float _needleStart = _screenWidth / 2;
         bool _attemptRemaining = true; //you can't spam the space button to move the needle
 
-        float _meterEnd = 1517;
+        float _meterEnd = 1458;
+        float _meterStart = 272;
 
-        //left-side boundaries for the cooking zones
-        float _mediumZone = 902;
-        float _wellDoneZone = 1284;
-        float _burntZone = 1457;
+        float _zoneX = 500;
+        float _zoneVelocity = 2.5f;
 
-        //for grading text
-        Texture2D _grade;
-        float _gradeOpacity;
-        float _gradeX;
+        float _progress = 0; //progress bar - range from 0 - 100
+
+        //var rand = new Random();
+        float target; // guide for hotzone bounces
 
         //for the timer to turn the UI off
         int counter = 1;
         int limit = 3;
-        float countDuration = 1f; //every  1s.
+        float countDuration = 0.25f; //every  1s.
         float currentTime = 0f;
+
+        int fireFrame; //which frame to display for the fire animation
+        string fireTexture = "campfire-2";
 
         bool _debugMode = false;
 
         public bool loaded = false;
+
+
 
         public Cook(string selectedFood)
         {
@@ -71,79 +65,105 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
-            //WHY IS IT SO HARD TO GET A DAMN SQUARE IN THIS GAME
-            //Texture2d rect = new Texture2d(_graphics.graphicsdevice, 80, 30);
-
-            //color[] data = new color[80 * 30];
-            //for (int i = 0; i < data.length; i++) data[i] = color.chocolate;
-            //rect.setdata(data);
-
-            //load in images
-            meter = Content.Load<Texture2D>("ui/cooking/Cooking-UI-2");
-            needle = Content.Load<Texture2D>("ui/cooking/needle");
-            startButton = Content.Load<Texture2D>("ui/cooking/Green-Button-2");
-
-            burntText = Content.Load<Texture2D>("ui/cooking/text/Burnt");
-            niceText = Content.Load<Texture2D>("ui/cooking/text/Nice");
-            perfectText = Content.Load<Texture2D>("ui/cooking/text/Perfect");
-            rawText = Content.Load<Texture2D>("ui/cooking/text/Raw");
-
-            //foodImage = Content.Load<Texture2D>("ingredient/acornScaled");
-            //square = Content.Load<Texture2D>("ui/1pxSquare");
-            square = Content.Load<Texture2D>("ui/Recipe/Food Frame");
 
             _needleX = _needleStart; //set needle to starting position
-    }
+            target = (_meterEnd - _meterStart) * 2 / 3;
+            _attemptRemaining = true;
+            _finished = false;
+        }
 
         public void Update(MouseState mouseState, KeyboardState keyState, GameTime gameTime)
         {
-            //feedback text for how well you scored!
-            _grade = rawText; //temporarily assigned before it gets changed by AssignGrade()
-            AssignGrade(ref _grade);
-            _gradeOpacity = _attemptRemaining ? 0f : 1f; //disable/enable visibility for the grade text
 
-            ///rare text apperas on left, the rest appears on right
-            if (GradeCooking() == "rare")
-                _gradeX = _screenWidth * 1 / 4 - _grade.Width / 2 * _scale / 2;
-
-            else
-                _gradeX = _screenWidth * .7f - _grade.Width / 2 * _scale / 2;
+            if (_progress > 100 & _attemptRemaining)
+            {
+                //_progress = 0;
+                CookingFinished(gameTime);
+                _attemptRemaining = false;
+            }
 
 
             //space bar held down - move needle
             if (Game1.instance.input.IsDown("cook") && _needleX <= _meterEnd && _attemptRemaining)
-                _needleX += _needleSpeed;
-            
+                _needleX += _needleSpeed * gameTime.GetElapsedSeconds() * 100;
+            //needle moves left by itself, if space bar not pressed
+            else if (!Game1.instance.input.IsDown("cook") && _needleX >= _meterStart && _attemptRemaining)
+                _needleX -= _needleSpeed * gameTime.GetElapsedSeconds() * 100;
 
-            //space bar is released
-            if(_needleX > _needleStart && !Game1.instance.input.IsDown("cook"))
-            {
-                _attemptRemaining = false;
-                //debug(GradeCooking()); 
-            }
+            //press ENTER while needle is in the hottest zone for a lil jump
+            if (Game1.instance.input.JustPressed("superCook") && _needleX <= (_zoneX + 25) && _needleX >= (_zoneX - 25))
+                _progress += 15;
 
             //don't let needle move past the end of the meter
             if (_needleX > _meterEnd)
                 _needleX = _meterEnd;
 
-            if(!_attemptRemaining)
+            //don't let it pass behind the beginning either
+            else if (_needleX < _meterStart)
+                _needleX = _meterStart;
+
+
+            //how size is determined in the draw function
+            Size2 zoneSize = TextureAtlasManager.GetSize("UI", "Hot_Zone");
+            float zoneWidth = zoneSize.Width * Game1.instance._cameraController._screenDimensions.X / 450;
+
+            if (_attemptRemaining)
+                _zoneX += _zoneVelocity;
+
+            //zone reaches right edge 
+            if (_zoneVelocity > 0 && (_zoneX + zoneWidth / 2 > _meterEnd))
+            {
+                _zoneX = _meterEnd - zoneWidth / 2;
+                _zoneVelocity *= -1;
+                target = _zoneX - shift();
+            }
+            //zone reaches right-side target
+            else if (_zoneVelocity > 0 && _zoneX > target)
+            {
+                _zoneVelocity *= -1;
+                target = _zoneX - shift();
+            }
+            //zone reaches left edge
+            else if (_zoneVelocity < 0 && (_zoneX - zoneWidth / 2 < _meterStart))
+            {
+                _zoneX = _meterStart + zoneWidth / 2;
+                _zoneVelocity *= -1;
+                target = _zoneX + shift();
+            }
+            //zone reaches left side target
+            else if (_zoneVelocity < 0 && _zoneX < target)
+            {
+                _zoneVelocity *= -1;
+                target = _zoneX + shift();
+            }
+
+            if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
+            {
+                _progress += 0.05f;
+                Console.WriteLine(_progress);
+            }
+
+
+            if (!_attemptRemaining)
                 CookingFinished(gameTime);
+
+            fireAnimationFrameRateModerator(gameTime);
 
             ////////////////////////////// debugging tools \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
             //press 1 to check needleX
-            if ( oldKeyState.IsKeyUp(Keys.D1) && keyState.IsKeyDown(Keys.D1) && keyState.IsKeyDown(Keys.LeftAlt) )
+            if (oldKeyState.IsKeyUp(Keys.D1) && keyState.IsKeyDown(Keys.D1) && keyState.IsKeyDown(Keys.LeftAlt))
                 debug($"{_needleX}");
 
             //press 3 to check mouse position 
-            if ( oldKeyState.IsKeyUp(Keys.D3) && keyState.IsKeyDown(Keys.D3) && keyState.IsKeyDown(Keys.LeftAlt) )
+            if (oldKeyState.IsKeyUp(Keys.D3) && keyState.IsKeyDown(Keys.D3) && keyState.IsKeyDown(Keys.LeftAlt))
                 debug($"{mouseState.Position.X} {mouseState.Position.Y}");
 
             //press 2 to restart needle
-            if ( oldKeyState.IsKeyUp(Keys.D2) && keyState.IsKeyDown(Keys.D2) && keyState.IsKeyDown(Keys.LeftAlt) )
+            if (oldKeyState.IsKeyUp(Keys.D2) && keyState.IsKeyDown(Keys.D2) && keyState.IsKeyDown(Keys.LeftAlt))
                 ResetNeedle();
 
             //press 4 to en/disable visiblity 
-            if( oldKeyState.IsKeyUp(Keys.D4) && keyState.IsKeyDown(Keys.D4) && keyState.IsKeyDown(Keys.LeftAlt) )
+            if (oldKeyState.IsKeyUp(Keys.D4) && keyState.IsKeyDown(Keys.D4) && keyState.IsKeyDown(Keys.LeftAlt))
             {
                 debug($"before: {_cookingVisible}");
                 _cookingVisible = _cookingVisible ? false : true;
@@ -151,62 +171,54 @@ namespace WillowWoodRefuge
             }
 
             //press HOME to toggle debug mode
-            if ( oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home) )
+            if (oldKeyState.IsKeyUp(Keys.Home) && keyState.IsKeyDown(Keys.Home))
                 _debugMode = !_debugMode;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            float cookingOpacity = _cookingVisible ? 1f : 0f; //toggle visibility for th cooking UI
+            //redesign
+            Vector2 center = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y / 2);
+            float newScale = Game1.instance._cameraController._screenDimensions.X / 100;
+            //TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", center, Color.White, newScale);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", new Rectangle(0, 0, (int)Game1.instance._cameraController._screenDimensions.X, (int)Game1.instance._cameraController._screenDimensions.Y), Color.White);
+            int width = (int)Game1.instance._cameraController._screenDimensions.X;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
 
-            //meter 
-            //Vector2 origin = new Vector2(meter.Width / 2 * (1 /scale), meter.Height / 2 * (1 / scale));
-            spriteBatch.Draw(meter, new Vector2(0, 0), null, Color.White * cookingOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
-
-            //needle
-            spriteBatch.Draw(needle, new Vector2(_needleX, _screenHeight * 0.317f), null, Color.White * cookingOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
-
-
-            //GOD HELP ME UNDERSTAND WHAT XNA IS DOING WITH ORIGINS AND SCALES
-
-            //startButton
-            //origin = new Vector2(startButton.Width / 2 / (scale), startButton.Height / 2 / (scale));
-            //float x = _screenWidth/2 - startButton.Width/2 * _scale; //x pos for the startButton
-            //spriteBatch.Draw(startButton, new Vector2(x, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
-
-            //background square for the food being cooked 
-            float squareSize = 15; //px
-            //float squareX = _screenWidth / 2 - (squareSize * _scale /2); // this si my failed attempt :(
-            float squareX = _screenWidth / 2 - 60; //this is the hardcoded version because I can't figure out scaling
-            Vector2 squarePos = new Vector2(squareX, _screenHeight / 7f);
-            //spriteBatch.Draw(square, squarePos, null, Color.White * cookingOpacity, 0f, Vector2.Zero, squareSize, SpriteEffects.None, 1f);
-
-            spriteBatch.Draw(square, squarePos, null, Color.White * cookingOpacity, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
+            //TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Rectangle(0, 0, width / 2, height / 5), Color.White);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Vector2(width / 2, height / 3), Color.White, width / 100, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Meter_Container", new Vector2(width / 2, height * (.45f)), Color.White, width / 400, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Food_Container", new Vector2(width / 2, height / 8), Color.White, width / 200, true);
 
 
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
-            Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
+            //Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
             float foodScale = 4; //reuse the scale value from the recipe menu
-            float foodX = _screenWidth / 2 - foodSize.Width / 2 * foodScale;
+            float foodX = _screenWidth / 2;// - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, _screenHeight / 7), Color.White * cookingOpacity, foodScale);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, foodScale * .7f, true);
 
+            //fire 
+            //string fireTexture = this.chooseFireTexture();
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height/4), Color.White, width / 1000, true);
 
-            //text for cooking feedback
-            _gradeOpacity *= cookingOpacity;
-            if(_grade != null)
-                spriteBatch.Draw(_grade, new Vector2(_gradeX, _screenHeight / 5f), null, Color.White * _gradeOpacity, 0f, Vector2.Zero, _scale/2, SpriteEffects.None, 1f);
+            //progress bar
+            string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, width/630.0f, true);
 
+            //hot zones
+            Vector2 zonePos = new Vector2(_zoneX, height * 0.45f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, width / 450, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, width / 450, true);
 
-            //squares don't work :/
-            //FillRectangle(spriteBatch, new Vector2(1728/2, 972/2), new Size2(10, 10), Color.White);
+            //needle
+            //spriteBatch.Draw(needle, new Vector2(_needleX, _screenHeight * 0.317f), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX, height * (.45f)), Color.White, width / 300, true);
 
             // temp tutorial text
-            Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Hold 'Space' and release when food is cooked but not burnt");
-            spriteBatch.DrawString(FontManager._bigdialogueFont, "Hold 'Space' and release when food is cooked but not burnt", 
-                                   new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - textSize.X / 2, Game1.instance._cameraController._screenDimensions.Y / 2),
-                                   Color.White);
+            spriteBatch.DrawString(FontManager._bigdialogueFont, "Keep the spoon in the hot zone with [SPACE] to make food!\nPress [ENTER] while in the sweet spot to cook faster!",
+                                   new Vector2(0, 0), Color.White);
         }
 
         void debug(string message)
@@ -220,35 +232,6 @@ namespace WillowWoodRefuge
             _attemptRemaining = true;
         }
 
-        string GradeCooking()
-        {
-            if (_needleX < _mediumZone) return "rare";
-            else if (_needleX < _wellDoneZone) return "medium";
-            else if (_needleX < _burntZone) return "well done";
-            else return "burnt";
-        }
-
-        void AssignGrade(ref Texture2D display)
-        {
-            string grade = GradeCooking();
-
-            switch(grade)
-            {
-                case "rare":
-                    display = rawText;
-                    break;
-                case "medium":
-                    display = niceText;
-                    break;
-                case "well done":
-                    display = perfectText;
-                    break;
-                case "burnt":
-                    display = burntText;
-                    break;
-            }
-        }
-
 
         //inspired from - https://stackoverflow.com/questions/13394892/how-to-create-a-timer-counter-in-c-sharp-xna
         void CookingFinished(GameTime gameTime)
@@ -257,7 +240,7 @@ namespace WillowWoodRefuge
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
             debug($"after: {currentTime}");
             //debug($"{gameTime.ElapsedGameTime.TotalSeconds}");
-            
+
             if (currentTime >= countDuration) //this is true at least once every sec
             {
                 //update how much time has passed
@@ -276,7 +259,8 @@ namespace WillowWoodRefuge
 
                 //turn off the cooking UI
                 //_cookingVisible = false; 
-                ResetNeedle();
+                //ResetNeedle();
+                _progress = 0;
                 _finished = true;
                 Game1.instance.UI.SwitchState(UIState.RecipeMenu); //have UI manager switch back to HUD
             }
@@ -300,7 +284,52 @@ namespace WillowWoodRefuge
             Debug.WriteLine($"{foodName} -> {realName}");
             return realName;
         }
+
+        float shift()
+        {
+            var rand = new Random();
+            float shift = (float)Math.Round(rand.NextDouble() * 500f + 100f);
+            return shift;
+        }
+
+        float roundByFive(float num)
+        {
+            float mod = num % 5.0f;
+            float diff = mod - 2.50f;
+
+            if (diff >= 0) //round up
+                return num + 5.0f - mod;
+            else //round down
+                return num - mod;
+        }
+
+        // 
+        string chooseFireTexture()
+        {
+            //fireFrames range is (1-12)
+            int totalFrames = 12;
+
+            this.fireFrame = this.fireFrame % totalFrames; //range is now (0 -11)
+            this.fireFrame++; // increment!   range is now from (1 - 12)
+            return "campfire-" + this.fireFrame;
+        }
+
+        void fireAnimationFrameRateModerator(GameTime gameTime)
+        {
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+
+            if (currentTime >= countDuration) //this is true at least once every sec
+            {
+                //update how much time has passed
+                counter++;
+                currentTime -= countDuration; // "use up" the time & recalibrate the currentTime      
+                
+                this.fireTexture = chooseFireTexture();
+            }
+        }
     }
+
+
 
 
 }
