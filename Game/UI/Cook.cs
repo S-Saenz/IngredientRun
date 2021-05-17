@@ -40,8 +40,16 @@ namespace WillowWoodRefuge
         //for the timer to turn the UI off
         int counter = 1;
         int limit = 3;
-        float countDuration = 0.25f; //every  1s.
+        float countDuration = 1f; //every  1s.
         float currentTime = 0f;
+
+        //for the fire version of the counter
+        int fireCounter = 1;
+        int fireCounterLimit = 3;
+        float fireCountDuration = 0.2f;
+        float fireCurrentTime = 0f;
+
+
 
         int fireFrame; //which frame to display for the fire animation
         string fireTexture = "campfire-2";
@@ -139,7 +147,7 @@ namespace WillowWoodRefuge
 
             if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
             {
-                _progress += 0.05f;
+                _progress += 0.075f;
                 Console.WriteLine(_progress);
             }
 
@@ -201,7 +209,7 @@ namespace WillowWoodRefuge
 
             //fire 
             //string fireTexture = this.chooseFireTexture();
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height/4), Color.White, width / 1000, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, width / 1000, true);
 
             //progress bar
             string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
@@ -236,9 +244,15 @@ namespace WillowWoodRefuge
         //inspired from - https://stackoverflow.com/questions/13394892/how-to-create-a-timer-counter-in-c-sharp-xna
         void CookingFinished(GameTime gameTime)
         {
-            debug($"before: {currentTime}");
+            //for the timer to turn the UI off
+            //int counter = 1;
+            //int limit = 3;
+            //float countDuration = 0.25f; //every  1s.
+            //float currentTime = 0f;
+
+            //debug($"before: {currentTime}");
             currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
-            debug($"after: {currentTime}");
+            //debug($"after: {currentTime}");
             //debug($"{gameTime.ElapsedGameTime.TotalSeconds}");
 
             if (currentTime >= countDuration) //this is true at least once every sec
@@ -248,7 +262,8 @@ namespace WillowWoodRefuge
                 currentTime -= countDuration; // "use up" the time & recalibrate the currentTime                  
             }
 
-            debug($"counter: {counter}\ncurrentTime: {currentTime}");
+            //debug($"counter: {counter}\ncurrentTime: {currentTime}");
+
             //timer finished
             if (counter >= limit)
             {
@@ -316,16 +331,26 @@ namespace WillowWoodRefuge
 
         void fireAnimationFrameRateModerator(GameTime gameTime)
         {
-            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+            //every time fireCurrentTime > fireCountDuration 
+            //fireCurrentTime =- fireCounterLimit
+            //also fireCounter ++ until fireCounter == fireCounterLimit
 
-            if (currentTime >= countDuration) //this is true at least once every sec
+            fireCurrentTime += (float)gameTime.ElapsedGameTime.TotalSeconds; //Time passed since last Update() 
+
+            if (fireCurrentTime >= fireCountDuration) //this is true at least once every sec
+            // if more time has passed since last UPdate() than the countDuration
             {
                 //update how much time has passed
-                counter++;
-                currentTime -= countDuration; // "use up" the time & recalibrate the currentTime      
+                fireCounter++;
+                fireCurrentTime -= fireCountDuration; // "use up" the time & recalibrate the currentTime      
                 
                 this.fireTexture = chooseFireTexture();
             }
+        }
+
+        void doneAnimation()
+        {
+
         }
     }
 
