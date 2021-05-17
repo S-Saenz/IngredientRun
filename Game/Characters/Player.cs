@@ -44,6 +44,8 @@ namespace WillowWoodRefuge
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
         public float _yClearance = 16;
+        public bool _overlappingInteractable { get; private set; }
+        public string _overlapName { get; private set; }
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -301,69 +303,100 @@ namespace WillowWoodRefuge
                 ClimbLedge(gameTime);
             }
 
-            if (Game1.instance.input.JustPressed("interact"))
+            _overlappingInteractable = false;
+            foreach (OverlapInfo item in _collisionBox.IsOverlapping())
             {
-                foreach (OverlapInfo item in _collisionBox.IsOverlapping())
+                bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                NPC character = item._other as NPC;
+                if (character != null && !character._isCured)
                 {
-                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
-                    NPC character = item._other as NPC;
-                    if (character != null && !character._isCured)
+                    if (Game1.instance.input.JustPressed("interact"))
                     {
                         Game1.instance.inventory._gifting = true;
                         Game1.instance.inventory._recipient = character;
                         Game1.instance.UI.SwitchState(UIState.Inventory);
-                        // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        // for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        // {
-                        //     actionComplete = character.Cure(inv[i]._name);
-                        //     if (actionComplete)
-                        //         Game1.instance.inventory.removeIngredient(inv[i]);
-                        // }
+                        actionComplete = true;
                     }
-
-                    // check if pickup item
-                    PickupItem obj = item._other as PickupItem;
-                    if (obj != null)
+                    else
                     {
-                        Debug.WriteLine(obj._name);
-                        // TODO: try adding to inventory, returning whether successful or not
-                        if (Game1.instance.inventory.addIngredient(obj._name))
+                        _overlappingInteractable = true;
+                        _overlapName = "give to " + character.name;
+                    }
+                }
+
+                // check if pickup item
+                PickupItem obj = item._other as PickupItem;
+                if (obj != null)
+                {
+                    Debug.WriteLine(obj._name);
+                    // TODO: try adding to inventory, returning whether successful or not
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(obj._name))
+                    {
+                        (Game1.instance._currentState as GameplayState)._items.Remove(obj);
+                        obj._spawn.Despawn();
+                        actionComplete = true;
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "forage " + obj._name;
+                    }
+                }
+
+                // check if area
+                Area area = item._other as Area;
+                if (area != null)
+                {
+                    if (area._name == "fire")
+                    {
+                        //Debug.WriteLine("Fire");
+                        // Open cooking ui
+                        if (Game1.instance.input.JustPressed("interact"))
                         {
-                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                            obj._spawn.Despawn();
+                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
                             actionComplete = true;
                         }
-                    }
-
-                    // check if area
-                    Area area = item._other as Area;
-                    if (area != null)
-                    {
-                        if (area._name == "fire")
+                        else
                         {
-                            //Debug.WriteLine("Fire");
-                            // Open cooking ui
-                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+                            _overlappingInteractable = true;
+                            _overlapName = "cook";
                         }
-                        else if (area._name.Contains("state"))
+                    }
+                    else if (area._name.Contains("state"))
+                    {
+                        if (area._name.Contains("Cave"))
                         {
-                            if (area._name.Contains("Cave"))
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CaveState");
                                 actionComplete = true;
                             }
-                            else if (area._name.Contains("Camp"))
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to cave";
+                            }
+                        }
+                        else if (area._name.Contains("Camp"))
+                        {
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CampState");
                                 actionComplete = true;
                             }
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to camp";
+                            }
                         }
                     }
-
-                    if (actionComplete)
-                        break;
                 }
+
+                if (actionComplete || _overlappingInteractable)
+                    break;
             }
+
             // movement sound
             if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
             {
