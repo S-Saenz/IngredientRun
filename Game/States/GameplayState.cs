@@ -149,6 +149,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+            
             UpdateDebug();
 
             // Exit to main menu TODO: change to pause/settings menu

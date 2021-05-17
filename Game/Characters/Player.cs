@@ -15,8 +15,8 @@ namespace WillowWoodRefuge
         private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
-        private bool hasJumped = false;
         private int delayFrames = 0;
+        private bool landCheck = false;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -41,6 +41,7 @@ namespace WillowWoodRefuge
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
         public float _yClearance = 16;
+        public float _maxFallSpeed = 0;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -233,18 +234,24 @@ namespace WillowWoodRefuge
                 Game1.instance.sounds.walkSound(gameTime);
 
             }
-            if (hasJumped && _collisionBox._downBlocked)
+
+            if (landCheck && _collisionBox._velocity.Y > _maxFallSpeed)
             {
-                hasJumped = false;
+                _maxFallSpeed = _collisionBox._velocity.Y;
+            }
+            if (landCheck && _collisionBox._downBlocked)
+            {
+                landCheck = false;
                 Debug.WriteLine("landed");
-                Game1.instance.sounds.landSound();
+                Game1.instance.sounds.landSound(_maxFallSpeed, _collisionBox._maxSpeed.Y);
+                _maxFallSpeed = 0;
             }
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
                 {
                     Game1.instance.sounds.jumpSound();
-                    hasJumped = true;
+                    landCheck = true;
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 
@@ -254,6 +261,10 @@ namespace WillowWoodRefuge
             else
             {
                 _jumpClicked = false;
+            }
+            if (!_collisionBox._downBlocked)
+            {
+                landCheck = true;
             }
             if (Game1.instance.input.IsDown("run"))
             {
