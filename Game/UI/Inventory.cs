@@ -36,11 +36,11 @@ namespace WillowWoodRefuge
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //config for backpack inventory - inluding side pockets
-        int gridWidth = 6;
-        int gridHeight = 5;
-        float gridWidthMargin = 140;
-        float gridHeightMargin = 140;
-        Vector2 topLeft = new Vector2(690, 125);
+        int gridWidth = 5;
+        int gridHeight = 6;
+        float gridWidthMargin = 100;
+        float gridHeightMargin = 100;
+        Vector2 topLeft = new Vector2(310, 235);
     
 
         //exit button
@@ -171,13 +171,14 @@ namespace WillowWoodRefuge
             xButton.Update(mouseState);
             if (_selected != null) // allow click on gifting option if object is
                 _confirmButton.Update(mouseState);
+
             if (mouseState.LeftButton == ButtonState.Pressed)
 
             {
 
                 //Print mouse cursor position to debug console
 
-                //Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
@@ -188,6 +189,7 @@ namespace WillowWoodRefuge
                 //Debug.WriteLine($"Mouse clicked!\nboxClicked = {boxClicked}");
 
             }
+
             foreach (Ingredient ingredient in ingredientList)
             {
 
@@ -281,8 +283,11 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
             // Debug.WriteLine("Inventory being drawn");
-            //spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
-            spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            int width = (int)Game1.instance._cameraController._screenDimensions.X;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+
+            //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
 
             //for (int i=0; i < ings.Count; i++)
             //{
@@ -290,11 +295,12 @@ namespace WillowWoodRefuge
             //    spriteBatch.Draw( (ings[i].img), ingredientPos, null, Color.White, ings[i].rotation, Vector2.Zero, SpriteEffects.None, 0f); 
             //}
 
+
             for (int pos = (ingredientList.Count() - 1); pos >= 0; --pos)
             {
                 ingredientList[pos].Draw(spriteBatch);
             }
-
+            
             xButton.Draw(spriteBatch);
 
             if(_gifting)
