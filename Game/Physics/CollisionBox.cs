@@ -369,7 +369,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public List<CollisionInfo> IsOverlapping()
+        public List<OverlapInfo> IsOverlapping()
         {
             return _collisionHandler.IsOverlapping(this);
         }

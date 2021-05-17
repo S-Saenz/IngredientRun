@@ -315,7 +315,7 @@ namespace WillowWoodRefuge
             }
 
             _overlappingInteractable = false;
-            foreach (CollisionInfo item in _collisionBox.IsOverlapping())
+            foreach (OverlapInfo item in _collisionBox.IsOverlapping())
             {
                 bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
                 NPC character = item._other as NPC;
@@ -593,6 +593,11 @@ namespace WillowWoodRefuge
         public void UnlockPos()
         {
             _collisionBox._posLock = false;
+        }
+
+        public void Hit(float attackDamage)
+        {
+            Debug.WriteLine("Hit -" + attackDamage);
         }
     }
 }
