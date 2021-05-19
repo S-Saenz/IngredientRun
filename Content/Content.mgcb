@@ -659,10 +659,10 @@
 /processorParam:TextureFormat=Color
 /build:textureAtlas/uiTextures.png
 
-#begin tileMaps/camp/CampMapForaging.tmx
+#begin tilemaps/camp/CampMapForaging.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tileMaps/camp/CampMapForaging.tmx
+/build:tilemaps/camp/CampMapForaging.tmx
 
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
@@ -686,11 +686,6 @@
 /processor:TiledMapProcessor
 /build:tilemaps/camp/TempCampMap.tmx
 
-#begin tilemaps/camp/TempCampMap.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:tilemaps/camp/TempCampMap.tmx
-
 #begin tilemaps/cave/CaveMapLighting.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -700,11 +695,6 @@
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
 /build:tilemaps/cave/collisionTestMap.tmx
-
-#begin tileMaps/cave/collisionTestMap.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:tileMaps/cave/collisionTestMap.tmx
 
 #begin tilemaps/cave/MapPrototypeTileset.tsx
 /importer:TiledMapTilesetImporter
