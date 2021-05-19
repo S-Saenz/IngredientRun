@@ -611,6 +611,18 @@
 /processorParam:Quality=Best
 /build:soundEffects/stepC.wav
 
+#begin textureAtlas/foragingTextures.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:textureAtlas/foragingTextures.png
+
 #begin textureAtlas/itemTextures.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -646,6 +658,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:textureAtlas/uiTextures.png
+
+#begin tileMaps/camp/CampMapForaging.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tileMaps/camp/CampMapForaging.tmx
 
 #begin tilemaps/camp/CaveTiles1.png
 /importer:TextureImporter
@@ -684,10 +701,10 @@
 /processor:TiledMapProcessor
 /build:tilemaps/cave/collisionTestMap.tmx
 
-#begin tilemaps/cave/collisionTestMap.tmx
+#begin tileMaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tilemaps/cave/collisionTestMap.tmx
+/build:tileMaps/cave/collisionTestMap.tmx
 
 #begin tilemaps/cave/MapPrototypeTileset.tsx
 /importer:TiledMapTilesetImporter

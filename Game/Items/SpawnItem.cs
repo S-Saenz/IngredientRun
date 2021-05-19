@@ -6,7 +6,7 @@ using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
-    public class PickupItem : IPhysicsObject, ISpawnable
+    public class SpawnItem : IPhysicsObject, ISpawnable
     {
         public string _name { get; private set; }
         public SpawnPoint _spawn { get; private set; }
@@ -15,7 +15,7 @@ namespace WillowWoodRefuge
         public Vector2 _loc { private set; get; }
         private CollisionBox _collisionBox;
 
-        public PickupItem(string type, Vector2 position, PhysicsHandler physicsHandler, SpawnPoint spawn = null)
+        public SpawnItem(string type, Vector2 position, PhysicsHandler physicsHandler, SpawnPoint spawn = null)
         {
             _name = type;
             _spawn = spawn;
