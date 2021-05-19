@@ -691,15 +691,10 @@
 /processor:TiledMapProcessor
 /build:tileMaps/camp/TempCampMapBig.tmx
 
-#begin tileMaps/cave/CaveMapForaging.tmx
+#begin tileMaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tileMaps/cave/CaveMapForaging.tmx
-
-#begin tilemaps/cave/collisionTestMap.tmx
-/importer:TiledMapImporter
-/processor:TiledMapProcessor
-/build:tilemaps/cave/collisionTestMap.tmx
+/build:tileMaps/cave/collisionTestMap.tmx
 
 #begin tilemaps/cave/MapPrototypeTileset.tsx
 /importer:TiledMapTilesetImporter
