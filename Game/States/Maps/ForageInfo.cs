@@ -14,7 +14,7 @@ namespace WillowWoodRefuge
             { "Calamint",         new ForageInfo(2,      10,      false) },
             { "Huckleberry",      new ForageInfo(2,      10,      false) },
             { "Hummingbird_Sage", new ForageInfo(1,      10,      true ) },
-            { "Mazanita",         new ForageInfo(2,      10,      false) },
+            { "Manzanita",        new ForageInfo(2,      10,      false) },
             { "Nodding_Onion",    new ForageInfo(1,      10,      true ) },
             { "Oyster_Mushroom",  new ForageInfo(1,      10,      true ) },
             { "Thimbleberry",     new ForageInfo(2,      10,      false) },

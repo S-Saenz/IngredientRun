@@ -182,7 +182,6 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">../Ingredient/Bay_Nut.png</key>
-            <key type="filename">../Ingredient/Mazanita.png</key>
             <key type="filename">../Ingredient/appleMushroomSoup.png</key>
             <key type="filename">../Ingredient/beetle.png</key>
             <key type="filename">../Ingredient/berries.png</key>
@@ -209,6 +208,7 @@
                 <false/>
             </struct>
             <key type="filename">../Ingredient/Huckleberry.png</key>
+            <key type="filename">../Ingredient/Manzanita.png</key>
             <key type="filename">../Ingredient/Nodding_Onion.png</key>
             <key type="filename">../Ingredient/Oyster_Mushroom.png</key>
             <key type="filename">../Ingredient/Penny_Bun_Mushroom.png</key>
@@ -303,7 +303,7 @@
             <filename>../Ingredient/Toothwort.png</filename>
             <filename>../Ingredient/Wolfberry.png</filename>
             <filename>../Ingredient/Bay_Nut.png</filename>
-            <filename>../Ingredient/Mazanita.png</filename>
+            <filename>../Ingredient/Manzanita.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -65,7 +65,7 @@
 	"sourceSize": {"w":64,"h":32}
 },
 {
-	"filename": "Mazanita1.png",
+	"filename": "Manzanita1.png",
 	"frame": {"x":64,"y":755,"w":144,"h":114},
 	"rotated": false,
 	"trimmed": false,
@@ -73,7 +73,7 @@
 	"sourceSize": {"w":144,"h":114}
 },
 {
-	"filename": "Mazanita2.png",
+	"filename": "Manzanita2.png",
 	"frame": {"x":0,"y":869,"w":144,"h":114},
 	"rotated": false,
 	"trimmed": false,
@@ -191,6 +191,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":1047},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:cec77d45b5ee0e2807ee5c17a37f5b1c:b90042363812f69a4e93cbc9a21f7984:72fa8ca7bb2802248e27e35c9487bd0f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:2f344b14355db865b8d8f927ab60f555:b90042363812f69a4e93cbc9a21f7984:72fa8ca7bb2802248e27e35c9487bd0f$"
 }
 }
