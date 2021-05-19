@@ -350,7 +350,7 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "forage " + obj._name;
+                        _overlapName = "pick up " + obj._name;
                     }
                 }
 
@@ -358,16 +358,24 @@ namespace WillowWoodRefuge
                 ForageSpot forage = item._other as ForageSpot;
                 if (forage != null)
                 {
-                    Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
-                    // TODO: check if inventory is empty before harvesting
-                    if (true)
+                    if (Game1.instance.input.JustPressed("interact"))
                     {
-                        string harvested = forage.TryHarvest();
-                        if (harvested != null) // something harvested
+                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // TODO: check if inventory is empty before harvesting
+                        if (forage._isRipe)
                         {
-                            Game1.instance.inventory.addIngredient(harvested);
-                            actionComplete = true;
+                            string harvested = forage.TryHarvest();
+                            if (harvested != null) // something harvested
+                            {
+                                Game1.instance.inventory.addIngredient(harvested);
+                                actionComplete = true;
+                            }
                         }
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "forage " + forage._spawnType;
                     }
                 }
 

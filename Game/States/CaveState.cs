@@ -17,7 +17,7 @@ namespace WillowWoodRefuge
         protected override void LoadTilemap(ContentManager content)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
+            _tileMap = new TileMap("tilemaps/cave/CaveMapForaging", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 
