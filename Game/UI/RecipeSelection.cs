@@ -348,7 +348,7 @@ namespace WillowWoodRefuge
             // TODO: Draw possible recipes
 
             // Draw menu background
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", _position, Color.White, _scale);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", _position, Color.White, new Vector2(_scale));
 
             // Draw hover over TODO: Draw hover recipe information display
             if (_hoverOver.HasValue)

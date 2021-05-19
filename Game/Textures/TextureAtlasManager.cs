@@ -16,19 +16,19 @@ namespace WillowWoodRefuge
             _atlasList.Add("UI", new TextureAtlas("uiTextures", content));
         }
 
-        public static void DrawTexture(SpriteBatch spriteBatch, string textureType, string textureName, Vector2 loc, Color color, float scale = 1, bool centered = false)
+        public static void DrawTexture(SpriteBatch spriteBatch, string textureType, string textureName, Vector2 loc, Color color, Vector2? scale = null, bool centered = false, float rotation = 0, Vector2 origin = new Vector2())
         {
             if (_atlasList.ContainsKey(textureType))
             {
-                _atlasList[textureType].DrawTexture(spriteBatch, textureName, loc, color, scale, centered);
+                _atlasList[textureType].DrawTexture(spriteBatch, textureName, loc, color, scale.HasValue ? scale.Value : Vector2.One, centered, rotation, origin);
             }
         }
 
-        public static void DrawTexture(SpriteBatch spriteBatch, string textureType, string textureName, Rectangle destinationRectangle, Color color)
+        public static void DrawTexture(SpriteBatch spriteBatch, string textureType, string textureName, Rectangle destinationRectangle, Color color, float rotation = 0, Vector2 origin = new Vector2())
         {
             if (_atlasList.ContainsKey(textureType))
             {
-                _atlasList[textureType].DrawTexture(spriteBatch, textureName, destinationRectangle, color);
+                _atlasList[textureType].DrawTexture(spriteBatch, textureName, destinationRectangle, color, rotation, origin);
             }
         }
 
