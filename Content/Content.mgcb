@@ -669,10 +669,20 @@
 /processor:TiledMapProcessor
 /build:tilemaps/camp/TempCampMap.tmx
 
-#begin tileMaps/camp/TempCampMapBig.tmx
+#begin tilemaps/camp/TempCampMap.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
-/build:tileMaps/camp/TempCampMapBig.tmx
+/build:tilemaps/camp/TempCampMap.tmx
+
+#begin tilemaps/cave/CaveMapLighting.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/cave/CaveMapLighting.tmx
+
+#begin tilemaps/cave/collisionTestMap.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:tilemaps/cave/collisionTestMap.tmx
 
 #begin tilemaps/cave/collisionTestMap.tmx
 /importer:TiledMapImporter
@@ -720,18 +730,6 @@
 /processorParam:TextureFormat=Color
 /build:ui/cooking/1pxSquare.png
 
-#begin ui/cooking/1pxSquare.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/1pxSquare.png
-
 #begin ui/cooking/Background_Opacity.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -756,18 +754,6 @@
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Cooking-UI.png
 
-#begin ui/cooking/Cooking-UI.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Cooking-UI.png
-
 #begin ui/cooking/Cooking-UI.psd
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -779,30 +765,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Cooking-UI.psd
-
-#begin ui/cooking/Cooking-UI.psd
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Cooking-UI.psd
-
-#begin ui/cooking/Cooking-UI-2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Cooking-UI-2.png
 
 #begin ui/cooking/Cooking-UI-2.png
 /importer:TextureImporter
@@ -839,30 +801,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Green-Button.png
-
-#begin ui/cooking/Green-Button.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Green-Button.png
-
-#begin ui/cooking/Green-Button-2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Green-Button-2.png
 
 #begin ui/cooking/Green-Button-2.png
 /importer:TextureImporter
@@ -935,18 +873,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Meter_End.png
-
-#begin ui/cooking/needle.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/needle.png
 
 #begin ui/cooking/needle.png
 /importer:TextureImporter
@@ -1224,18 +1150,6 @@
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Prototype Screenshot 2.png
 
-#begin ui/cooking/Prototype Screenshot 2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Prototype Screenshot 2.png
-
 #begin ui/cooking/Spoon.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1260,30 +1174,6 @@
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Text/Burnt.png
 
-#begin ui/cooking/Text/Burnt.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Text/Burnt.png
-
-#begin ui/cooking/Text/Nice.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Text/Nice.png
-
 #begin ui/cooking/Text/Nice.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -1307,30 +1197,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/cooking/Text/Perfect.png
-
-#begin ui/cooking/Text/Perfect.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Text/Perfect.png
-
-#begin ui/cooking/Text/Raw.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:ui/cooking/Text/Raw.png
 
 #begin ui/cooking/Text/Raw.png
 /importer:TextureImporter
