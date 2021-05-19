@@ -15,13 +15,6 @@ namespace WillowWoodRefuge
         public bool _isCured { get; private set; }
         private float _displayTime = 3;
         private float _currTime = -1;
-        private bool _inConversation = false;
-
-        // Event delegate
-        public delegate void NPCEventHandler();
-
-        // Interaction events
-        private event NPCEventHandler _reachedConversation;
 
         public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
@@ -43,11 +36,6 @@ namespace WillowWoodRefuge
             if (_currTime >= 0 && _currTime < _displayTime)
                 _currTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_currState == AIState.Converse && !_isMoving && !_inConversation)
-            {
-                _reachedConversation?.Invoke();
-                _inConversation = true;
-            }
             base.Update(gameTime);
         }
 
@@ -128,11 +116,6 @@ namespace WillowWoodRefuge
         public void StopConverse()
         {
             ChangeState(AIState.Wander);
-        }
-
-        public void AddConversationReachedListener(NPCEventHandler handler)
-        {
-            _reachedConversation += handler;
         }
     }
 }

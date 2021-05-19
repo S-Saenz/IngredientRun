@@ -152,6 +152,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+            
             UpdateDebug();
 
             // Exit to main menu TODO: change to pause/settings menu
@@ -331,6 +332,14 @@ namespace WillowWoodRefuge
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _dialogueSystem.Draw(game._cameraController._camera, spriteBatch);
+                spriteBatch.End();
+            }
+
+            // draw e to interact
+            if (_player != null && _player._overlappingInteractable)
+            {
+                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                spriteBatch.DrawString(FontManager._dialogueFont, "Press E to " + _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Color.White);
                 spriteBatch.End();
             }
 

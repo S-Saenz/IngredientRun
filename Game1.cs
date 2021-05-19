@@ -131,6 +131,7 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
+            
             input.Update(gameTime);
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -177,7 +178,7 @@ namespace WillowWoodRefuge
 
                 base.Update(gameTime);
 
-            this.UI.Update(gameTime);
+            // this.UI.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
