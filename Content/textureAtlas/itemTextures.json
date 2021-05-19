@@ -18,6 +18,14 @@
 },
 {
 	"filename": "appleMushroomSoup.png",
+	"frame": {"x":0,"y":400,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "Bay_Nut.png",
 	"frame": {"x":0,"y":272,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
@@ -26,7 +34,7 @@
 },
 {
 	"filename": "beetle.png",
-	"frame": {"x":0,"y":336,"w":64,"h":64},
+	"frame": {"x":0,"y":464,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -34,7 +42,7 @@
 },
 {
 	"filename": "berries.png",
-	"frame": {"x":0,"y":400,"w":64,"h":64},
+	"frame": {"x":0,"y":528,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -50,7 +58,7 @@
 },
 {
 	"filename": "carrotSoup.png",
-	"frame": {"x":0,"y":464,"w":64,"h":64},
+	"frame": {"x":0,"y":592,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -58,7 +66,7 @@
 },
 {
 	"filename": "cricket.png",
-	"frame": {"x":0,"y":528,"w":64,"h":64},
+	"frame": {"x":0,"y":656,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -82,7 +90,7 @@
 },
 {
 	"filename": "glowing_plant.png",
-	"frame": {"x":0,"y":592,"w":64,"h":64},
+	"frame": {"x":0,"y":720,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -98,7 +106,7 @@
 },
 {
 	"filename": "grilledFish.png",
-	"frame": {"x":0,"y":656,"w":64,"h":64},
+	"frame": {"x":0,"y":784,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -106,7 +114,7 @@
 },
 {
 	"filename": "honey.png",
-	"frame": {"x":0,"y":720,"w":64,"h":64},
+	"frame": {"x":0,"y":848,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -121,6 +129,14 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
+	"filename": "Mazanita.png",
+	"frame": {"x":0,"y":336,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
 	"filename": "meat.png",
 	"frame": {"x":0,"y":176,"w":32,"h":32},
 	"rotated": false,
@@ -130,7 +146,7 @@
 },
 {
 	"filename": "monsterSoup.png",
-	"frame": {"x":0,"y":784,"w":64,"h":64},
+	"frame": {"x":0,"y":912,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -186,7 +202,7 @@
 },
 {
 	"filename": "rabbitSoup.png",
-	"frame": {"x":0,"y":848,"w":64,"h":64},
+	"frame": {"x":0,"y":976,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -194,7 +210,7 @@
 },
 {
 	"filename": "snail.png",
-	"frame": {"x":0,"y":912,"w":64,"h":64},
+	"frame": {"x":0,"y":1040,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -245,8 +261,8 @@
 	"version": "1.0",
 	"image": "itemTextures.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":976},
+	"size": {"w":64,"h":1104},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8c63fcfda58ec2e1c296f60931b8f153:8bf333b256499d7e80eff2f813f0fcbf:a929daae8872cfde4d11c7f5443a9c91$"
+	"smartupdate": "$TexturePacker:SmartUpdate:7901dac1ab47dc95cb364c297da2d1af:f4383c0515973aed9f07cc3c4083f5a4:a929daae8872cfde4d11c7f5443a9c91$"
 }
 }
