@@ -12,10 +12,14 @@ namespace WillowWoodRefuge
     class Player : AnimatedObject,  IPhysicsObject
     {
         private Texture2D idleTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, hangLeftTex, FOW, FOWT;
-        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
+        private Texture2D jumpSquatRightTex, risingRightTex, apexRightTex, fallingRightTex, landingRightTex;
+        private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, 
+                          idleAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
+        private Animation jumpSquatRightAnimation, risingRightAnimation, apexRightAnimation, fallingRightAnimation, landingRightAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
         private int delayFrames = 0;
+        private bool landCheck = false;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -39,6 +43,10 @@ namespace WillowWoodRefuge
         public Vector2? _anchorPoint = null; // in world
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
+        public float _yClearance = 16;
+        public bool _overlappingInteractable { get; private set; }
+        public string _overlapName { get; private set; }
+        public float _maxFallSpeed = 0;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -67,14 +75,20 @@ namespace WillowWoodRefuge
 
         public Vector2 Update( MouseState mouseState, KeyboardState keyState, in OrthographicCamera camera, GameTime gameTime)
         {
-            if(delayFrames > 0)
-            {
-                delayFrames--;
-            }
-            else
+            //if(delayFrames > 0)
+            //{
+            //    delayFrames--;
+            //}
+            //else if(delayFrames == 0)
+            //{
+            //    interuptAnimationUpdate = false;
+            //    interuptInputUpdate = false;
+            //}
+            if(climbRightAnimation.currentFrame == climbRightAnimation.totalFrames - 1)
             {
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
+                //climbRightAnimation.reset();
             }
 
             // read player inputs
@@ -120,12 +134,22 @@ namespace WillowWoodRefuge
             jumpRightTex = Content.Load<Texture2D>("animations/main_character_jump_right");
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
             climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
-            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50);
+            climbRightAnimation = new Animation(climbRightTex, 1, 16, 50, new Vector2(-7, 13));
             hangLeftTex = Content.Load<Texture2D>("animations/ledge_hang_left");
             hangLeftAnimation = new Animation(hangLeftTex, 1, 1, 50);
             hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
             hangRightAnimation = new Animation(hangRightTex, 1, 1, 50);
 
+            jumpSquatRightTex = Content.Load<Texture2D>("animations/jumpSquat_right");
+            jumpRightAnimation = new Animation(jumpSquatRightTex, 1, 3, 50);
+            risingRightTex = Content.Load<Texture2D>("animations/rising_right");
+            risingRightAnimation = new Animation(risingRightTex, 1, 1, 0);
+            apexRightTex = Content.Load<Texture2D>("animations/apex_right");
+            apexRightAnimation = new Animation(apexRightTex, 1, 1, 0);
+            fallingRightTex = Content.Load<Texture2D>("animations/falling_right");
+            fallingRightAnimation = new Animation(fallingRightTex, 1, 1, 0);
+            landingRightTex = Content.Load<Texture2D>("animations/landing_right");
+            landingRightAnimation = new Animation(landingRightTex, 1, 3, 50);
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -157,6 +181,14 @@ namespace WillowWoodRefuge
             animationDict.Add("climbRight", climbRightAnimation);
             animationDict.Add("hangLeft", hangLeftAnimation);
             animationDict.Add("hangRight", hangRightAnimation);
+
+            animationDict.Add("risingRight", risingRightAnimation);
+            animationDict.Add("apexRight", apexRightAnimation);
+            animationDict.Add("fallingRight", fallingRightAnimation);
+
+            animationDict.Add("risingLeft", risingRightAnimation);
+            animationDict.Add("apexLeft", apexRightAnimation);
+            animationDict.Add("fallingLeft", fallingRightAnimation);
 
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
@@ -232,18 +264,36 @@ namespace WillowWoodRefuge
 
             }
 
+            if (landCheck && _collisionBox._velocity.Y > _maxFallSpeed)
+            {
+                _maxFallSpeed = _collisionBox._velocity.Y;
+            }
+            if (landCheck && _collisionBox._downBlocked)
+            {
+                landCheck = false;
+                Debug.WriteLine("landed");
+                Game1.instance.sounds.landSound(_maxFallSpeed, _collisionBox._maxSpeed.Y);
+                _maxFallSpeed = 0;
+            }
             if (Game1.instance.input.IsDown("jump"))
             {
                 if (!_jumpClicked && !_anchorPoint.HasValue && (_collisionBox._downBlocked || _collisionBox.HangTime(gameTime)))
                 {
+                    Game1.instance.sounds.jumpSound();
+                    landCheck = true;
                     _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
+                
                 _jumpClicked = true;
                 _collisionBox._downLastBlocked = float.NegativeInfinity;
             }
             else
             {
                 _jumpClicked = false;
+            }
+            if (!_collisionBox._downBlocked)
+            {
+                landCheck = true;
             }
             if (Game1.instance.input.IsDown("run"))
             {
@@ -264,86 +314,117 @@ namespace WillowWoodRefuge
                 ClimbLedge(gameTime);
             }
 
-            if (Game1.instance.input.JustPressed("interact"))
+            _overlappingInteractable = false;
+            foreach (OverlapInfo item in _collisionBox.IsOverlapping())
             {
-                foreach (CollisionInfo item in _collisionBox.IsOverlapping())
+                bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                NPC character = item._other as NPC;
+                if (character != null && !character._isCured)
                 {
-                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
-                    NPC character = item._other as NPC;
-                    if (character != null && !character._isCured)
+                    if (Game1.instance.input.JustPressed("interact"))
                     {
                         Game1.instance.inventory._gifting = true;
                         Game1.instance.inventory._recipient = character;
                         Game1.instance.UI.SwitchState(UIState.Inventory);
-                        // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        // for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        // {
-                        //     actionComplete = character.Cure(inv[i]._name);
-                        //     if (actionComplete)
-                        //         Game1.instance.inventory.removeIngredient(inv[i]);
-                        // }
+                        actionComplete = true;
                     }
-
-                    // check if pickup item
-                    SpawnItem obj = item._other as SpawnItem;
-                    if (obj != null)
+                    else
                     {
-                        Debug.WriteLine(obj._name);
-                        // TODO: try adding to inventory, returning whether successful or not
-                        if (Game1.instance.inventory.addIngredient(obj._name))
+                        _overlappingInteractable = true;
+                        _overlapName = "give to " + character.name;
+                    }
+                }
+
+                // check if pickup item
+                SpawnItem obj = item._other as SpawnItem;
+                if (obj != null)
+                {
+                    Debug.WriteLine(obj._name);
+                    // TODO: try adding to inventory, returning whether successful or not
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(obj._name))
+                    {
+                        (Game1.instance._currentState as GameplayState)._items.Remove(obj);
+                        obj._spawn.Despawn();
+                        actionComplete = true;
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "forage " + obj._name;
+                    }
+                }
+
+                // chec if foragable object
+                ForageSpot forage = item._other as ForageSpot;
+                if (forage != null)
+                {
+                    Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                    // TODO: check if inventory is empty before harvesting
+                    if (true)
+                    {
+                        string harvested = forage.TryHarvest();
+                        if (harvested != null) // something harvested
                         {
-                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                            obj._spawn.Despawn();
+                            Game1.instance.inventory.addIngredient(harvested);
                             actionComplete = true;
                         }
                     }
+                }
 
-                    // chec if foragable object
-                    ForageSpot forage = item._other as ForageSpot;
-                    if (forage != null)
+                // check if area
+                Area area = item._other as Area;
+                if (area != null)
+                {
+                    if (area._name == "fire")
                     {
-                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
-                        // TODO: check if inventory is empty before harvesting
-                        if (true)
+                        //Debug.WriteLine("Fire");
+                        // Open cooking ui
+                        if (Game1.instance.input.JustPressed("interact"))
                         {
-                            string harvested = forage.TryHarvest();
-                            if (harvested != null) // something harvested
-                            {
-                                Game1.instance.inventory.addIngredient(harvested);
-                                actionComplete = true;
-                            }
+                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+                            actionComplete = true;
+                        }
+                        else
+                        {
+                            _overlappingInteractable = true;
+                            _overlapName = "cook";
                         }
                     }
-
-                    // check if area
-                    Area area = item._other as Area;
-                    if (area != null)
+                    else if (area._name.Contains("state"))
                     {
-                        if (area._name == "fire")
+                        if (area._name.Contains("Cave"))
                         {
-                            //Debug.WriteLine("Fire");
-                            // Open cooking ui
-                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
-                        }
-                        else if (area._name.Contains("state"))
-                        {
-                            if (area._name.Contains("Cave"))
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CaveState");
                                 actionComplete = true;
                             }
-                            else if (area._name.Contains("Camp"))
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to cave";
+                            }
+                        }
+                        else if (area._name.Contains("Camp"))
+                        {
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CampState");
                                 actionComplete = true;
                             }
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to camp";
+                            }
                         }
                     }
-
-                    if (actionComplete)
-                        break;
                 }
+
+                if (actionComplete || _overlappingInteractable)
+                    break;
             }
+
             // movement sound
             if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
             {
@@ -375,9 +456,17 @@ namespace WillowWoodRefuge
                 {
                     _currentMoveType = "walk";
                 }
-                else if (!_collisionBox._downBlocked && _anchorPoint == null) // if airborne
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y < -60) // if airborne and rising
                 {
-                    _currentMoveType = "jump";
+                    _currentMoveType = "rising";
+                }
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y <= 60 && _collisionBox._velocity.Y >= -60) // if airborne and apex
+                {
+                    _currentMoveType = "apex";
+                }
+                else if (!_collisionBox._downBlocked && _anchorPoint == null && _collisionBox._velocity.Y > 60) // if airborne and falling
+                {
+                    _currentMoveType = "falling";
                 }
                 currentAnimation = _currentMoveType + _currentDirection;
             }
@@ -433,7 +522,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._leftBlocked && Game1.instance.input.IsDown("left") && // check for side hit left grab
                 _collisionBox._leftBox.Top > _collisionBox._bounds.Top &&
-                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                _collisionBox._leftBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                _collisionBox.CanFit(_collisionBox._leftBox.TopRight - new Vector2(0, _grabDist), _yClearance))
             {
                 _grabLeft = true;
                 _anchorPoint = _collisionBox._leftBox.TopRight;
@@ -444,7 +534,8 @@ namespace WillowWoodRefuge
             }
             else if (_collisionBox._rightBlocked && Game1.instance.input.IsDown("right") && // check for side hit right grab
                      _collisionBox._rightBox.Top > _collisionBox._bounds.Top &&
-                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist)
+                     _collisionBox._rightBox.Top <= _collisionBox._bounds.Top + _grabDist &&
+                     _collisionBox.CanFit(_collisionBox._rightBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance))
             {
                 _grabLeft = false;
                 _anchorPoint = _collisionBox._rightBox.TopLeft;
@@ -457,7 +548,7 @@ namespace WillowWoodRefuge
                     _collisionBox._downBox.Width < _collisionBox._bounds.Width) // check for drop down
             {
                 if (_collisionBox._bounds.Right - _collisionBox._downBox.Right > _collisionBox._downBox.Left - _collisionBox._bounds.Left && // down right grab left
-                    _collisionBox.CanFit((Point2)_collisionBox._downBox.TopRight - new Vector2(0, _grabDist)))
+                    _collisionBox.CanFit(_collisionBox._downBox.TopRight - new Vector2(0, _grabDist), _yClearance))
                 {
                     _grabLeft = true;
                     _anchorPoint = _collisionBox._downBox.TopRight;
@@ -466,7 +557,7 @@ namespace WillowWoodRefuge
                     _collisionBox._posLock = true;
                     _collisionBox._hasGravity = false;
                 }
-                else if(_collisionBox.CanFit((Point2)_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist))) // down left grab right
+                else if(_collisionBox.CanFit(_collisionBox._downBox.TopLeft - new Vector2(_collisionBox._bounds.Width, _grabDist), _yClearance)) // down left grab right
                 {
                     _grabLeft = false;
                     _anchorPoint = _collisionBox._downBox.TopLeft;
@@ -506,9 +597,8 @@ namespace WillowWoodRefuge
                 _anchorPoint = null;
                 //put ledge climb animation here.
 
+                climbRightAnimation.reset();
                 currentAnimation = "climbRight";
-                delayFrames = 60;
-                //interuptAnimationUpdate = false;
             }
         }
 
@@ -520,6 +610,11 @@ namespace WillowWoodRefuge
         public void UnlockPos()
         {
             _collisionBox._posLock = false;
+        }
+
+        public void Hit(float attackDamage)
+        {
+            Debug.WriteLine("Hit -" + attackDamage);
         }
     }
 }

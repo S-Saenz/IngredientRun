@@ -15,20 +15,13 @@ namespace WillowWoodRefuge
         public bool _isCured { get; private set; }
         private float _displayTime = 3;
         private float _currTime = -1;
-        private bool _inConversation = false;
-
-        // Event delegate
-        public delegate void NPCEventHandler();
-
-        // Interaction events
-        private event NPCEventHandler _reachedConversation;
 
         public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
                      : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, worldBounds, animationDict, area)
         {
-            _walkSpeed = 20;
+            _walkSpeed = 25;
             _runSpeed = 120;
             _collisionBox._friction = 0.5f;
             _collisionBox._maxSpeed = new Vector2(_runSpeed, 500);
@@ -43,11 +36,6 @@ namespace WillowWoodRefuge
             if (_currTime >= 0 && _currTime < _displayTime)
                 _currTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_currState == AIState.Converse && !_isMoving && !_inConversation)
-            {
-                _reachedConversation?.Invoke();
-                _inConversation = true;
-            }
             base.Update(gameTime);
         }
 
@@ -74,12 +62,19 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
-            animationDict = new Dictionary<string, Animation>();
-            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runRight", new Animation(_texture, 1, 1, 100));
+            if (name == "aiyo")
+            {
+                animationDict = new Dictionary<string, Animation>();
+                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
+            }
+            else
+            {
+                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+                animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
+                animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
+            }
         }
 
         // Adds an "injury" to npc, along with assigning what item is needed to remove the injury.
@@ -121,11 +116,6 @@ namespace WillowWoodRefuge
         public void StopConverse()
         {
             ChangeState(AIState.Wander);
-        }
-
-        public void AddConversationReachedListener(NPCEventHandler handler)
-        {
-            _reachedConversation += handler;
         }
     }
 }

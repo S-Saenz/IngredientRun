@@ -36,11 +36,11 @@ namespace WillowWoodRefuge
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //config for backpack inventory - inluding side pockets
-        int gridWidth = 6;
-        int gridHeight = 5;
-        float gridWidthMargin = 140;
-        float gridHeightMargin = 140;
-        Vector2 topLeft = new Vector2(690, 125);
+        int gridWidth = 7;
+        int gridHeight = 6;
+        float gridWidthMargin = 100;
+        float gridHeightMargin = 100;
+        Vector2 topLeft = new Vector2(310, 235);
     
 
         //exit button
@@ -77,11 +77,11 @@ namespace WillowWoodRefuge
         //add items to the inventory for debugging purposes
         public void addExampleInventory()
         {
-            ingredientList.Add(new Ingredient(randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(randomBox(), "wood"));
+            //ingredientList.Add(new Ingredient(randomBox(), "acorn"));
+            //ingredientList.Add(new Ingredient(randomBox(), "apple"));
+            //ingredientList.Add(new Ingredient(randomBox(), "fish"));
+            //ingredientList.Add(new Ingredient(randomBox(), "meat"));
+            //ingredientList.Add(new Ingredient(randomBox(), "wood"));
             ingredientList.Add(new Ingredient(randomBox(), "water"));
         }
 
@@ -115,7 +115,7 @@ namespace WillowWoodRefuge
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
 
-            addExampleInventory();
+            // addExampleInventory();
 
             shakeBag();
 
@@ -127,7 +127,7 @@ namespace WillowWoodRefuge
 
             //create exit button
             Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(1183, 23);
+            Vector2 buttonPos = new Vector2( (int)Game1.instance._cameraController._screenDimensions.X - 100, 23);
             xButton = new UIButton(ButtonTexture, buttonPos);
             xButton.Depth = .01f;
             xButton.Scale = 3f;
@@ -135,10 +135,10 @@ namespace WillowWoodRefuge
 
             //create exit button
             ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
-            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X - 200, Game1.instance._cameraController._screenDimensions.Y / 2);
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             _confirmButton = new UIButton(ButtonTexture, buttonPos);
             _confirmButton.Depth = .01f;
-            _confirmButton.Scale = 3f;
+            _confirmButton.Scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
         }
 
@@ -171,13 +171,14 @@ namespace WillowWoodRefuge
             xButton.Update(mouseState);
             if (_selected != null) // allow click on gifting option if object is
                 _confirmButton.Update(mouseState);
+
             if (mouseState.LeftButton == ButtonState.Pressed)
 
             {
 
                 //Print mouse cursor position to debug console
 
-                //Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
@@ -188,6 +189,7 @@ namespace WillowWoodRefuge
                 //Debug.WriteLine($"Mouse clicked!\nboxClicked = {boxClicked}");
 
             }
+
             foreach (Ingredient ingredient in ingredientList)
             {
 
@@ -281,8 +283,11 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
             // Debug.WriteLine("Inventory being drawn");
-            //spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
-            spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            int width = (int)Game1.instance._cameraController._screenDimensions.X;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+
+            //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
 
             //for (int i=0; i < ings.Count; i++)
             //{
@@ -290,15 +295,22 @@ namespace WillowWoodRefuge
             //    spriteBatch.Draw( (ings[i].img), ingredientPos, null, Color.White, ings[i].rotation, Vector2.Zero, SpriteEffects.None, 0f); 
             //}
 
+
             for (int pos = (ingredientList.Count() - 1); pos >= 0; --pos)
             {
                 ingredientList[pos].Draw(spriteBatch);
             }
-
+            
             xButton.Draw(spriteBatch);
 
-            if(_gifting)
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gifting", new Vector2(16, 16), Color.White);
+            if (_gifting)
+            {
+                string message = "Select item to give to " + _recipient.name + "\n(cured by " + _recipient._cureItem + ")";
+                Vector2 messageSize = FontManager._bigdialogueFont.MeasureString(message);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
+                Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+            }
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;

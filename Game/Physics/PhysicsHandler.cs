@@ -208,9 +208,9 @@ namespace WillowWoodRefuge
             return false;
         }
 
-        public List<CollisionInfo> IsOverlapping(CollisionBox box)
+        public List<OverlapInfo> IsOverlapping(CollisionBox box)
         {
-            List<CollisionInfo> others = new List<CollisionInfo>();
+            List<OverlapInfo> others = new List<OverlapInfo>();
             foreach (string layer in _overlapMask[box._label])
             {
                 foreach (CollisionBox other in _layers[layer].getNeighbors(box))
@@ -220,7 +220,7 @@ namespace WillowWoodRefuge
 
                     if (overlapRect.Width != 0 && overlapRect.Height != 0)
                     {
-                        CollisionInfo info = new CollisionInfo(box, other, ref overlapRect);
+                        OverlapInfo info = new OverlapInfo(box, other, ref overlapRect);
                         others.Add(info);
                     }
                 }
@@ -228,15 +228,16 @@ namespace WillowWoodRefuge
             return others;
         }
 
-        public bool CanFit(CollisionBox box, Vector2 pos)
+        public bool CanFit(CollisionBox box, Vector2 pos, float yClearance = 0)
         {
+            RectangleF newPosBox = box._bounds;
+            newPosBox.Position = pos;
+            newPosBox.Height += yClearance;
+            RectangleF overlapRect;
             foreach (string layer in _collisionMask[box._label])
             {
-                foreach (CollisionBox other in _layers[layer].getNeighbors(box))
+                foreach (CollisionBox other in _layers[layer].getNeighbors(newPosBox))
                 {
-                    RectangleF newPosBox = box._bounds;
-                    newPosBox.Position = pos;
-                    RectangleF overlapRect;
                     RectangleF.Intersection(ref newPosBox, ref other._bounds, out overlapRect);
 
                     if (overlapRect.Width > 0 && overlapRect.Height > 0)

@@ -139,6 +139,7 @@ namespace WillowWoodRefuge
                     //load recipe menu
                     if(!Game1.instance.recipeMenu.loaded)
                         Game1.instance.recipeMenu.Load(Game1.instance.Content);
+                    Game1.instance.recipeMenu.UpdatePossibleRecipes();
 
                     GameplayState gameState = Game1.instance._currentState as GameplayState;
                     if (gameState != null)

@@ -14,6 +14,7 @@ namespace WillowWoodRefuge
         {
             _atlasList.Add("Item", new TextureAtlas("itemTextures", content));
             _atlasList.Add("Foraging", new TextureAtlas("foragingTextures", content));
+            _atlasList.Add("UI", new TextureAtlas("uiTextures", content));
         }
 
         public static void DrawTexture(SpriteBatch spriteBatch, string textureType, string textureName, Vector2 loc, Color color, float scale = 1, bool centered = false)

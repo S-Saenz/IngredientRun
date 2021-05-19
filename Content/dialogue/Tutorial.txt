@@ -22,6 +22,6 @@ Debug:
 
 'R' - Reset player location in scene (while in debug)
 
-'1' - Teleport to camp (while in debug)
+'P' - Turn off wall occlusion (increased performance)
 
-'2' - Teleport to cave (while in debug)
+'L' - Turn off shadows (increased performance)
