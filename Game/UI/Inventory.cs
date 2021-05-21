@@ -90,30 +90,7 @@ namespace WillowWoodRefuge
             loaded = true;
             //initializeInventoryGrid();
            
-            //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
-
-            //load ingredient textures
-            /* Tecture Atlas makes this portion redundant and unnecessary
-            acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
-            apple = Content.Load<Texture2D>("Ingredient/appleScaled");
-            appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soupScaled");
-            carrot = Content.Load<Texture2D>("Ingredient/carrotScaled");
-            carrotSoup = Content.Load<Texture2D>("Ingredient/carrot_spice_soupScaled");
-            egg = Content.Load<Texture2D>("Ingredient/eggScaled");
-            gooseberry = Content.Load<Texture2D>("Ingredient/gooseberryScaled");
-            fish = Content.Load<Texture2D>("Ingredient/fishScaled");
-            grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fishScaled");
-            meat = Content.Load<Texture2D>("Ingredient/meatScaled");
-            monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)Scaled");
-            mouseMelon = Content.Load<Texture2D>("Ingredient/mousemelonScaled");
-            rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soupScaled");
-            water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
-            wood = Content.Load<Texture2D>("Ingredient/woodScaled");
-            */
-
-            // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
-
 
             // addExampleInventory();
 
