@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Extended;
+using Microsoft.Xna.Framework.Input;
 
 namespace WillowWoodRefuge
 {
@@ -36,6 +37,9 @@ namespace WillowWoodRefuge
             
             // Make dark
             _isDark = true;
+
+            Mouse.SetPosition((int)(_mouseStartPos.X * Game1.instance._cameraController._screenDimensions.X),
+                              (int)(_mouseStartPos.Y * Game1.instance._cameraController._screenDimensions.Y));
         }
 
         public override void Update(GameTime gameTime)
