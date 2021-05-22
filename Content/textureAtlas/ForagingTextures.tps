@@ -26,7 +26,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <true/>
+        <false/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>itemTextures.json</filename>
+                <filename>foragingTextures.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -181,18 +181,9 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../Ingredient/Bay_Nut.png</key>
-            <key type="filename">../Ingredient/appleMushroomSoup.png</key>
-            <key type="filename">../Ingredient/beetle.png</key>
-            <key type="filename">../Ingredient/berries.png</key>
-            <key type="filename">../Ingredient/carrotSoup.png</key>
-            <key type="filename">../Ingredient/cricket.png</key>
-            <key type="filename">../Ingredient/glowing_plant.png</key>
-            <key type="filename">../Ingredient/grilledFish.png</key>
-            <key type="filename">../Ingredient/honey.png</key>
-            <key type="filename">../Ingredient/monsterSoup.png</key>
-            <key type="filename">../Ingredient/rabbitSoup.png</key>
-            <key type="filename">../Ingredient/snail.png</key>
+            <key type="filename">../foraging/Bay_Nut1.png</key>
+            <key type="filename">../foraging/Bay_Nut2.png</key>
+            <key type="filename">../foraging/Bay_Nut3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -201,27 +192,54 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
+                <rect>58,60,116,121</rect>
                 <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
+                <rect>58,60,116,121</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../Ingredient/Huckleberry.png</key>
-            <key type="filename">../Ingredient/Manzanita.png</key>
-            <key type="filename">../Ingredient/Nodding_Onion.png</key>
-            <key type="filename">../Ingredient/Oyster_Mushroom.png</key>
-            <key type="filename">../Ingredient/Penny_Bun_Mushroom.png</key>
-            <key type="filename">../Ingredient/Thimbleberry.png</key>
-            <key type="filename">../Ingredient/Toothwort.png</key>
-            <key type="filename">../Ingredient/Wolfberry.png</key>
-            <key type="filename">../Ingredient/fish.png</key>
-            <key type="filename">../Ingredient/gooseberry.png</key>
-            <key type="filename">../Ingredient/meat.png</key>
-            <key type="filename">../Ingredient/mousemelon.png</key>
-            <key type="filename">../Ingredient/mushroom.png</key>
-            <key type="filename">../Ingredient/mushroom_medicine.png</key>
-            <key type="filename">../Ingredient/water.png</key>
+            <key type="filename">../foraging/Calamint1.png</key>
+            <key type="filename">../foraging/Calamint2.png</key>
+            <key type="filename">../foraging/Huckleberry1.png</key>
+            <key type="filename">../foraging/Huckleberry2.png</key>
+            <key type="filename">../foraging/Hummingbird_Sage1.png</key>
+            <key type="filename">../foraging/Thimbleberry1.png</key>
+            <key type="filename">../foraging/Thimbleberry2.png</key>
+            <key type="filename">../foraging/Wolfberry1.png</key>
+            <key type="filename">../foraging/Wolfberry2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,8,32,16</rect>
+                <key>scale9Paddings</key>
+                <rect>16,8,32,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../foraging/Manzanita1.png</key>
+            <key type="filename">../foraging/Manzanita2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>36,29,72,57</rect>
+                <key>scale9Paddings</key>
+                <rect>36,29,72,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../foraging/Nodding_Onion1.png</key>
+            <key type="filename">../foraging/Oyster_Mushroom1.png</key>
+            <key type="filename">../foraging/Toothwort1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -236,10 +254,12 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../Ingredient/acorn.png</key>
-            <key type="filename">../Ingredient/apple.png</key>
-            <key type="filename">../Ingredient/carrot.png</key>
-            <key type="filename">../Ingredient/egg.png</key>
+            <key type="filename">../foraging/test1.png</key>
+            <key type="filename">../foraging/test2.png</key>
+            <key type="filename">../foraging/test3.png</key>
+            <key type="filename">../foraging/test4.png</key>
+            <key type="filename">../foraging/test5.png</key>
+            <key type="filename">../foraging/test6.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -248,62 +268,38 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>4,4,8,8</rect>
+                <rect>4,8,8,16</rect>
                 <key>scale9Paddings</key>
-                <rect>4,4,8,8</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../Ingredient/wood.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>6,4,12,7</rect>
-                <key>scale9Paddings</key>
-                <rect>6,4,12,7</rect>
+                <rect>4,8,8,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>../Ingredient/acorn.png</filename>
-            <filename>../Ingredient/apple.png</filename>
-            <filename>../Ingredient/appleMushroomSoup.png</filename>
-            <filename>../Ingredient/beetle.png</filename>
-            <filename>../Ingredient/berries.png</filename>
-            <filename>../Ingredient/carrot.png</filename>
-            <filename>../Ingredient/carrotSoup.png</filename>
-            <filename>../Ingredient/cricket.png</filename>
-            <filename>../Ingredient/egg.png</filename>
-            <filename>../Ingredient/fish.png</filename>
-            <filename>../Ingredient/glowing_plant.png</filename>
-            <filename>../Ingredient/gooseberry.png</filename>
-            <filename>../Ingredient/grilledFish.png</filename>
-            <filename>../Ingredient/honey.png</filename>
-            <filename>../Ingredient/meat.png</filename>
-            <filename>../Ingredient/monsterSoup.png</filename>
-            <filename>../Ingredient/mousemelon.png</filename>
-            <filename>../Ingredient/mushroom.png</filename>
-            <filename>../Ingredient/mushroom_medicine.png</filename>
-            <filename>../Ingredient/rabbitSoup.png</filename>
-            <filename>../Ingredient/snail.png</filename>
-            <filename>../Ingredient/water.png</filename>
-            <filename>../Ingredient/wood.png</filename>
-            <filename>../Ingredient/Huckleberry.png</filename>
-            <filename>../Ingredient/Nodding_Onion.png</filename>
-            <filename>../Ingredient/Oyster_Mushroom.png</filename>
-            <filename>../Ingredient/Penny_Bun_Mushroom.png</filename>
-            <filename>../Ingredient/Thimbleberry.png</filename>
-            <filename>../Ingredient/Toothwort.png</filename>
-            <filename>../Ingredient/Wolfberry.png</filename>
-            <filename>../Ingredient/Bay_Nut.png</filename>
-            <filename>../Ingredient/Manzanita.png</filename>
+            <filename>../foraging/Calamint1.png</filename>
+            <filename>../foraging/Calamint2.png</filename>
+            <filename>../foraging/Huckleberry1.png</filename>
+            <filename>../foraging/Huckleberry2.png</filename>
+            <filename>../foraging/Hummingbird_Sage1.png</filename>
+            <filename>../foraging/Nodding_Onion1.png</filename>
+            <filename>../foraging/Oyster_Mushroom1.png</filename>
+            <filename>../foraging/Thimbleberry1.png</filename>
+            <filename>../foraging/Thimbleberry2.png</filename>
+            <filename>../foraging/Toothwort1.png</filename>
+            <filename>../foraging/Wolfberry1.png</filename>
+            <filename>../foraging/Wolfberry2.png</filename>
+            <filename>../foraging/test1.png</filename>
+            <filename>../foraging/test2.png</filename>
+            <filename>../foraging/test3.png</filename>
+            <filename>../foraging/test4.png</filename>
+            <filename>../foraging/test5.png</filename>
+            <filename>../foraging/test6.png</filename>
+            <filename>../foraging/Bay_Nut1.png</filename>
+            <filename>../foraging/Bay_Nut2.png</filename>
+            <filename>../foraging/Bay_Nut3.png</filename>
+            <filename>../foraging/Manzanita1.png</filename>
+            <filename>../foraging/Manzanita2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

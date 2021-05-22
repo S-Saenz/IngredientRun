@@ -8,10 +8,10 @@ namespace WillowWoodRefuge
 {
     class ItemSpawn : SpawnPoint
     {
-        public ItemSpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string spawnType = null) : 
+        public ItemSpawn(Vector2 loc, string rangeType, PhysicsHandler physicsHandler, string spawnType = null) :
             base(loc, rangeType, physicsHandler, spawnType)
         {
-            
+
         }
 
         public override ISpawnable Spawn()
@@ -22,13 +22,13 @@ namespace WillowWoodRefuge
             switch (_rangeType)
             {
                 case "only":
-                    _object = new PickupItem(_spawnType, _location, _physicsHandler, this);
+                    _object = new SpawnItem(_spawnType, _location, _physicsHandler, this);
                     break;
                 case "family":
                     break;
                 case "any":
                     string spawnType = ItemTextures._allItems[new Random().Next(ItemTextures._allItems.Count)];
-                    _object = new PickupItem(spawnType, _location, _physicsHandler, this);
+                    _object = new SpawnItem(spawnType, _location, _physicsHandler, this);
                     break;
             }
             return _object;
@@ -36,7 +36,7 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch, bool isDebug = false)
         {
-            if(_object != null)
+            if (_object != null)
             {
                 _object.Draw(spriteBatch);
             }
