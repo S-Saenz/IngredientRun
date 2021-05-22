@@ -75,27 +75,28 @@ namespace WillowWoodRefuge
             }
 
             // add line breaks
-            values = _speech.Split(" ");
-            _speech = "";
-            float currWidth = 0;
-            foreach(string word in values)
-            {
-                if(word.Length > 0)
-                {
-                    float wordWidth = FontManager._dialogueFont.MeasureString(" " + word).X;
-                    if(currWidth + wordWidth > _maxLineWidth) // start new line
-                    {
-                        currWidth = -1;
-                        _speech += "\n";
-                    }
-                    else // continue current line
-                    {
-                        _speech += " ";
-                    }
-                    currWidth += wordWidth;
-                    _speech += word;
-                }
-            }
+            _speech = FontManager.AddLineBreaks(_speech, FontManager._dialogueFont, _maxLineWidth);
+            // values = _speech.Split(" ");
+            // _speech = "";
+            // float currWidth = 0;
+            // foreach(string word in values)
+            // {
+            //     if(word.Length > 0)
+            //     {
+            //         float wordWidth = FontManager._dialogueFont.MeasureString(" " + word).X;
+            //         if(currWidth + wordWidth > _maxLineWidth) // start new line
+            //         {
+            //             currWidth = -1;
+            //             _speech += "\n";
+            //         }
+            //         else // continue current line
+            //         {
+            //             _speech += " ";
+            //         }
+            //         currWidth += wordWidth;
+            //         _speech += word;
+            //     }
+            // }
 
             // calculate times of actions
             for (int i = 0; i < actions.Count; ++i)
