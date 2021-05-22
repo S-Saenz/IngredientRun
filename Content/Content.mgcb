@@ -111,6 +111,18 @@
 /processorParam:TextureFormat=Color
 /build:animations/falling_right.png
 
+#begin animations/jumpSquat_left.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:animations/jumpSquat_left.png
+
 #begin animations/jumpSquat_right.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -147,6 +159,18 @@
 /processorParam:TextureFormat=Color
 /build:animations/kall_walk_right.png
 
+#begin animations/landing_left.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:animations/landing_left.png
+
 #begin animations/landing_right.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -158,6 +182,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:animations/landing_right.png
+
+#begin animations/ledge_crawl_left.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:animations/ledge_crawl_left.png
 
 #begin animations/ledge_crawl2.png
 /importer:TextureImporter

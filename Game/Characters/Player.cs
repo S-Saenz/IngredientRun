@@ -13,11 +13,12 @@ namespace WillowWoodRefuge
 {
     class Player : AnimatedObject,  IPhysicsObject
     {
-        private Texture2D idleTex, idleLeftTex, idleRightTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, hangRightTex, hangLeftTex, FOW, FOWT;
-        private Texture2D jumpSquatRightTex, risingRightTex, risingLeftTex, apexRightTex, apexLeftTex, fallingRightTex, fallingLeftTex, landingRightTex;
+        private Texture2D idleTex, idleLeftTex, idleRightTex, runRightTex, runLeftTex, walkRightTex, walkLeftTex, jumpRightTex, climbRightTex, climbLeftTex, hangRightTex, hangLeftTex, FOW, FOWT;
+        private Texture2D jumpSquatRightTex, jumpSquatLeftTex, risingRightTex, risingLeftTex, apexRightTex, apexLeftTex, fallingRightTex, fallingLeftTex, landingRightTex, landingLeftTex;
         private Animation runRightAnimation, runLeftAnimation, walkRightAnimation, walkLeftAnimation, jumpRightAnimation, 
-                          idleAnimation, idleLeftAnimation, idleRightAnimation, climbRightAnimation, hangRightAnimation, hangLeftAnimation;
-        private Animation jumpSquatRightAnimation, risingRightAnimation, risingLeftAnimation, apexRightAnimation, apexLeftAnimation, fallingRightAnimation, fallingLeftAnimation, landingRightAnimation;
+                          idleAnimation, idleLeftAnimation, idleRightAnimation, climbRightAnimation, climbLeftAnimation, hangRightAnimation, hangLeftAnimation;
+        private Animation jumpSquatRightAnimation, jumpSquatLeftAnimation, risingRightAnimation, risingLeftAnimation, apexRightAnimation, apexLeftAnimation, 
+                            fallingRightAnimation, fallingLeftAnimation, landingRightAnimation, landingLeftAnimation;
         private bool interuptAnimationUpdate = false;
         private bool interuptInputUpdate = false;
         private bool jumpSquatLanding = false;
@@ -86,13 +87,14 @@ namespace WillowWoodRefuge
             //    interuptAnimationUpdate = false;
             //    interuptInputUpdate = false;
             //}
-            if(climbRightAnimation.currentFrame == climbRightAnimation.totalFrames - 1)
+            if(climbRightAnimation.currentFrame == climbRightAnimation.totalFrames - 1 || climbLeftAnimation.currentFrame == climbLeftAnimation.totalFrames - 1)
             {
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
                 climbRightAnimation.reset();
+                climbLeftAnimation.reset();
             }
-            if(jumpSquatRightAnimation.currentFrame == jumpSquatRightAnimation.totalFrames - 1)
+            if (jumpSquatRightAnimation.currentFrame == jumpSquatRightAnimation.totalFrames - 1 || jumpSquatLeftAnimation.currentFrame == jumpSquatLeftAnimation.totalFrames - 1)
             {
                 interuptAnimationUpdate = false;
                 interuptInputUpdate = false;
@@ -104,12 +106,14 @@ namespace WillowWoodRefuge
                 _jumpClicked = true;
                 _collisionBox._downLastBlocked = float.NegativeInfinity;//what does this do?
                 jumpSquatRightAnimation.reset();
+                jumpSquatLeftAnimation.reset();
             }
             if(_collisionBox._downBlocked && previousMoveType == "falling")
             {
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
                 landingRightAnimation.reset();
+                landingLeftAnimation.reset();
                 currentAnimation = "landingRight";
             }
             if (landingRightAnimation.currentFrame == landingRightAnimation.totalFrames - 1)
@@ -118,6 +122,7 @@ namespace WillowWoodRefuge
                 interuptInputUpdate = false;
                 jumpSquatLanding = false;
                 landingRightAnimation.reset();
+                landingLeftAnimation.reset();
             }
             if (jumpSquatLanding)
             {
@@ -174,6 +179,8 @@ namespace WillowWoodRefuge
             jumpRightAnimation = new Animation(jumpRightTex, 1, 11, 50);
             climbRightTex = Content.Load<Texture2D>("animations/ledge_crawl2");
             climbRightAnimation = new Animation(climbRightTex, 1, 16, 50, new Vector2(-7, 13));
+            climbLeftTex = Content.Load<Texture2D>("animations/ledge_crawl_left");
+            climbLeftAnimation = new Animation(climbLeftTex, 1, 16, 50, new Vector2(8, 19));
             hangLeftTex = Content.Load<Texture2D>("animations/ledge_hang_left");
             hangLeftAnimation = new Animation(hangLeftTex, 1, 1, 50);
             hangRightTex = Content.Load<Texture2D>("animations/ledge_hang_right");
@@ -181,6 +188,8 @@ namespace WillowWoodRefuge
 
             jumpSquatRightTex = Content.Load<Texture2D>("animations/jumpSquat_right");
             jumpSquatRightAnimation = new Animation(jumpSquatRightTex, 1, 3, 30, new Vector2(0, -16));
+            jumpSquatLeftTex = Content.Load<Texture2D>("animations/jumpSquat_left");
+            jumpSquatLeftAnimation = new Animation(jumpSquatLeftTex, 1, 3, 30, new Vector2(0, -6));
             risingRightTex = Content.Load<Texture2D>("animations/rising_right");
             risingRightAnimation = new Animation(risingRightTex, 1, 1, 0);
             risingLeftTex = Content.Load<Texture2D>("animations/rising_Left");
@@ -195,6 +204,8 @@ namespace WillowWoodRefuge
             fallingLeftAnimation = new Animation(fallingLeftTex, 1, 1, 0);
             landingRightTex = Content.Load<Texture2D>("animations/landing_right");
             landingRightAnimation = new Animation(landingRightTex, 1, 30, 30, new Vector2(0, -16));
+            landingLeftTex = Content.Load<Texture2D>("animations/landing_left");
+            landingLeftAnimation = new Animation(landingLeftTex, 1, 30, 30, new Vector2(0, -16));
 
             FOW = Content.Load<Texture2D>("ui/visionFade");
             FOWT = Content.Load<Texture2D>("ui/visionFadeTriangle");
@@ -224,6 +235,7 @@ namespace WillowWoodRefuge
             animationDict.Add("jump", jumpRightAnimation);
             animationDict.Add("jumpLeft", jumpRightAnimation);
             animationDict.Add("climbRight", climbRightAnimation);
+            animationDict.Add("climbLeft", climbLeftAnimation);
             animationDict.Add("hangLeft", hangLeftAnimation);
             animationDict.Add("hangRight", hangRightAnimation);
 
@@ -233,11 +245,11 @@ namespace WillowWoodRefuge
             animationDict.Add("fallingRight", fallingRightAnimation);
             animationDict.Add("landingRight", landingRightAnimation);
 
-            animationDict.Add("jumpSquatLeft", jumpSquatRightAnimation);
+            animationDict.Add("jumpSquatLeft", jumpSquatLeftAnimation);
             animationDict.Add("risingLeft", risingLeftAnimation);
             animationDict.Add("apexLeft", apexLeftAnimation);
             animationDict.Add("fallingLeft", fallingLeftAnimation);
-            animationDict.Add("landingLeft", landingRightAnimation);
+            animationDict.Add("landingLeft", landingLeftAnimation);
 
             // Add collision box
             _collisionBox = new CollisionBox(new RectangleF(_pos,
@@ -316,7 +328,14 @@ namespace WillowWoodRefuge
             if (Game1.instance.input.IsDown("jump") && _collisionBox._downBlocked)
             {
                 jumpSquatRightAnimation.reset();
-                currentAnimation = "jumpSquatRight";
+                if (_currentDirection == "Right")
+                {
+                    currentAnimation = "jumpSquatRight";
+                }
+                else
+                {
+                    currentAnimation = "jumpSquatLeft";
+                }
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
                 jumpSquatLanding = true;
@@ -586,7 +605,17 @@ namespace WillowWoodRefuge
                 //put ledge climb animation here.
 
                 climbRightAnimation.reset();
-                currentAnimation = "climbRight";
+                climbLeftAnimation.reset();
+                if(_currentDirection == "Right")
+                {
+                    currentAnimation = "climbRight";
+                }
+                else
+                {
+                    currentAnimation = "climbLeft";
+                }
+                //_currentMoveType = "climb";
+                //currentAnimation = _currentMoveType + _currentDirection;
             }
         }
 
