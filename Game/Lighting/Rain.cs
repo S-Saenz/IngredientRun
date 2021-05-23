@@ -8,8 +8,8 @@ namespace WillowWoodRefuge
 {
     class Rain : WeatherElement
     {
-        public Rain(Vector2 direction, Vector2 bounds, float density, Color color, ContentManager content) : 
-            base(direction, bounds, density, color, content)
+        public Rain(Vector2 direction, Vector2 bounds, float density, Color color, ContentManager content, SpriteBatch spriteBatch) : 
+            base(direction, bounds, density, color, content, spriteBatch)
         {
             _effect = content.Load<Effect>("shaders/Rain");
 

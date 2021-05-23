@@ -12,8 +12,8 @@ namespace WillowWoodRefuge
         public int _steps { get; protected set; }
         private Vector2 _scale = new Vector2(400, 1200);
 
-        public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, int steps, ContentManager content) :
-            base(direction, bounds, density, color, content)
+        public Fog(Vector2 direction, Vector2 bounds, float density, Color color, float falloff, int steps, ContentManager content, SpriteBatch spriteBatch) :
+            base(direction, bounds, density, color, content, spriteBatch)
         {
             _effect = content.Load<Effect>("shaders/Fog");
             _falloff = falloff;

@@ -33,6 +33,8 @@ namespace WillowWoodRefuge
         private AreaLight[] _areaLights;
         private DirectionalLight[] _directionalLights;
 
+        private SpriteBatch _spriteBatch;
+
         // Arrays of parameters to input into shader
         Vector2[] _aLightPosition;
         bool _aLightPosChanged = false;
@@ -66,7 +68,7 @@ namespace WillowWoodRefuge
         public int _snumDLights { get; private set; }
 
         // Constructor
-        public LightManager(ContentManager content)
+        public LightManager(ContentManager content, SpriteBatch spriteBatch)
         {
             //  shaders, if not already loaded
             if(_shadowEffect == null)
@@ -87,6 +89,8 @@ namespace WillowWoodRefuge
             _snumALights = _snumDLights = 0;
             _sareaLights = new AreaLight[MAX_AREA_LIGHTS];
             _sdirectionalLights = new DirectionalLight[MAX_DIRECTIONAL_LIGHTS];
+
+            _spriteBatch = spriteBatch;
         }
 
         public void Initialize(TileMap tileMap, Texture2D ditherMap, Color color)
@@ -128,10 +132,10 @@ namespace WillowWoodRefuge
             Game1.instance.GraphicsDevice.SetRenderTarget(_casterBuffer);
             Game1.instance.GraphicsDevice.Clear(Color.Transparent);
 
-            Game1.instance._spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            tileMap.DrawLayer(Game1.instance._spriteBatch, "Walls");
-            tileMap.DrawLayer(Game1.instance._spriteBatch, "Foreground");
-            Game1.instance._spriteBatch.End();
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            tileMap.DrawLayer(_spriteBatch, "Walls");
+            tileMap.DrawLayer(_spriteBatch, "Foreground");
+            _spriteBatch.End();
 
             Game1.instance.GraphicsDevice.SetRenderTarget(null);
 
@@ -155,9 +159,9 @@ namespace WillowWoodRefuge
             Game1.instance.GraphicsDevice.Clear(Color.Transparent);
 
             // Add dynamic shadow render to baked shadow render
-            Game1.instance._spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
-            Game1.instance._spriteBatch.Draw(_shadowTexture, Vector2.Zero, Color.White);
-            Game1.instance._spriteBatch.End();
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
+            _spriteBatch.Draw(_shadowTexture, Vector2.Zero, Color.White);
+            _spriteBatch.End();
 
             Game1.instance.GraphicsDevice.SetRenderTarget(null);
         }
@@ -479,6 +483,11 @@ namespace WillowWoodRefuge
             _shadowEffect.Parameters["DirectionalLightDirection"].SetValue(_dLightDirection);
             _shadowEffect.Parameters["DirectionalLightSpread"].SetValue(_dLightSpread);
             _shadowEffect.Parameters["NumDirectionalLights"].SetValue(_numDLights);
+        }
+
+        public void SetOcclusion(bool isOn)
+        {
+            _shadowEffect.Parameters["Occlusion"].SetValue(isOn);
         }
     }
 }

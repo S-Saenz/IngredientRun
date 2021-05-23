@@ -20,7 +20,9 @@ namespace WillowWoodRefuge
         protected Effect _scroll;
         protected Effect _effect;
 
-        public WeatherElement(Vector2 direction, Vector2 bounds, float density, Color color, ContentManager content)
+        private SpriteBatch _spriteBatch;
+
+        public WeatherElement(Vector2 direction, Vector2 bounds, float density, Color color, ContentManager content, SpriteBatch spriteBatch)
         {
             _direction = direction;
             _bounds = bounds;
@@ -37,6 +39,7 @@ namespace WillowWoodRefuge
                     DepthFormat.Depth24);
 
             _scroll = content.Load<Effect>("shaders/TextureWrap");
+            _spriteBatch = spriteBatch;
         }
 
         public void Update(GameTime gameTime)
@@ -114,7 +117,7 @@ namespace WillowWoodRefuge
                 _color = color.Value;
             }
 
-            Generate(Game1.instance._spriteBatch);
+            Generate(_spriteBatch);
         }
 
         protected abstract void GenerateNoiseTexture();

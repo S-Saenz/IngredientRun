@@ -575,6 +575,18 @@
 /processorParam:DebugMode=Auto
 /build:shaders/CastShadows.fx
 
+#begin shaders/CastShadows.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/CastShadows.fx
+
+#begin shaders/DitherGradient.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/DitherGradient.fx
+
 #begin shaders/DitherGradient.fx
 /importer:EffectImporter
 /processor:EffectProcessor
@@ -586,6 +598,30 @@
 /processor:EffectProcessor
 /processorParam:DebugMode=Auto
 /build:shaders/DitherOpacity.fx
+
+#begin shaders/DitherOpacity.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/DitherOpacity.fx
+
+#begin shaders/Fog.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/Fog.fx
+
+#begin shaders/Rain.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/Rain.fx
+
+#begin shaders/TextureWrap.fx
+/importer:EffectImporter
+/processor:EffectProcessor
+/processorParam:DebugMode=Auto
+/build:shaders/TextureWrap.fx
 
 #begin soundEffects/Player_Hit.wav
 /importer:WavImporter

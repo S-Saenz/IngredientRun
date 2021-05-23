@@ -94,18 +94,18 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
 
             // Setup weather effects
-            _rain = new Rain(new Vector2(30, 200), Vector2.Zero, .00001f, Color.Blue, _content);
-            _fog = new Fog(new Vector2(-10, 0), Vector2.Zero, .5f, Color.White, 6f, 10, _content);
+            _rain = new Rain(new Vector2(30, 200), Vector2.Zero, .00001f, Color.Blue, _content, spritebatch);
+            _fog = new Fog(new Vector2(-10, 0), Vector2.Zero, .5f, Color.White, 6f, 10, _content, spritebatch);
 
             // Setup light manager
-            _lightManager = new LightManager(_content);
+            _lightManager = new LightManager(_content, _spriteBatch);
+
+            // Load Tilemap
+            LoadTilemap(content);
 
             // Add player light
             _playerLightIndex = _lightManager._numDLights;
             _lightManager.AddLight(new Vector2(336, 239), 300, new Vector2(0, 1), 200, 0.3f);
-
-            // Load Tilemap
-            LoadTilemap(content);
 
             // Add tilemap lighting
             _tileMap.AddLightObjects(_lightManager);
@@ -261,24 +261,6 @@ namespace WillowWoodRefuge
                 }
             }
 
-            game.GraphicsDevice.SetRenderTarget(null);
-
-            _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-
-            // If background layers, draw in order TODO: parallax
-            if (_backgroundLayers != null)
-            {
-                Rectangle destination = (Rectangle)_tileMap._mapBounds;
-                destination.Height /= 2;
-                destination.Y += destination.Height;
-
-                foreach (Background layer in _backgroundLayers)
-                {
-                    //_spriteBatch.Draw(layer, destination, Color.White);
-                    layer.Draw(spriteBatch, game._cameraController._cameraOffset);
-                }
-            }
-
             _spriteBatch.Draw(_backgroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
@@ -360,7 +342,7 @@ namespace WillowWoodRefuge
 
             // Draw UI
             _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                game.UI.Draw(spriteBatch);
+            game.UI.Draw(spriteBatch);
             _spriteBatch.End();
 
             // Stream stream = File.Create("shadow.png");
