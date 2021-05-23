@@ -42,6 +42,12 @@ namespace WillowWoodRefuge
                 }
             }
 
+            //ambient spider noise
+            if (Vector2.Distance(playerLoc, _pos) <= 300 && name.Equals("spider") && _currState == AIState.Wander)
+            {
+                Game1.instance.sounds.spiderAmbient(gameTime, Vector2.Distance(playerLoc, _pos));
+            }
+
             _cooldownTimer += gameTime.GetElapsedSeconds();
 
             _interestTarget = playerLoc;

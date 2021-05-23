@@ -17,6 +17,8 @@ namespace WillowWoodRefuge
         Random random = new Random();
         int walkTimer = 0;
         int spiderTimer1 = 0;
+        int spiderTimer2 = 0;
+        int spiderTimer2_5 = 2000;
         public SoundManager(ContentManager Content)
         {
             MediaPlayer.IsRepeating = true;
@@ -27,6 +29,7 @@ namespace WillowWoodRefuge
             songs.Add("forestSong", Content.Load<Song>("music/forestSong"));
             songs.Add("caveSong", Content.Load<Song>("music/spooky1test2"));
             // song names end
+
             // sound effects
             // 0
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/stepC"));
@@ -36,9 +39,12 @@ namespace WillowWoodRefuge
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Landing"));
             // 3
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Hit"));
+
             //monster sounds
             //0
             monsterSounds.Add(Content.Load<SoundEffect>("soundEffects/Spider_Skitter"));
+            //1
+            monsterSounds.Add(Content.Load<SoundEffect>("soundEffects/Spider_Crawl"));
             // Sound effects end
         }
         public void playSong(string name)
@@ -50,7 +56,6 @@ namespace WillowWoodRefuge
         }
 
         
-        // this is temporary for the playtest
         public void walkSound(GameTime gameTime) {
             // change the last value of the if statement to increace or decreace the tiem between steps
             if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
@@ -93,11 +98,22 @@ namespace WillowWoodRefuge
             soundeffects[3].Play();
         }
 
+        public void spiderAmbient(GameTime gameTime, float distance)
+        {
+            if (gameTime.TotalGameTime.TotalMilliseconds - spiderTimer2 >= spiderTimer2_5)
+            {
+                monsterSounds[1].Play(volume: ((300 - distance)/300) * 0.5f, pitch: 0.0f, pan: 0.0f);
+                spiderTimer2 = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                spiderTimer2_5 = 2000 + random.Next(1000) - 250;
+            }
+        }
+
         public void spiderAttack(GameTime gameTime)
         {
-            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
+            if (gameTime.TotalGameTime.TotalMilliseconds - spiderTimer1 >= 500)
             {
                 monsterSounds[0].Play();
+                spiderTimer1 = (int)gameTime.TotalGameTime.TotalMilliseconds;
             }
         }
 
