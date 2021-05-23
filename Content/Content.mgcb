@@ -423,6 +423,18 @@
 /processorParam:TextureFormat=Color
 /build:Controls/button.png
 
+#begin Controls/ButtonNormal.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Controls/ButtonNormal.png
+
 #begin Controls/tutorial.png
 /importer:TextureImporter
 /processor:TextureProcessor
