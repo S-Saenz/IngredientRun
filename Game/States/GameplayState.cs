@@ -48,7 +48,7 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<PickupItem> _items = new List<PickupItem>();
+        public List<SpawnItem> _items = new List<SpawnItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
@@ -82,14 +82,18 @@ namespace WillowWoodRefuge
             _physicsHandler.AddLayer("Pickup");
             _physicsHandler.AddLayer("Walls");
             _physicsHandler.AddLayer("Areas");
+            _physicsHandler.AddLayer("Foraging");
+            _physicsHandler.AddLayer("PickupItems");
 
             _physicsHandler.SetCollision("Player", "Walls");
             _physicsHandler.SetCollision("NPC", "Walls");
             _physicsHandler.SetCollision("Enemy", "Walls");
             _physicsHandler.SetOverlap("Player", "NPC");
             _physicsHandler.SetOverlap("Player", "Pickup");
+            _physicsHandler.SetOverlap("Player", "Foraging");
             _physicsHandler.SetOverlap("Enemy", "Player");
             _physicsHandler.SetOverlap("Player", "Areas");
+            _physicsHandler.SetOverlap("Player", "PickupItems");
 
             _characters = new Dictionary<string, NPC>();
 
@@ -107,6 +111,9 @@ namespace WillowWoodRefuge
 
             // Load Tilemap
             LoadTilemap(content);
+
+            // Add tilemap lighting
+            _tileMap.AddLightObjects(_staticLightManager);
 
             // Setup shader buffers
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
@@ -149,6 +156,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
+            
             UpdateDebug();
 
             // Exit to main menu TODO: change to pause/settings menu
@@ -171,6 +179,12 @@ namespace WillowWoodRefuge
             if (_dialogueSystem != null)
             {
                 _dialogueSystem.Update(gameTime);
+            }
+
+            // Update all foraging (for all scenes)
+            foreach(ForageSpot spot in ForageSpot._forageSpots)
+            {
+                spot.Update(gameTime);
             }
 
             // Update camera
@@ -294,16 +308,11 @@ namespace WillowWoodRefuge
                     obj.Draw(spriteBatch);
                 }
             }
-            // Draw enemies
-            foreach(Enemy enemy in _enemies)
-            {
-                enemy.Draw(spriteBatch);
-            }
-            // Draw pickup items
-            foreach (PickupItem item in _items)
-            {
-                item.Draw(spriteBatch);
-            }
+            // Draw entities
+            _tileMap.DrawEnemies(spriteBatch);
+            _tileMap.DrawPickups(spriteBatch);
+            _tileMap.DrawForage(spriteBatch);
+
             // Draw player
             if (_player != null)
             {
@@ -328,6 +337,14 @@ namespace WillowWoodRefuge
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _dialogueSystem.Draw(game._cameraController._camera, spriteBatch);
+                spriteBatch.End();
+            }
+
+            // draw e to interact
+            if (_player != null && _player._overlappingInteractable)
+            {
+                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+                spriteBatch.DrawString(FontManager._dialogueFont, "Press E to " + _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Color.White);
                 spriteBatch.End();
             }
 
@@ -357,7 +374,7 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (PickupItem item in _items)
+            foreach (SpawnItem item in _items)
             {
                 item.RemoveCollision(_physicsHandler);
             }
@@ -485,7 +502,6 @@ namespace WillowWoodRefuge
 
         protected void PostConstruction()
         {
-
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
                 game.GraphicsDevice,

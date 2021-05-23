@@ -3,19 +3,17 @@ Team:
 Saenz - Producer
 
 Aaron Harrison - Designer
-
-Alec - Programmer
-
-Simone Barie - Artist
-
-Alex Borlin - Programmer / sound design
-
+Shui - Designer
 Derek Gomez - UI Developer
 
+Alec - Programmer
+Edmund - Programmer
+Alex Borlin - Programmer / sound design
+
+Ryan Kim - Sound
 Konstantinos Anthoulis - Sound
 
-Ryan Marcus - Writer
-
-Shui - Designer
-
+Simone Barie - Artist
 Simon Lemay - Artist
+
+Ryan Marcus - Writer

@@ -14,7 +14,6 @@ namespace WillowWoodRefuge
         protected float _runSpeed;
         protected float _friction;
         protected float _jumpHeight;
-        protected float _jumpDistance;
 
         // collision
         protected CollisionBox _collisionBox;
@@ -33,13 +32,7 @@ namespace WillowWoodRefuge
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null) 
                              : base(new Dictionary<string, Animation>(), name, pos)
         {
-            // Add collision box
-            // _collisionBox = new CollisionBox(new RectangleF(_pos,
-            //     new Size2(bounds.X, bounds.Y)), collisionHandler, this, worldBounds, maxSpeed: new Vector2(_runSpeed, 500),
-            //     friction: _friction);
-            // _collisionBox.AddMovementStartListener(onStartMove);
-            // _collisionBox.AddMovementChangeDirectionListener(onChangeDirection);
-            // collisionHandler.AddObject(collisionLabel, _collisionBox);
+            
         }
 
         // direction: -1 left, 0 not moving, 1 right
@@ -96,6 +89,12 @@ namespace WillowWoodRefuge
         public bool RemoveCollision(PhysicsHandler collisionHandler)
         {
             return collisionHandler.RemoveObject(_collisionBox);
+        }
+
+        public void Jump(GameTime gameTime)
+        {
+            if(_collisionBox._downBlocked)
+                _collisionBox._velocity.Y -= _jumpHeight * gameTime.GetElapsedSeconds();
         }
 
         public void onStartMove(Vector2 move)

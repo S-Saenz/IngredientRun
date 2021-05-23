@@ -18,6 +18,8 @@ namespace WillowWoodRefuge
         private GraphicsDeviceManager _graphics;
         public Vector2 _pixelDimensions { get; private set; }
         public Vector2 _screenDimensions { get; private set; }
+        public float _screenScale { get; private set; }
+
         private Vector2 _windowDimensions;
         private Vector2 _oldPoint = Vector2.Zero;
 
@@ -185,6 +187,7 @@ namespace WillowWoodRefuge
             _graphics.PreferredBackBufferHeight = (int)screenDimensions.Y;   // set this value to the desired height of your window
             _graphics.ApplyChanges();
             _screenDimensions = screenDimensions;
+            _screenScale = screenDimensions.X / _windowDimensions.X;
 
             // calculate zoom based on screen dimensions and pixel dimensions
             float zoom = _screenDimensions.X / _pixelDimensions.X;

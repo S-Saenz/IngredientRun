@@ -23,6 +23,7 @@ namespace WillowWoodRefuge
         private bool interuptInputUpdate = false;
         private bool jumpSquatLanding = false;
         private int delayFrames = 0;
+        private bool landCheck = false;
         private Vector2 _FOWTPos;
         private int hp = 25;
         private Sprite FOWTSprite;
@@ -50,6 +51,9 @@ namespace WillowWoodRefuge
 
         private string previousMoveType;
         private string previousDirection;
+        public bool _overlappingInteractable { get; private set; }
+        public string _overlapName { get; private set; }
+        public float _maxFallSpeed = 0;
         //private InputManager input = new InputManager();
 
         public Player(GraphicsDeviceManager graphic, Vector2 pos, PhysicsHandler collisionHandler) : base(new Dictionary<string, Animation>(), "player", Vector2 .Zero)
@@ -325,16 +329,34 @@ namespace WillowWoodRefuge
 
             }
 
+            
+            if (landCheck && _collisionBox._velocity.Y > _maxFallSpeed)
+            {
+                _maxFallSpeed = _collisionBox._velocity.Y;
+            }
+            if (landCheck && _collisionBox._downBlocked)
+            {
+                landCheck = false;
+                Debug.WriteLine("landed");
+                Game1.instance.sounds.landSound(_maxFallSpeed, _collisionBox._maxSpeed.Y);
+                _maxFallSpeed = 0;
+            }
             if (Game1.instance.input.IsDown("jump") && _collisionBox._downBlocked)
             {
                 jumpSquatRightAnimation.reset();
                 if (_currentDirection == "Right")
                 {
                     currentAnimation = "jumpSquatRight";
+                    Game1.instance.sounds.jumpSound();
+                    landCheck = true;
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 else
                 {
                     currentAnimation = "jumpSquatLeft";
+                    Game1.instance.sounds.jumpSound();
+                    landCheck = true;
+                    _collisionBox._velocity.Y -= _jump * gameTime.GetElapsedSeconds();
                 }
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
@@ -349,6 +371,10 @@ namespace WillowWoodRefuge
             else
             {
                 _jumpClicked = false;
+            }
+            if (!_collisionBox._downBlocked)
+            {
+                landCheck = true;
             }
             if (Game1.instance.input.IsDown("run"))
             {
@@ -369,69 +395,125 @@ namespace WillowWoodRefuge
                 ClimbLedge(gameTime);
             }
 
-            if (Game1.instance.input.JustPressed("interact"))
+            _overlappingInteractable = false;
+            foreach (OverlapInfo item in _collisionBox.IsOverlapping())
             {
-                foreach (CollisionInfo item in _collisionBox.IsOverlapping())
+                bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
+                NPC character = item._other as NPC;
+                if (character != null && !character._isCured)
                 {
-                    bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
-                    NPC character = item._other as NPC;
-                    if (character != null && !character._isCured)
+                    if (Game1.instance.input.JustPressed("interact"))
                     {
                         Game1.instance.inventory._gifting = true;
                         Game1.instance.inventory._recipient = character;
                         Game1.instance.UI.SwitchState(UIState.Inventory);
-                        // List<Ingredient> inv = Game1.instance.inventory.ingredientList;
-                        // for (int i = 0; i < inv.Count && !character._isCured; ++i)
-                        // {
-                        //     actionComplete = character.Cure(inv[i]._name);
-                        //     if (actionComplete)
-                        //         Game1.instance.inventory.removeIngredient(inv[i]);
-                        // }
+                        actionComplete = true;
                     }
-
-                    // check if pickup item
-                    PickupItem obj = item._other as PickupItem;
-                    if (obj != null)
+                    else
                     {
-                        Debug.WriteLine(obj._name);
-                        // TODO: try adding to inventory, returning whether successful or not
-                        if (Game1.instance.inventory.addIngredient(obj._name))
+                        _overlappingInteractable = true;
+                        _overlapName = "give to " + character.name;
+                    }
+                }
+
+                // check if pickup item
+                SpawnItem obj = item._other as SpawnItem;
+                if (obj != null)
+                {
+                    Debug.WriteLine(obj._name);
+                    // TODO: try adding to inventory, returning whether successful or not
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(obj._name))
+                    {
+                        (Game1.instance._currentState as GameplayState)._items.Remove(obj);
+                        obj._spawn.Despawn();
+                        actionComplete = true;
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "pick up " + obj._name;
+                    }
+                }
+
+                // chec if foragable object
+                ForageSpot forage = item._other as ForageSpot;
+                if (forage != null)
+                {
+                    if (Game1.instance.input.JustPressed("interact"))
+                    {
+                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // TODO: check if inventory is empty before harvesting
+                        if (forage._isRipe)
                         {
-                            (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                            obj._spawn.Despawn();
+                            string harvested = forage.TryHarvest();
+                            if (harvested != null) // something harvested
+                            {
+                                Game1.instance.inventory.addIngredient(harvested);
+                                actionComplete = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "forage " + forage._spawnType;
+                    }
+                }
+
+                // check if area
+                Area area = item._other as Area;
+                if (area != null)
+                {
+                    if (area._name == "fire")
+                    {
+                        //Debug.WriteLine("Fire");
+                        // Open cooking ui
+                        if (Game1.instance.input.JustPressed("interact"))
+                        {
+                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
                             actionComplete = true;
                         }
-                    }
-
-                    // check if area
-                    Area area = item._other as Area;
-                    if (area != null)
-                    {
-                        if (area._name == "fire")
+                        else
                         {
-                            //Debug.WriteLine("Fire");
-                            // Open cooking ui
-                            Game1.instance.UI.SwitchState(UIState.RecipeMenu);
+                            _overlappingInteractable = true;
+                            _overlapName = "cook";
                         }
-                        else if (area._name.Contains("state"))
+                    }
+                    else if (area._name.Contains("state"))
+                    {
+                        if (area._name.Contains("Cave"))
                         {
-                            if (area._name.Contains("Cave"))
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CaveState");
                                 actionComplete = true;
                             }
-                            else if (area._name.Contains("Camp"))
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to cave";
+                            }
+                        }
+                        else if (area._name.Contains("Camp"))
+                        {
+                            if (Game1.instance.input.JustPressed("interact"))
                             {
                                 Game1.instance.RequestStateChange("CampState");
                                 actionComplete = true;
                             }
+                            else
+                            {
+                                _overlappingInteractable = true;
+                                _overlapName = "go to camp";
+                            }
                         }
                     }
-
-                    if (actionComplete)
-                        break;
                 }
+
+                if (actionComplete || _overlappingInteractable)
+                    break;
             }
+
             // movement sound
             if (_collisionBox._downBlocked && Game1.instance.input.IsDown("run") && (Game1.instance.input.IsDown("left") || Game1.instance.input.IsDown("right")))
             {
@@ -627,6 +709,11 @@ namespace WillowWoodRefuge
         public void UnlockPos()
         {
             _collisionBox._posLock = false;
+        }
+
+        public void Hit(float attackDamage)
+        {
+            Debug.WriteLine("Hit -" + attackDamage);
         }
     }
 }

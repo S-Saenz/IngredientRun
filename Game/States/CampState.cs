@@ -107,8 +107,14 @@ namespace WillowWoodRefuge
             foreach (NPC character in _characters.Values)
             {
                 character.Load(_content);
-                character.Injure("mushroom_medicine");
+                // character.Injure("mushroom_medicine");
             }
+
+            _characters["Lura"].Injure("grilledFish");
+            _characters["Snäll"].Injure("appleMushroomSoup");
+            _characters["Kall"].Injure("carrotSoup");
+            _characters["Arg"].Injure("rabbitSoup");
+            _characters["Aiyo"].Injure("monsterSoup");
 
             // dialogue system
             _dialogueSystem.Load(_characters);
