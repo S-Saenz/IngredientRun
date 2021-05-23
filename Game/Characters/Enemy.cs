@@ -33,7 +33,7 @@ namespace WillowWoodRefuge
                 _currState = AIState.Attack;
                 if (name.Equals("spider"))
                 {
-
+                    Game1.instance.sounds.spiderAttack(gameTime);
                 }
             }
 

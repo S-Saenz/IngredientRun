@@ -13,13 +13,16 @@ namespace WillowWoodRefuge
     {
         Dictionary<string, Song> songs;
         List<SoundEffect> soundeffects;
+        List<SoundEffect> monsterSounds;
         Random random = new Random();
         int walkTimer = 0;
+        int spiderTimer1 = 0;
         public SoundManager(ContentManager Content)
         {
             MediaPlayer.IsRepeating = true;
             songs = new Dictionary<string, Song>();
             soundeffects = new List<SoundEffect>();
+            monsterSounds = new List<SoundEffect>();
             // Song names
             songs.Add("forestSong", Content.Load<Song>("music/forestSong"));
             songs.Add("caveSong", Content.Load<Song>("music/spooky1test2"));
@@ -33,6 +36,9 @@ namespace WillowWoodRefuge
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Landing"));
             // 3
             soundeffects.Add(Content.Load<SoundEffect>("soundEffects/Player_Hit"));
+            //monster sounds
+            //0
+            monsterSounds.Add(Content.Load<SoundEffect>("soundEffects/Spider_Skitter"));
             // Sound effects end
         }
         public void playSong(string name)
@@ -85,6 +91,14 @@ namespace WillowWoodRefuge
         public void hitSound()
         {
             soundeffects[3].Play();
+        }
+
+        public void spiderAttack(GameTime gameTime)
+        {
+            if ((gameTime.TotalGameTime.TotalMilliseconds - walkTimer >= 500))
+            {
+                monsterSounds[0].Play();
+            }
         }
 
         public void stop()
