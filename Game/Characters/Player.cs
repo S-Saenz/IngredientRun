@@ -34,7 +34,7 @@ namespace WillowWoodRefuge
         private int _runAccel = 100;
         private int _acceleration = 50; // rate at which player increases speed. should be the same as _walkAccel
         private float _friction = 0.5f; // rate at which player stops
-        private int _jump = 11500; // force on player to move upward
+        private int _jump = 5150; // force on player to move upward
         GraphicsDeviceManager graphics;
         private bool _jumpClicked = false;
         public RectangleF _overlap;
@@ -128,9 +128,9 @@ namespace WillowWoodRefuge
                 landingRightAnimation.reset();
                 landingLeftAnimation.reset();
             }
-            if (jumpSquatLanding)
+            if (jumpSquatLanding)// changes horizontal momentum to 0 during jumpsquat and landing.
             {
-                _collisionBox._velocity.X = 0;
+                //_collisionBox._velocity.X = 0;
             }
             // read player inputs
             if (!interuptInputUpdate)
