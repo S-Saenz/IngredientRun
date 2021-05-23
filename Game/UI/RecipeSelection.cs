@@ -107,81 +107,6 @@ namespace WillowWoodRefuge
 
          public void Load(ContentManager Content)
          {
-            //temp patch
-            // _screenWidth = Game1.instance._cameraController._screenDimensions.X;
-            // _screenHeight = Game1.instance._cameraController._screenDimensions.Y;
-
-            //load in images
-            // mainUI = Content.Load<Texture2D>("ui/Fake Recipe Selection");
-            // background = Content.Load<Texture2D>("ui/new camp");
-            // selectedFood = Content.Load<Texture2D>("ingredient/grilled_fishScaled");
-
-            // container = Content.Load<Texture2D>("ui/UI Container");
-            // box1 = Content.Load<Texture2D>("ui/Recipe/Ingredient Box Single");
-            // box2 = Content.Load<Texture2D>("ui/Recipe/Ingredient Box Double");
-            // box1Selected = Content.Load<Texture2D>("ui/Recipe/Ingredient Box Single Yellow");
-            // box2Selected = Content.Load<Texture2D>("ui/Recipe/Ingredient Box Double Yellow");
-            // recipeFrame = Content.Load<Texture2D>("ui/Recipe/Food Frame");
-            // blackPlus = Content.Load<Texture2D>("ui/Recipe/Black Plus");
-            // yellowPlus = Content.Load<Texture2D>("ui/Recipe/Yellow Plus");
-
-
-            /* this is causing errors meanwhile the inventory is fixed
-            //copy the ingredient textures 
-            this.acorn = inventory.acorn;
-            this.apple = inventory.apple;
-            this.carrot = inventory.carrot;
-            this.egg = inventory.egg;
-            this.fish = inventory.fish;
-            this.gooseberry = inventory.gooseberry;
-            this.meat = inventory.meat;
-            this.mouseMelon = inventory.mouseMelon;
-            this.water = inventory.water;
-            this.wood = inventory.wood;
-            //copy recipe textures
-            this.grilledFish = inventory.grilledFish;
-            this.appleMushroomSoup = inventory.appleMushroomSoup;
-            this.carrotSoup = inventory.carrotSoup;
-            this.monsterSoup = inventory.monsterSoup;
-            this.rabbitSoup = inventory.rabbitSoup;
-            */
-
-            // this.acorn = ItemTextures.GetTexture("acorn");
-            // this.apple = ItemTextures.GetTexture("apple");
-            // this.carrot = ItemTextures.GetTexture("carrot");
-            // this.egg = ItemTextures.GetTexture("egg");
-            // this.fish = ItemTextures.GetTexture("fish");
-            // this.gooseberry = ItemTextures.GetTexture("gooseberry");
-            // this.meat = ItemTextures.GetTexture("meat");
-            // this.mouseMelon = ItemTextures.GetTexture("mousemelon");
-            // this.mushroom = ItemTextures.GetTexture("mushroom");
-            // this.water = ItemTextures.GetTexture("waterjug");
-            // this.wood = ItemTextures.GetTexture("wood");
-
-            // this.grilledFish = ItemTextures.GetTexture("grilled_fish");
-            // this.appleMushroomSoup = ItemTextures.GetTexture("apple_mushroom_soup");
-            // this.carrotSoup = ItemTextures.GetTexture("carrot_spice_soup");
-            // this.monsterSoup = ItemTextures.GetTexture("rabbit_spice_soup(1)");
-            // this.rabbitSoup = ItemTextures.GetTexture("rabbit_spice_soup");
-
-
-            //ADD RECIPES HERE
-            // _recipes.Add("grilledFish", new Recipe("grilledFish", new List<string>() { "fish" }, true,
-            //              new Point(1, 1), GetGridRect(new Point(1, 1))));
-            // _recipes.Add("appleMushroomSoup", new Recipe("appleMushroomSoup", new List<string>() { "apple", "water" }, true,
-            //              new Point(1, 2), GetGridRect(new Point(1, 2))));
-            // _recipes.Add("carrotSoup", new Recipe("carrotSoup", new List<string>() { "carrot", "water" }, true, 
-            //              new Point(1, 3), GetGridRect(new Point(1, 3))));
-            // _recipes.Add("rabbitSoup", new Recipe("rabbitSoup", new List<string>() { "meat", "water" }, true,
-            //              new Point(2, 1), GetGridRect(new Point(2, 1))));
-            // _recipes.Add("monsterSoup", new Recipe("monsterSoup", new List<string>() { "meat", "water" }, true,
-            //              new Point(2, 2), GetGridRect(new Point(2, 2))));
-
-            // save recipe grid locations
-            // foreach(Recipe recipe in _recipes.Values)
-            // {
-            //     _recipesDisplay.Add(recipe._gridCoord, recipe._name);
-            // }
 
             // Load recipes from file
             LoadRecipes();
@@ -212,32 +137,29 @@ namespace WillowWoodRefuge
             //     loc.X = (loc.X) % _dimensions.X + 1;
             // }
 
-            //add in the coordinates where each recipe box will be displayed (assuming origin is at (0,0)
-            // _recipeCoordinates.Add(new Vector2(0, 0), new Vector2(82, 47));
-            // _recipeCoordinates.Add(new Vector2(1, 0), new Vector2(339, 47));
-            // _recipeCoordinates.Add(new Vector2(0, 1), new Vector2(82, 109));
-            // _recipeCoordinates.Add(new Vector2(1, 1), new Vector2(339, 109));
-            // _recipeCoordinates.Add(new Vector2(0, 2), new Vector2(82, 170));
-            // _recipeCoordinates.Add(new Vector2(1, 2), new Vector2(339, 170));
-
-            //multiply each (x,y) by _scale
-            // foreach(KeyValuePair<Vector2, Vector2> point in _recipeCoordinates.ToList())
-            // {
-            //     _recipeCoordinates[point.Key] = Vector2.Multiply(point.Value, Convert.ToSingle(_scale));
-            // }
 
 
             //create exit button
-            Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
+
+            //Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
             Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.31f,
                                             Game1.instance._cameraController._screenDimensions.Y * 0.02f);
-            xButton = new UIButton(xButtonTexture, buttonPos);
-            xButton.Depth = .01f;
-            xButton.Scale = 3f;
+            buttonPos = Vector2.Multiply(buttonPos, Convert.ToSingle(Game1.instance._cameraController._screenScale));
+            xButton = new UIButton("x-button", buttonPos);
+            //xButton.Depth = .01f;
+            xButton._scale = 3f;
             xButton.Click += xButton_Click;
+
+            //set the screen size values
+            _screenWidth = Game1.instance._cameraController._screenDimensions.X;
+            _screenHeight = Game1.instance._cameraController._screenDimensions.Y;
 
             // add resize listener to update screen size values 
             Game1.instance._cameraController.AddResizeListener(onResize);
+
+
+            //choose where on screen to place menu, origin is at (.5, .5)
+            _position = new Vector2(_screenWidth/4, _screenHeight/2);
 
             loaded = true;
         }
@@ -347,8 +269,11 @@ namespace WillowWoodRefuge
 
             // TODO: Draw possible recipes
 
+            //background opacity
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", new Rectangle(0,0, (int)_screenWidth, (int)_screenHeight), Color.White);
+
             // Draw menu background
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", _position, Color.White, _scale);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", _position, Color.White, _scale, true);
 
             // Draw hover over TODO: Draw hover recipe information display
             if (_hoverOver.HasValue)
@@ -363,11 +288,11 @@ namespace WillowWoodRefuge
                     loc = new Point(x, y);
                     if(_recipesDisplay[loc] != null && _recipes[_recipesDisplay[loc]]._canCook)
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GridToWorld(loc), Color.White);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GridToWorld(loc), Color.White, _scale);
                     }
                     else
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GridToWorld(loc), Color.White);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GridToWorld(loc), Color.White, _scale);
                     }
                 }
             }
@@ -418,9 +343,10 @@ namespace WillowWoodRefuge
             // }
         }
 
-        //when xButton is clicked, close inventory
+        //when xButton is clicked, close UI
         private void xButton_Click(object sender, EventArgs e)
         {
+            //derek - sound for exiting the UI
             Debug.WriteLine("Recipe Menu Exit Clicked!");
             //Game1.instance.inventory.showInv = false;
             Game1.instance.UI.SwitchState(UIState.None);
@@ -518,21 +444,31 @@ namespace WillowWoodRefuge
                 _cookingUI.foodName = selectedFood; //display food being cooked in the cooking ui
             //}
 
+            //derek - recipe has been selected, now switching to cooking
+
             //UI Manager switched to cooking
             Game1.instance.UI.SwitchState(UIState.CookingGame);
         }
 
         // returns space coordinate of upper left hand corner of given grid box
+        //question from Derek = why does this use the px res dimensions instead of the screen px res like eevetone else >:(
         Vector2 GridToWorld(Point index)
         {
-            return new Vector2((index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth, 
-                               (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth) * _scale;
+            Vector2 size = TextureAtlasManager.GetSize("UI", "Menu");
+            Vector2 origin = new Vector2(_position.X - (size.X/2 *_scale), _position.Y + (size.Y/2 * _scale));
+            //Vector2 origin = new Vector2(_position.X, _position.Y);
+            origin.X = _position.X / (_screenWidth / 480) - size.X/2;
+            origin.Y = _position.Y / (_screenHeight / 270) - size.Y/2;
+
+            return new Vector2(origin.X  + (index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth + _slotSize.Width/2, 
+                               origin.Y + (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth + _slotSize.Height/2) 
+                               * _scale * Game1.instance._cameraController._screenScale;
         }
 
         // returns rectangle describing world space of given grid box
         RectangleF GetGridRect(Point index)
         {
-            return new RectangleF(GridToWorld(index), _slotSize * _scale);
+            return new RectangleF(GridToWorld(index), _slotSize * _scale * Game1.instance._cameraController._screenScale);
         }
 
         // returns whether a particular recipe can be cooked or not based on inventory state (by grid coord)

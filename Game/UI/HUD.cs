@@ -32,17 +32,26 @@ namespace WillowWoodRefuge
         {
             float _screenWidth = 1728;
             float _screenHeight = 972;
+            float _screenScale = Game1.instance._cameraController._screenScale;
 
             //create the inventory button 
             lilBackpack = Content.Load<Texture2D>("ui/Inventory/BackpackPixel");
             backpackButton = new UIButton(lilBackpack); //use the new schmancy UIButton class
 
-            backpackButton.Depth = _depth;
-            backpackButton.Scale = 2f;
+            //backpackButton.Depth = _depth;
+            backpackButton._scale = 2f;
 
             //inventory goes in top right corner of screen
             float padding = 30f; //px
-            backpackButton.pos = new Vector2(_screenWidth - (backpackButton.img.Width * backpackButton.Scale) - padding, padding);
+            backpackButton._position = new Vector2(_screenWidth - backpackButton._texture.Width * backpackButton._scale - padding, 
+                                                    padding);
+            backpackButton._position *= _screenScale;
+
+            //because we haven't used the texture atlas for this button yet, we will manually create the rectangle
+            backpackButton._rectangle = new Rectangle((int)backpackButton._position.X, 
+                                                    (int)backpackButton._position.Y, 
+                                                    (int)(backpackButton._texture.Width * backpackButton._scale *_screenScale),
+                                                    (int)(backpackButton._texture.Height * backpackButton._scale * _screenScale));
 
             //have the button in the bottom right corner - right up against the screen edges
             //backpackButton.pos = new Vector2(_screenWidth - (backpackButton.img.Width * backpackButton.Scale), _screenHeight - (backpackButton.img.Height * backpackButton.Scale));

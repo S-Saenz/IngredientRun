@@ -100,15 +100,23 @@ namespace WillowWoodRefuge
 
             //press ENTER while needle is in the hottest zone for a lil jump
             if (Game1.instance.input.JustPressed("superCook") && _needleX <= (_zoneX + 25) && _needleX >= (_zoneX - 25))
+            {
+                //derek - little jump in cooking progress, maybe cooking gets extra sizzly or something to convey like a surge in progress
                 _progress += 15;
-
+            }
             //don't let needle move past the end of the meter
             if (_needleX > _meterEnd)
+            {
+                //derek - needle collides with edge of meter, maybe like a bonk sound?
                 _needleX = _meterEnd;
+            }
 
             //don't let it pass behind the beginning either
             else if (_needleX < _meterStart)
+            {
+                //derek - needle collides with edge of meter, maybe like a bonk sound?
                 _needleX = _meterStart;
+            }
 
 
             //how size is determined in the draw function
@@ -147,7 +155,8 @@ namespace WillowWoodRefuge
 
             if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
             {
-                _progress += 0.075f;
+                //derek - cooking sound
+                _progress += 0.085f;
                 Console.WriteLine(_progress);
             }
 
@@ -246,6 +255,8 @@ namespace WillowWoodRefuge
         //inspired from - https://stackoverflow.com/questions/13394892/how-to-create-a-timer-counter-in-c-sharp-xna
         void CookingFinished(GameTime gameTime)
         {
+            //derek - cooking is finished! success sound
+
             //for the timer to turn the UI off
             //int counter = 1;
             //int limit = 3;
