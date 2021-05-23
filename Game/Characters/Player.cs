@@ -314,7 +314,7 @@ namespace WillowWoodRefuge
             }
 
             _overlappingInteractable = false;
-            foreach (CollisionInfo item in _collisionBox.IsOverlapping())
+            foreach (OverlapInfo item in _collisionBox.IsOverlapping())
             {
                 bool actionComplete = false; // bool for if any interaction had resul, stopping the loop so multiple interactions don't happen at once
                 NPC character = item._other as NPC;
@@ -335,7 +335,7 @@ namespace WillowWoodRefuge
                 }
 
                 // check if pickup item
-                PickupItem obj = item._other as PickupItem;
+                SpawnItem obj = item._other as SpawnItem;
                 if (obj != null)
                 {
                     Debug.WriteLine(obj._name);
@@ -349,7 +349,32 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "forage " + obj._name;
+                        _overlapName = "pick up " + obj._name;
+                    }
+                }
+
+                // chec if foragable object
+                ForageSpot forage = item._other as ForageSpot;
+                if (forage != null)
+                {
+                    if (Game1.instance.input.JustPressed("interact"))
+                    {
+                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // TODO: check if inventory is empty before harvesting
+                        if (forage._isRipe)
+                        {
+                            string harvested = forage.TryHarvest();
+                            if (harvested != null) // something harvested
+                            {
+                                Game1.instance.inventory.addIngredient(harvested);
+                                actionComplete = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "forage " + forage._spawnType;
                     }
                 }
 
@@ -592,6 +617,11 @@ namespace WillowWoodRefuge
         public void UnlockPos()
         {
             _collisionBox._posLock = false;
+        }
+
+        public void Hit(float attackDamage)
+        {
+            Debug.WriteLine("Hit -" + attackDamage);
         }
     }
 }

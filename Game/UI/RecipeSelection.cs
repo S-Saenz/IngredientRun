@@ -229,8 +229,8 @@ namespace WillowWoodRefuge
 
             //create exit button
             Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.9f,
-                                            Game1.instance._cameraController._screenDimensions.X * 0.1f);
+            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.31f,
+                                            Game1.instance._cameraController._screenDimensions.Y * 0.02f);
             xButton = new UIButton(xButtonTexture, buttonPos);
             xButton.Depth = .01f;
             xButton.Scale = 3f;
