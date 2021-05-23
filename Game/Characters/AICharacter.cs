@@ -25,6 +25,7 @@ namespace WillowWoodRefuge
         protected float _lastDist;
         protected NavPoint _currPos;
         protected NavPoint _lastPos;
+        protected float _closest = 0; // the closest wander has gotten
         protected NavPoint _target;
         protected Vector2 _interestTarget;
         protected float _proxRange = 5;
@@ -35,7 +36,7 @@ namespace WillowWoodRefuge
 
         // path abandon variables (how long before entity gives up after making no progress)
         protected float _abandonTimer = 0;
-        protected float _abandonTime = 2;
+        protected float _abandonTime = .5f;
 
         // stop variables
         protected float _stopCooldown = 0; // countdown to switch from stop state to previous state
@@ -149,6 +150,8 @@ namespace WillowWoodRefuge
             _prevState = _currState;
             _currState = newState;
 
+            Debug.WriteLine("Switching from " + _prevState + " to " + _currState);
+
             // leave old state
             switch (_prevState)
             {
@@ -189,13 +192,14 @@ namespace WillowWoodRefuge
             Update(gameTime, new Vector2(_pos.X < _target._location.X ? 1 : -1, 0), true);
             float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
 
-            if (_currPos == _lastPos) // not making progress
+            if (newDist >= _closest) // not making progress
             {
                 _abandonTimer += gameTime.GetElapsedSeconds();
             }
             else // moving toward target
             {
                 _abandonTimer = 0;
+                _closest = newDist;
             }
 
             if(_abandonTimer >= _abandonTime) // spent max time trying to make progress
@@ -284,7 +288,7 @@ namespace WillowWoodRefuge
             {
                 MoveTo(attackTarget);
             }
-            else if (!_isMoving)
+            else if (!_isMoving && Vector2.Distance(_interestTarget, _pos) > _sightDistance)
                 ChangeState(AIState.Wander);
         }
 
@@ -334,6 +338,7 @@ namespace WillowWoodRefuge
             {
                 _occupying = _target._tileLoc;
                 _occupied[_scene].Add(_occupying.Value);
+                _closest = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
             }
             else // no new occupation, reassign old 
             {
