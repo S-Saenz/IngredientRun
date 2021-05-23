@@ -21,7 +21,8 @@ namespace WillowWoodRefuge
         public IPhysicsObject _parent { get; set; }
         public string _label;
         public Vector2 _velocity = Vector2.Zero;
-        private Vector2 _prevVelocity = Vector2.Zero;
+        public Vector2 _prevVelocity = Vector2.Zero;
+        public Vector2 _superPrevVelocity= Vector2.Zero;
         public Vector2 _acceleration;
         public Vector2 _maxSpeed;
         public Vector2 _gravity;
@@ -226,6 +227,7 @@ namespace WillowWoodRefuge
 
             // update prev velocity before adjusted for next move
             _prevVelocity = _velocity;
+            _superPrevVelocity = _prevVelocity;
 
             // update side information
             CollisionUpdateSide(ref _upWasBlocked, ref _upBlocked, _upInfo); // check up states
@@ -246,9 +248,9 @@ namespace WillowWoodRefuge
         }
 
         // Returns whether or not collision box will fit in given position without overlapping collisions
-        public bool CanFit(Vector2 pos)
+        public bool CanFit(Vector2 pos, float yClearance = 0)
         {
-            return _collisionHandler.CanFit(this, pos);
+            return _collisionHandler.CanFit(this, pos, yClearance);
         }
 
         // tries to move collision box at desired velocity, taking into account momentum and friction
@@ -367,7 +369,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public List<CollisionInfo> IsOverlapping()
+        public List<OverlapInfo> IsOverlapping()
         {
             return _collisionHandler.IsOverlapping(this);
         }

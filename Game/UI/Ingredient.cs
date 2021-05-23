@@ -24,29 +24,28 @@ namespace WillowWoodRefuge
         public Vector2 pos;
         //public bool highest = false;
         public float Scale = 1f;
-        public string _name;
+        public string _name { get; protected set; }
 
-        public String orientation = "up";           //which way is our ingredient rotated - up, down, left, right
+        public string orientation = "up";           //which way is our ingredient rotated - up, down, left, right
         public bool doubleSquare = false;           //does this ingredient occupy more than one square? 
         public Vector2 index2 = new Vector2(1, 0);  //index of the other square your ingredient occupies 
 
-        public Texture2D img;
+        // public Texture2D img;
 
-        public Ingredient(Texture2D image, Vector2 position, string name)
+        public Ingredient(Vector2 position, string name)
         {
-            img = image;
             pos = position;
             Scale = 4f;
             // Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
             _name = name;
         }
 
-        public Ingredient(Texture2D image)
-        {
-            img = image;
-            Scale = .25f;
-            Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
-        }
+        // public Ingredient(Texture2D image)
+        // {
+        //     img = image;
+        //     Scale = .25f;
+        //     Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
+        // }
 
         public void Update(GameTime gameTime)
         {
@@ -111,7 +110,7 @@ namespace WillowWoodRefuge
         }
         public Rectangle Bounds()
         {
-            Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), new Point(img.Width * (int)Scale, img.Height * (int)Scale));
+            Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), (Point)TextureAtlasManager.GetSize("Item", _name));
             return rect;
         }
 

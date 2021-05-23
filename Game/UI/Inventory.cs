@@ -9,13 +9,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 
 namespace WillowWoodRefuge
 {
     public class Inventory
     {
         //Texture Inventory rids need of texture loading but keep inventory texture for now
-        Texture2D inventorySq;
+        static Texture2D inventorySq;
         //Texture2D inventorySq, acornT, appleT, fishT, meatT, woodT;
         //public Texture2D acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, monsterSoup, mouseMelon, rabbitSoup, water, wood;
         // List<Texture2D> ingredientTextures;
@@ -24,16 +25,22 @@ namespace WillowWoodRefuge
         bool handsFull = false;
         public KeyboardState oldKeyState;
 
+        // gifting vars
+        public bool _gifting = false;
+        public Ingredient _selected = null;
+        private UIButton _confirmButton;
+        public NPC _recipient = null;
+
         public List<Ingredient> ingredientList = new List<Ingredient>();
         List<Vector2> boxes = new List<Vector2>();
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
         //config for backpack inventory - inluding side pockets
-        int gridWidth = 6;
-        int gridHeight = 5;
-        float gridWidthMargin = 140;
-        float gridHeightMargin = 140;
-        Vector2 topLeft = new Vector2(690, 125);
+        int gridWidth = 7;
+        int gridHeight = 6;
+        float gridWidthMargin = 100;
+        float gridHeightMargin = 100;
+        Vector2 topLeft = new Vector2(310, 235);
     
 
         //exit button
@@ -57,7 +64,7 @@ namespace WillowWoodRefuge
         }
 
        //reinitialize the inventory with the saved items and their positions
-        public void openInventory(Dictionary<Vector2, String> savedInventory)
+        public void openInventory(Dictionary<Vector2, string> savedInventory)
         {
 
         }
@@ -70,12 +77,12 @@ namespace WillowWoodRefuge
         //add items to the inventory for debugging purposes
         public void addExampleInventory()
         {
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("acorn"), randomBox(), "acorn"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("appleScaled"), randomBox(), "apple"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("fish"), randomBox(), "fish"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("meat"), randomBox(), "meat"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("wood"), randomBox(), "wood"));
-            ingredientList.Add(new Ingredient(ItemTextures.GetTexture("waterjug"), randomBox(), "waterjug"));
+            //ingredientList.Add(new Ingredient(randomBox(), "acorn"));
+            //ingredientList.Add(new Ingredient(randomBox(), "apple"));
+            //ingredientList.Add(new Ingredient(randomBox(), "fish"));
+            //ingredientList.Add(new Ingredient(randomBox(), "meat"));
+            //ingredientList.Add(new Ingredient(randomBox(), "wood"));
+            ingredientList.Add(new Ingredient(randomBox(), "water"));
         }
 
         public void Load(ContentManager Content)
@@ -108,7 +115,7 @@ namespace WillowWoodRefuge
             // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
 
 
-            addExampleInventory();
+            // addExampleInventory();
 
             shakeBag();
 
@@ -119,12 +126,20 @@ namespace WillowWoodRefuge
             */
 
             //create exit button
-            Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(1183, 23);
-            xButton = new UIButton(xButtonTexture, buttonPos);
+            Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
+            Vector2 buttonPos = new Vector2( (int)Game1.instance._cameraController._screenDimensions.X - 100, 23);
+            xButton = new UIButton(ButtonTexture, buttonPos);
             xButton.Depth = .01f;
             xButton.Scale = 3f;
             xButton.Click += xButton_Click;
+
+            //create exit button
+            ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
+            _confirmButton = new UIButton(ButtonTexture, buttonPos);
+            _confirmButton.Depth = .01f;
+            _confirmButton.Scale = 4f;
+            _confirmButton.Click += ConfirmButton_Click;
         }
 
         //when xButton is clicked, close inventory
@@ -136,13 +151,26 @@ namespace WillowWoodRefuge
 
         }
 
+        private void ConfirmButton_Click(object sender, EventArgs e)
+        {
+            bool result = _recipient.Cure(_selected._name);
+            if(result) // was cured
+            {
+                removeIngredient(_selected);
+            }
+            Debug.WriteLine("Give " + _selected._name);
+            Game1.instance.UI.SwitchState(UIState.None);
+        }
+
         public void Update(MouseState mouseState, KeyboardState keyState)
         {
-            Debug.WriteLine("Inventory being updated");
+            // Debug.WriteLine("Inventory being updated");
             //bool boxClicked = false;
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             xButton.Update(mouseState);
+            if (_selected != null) // allow click on gifting option if object is
+                _confirmButton.Update(mouseState);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
 
@@ -150,7 +178,7 @@ namespace WillowWoodRefuge
 
                 //Print mouse cursor position to debug console
 
-                // Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
@@ -161,19 +189,24 @@ namespace WillowWoodRefuge
                 //Debug.WriteLine($"Mouse clicked!\nboxClicked = {boxClicked}");
 
             }
+
             foreach (Ingredient ingredient in ingredientList)
             {
 
                 //use mouse to move ingredient if it's in the clicked Box
                 //if(boxDict[ingredient.index] == clickedBox)
-                MoveIngredient(ingredient, mouseState);
+                // update for given state, gifting or moving
+                if (_gifting)
+                    SelectIngredient(ingredient, mouseState);
+                else
+                    MoveIngredient(ingredient, mouseState);
 
                 //rotate objects when space bar pressed
                 if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
                 {
                     //Debug.WriteLine("Rotate!");
 
-                    ingredient.Rotation += Convert.ToSingle(Math.PI) / 2f; //rotate by 90 degrees     
+                    ingredient.Rotation += (float)(Math.PI / 2f); //rotate by 90 degrees     
                     ingredient.updateOrientation();
 
                     //if ingredient is larger than one inventory square
@@ -183,7 +216,7 @@ namespace WillowWoodRefuge
                     }
 
                     //Debug.WriteLine($"{ingredient.img} rotation: pi/{ Math.Round( Math.PI/ingredient.Rotation ) }");
-                    Debug.WriteLine($"{ingredient.img} {ingredient.Rotation}");
+                    Debug.WriteLine($"{ingredient._name} {ingredient.Rotation}");
                 }
 
                 //inventory gravity - objects fall to bottom and stack on each other
@@ -210,7 +243,6 @@ namespace WillowWoodRefuge
                         ingredient.index = targetBox;
                         ingredient.pos = boxDict[targetBox];
                     }
-
                 }
                 else
                 {
@@ -228,20 +260,18 @@ namespace WillowWoodRefuge
             }
 
             //press E for inventory
-            if (oldKeyState.IsKeyUp(Keys.I) && keyState.IsKeyDown(Keys.I))
-            {
-                showInv = !showInv;
-            }
+            // if (oldKeyState.IsKeyUp(Keys.I) && keyState.IsKeyDown(Keys.I))
+            // {
+            //     showInv = !showInv;
+            // }
 
             if (oldKeyState.IsKeyUp(Keys.V) && keyState.IsKeyDown(Keys.V))
             {
                 Debug.WriteLine("V pressed");
                 int randIndex = rnd.Next(ItemTextures._allItems.Count);
-                addIngredient(null, ItemTextures._allItems[randIndex]);
+                addIngredient(ItemTextures._allItems[randIndex]);
             }
             oldKeyState = keyState;
-
-
 
             //-------------------------------------------- DEBUGGING -----------------------------------------
             //rotation testing 
@@ -252,9 +282,12 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Debug.WriteLine("Inventory being drawn");
-            //spriteBatch.Draw(inventorySq, new Vector2(200, 50), null, Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
-            spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            // Debug.WriteLine("Inventory being drawn");
+            int width = (int)Game1.instance._cameraController._screenDimensions.X;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+
+            //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
 
             //for (int i=0; i < ings.Count; i++)
             //{
@@ -262,12 +295,28 @@ namespace WillowWoodRefuge
             //    spriteBatch.Draw( (ings[i].img), ingredientPos, null, Color.White, ings[i].rotation, Vector2.Zero, SpriteEffects.None, 0f); 
             //}
 
+
             for (int pos = (ingredientList.Count() - 1); pos >= 0; --pos)
             {
                 ingredientList[pos].Draw(spriteBatch);
             }
-
+            
             xButton.Draw(spriteBatch);
+
+            if (_gifting)
+            {
+                string message = "Select item to give to " + _recipient.name + "\n(cured by " + _recipient._cureItem + ")";
+                Vector2 messageSize = FontManager._bigdialogueFont.MeasureString(message);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
+                Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+            }
+            if (_selected != null)
+            {
+                Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
+                spriteBatch.DrawRectangle(_selected.pos - (Vector2)size / 2, size, Color.White);
+                _confirmButton.Draw(spriteBatch);
+            }
         }
 
 
@@ -316,10 +365,27 @@ namespace WillowWoodRefuge
             }
         }
 
-        bool IsPointOver(Point xy, Sprite sprite)
+        // sets an ingredient as selected
+        void SelectIngredient(Ingredient ing, MouseState mouseState)
         {
-            return (sprite.Bounds().Contains(xy.X, xy.Y));
+            if (mouseState.LeftButton == ButtonState.Pressed) //if player is not holding anything and clicks
+            {
+                //this is the box that has been clicked (will return an invalid box if player clicks outside of inventory) 
+                Vector2 clickedBox = closestBoxToMouse(mouseState);
+
+                //make sure there is not another ingredient above AND the ingredient's box is being clicked
+                if (boxDict[ing.index] == clickedBox)
+                {
+                    _selected = ing;
+                    Debug.WriteLine(ing._name);
+                }
+            }
         }
+
+        // bool IsPointOver(Point xy, Sprite sprite)
+        // {
+        //     return (sprite.Bounds().Contains(xy.X, xy.Y));
+        // }
 
         //check if ingredient can fall down the inventory grid
         public bool canIngredientFall(Ingredient ingredient)
@@ -417,7 +483,7 @@ namespace WillowWoodRefuge
         //////////////////////////////////////////////////////////////////////////
 
         //add a new ingredient into the inventory if there's space!
-        public bool addIngredient(Texture2D texture, string name)
+        public bool addIngredient(string name)
         {
             if (ingredientList.Count == boxes.Count - 1)
             {
@@ -425,7 +491,7 @@ namespace WillowWoodRefuge
                 return false;
             }
 
-            Ingredient newIngredient = new Ingredient(texture, randomBox(), name);
+            Ingredient newIngredient = new Ingredient(randomBox(), name);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
             return true;
@@ -437,12 +503,12 @@ namespace WillowWoodRefuge
             ingredientList.Remove(ingredient);
         }
 
-        public void removeIngredient(Texture2D ingredientTexture)
+        public void removeIngredient(string name)
         {
             bool done = false; //ensure only one ingredient is removed if there are duplicates
             foreach (Ingredient ingredient in ingredientList.ToList())
             {
-                if (ingredient.img == ingredientTexture && !done)
+                if (ingredient._name == name && !done)
                 {
                     ingredientList.Remove(ingredient);
                     done = true;

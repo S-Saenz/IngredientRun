@@ -42,9 +42,9 @@ namespace WillowWoodRefuge
                     state = Game1.instance._nextState as GameplayState;
                 }
 
-                if (_object as PickupItem != null)
+                if (_object as SpawnItem != null)
                 {
-                    state._items.Remove(_object as PickupItem);
+                    state._items.Remove(_object as SpawnItem);
                 }
                 else if(_object as Enemy != null)
                 {

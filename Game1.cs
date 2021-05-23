@@ -16,7 +16,7 @@ namespace WillowWoodRefuge
         public InputManager input = new InputManager();
         public static Game1 instance;
         public GraphicsDeviceManager graphics;
-        public SpriteBatch _spriteBatch;
+        private SpriteBatch _spriteBatch;
         Dictionary<string, State> _states;
         public SoundManager sounds;
 
@@ -91,8 +91,9 @@ namespace WillowWoodRefuge
         {
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
-            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1440, 810));
-            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 175f, 98.4375f));
+            // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(240, 135), new Vector2(1728, 972));
+            _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(480, 270), new Vector2(1728, 972));
+            _cameraController.SetPlayerBounds(new RectangleF(0, 0, 160f, 90f));
 
             // Temp debug add print out of new size when resizing
             _cameraController.AddResizeListener(onResize);
@@ -130,11 +131,14 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
+            
             input.Update(gameTime);
             //Debug.WriteLine();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
-            
+
+            stateConditions.ConditionUpdate(gameTime);
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 ChangeState("MenuState");
 
@@ -174,7 +178,7 @@ namespace WillowWoodRefuge
 
                 base.Update(gameTime);
 
-            this.UI.Update(gameTime);
+            // this.UI.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
