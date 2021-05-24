@@ -82,6 +82,14 @@ namespace WillowWoodRefuge
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale *_scale), (int)(textureSize.Height * screenScale *_scale));
         }
 
+
+        public void reScale(float newScale)
+        {
+            this._scale = newScale;
+            Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
+            this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale * _scale), (int)(textureSize.Height * screenScale * _scale));
+        }
+
         public void Load(ContentManager Content)
         {
 

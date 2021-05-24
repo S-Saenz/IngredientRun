@@ -143,12 +143,13 @@ namespace WillowWoodRefuge
             //create exit button
 
             //Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.31f,
-                                            Game1.instance._cameraController._screenDimensions.Y * 0.02f);
+            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.90f,
+                                            Game1.instance._cameraController._screenDimensions.Y * 0.05f);
             buttonPos = Vector2.Multiply(buttonPos, Convert.ToSingle(Game1.instance._cameraController._screenScale));
             xButton = new UIButton("x-button", buttonPos);
             //xButton.Depth = .01f;
-            xButton._scale = 3f;
+            //xButton._scale = 3f;
+            xButton.reScale(3f);
             xButton.Click += xButton_Click;
 
             //set the screen size values
@@ -281,7 +282,12 @@ namespace WillowWoodRefuge
 
             // Draw hover over TODO: Draw hover recipe information display
             if (_hoverOver.HasValue)
+            {
+                float screenScale = Game1.instance._cameraController._screenScale;
                 spriteBatch.DrawRectangle(GetGridRect(_hoverOver.Value), _hoverColor);
+                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.2f * screenScale, _screenWidth*0.3f, _screenHeight*0.19f), Color.White, 3);
+                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.39f * screenScale, _screenWidth * 0.3f, _screenHeight * 0.37f), Color.White, 3);
+            }
 
             Point loc;
             // Draw recipes
