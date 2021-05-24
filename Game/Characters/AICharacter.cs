@@ -71,8 +71,8 @@ namespace WillowWoodRefuge
         protected bool _timerStopped = false;
         protected Vector2 _timerRange = new Vector2(8, 20);
 
-        public AICharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler, string scene, 
-                           RectangleF worldBounds = default, Dictionary<string, Animation> animationDict = null, Area area = null) 
+        public AICharacter(string name, Vector2 pos, string collisionLabel, Vector2 bounds, PhysicsHandler collisionHandler, string scene,
+                           TileMap tileMap, RectangleF worldBounds = default, Dictionary<string, Animation> animationDict = null, Area area = null) 
                            : base(name, pos, collisionLabel, bounds, collisionHandler, worldBounds, animationDict)
         {
             _area = area;
@@ -101,7 +101,7 @@ namespace WillowWoodRefuge
             collisionHandler.AddObject(collisionLabel, _collisionBox);
 
             // add navigation mesh
-            _navMesh = new NavMesh(Game1.instance.GetCurrentTilemap().GenerateNavPointMap(_collisionBox._bounds), scene, area: area);
+            _navMesh = new NavMesh(tileMap.GenerateNavPointMap(_collisionBox._bounds), scene, area: area);
 
             _currPos = _navMesh.GetClosest(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), scene);
             _possibleMoves = _navMesh.GetAllPossible(_currPos);

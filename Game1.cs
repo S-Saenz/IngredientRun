@@ -17,7 +17,7 @@ namespace WillowWoodRefuge
         public static Game1 instance;
         public GraphicsDeviceManager graphics;
         private SpriteBatch _spriteBatch;
-        Dictionary<string, State> _states;
+        public Dictionary<string, State> _states;
         public SoundManager sounds;
 
         public StateConditions stateConditions;
