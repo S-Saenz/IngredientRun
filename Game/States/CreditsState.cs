@@ -20,7 +20,7 @@ namespace WillowWoodRefuge
         public CreditsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
             : base(game, graphicsDevice, content, spritebatch)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls/Button");
+            var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
 
             var menuButton = new MenuButton(buttonTexture, buttonFont)

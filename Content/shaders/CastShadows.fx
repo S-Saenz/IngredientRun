@@ -8,7 +8,7 @@
 #endif
 
 // Constant limits
-#define MAX_AREA_LIGHTS 10
+#define MAX_AREA_LIGHTS 30
 #define MAX_DIRECTIONAL_LIGHTS 10
 #define DIRECT_SPREAD 1.2 // 0-2, with 0 being an ellipse and 2 being a triangle
 
