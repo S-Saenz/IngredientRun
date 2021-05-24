@@ -16,6 +16,7 @@ namespace WillowWoodRefuge
         private float _displayTime = 3;
         private float _currTime = -1;
 
+
         public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene, TileMap tileMap,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
@@ -41,11 +42,13 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, _isCured ? Color.White : Color.Gray);
-            if (_currTime >= 0 && _currTime < _displayTime)
+            if (_currTime >= 0 && _currTime < _displayTime && !_isCured)
             {
-                string statement = _isCured ? (name + " cured!") : ("incorrect item");
-                spriteBatch.DrawString(FontManager._dialogueFont, statement, _pos, Color.Black);
+                base.Draw(spriteBatch, Color.Red);
+            }
+            else
+            {
+                base.Draw(spriteBatch, _isCured ? Color.White : Color.Gray);
             }
         }
 
