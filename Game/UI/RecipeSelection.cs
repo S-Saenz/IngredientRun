@@ -284,11 +284,28 @@ namespace WillowWoodRefuge
             if (_hoverOver.HasValue)
             {
                 float screenScale = Game1.instance._cameraController._screenScale;
-                spriteBatch.DrawRectangle(GetGridRect(_hoverOver.Value), _hoverColor);
-                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.2f * screenScale, _screenWidth*0.3f, _screenHeight*0.19f), Color.White, 3);
-                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.39f * screenScale, _screenWidth * 0.3f, _screenHeight * 0.37f), Color.White, 3);
-            }
 
+                //highlight recipe image
+                spriteBatch.DrawRectangle(GetGridRect(_hoverOver.Value), _hoverColor);
+
+                //draw right side containers 
+                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.2f * screenScale, _screenWidth * 0.3f, _screenHeight * 0.19f), Color.White, 3);
+                spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f * screenScale, _screenHeight * 0.39f * screenScale, _screenWidth * 0.3f, _screenHeight * 0.37f), Color.White, 3);
+
+                //upper container text
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _recipes[_recipesDisplay[_hoverOver.Value]]._name, new Vector2(_screenWidth * 0.51f, _screenHeight * 0.21f) * screenScale, Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Ingredients:", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.315f) * screenScale, Color.White, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0.01f);
+
+                //ingredient images
+                
+
+                //lower container text
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Can heal wounds caused\nby searing magic", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.41f) * screenScale, Color.White, 0f, Vector2.Zero, new Vector2(1.5f, 1.5f), SpriteEffects.None, 0.01f);
+
+                string name = _recipes[_recipesDisplay[_hoverOver.Value]]._cures;
+                spriteBatch.DrawString(FontManager._bigdialogueFont, name + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.55f) * screenScale, Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+            }
+            
             Point loc;
             // Draw recipes
             for(int x = 1; x <= _dimensions.Width; ++x)
@@ -298,11 +315,11 @@ namespace WillowWoodRefuge
                     loc = new Point(x, y);
                     if(_recipesDisplay[loc] != null && _recipes[_recipesDisplay[loc]]._canCook)
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GetGridRect(loc).Center, Color.White, _scale, true);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GetGridRect(loc).Center, Color.White, new Vector2(_scale), true);
                     }
                     else
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GetGridRect(loc).Center, Color.White, _scale, true);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GetGridRect(loc).Center, Color.White, new Vector2(_scale), true);
                         // spriteBatch.DrawPoint(GridToWorld(loc), Color.Orange, 2);
                     }
                 }

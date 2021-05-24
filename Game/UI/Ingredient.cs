@@ -60,7 +60,7 @@ namespace WillowWoodRefuge
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, pos, Color.White, Scale, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, pos, Color.White, new Vector2(Scale), true);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);

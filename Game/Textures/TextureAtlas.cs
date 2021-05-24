@@ -39,7 +39,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Vector2 loc, Color color, float scale = 1, bool centered = false)
+        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Vector2 loc, Color color, Vector2 scale, bool centered, float rotation, Vector2 origin)
         {
             bool textureFound = _textureList.ContainsKey(textureName);
             Rectangle sourceRect = textureFound ? _textureList[textureName] : _textureNotFound.Bounds;
@@ -47,22 +47,27 @@ namespace WillowWoodRefuge
             if (!centered)
             {
                 spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, 
-                                 (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
+                                 (Rectangle)new RectangleF(loc.X, loc.Y, sourceRect.Width * scale.X, 
+                                                           sourceRect.Height * scale.Y), 
+                                 sourceRect, color, rotation, origin, SpriteEffects.None, 1);
             }
             else
             {
                 spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, 
-                                 (Rectangle)new RectangleF(loc.X - sourceRect.Width * scale / 2, loc.Y - sourceRect.Height * scale / 2, 
-                                                          sourceRect.Width * scale, sourceRect.Height * scale), sourceRect, color);
+                                 (Rectangle)new RectangleF(loc.X - sourceRect.Width * scale.X / 2, 
+                                                           loc.Y - sourceRect.Height * scale.Y / 2, 
+                                                           sourceRect.Width * scale.X, 
+                                                           sourceRect.Height * scale.Y), 
+                                 sourceRect, color, rotation, origin, SpriteEffects.None, 1);
             }
         }
 
-        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Rectangle destinationRectangle, Color color)
+        public void DrawTexture(SpriteBatch spriteBatch, string textureName, Rectangle destinationRectangle, Color color, float rotation, Vector2 origin)
         {
             bool textureFound = _textureList.ContainsKey(textureName);
             
             spriteBatch.Draw(textureFound ? _textureAtlas : _textureNotFound, destinationRectangle, 
-                             textureFound ? _textureList[textureName] : _textureNotFound.Bounds, color);
+                             textureFound ? _textureList[textureName] : _textureNotFound.Bounds, color, rotation, origin, SpriteEffects.None, 1);
         }
 
         public Size2 GetSize(string textureName)
