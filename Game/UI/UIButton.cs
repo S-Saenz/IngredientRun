@@ -132,6 +132,7 @@ namespace WillowWoodRefuge
             else
                 spriteBatch.Draw(_texture, _position, null, Color.White, 0f, Vector2.Zero, (_scale * Game1.instance._cameraController._screenScale), SpriteEffects.None, 0.01f);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
+            // spriteBatch.DrawRectangle(_rectangle, Color.Red);
         }
     }   
 }
