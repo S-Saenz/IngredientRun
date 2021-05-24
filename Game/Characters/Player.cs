@@ -337,7 +337,6 @@ namespace WillowWoodRefuge
             if (landCheck && _collisionBox._downBlocked)
             {
                 landCheck = false;
-                Debug.WriteLine("landed");
                 Game1.instance.sounds.landSound(_maxFallSpeed, _collisionBox._maxSpeed.Y);
                 _maxFallSpeed = 0;
             }
