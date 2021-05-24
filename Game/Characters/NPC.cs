@@ -65,19 +65,9 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
-            if (name == "aiyo")
-            {
-                animationDict = new Dictionary<string, Animation>();
-                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
-            }
-            else
-            {
-                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
-                animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
-            }
+            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
+            animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
         }
 
         // Adds an "injury" to npc, along with assigning what item is needed to remove the injury.
