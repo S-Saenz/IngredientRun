@@ -47,6 +47,7 @@ namespace WillowWoodRefuge
         int _borderWidth = 4;                 // pixel width from edge of boxes to edge of texture
         Size _dimensions = new Size(3,3); // num rows/columns
         float _scale = 3f;
+        RectangleF _container;
 
         Dictionary<string, Recipe> _recipes = new Dictionary<string, Recipe>();
         // float _foodScale = 0.165f;
@@ -160,6 +161,9 @@ namespace WillowWoodRefuge
 
             //choose where on screen to place menu, origin is at (.5, .5)
             _position = new Vector2(_screenWidth/4, _screenHeight/2);
+            Vector2 size = TextureAtlasManager.GetSize("UI", "Menu") * _scale * Game1.instance._cameraController._screenScale;
+            Vector2 pos = _position - new Vector2(size.X / 2, size.Y / 2);
+            _container = new RectangleF(pos, TextureAtlasManager.GetSize("UI", "Menu") * _scale * Game1.instance._cameraController._screenScale);
 
             loaded = true;
         }
@@ -235,7 +239,7 @@ namespace WillowWoodRefuge
             // check for recipe selected
             foreach (Recipe recipe in _recipes.Values)
             {
-                if (recipe._area.Contains(mouseState.Position))
+                if (GetGridRect(recipe._gridCoord).Contains(mouseState.Position))
                 {
                     string recipeFood = recipe._name;
                     // Texture2D box = pickBoxForRecipe(recipeFood, point.Value);
@@ -273,7 +277,7 @@ namespace WillowWoodRefuge
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", new Rectangle(0,0, (int)_screenWidth, (int)_screenHeight), Color.White);
 
             // Draw menu background
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", _position, Color.White, _scale, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Menu", (Rectangle)_container, Color.White);
 
             // Draw hover over TODO: Draw hover recipe information display
             if (_hoverOver.HasValue)
@@ -288,14 +292,16 @@ namespace WillowWoodRefuge
                     loc = new Point(x, y);
                     if(_recipesDisplay[loc] != null && _recipes[_recipesDisplay[loc]]._canCook)
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GridToWorld(loc), Color.White, _scale);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GetGridRect(loc).Center, Color.White, _scale, true);
                     }
                     else
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GridToWorld(loc), Color.White, _scale);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GetGridRect(loc).Center, Color.White, _scale, true);
+                        // spriteBatch.DrawPoint(GridToWorld(loc), Color.Orange, 2);
                     }
                 }
             }
+            // spriteBatch.DrawRectangle(_container, Color.Red);
                 
             xButton.Draw(spriteBatch);
 
@@ -454,15 +460,23 @@ namespace WillowWoodRefuge
         //question from Derek = why does this use the px res dimensions instead of the screen px res like eevetone else >:(
         Vector2 GridToWorld(Point index)
         {
-            Vector2 size = TextureAtlasManager.GetSize("UI", "Menu");
-            Vector2 origin = new Vector2(_position.X - (size.X/2 *_scale), _position.Y + (size.Y/2 * _scale));
-            //Vector2 origin = new Vector2(_position.X, _position.Y);
-            origin.X = _position.X / (_screenWidth / 480) - size.X/2;
-            origin.Y = _position.Y / (_screenHeight / 270) - size.Y/2;
+            Vector2 origin = _container.TopLeft;
+            Vector2 offset = new Vector2((index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth,
+                                         (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth)
+                             * _scale * Game1.instance._cameraController._screenScale;
+            return origin + offset;
 
-            return new Vector2(origin.X  + (index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth + _slotSize.Width/2, 
-                               origin.Y + (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth + _slotSize.Height/2) 
-                               * _scale * Game1.instance._cameraController._screenScale;
+            // return new Vector2((index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth,
+            //                    (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth) * _scale;
+            // Vector2 size = TextureAtlasManager.GetSize("UI", "Menu");
+            // Vector2 origin = new Vector2(_position.X - (size.X/2 *_scale), _position.Y + (size.Y/2 * _scale));
+            // //Vector2 origin = new Vector2(_position.X, _position.Y);
+            // origin.X = _position.X / (_screenWidth / 480) - size.X/2;
+            // origin.Y = _position.Y / (_screenHeight / 270) - size.Y/2;
+            // 
+            // return new Vector2(_position.X  + (index.X - 1) * (_slotSize.Width + _spacing) + _borderWidth + _slotSize.Width/2, 
+            //                    _position.Y + (index.Y - 1) * (_slotSize.Height + _spacing) + _borderWidth + _slotSize.Height/2) 
+            //                     * Game1.instance._cameraController._screenScale;
         }
 
         // returns rectangle describing world space of given grid box
@@ -518,6 +532,9 @@ namespace WillowWoodRefuge
         {
             _screenWidth = size.X;
             _screenHeight = size.Y;
+            Vector2 backpackSize = TextureAtlasManager.GetSize("UI", "Menu") * _scale * Game1.instance._cameraController._screenScale;
+            Vector2 pos = _position - new Vector2(backpackSize.X / 2, backpackSize.Y / 2);
+            _container = new RectangleF(pos, TextureAtlasManager.GetSize("UI", "Menu") * _scale * Game1.instance._cameraController._screenScale);
         }
         
         void LoadRecipes()
@@ -536,11 +553,10 @@ namespace WillowWoodRefuge
 
                 while (!reader.EndOfStream)
                 {
-                    RectangleF area = GetGridRect(loc);
                     line = reader.ReadLine();
 
                     // create new recipe
-                    Recipe recipe = ParseRecipe(line, loc, area);
+                    Recipe recipe = ParseRecipe(line, loc);
                     _recipes.Add(recipe._name, recipe);
                     _recipesDisplay.Add(loc, recipe._name);
 
@@ -551,7 +567,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        Recipe ParseRecipe(string unparsed, Point pos, RectangleF area)
+        Recipe ParseRecipe(string unparsed, Point pos)
         {
             string[] values = unparsed.Split('\t');
 
@@ -563,7 +579,7 @@ namespace WillowWoodRefuge
                     ingredients.Add(values[i]);
             }
 
-            return new Recipe(values[0], values[1], values[2], values[3], ingredients, false, pos, area);
+            return new Recipe(values[0], values[1], values[2], values[3], ingredients, false, pos);
         }
     }
 }
