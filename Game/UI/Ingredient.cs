@@ -30,6 +30,12 @@ namespace WillowWoodRefuge
         public bool doubleSquare = false;           //does this ingredient occupy more than one square? 
         public Vector2 index2 = new Vector2(1, 0);  //index of the other square your ingredient occupies 
 
+        //right side inventory data
+        public int _stars = 1;
+        public string _ingredient_Or_Dish;
+        public string _use;
+        public string _description = "Lorem ipsum dolor sit amet, \nconsectetuer adipiscing elit. \nsed diam nonummy nibh eu-\nismod tincidunt ut laoreet \ndolore magna aliquam erat \nvolutpat. Ut wisi enim ad ";
+
         // public Texture2D img;
 
         public Ingredient(Vector2 position, string name)
