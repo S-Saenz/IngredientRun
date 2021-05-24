@@ -713,6 +713,18 @@
 /processorParam:Quality=Best
 /build:soundEffects/Player_Landing.wav
 
+#begin soundEffects/Spider_Crawl.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Spider_Crawl.wav
+
+#begin soundEffects/Spider_Skitter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Spider_Skitter.wav
+
 #begin soundEffects/stepC.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
