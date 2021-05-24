@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended;
 using MonoGame.Extended.Tiled;
 using MonoGame.Extended.Tiled.Renderers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,7 @@ namespace WillowWoodRefuge
         string _scene;
 
         List<SpawnPoint> _pickupSpawns;
+        List<ForageSpot> _forageSpots;
         List<SpawnPoint> _enemySpawns;
         Dictionary<string, List<Area>> _areas;
 
@@ -45,6 +47,7 @@ namespace WillowWoodRefuge
             AddItemSpawnPoints(collisionHandler);
             AddEnemySpawnPoints(collisionHandler);
             AddAreaObjects(collisionHandler);
+            AddForaging(collisionHandler);
         }
 
         private void AddWallCollision(PhysicsHandler collisionHandler)
@@ -59,7 +62,6 @@ namespace WillowWoodRefuge
                         collisionHandler, parent: new Tile(this, new Vector2(tile.X, tile.Y))));
                 }
             }
-            _collisionHandler = collisionHandler;
             _mapBounds = new RectangleF(0, 0, _map.WidthInPixels, _map.HeightInPixels);
         }
 
@@ -73,6 +75,21 @@ namespace WillowWoodRefuge
                 string range = vals[0];
                 string type = vals.Length > 1 ? vals[1] : null;
                 _pickupSpawns.Add(new ItemSpawn(obj.Position, range, collisionHandler, type));
+            }
+        }
+
+        private void AddForaging(PhysicsHandler collisionHandler)
+        {
+            _forageSpots = new List<ForageSpot>();
+            TiledMapObjectLayer layer = _map.GetLayer<TiledMapObjectLayer>("ForagingObjects");
+            if (layer == null)
+                return;
+            foreach (TiledMapObject obj in layer.Objects)
+            {
+                string[] vals = obj.Name.Split('.');
+                string range = vals[0];
+                string type = vals.Length > 1 ? vals[1] : null;
+                _forageSpots.Add(new ForageSpot(obj.Position, range, collisionHandler, type));
             }
         }
 
@@ -109,6 +126,45 @@ namespace WillowWoodRefuge
             }
         }
 
+        public void AddLightObjects(LightManager lightManager)
+        {
+            TiledMapObjectLayer lightObj = _map.GetLayer<TiledMapObjectLayer>("LightObjects");
+            if (lightObj == null)
+            {
+                return;
+            }
+
+            foreach (TiledMapObject obj in lightObj.Objects)
+            {
+                if (obj.Name == "pointLight")
+                {
+                    if (obj.Properties.ContainsKey("falloff"))
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]), float.Parse(obj.Properties["falloff"]));
+                    }
+                    else
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]));
+                    }
+                }
+                else if (obj.Name == "directionalLight")
+                {
+                    float angle = float.Parse(obj.Properties["angle"]) * (MathF.PI / 180);
+                    if (obj.Properties.ContainsKey("falloff"))
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]),
+                                              new Vector2(MathF.Cos(angle), MathF.Sin(angle)), float.Parse(obj.Properties["spread"]),
+                                              float.Parse(obj.Properties["falloff"]));
+                    }
+                    else
+                    {
+                        lightManager.AddLight(obj.Position, float.Parse(obj.Properties["distance"]),
+                                              new Vector2(MathF.Cos(angle), MathF.Sin(angle)), float.Parse(obj.Properties["spread"]));
+                    }
+                }
+            }
+        }
+
         public List<Area> GetAreaObject(string area)
         {
             if(_areas.ContainsKey(area))
@@ -118,11 +174,11 @@ namespace WillowWoodRefuge
             return new List<Area>();
         }
 
-        public void SpawnPickups(ref List<PickupItem> items)
+        public void SpawnPickups(ref List<SpawnItem> items)
         {
             foreach(SpawnPoint point in _pickupSpawns)
             {
-                items.Add((PickupItem)point.Spawn());
+                items.Add((SpawnItem)point.Spawn());
             }
         }
 
@@ -176,6 +232,14 @@ namespace WillowWoodRefuge
         public void DrawEnemies(SpriteBatch spriteBatch)
         {
             foreach (EnemySpawn obj in _enemySpawns)
+            {
+                obj.Draw(spriteBatch);
+            }
+        }
+
+        public void DrawForage(SpriteBatch spriteBatch)
+        {
+            foreach(ForageSpot obj in _forageSpots)
             {
                 obj.Draw(spriteBatch);
             }

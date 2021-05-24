@@ -13,6 +13,7 @@ namespace WillowWoodRefuge
         public static void Initialize(ContentManager content)
         {
             _atlasList.Add("Item", new TextureAtlas("itemTextures", content));
+            _atlasList.Add("Foraging", new TextureAtlas("foragingTextures", content));
             _atlasList.Add("UI", new TextureAtlas("uiTextures", content));
         }
 
