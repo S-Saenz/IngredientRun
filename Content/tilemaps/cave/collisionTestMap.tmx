@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="97" height="71" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="38">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="97" height="71" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="48">
  <tileset firstgid="1" source="MapPrototypeTileset.tsx"/>
  <tileset firstgid="1793" source="../camp/CaveTileSet2.tsx"/>
  <layer id="3" name="Background" width="97" height="71">
@@ -229,5 +229,76 @@
  </objectgroup>
  <objectgroup id="7" name="AreaObjects">
   <object id="12" name="stateCamp" x="560" y="160" width="64" height="16"/>
+ </objectgroup>
+ <objectgroup id="8" name="LightObjects">
+  <object id="38" name="directionalLight" x="575.75" y="104.5">
+   <properties>
+    <property name="angle" value="35.0"/>
+    <property name="distance" value="275.0"/>
+    <property name="falloff" value="0.4"/>
+    <property name="spread" value="200.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="39" name="directionalLight" x="280.278" y="281.92">
+   <properties>
+    <property name="angle" value="90.0"/>
+    <property name="distance" value="350.0"/>
+    <property name="falloff" value="0.4"/>
+    <property name="spread" value="150.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="40" name="directionalLight" x="864.667" y="775.333">
+   <properties>
+    <property name="angle" value="90.0"/>
+    <property name="distance" value="500.0"/>
+    <property name="falloff" value="0.4"/>
+    <property name="spread" value="150.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="41" name="pointLight" x="808" y="231.333">
+   <properties>
+    <property name="distance" value="100.0"/>
+    <property name="falloff" value="2.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="42" name="pointLight" x="872" y="240">
+   <properties>
+    <property name="distance" value="100.0"/>
+    <property name="falloff" value="1.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="43" name="pointLight" x="1275.33" y="339.333">
+   <properties>
+    <property name="distance" value="150.0"/>
+    <property name="falloff" value="1.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="44" name="pointLight" x="901.333" y="485.333">
+   <properties>
+    <property name="distance" value="100.0"/>
+    <property name="falloff" value="1.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="45" name="pointLight" x="680" y="720.667">
+   <properties>
+    <property name="distance" value="100.0"/>
+    <property name="falloff" value="1.0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="47" name="pointLight" x="512.667" y="867.333">
+   <properties>
+    <property name="distance" value="100.0"/>
+    <property name="falloff" value="1.0"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
 </map>

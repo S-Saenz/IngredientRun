@@ -315,11 +315,11 @@ namespace WillowWoodRefuge
                     loc = new Point(x, y);
                     if(_recipesDisplay[loc] != null && _recipes[_recipesDisplay[loc]]._canCook)
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GetGridRect(loc).Center, Color.White, _scale, true);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipes[_recipesDisplay[loc]]._name, GetGridRect(loc).Center, Color.White, new Vector2(_scale), true);
                     }
                     else
                     {
-                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GetGridRect(loc).Center, Color.White, _scale, true);
+                        TextureAtlasManager.DrawTexture(spriteBatch, "UI", "QuestionMark", GetGridRect(loc).Center, Color.White, new Vector2(_scale), true);
                         // spriteBatch.DrawPoint(GridToWorld(loc), Color.Orange, 2);
                     }
                 }
