@@ -28,7 +28,8 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc, Color.White);
+            Vector2 size = TextureAtlasManager.GetSize("Item", _name);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc + size / 2, Color.White, scale: new Vector2(0.5f));
         }
 
         public bool RemoveCollision(PhysicsHandler collisionHandler)
