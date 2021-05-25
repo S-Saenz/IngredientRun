@@ -71,9 +71,6 @@ namespace WillowWoodRefuge
             spriteBatch.Begin();
             spriteBatch.Draw(creditsImg, Vector2.Zero, Color.White);
             _components[0].Draw(gameTime, spriteBatch);
-            
-            spriteBatch.DrawString(FontManager._bigdialogueFont, credits, new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(FontManager._bigdialogueFont, tools, new Vector2(900, 200), Color.Black);
             spriteBatch.End();
         }
 
