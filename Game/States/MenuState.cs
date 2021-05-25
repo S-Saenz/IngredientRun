@@ -101,7 +101,7 @@ namespace WillowWoodRefuge
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            game.ChangeState("CampState");
+            game.ChangeState("LoadingState");
         }
 
         private void TutorialButton_Click(object sender, EventArgs e)

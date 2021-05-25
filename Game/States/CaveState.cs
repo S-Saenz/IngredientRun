@@ -12,6 +12,7 @@ namespace WillowWoodRefuge
         {
             _cameraSize = new Vector2(480, 270);
             _playerCamBounds = new RectangleF(0, 0, 160f, 90f);
+            _stateName = "cave";
         }
 
         protected override void LoadTilemap(ContentManager content)
