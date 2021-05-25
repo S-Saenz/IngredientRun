@@ -297,6 +297,12 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawString(FontManager._bigdialogueFont, "Ingredients:", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.315f) * screenScale, Color.White, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0.01f);
 
                 //ingredient images
+                int counter = 0;
+                foreach(string ingredient in _recipes[_recipesDisplay[_hoverOver.Value]]._ingredients)
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "Item", ingredient, new Vector2(_screenWidth * 0.635f + counter * _screenWidth * 0.06f, _screenHeight * 0.325f) * screenScale, Color.White, new Vector2(3f), true);
+                    counter++;
+                }
                 
 
                 //lower container text
