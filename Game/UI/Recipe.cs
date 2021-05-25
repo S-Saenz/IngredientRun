@@ -14,9 +14,8 @@ namespace WillowWoodRefuge
         public List<string> _ingredients { get; private set; }
         public bool _canCook { get; set; }
         public Point _gridCoord { get; private set; }
-        public RectangleF _area { get; private set; }
 
-        public Recipe(string displayName, string name, string cures, string description, List<string> ingredients, bool canCook, Point gridCoord, RectangleF area)
+        public Recipe(string displayName, string name, string cures, string description, List<string> ingredients, bool canCook, Point gridCoord)
         {
             _displayName = displayName;
             _name = name;
@@ -25,7 +24,6 @@ namespace WillowWoodRefuge
             _ingredients = ingredients;
             _canCook = canCook;
             _gridCoord = gridCoord;
-            _area = area;
         }
     }
 }
