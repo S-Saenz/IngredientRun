@@ -199,10 +199,10 @@
                 <false/>
             </struct>
             <key type="filename">../foraging/Calamint1.png</key>
-            <key type="filename">../foraging/Calamint2.png</key>
             <key type="filename">../foraging/Huckleberry1.png</key>
             <key type="filename">../foraging/Huckleberry2.png</key>
             <key type="filename">../foraging/Hummingbird_Sage1.png</key>
+            <key type="filename">../foraging/Mint1.png</key>
             <key type="filename">../foraging/Thimbleberry1.png</key>
             <key type="filename">../foraging/Thimbleberry2.png</key>
             <key type="filename">../foraging/Wolfberry1.png</key>
@@ -278,7 +278,6 @@
         <key>fileList</key>
         <array>
             <filename>../foraging/Calamint1.png</filename>
-            <filename>../foraging/Calamint2.png</filename>
             <filename>../foraging/Huckleberry1.png</filename>
             <filename>../foraging/Huckleberry2.png</filename>
             <filename>../foraging/Hummingbird_Sage1.png</filename>
@@ -300,6 +299,7 @@
             <filename>../foraging/Bay_Nut3.png</filename>
             <filename>../foraging/Mazanita1.png</filename>
             <filename>../foraging/Mazanita2.png</filename>
+            <filename>../foraging/Mint1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

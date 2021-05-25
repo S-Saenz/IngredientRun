@@ -11,7 +11,8 @@ namespace WillowWoodRefuge
             // Name                           phases  duration  fromEmpty
             { "test",             new ForageInfo(6,      10,      false) },
             { "Bay_Nut",          new ForageInfo(3,      10,      false) },
-            { "Calamint",         new ForageInfo(2,      10,      false) },
+            { "Calamint",         new ForageInfo(1,      10,      true ) },
+            { "Mint",             new ForageInfo(1,      10,      true ) },
             { "Huckleberry",      new ForageInfo(2,      10,      false) },
             { "Hummingbird_Sage", new ForageInfo(1,      10,      true ) },
             { "Mazanita",         new ForageInfo(2,      10,      false) },
