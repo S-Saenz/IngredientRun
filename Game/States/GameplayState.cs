@@ -381,11 +381,11 @@ namespace WillowWoodRefuge
             _items.Clear();
 
             // remove NPC hitboxes
-            foreach (NPC character in _characters.Values)
-            {
-                character.Destroy(_physicsHandler);
-            }
-            _characters.Clear();
+            // foreach (NPC character in _characters.Values)
+            // {
+            //     character.Destroy(_physicsHandler);
+            // }
+            // _characters.Clear();
         }
 
         void UpdateDebug()

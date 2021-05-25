@@ -24,13 +24,13 @@ namespace WillowWoodRefuge
             switch (_rangeType)
             {
                 case "only":
-                    _object = new Enemy(_spawnType, _location, _physicsHandler, _scene);
+                    _object = new Enemy(_spawnType, _location, _physicsHandler, _scene, Game1.instance.GetCurrentTilemap());
                     break;
                 case "family":
                     break;
                 case "any":
                     string spawnType = EnemyTextures._allItems[new Random().Next(EnemyTextures._allItems.Count)];
-                    _object = new Enemy(spawnType, _location, _physicsHandler, _scene);
+                    _object = new Enemy(spawnType, _location, _physicsHandler, _scene, Game1.instance.GetCurrentTilemap());
                     break;
             }
             return _object;
