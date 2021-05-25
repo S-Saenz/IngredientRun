@@ -18,15 +18,15 @@ namespace WillowWoodRefuge
         protected override void LoadTilemap(ContentManager content)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
+            _tileMap = new TileMap("tilemaps/cave/collisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 
             // Setup lights
-            _staticLightManager.AddLight(new Vector2(224, 608), 100);
-            _staticLightManager.AddLight(new Vector2(656, 240), 100);
-            _staticLightManager.AddLight(new Vector2(240, 208), 100);
-            _staticLightManager.AddLight(new Vector2(0, 35), 300);
+            // _staticLightManager.AddLight(new Vector2(224, 608), 100);
+            // _staticLightManager.AddLight(new Vector2(656, 240), 100);
+            // _staticLightManager.AddLight(new Vector2(240, 208), 100);
+            // _staticLightManager.AddLight(new Vector2(0, 35), 300);
         }
 
         public override void LoadContent()

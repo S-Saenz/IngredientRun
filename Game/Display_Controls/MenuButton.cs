@@ -39,7 +39,7 @@ namespace WillowWoodRefuge
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width * 2, _texture.Height * 2);
             }
         }
 
@@ -56,6 +56,8 @@ namespace WillowWoodRefuge
             _font = font;
 
             PenColour = Color.Black;
+
+            
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

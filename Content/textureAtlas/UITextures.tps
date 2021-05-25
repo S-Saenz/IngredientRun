@@ -181,32 +181,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-1.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-10.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-11.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-12.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-2.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-3.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-4.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-5.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-6.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-7.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-8.png</key>
-            <key type="filename">../../../../../Downloads/Campfire Frames/campfire-9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>35,35,70,70</rect>
-                <key>scale9Paddings</key>
-                <rect>35,35,70,70</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -377,6 +351,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../ARTG 170/IngredientRun/UI/Inventory/Redesign Assets/Main_Inventory_UI_Scaled.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>120,68,240,135</rect>
+                <key>scale9Paddings</key>
+                <rect>120,68,240,135</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/ButtonNormal.png</key>
             <key type="filename">../ui/ButtonPressed.png</key>
             <struct type="IndividualSpriteSettings">
@@ -393,6 +382,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../ui/Inventory/Filled_Star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,7,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,7,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/Inventory/Inventory Backpack and Grid.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -405,6 +409,52 @@
                 <rect>436,202,871,403</rect>
                 <key>scale9Paddings</key>
                 <rect>436,202,871,403</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Inventory/Main_Inventory_UI.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>120,55,240,111</rect>
+                <key>scale9Paddings</key>
+                <rect>120,55,240,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Inventory/Shuffle_Button.png</key>
+            <key type="filename">../ui/Inventory/Trash_Can.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,17,17</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,17,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Inventory/Unfilled_Star.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,8</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,8</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -512,6 +562,32 @@
                 <rect>8,4,16,8</rect>
                 <key>scale9Paddings</key>
                 <rect>8,4,16,8</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-1.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-10.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-11.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-12.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-2.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-3.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-4.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-5.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-6.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-7.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-8.png</key>
+            <key type="filename">../ui/cooking/Campfire Frames/campfire-9.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>35,35,70,70</rect>
+                <key>scale9Paddings</key>
+                <rect>35,35,70,70</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -672,18 +748,24 @@
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Spoon.png</filename>
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/X_Button.png</filename>
             <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-1.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-10.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-11.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-12.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-2.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-3.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-4.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-5.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-6.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-7.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-8.png</filename>
-            <filename>../../../../../Downloads/Campfire Frames/campfire-9.png</filename>
+            <filename>../ui/Inventory/Main_Inventory_UI.png</filename>
+            <filename>../ui/Inventory/Shuffle_Button.png</filename>
+            <filename>../ui/Inventory/Trash_Can.png</filename>
+            <filename>../ui/Inventory/Unfilled_Star.png</filename>
+            <filename>../ui/Inventory/Filled_Star.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-1.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-10.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-11.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-12.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-2.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-3.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-4.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-5.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-6.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-7.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-8.png</filename>
+            <filename>../ui/cooking/Campfire Frames/campfire-9.png</filename>
+            <filename>../../../ARTG 170/IngredientRun/UI/Inventory/Redesign Assets/Main_Inventory_UI_Scaled.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

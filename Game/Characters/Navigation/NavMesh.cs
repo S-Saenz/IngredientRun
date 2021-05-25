@@ -135,14 +135,14 @@ namespace WillowWoodRefuge
             }
         }
 
-        public NavPoint GetClosest(Vector2 loc, string scene)
+        public NavPoint GetClosest(Vector2 loc, string scene, bool ignoreOccupied = false)
         {
             NavPoint closest = null;
             float dist = float.MaxValue;
             foreach(NavPoint point in _pointMap._navPoints.Values)
             {
                 float newDist = Vector2.DistanceSquared(loc, point._location);
-                if (newDist < dist && (scene == null || !AICharacter._occupiedPoints[scene].Contains(point._tileLoc)))
+                if (newDist < dist && (scene == null || (!AICharacter._occupiedPoints[scene].Contains(point._tileLoc) || ignoreOccupied)))
                 {
                     closest = point;
                     dist = newDist;
