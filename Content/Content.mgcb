@@ -435,6 +435,18 @@
 /processorParam:TextureFormat=Color
 /build:bg/riverscene.png
 
+#begin bg/WWRCredits.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bg/WWRCredits.png
+
 #begin chars/aiyo.png
 /importer:TextureImporter
 /processor:TextureProcessor
