@@ -37,6 +37,8 @@ namespace WillowWoodRefuge
         // Loading timer
         private float _loadTime = 0;
 
+        private string _message = "Loading...";
+
         public LoadingState(Game1 game, ContentManager content, SpriteBatch spriteBatch, Dictionary<string, State> states) 
             : base(game, Game1.instance.graphics.GraphicsDevice, content, spriteBatch)
         {
@@ -99,8 +101,8 @@ namespace WillowWoodRefuge
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            // Debug.WriteLine("Initialization: " + _initializationDone + "  Load Content: " + _loadingDone + "  Load Time: " + _loadTime);
-
+            FontManager.PrintText(FontManager._bigdialogueFont, spriteBatch, _message + "\n" + MathF.Round(_loadTime, 2), 
+                                  Game1.instance._cameraController._screenDimensions / 2, Alignment.Centered, Color.White, true);
         }
 
         public override void LoadContent()
@@ -120,7 +122,7 @@ namespace WillowWoodRefuge
             _loadTime += gameTime.GetElapsedSeconds();
             if(!_initializationStarted)
             {
-                Debug.WriteLine("Initialization started");
+                _message = "Data Initialization";
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     InitializeData();
@@ -129,7 +131,7 @@ namespace WillowWoodRefuge
             }
             else if(_initializationDone && !_loadingDataStarted)
             {
-                Debug.WriteLine("Data Loading started");
+                _message = "Loading Content Data";
                 Game1.instance.sounds = new SoundManager(Game1.instance.Content);
                 ThreadPool.QueueUserWorkItem(state =>
                 {
@@ -139,7 +141,7 @@ namespace WillowWoodRefuge
             }
             else if (_loadingDataDone && !_loadingPlayerStarted)
             {
-                Debug.WriteLine("Player loading started");
+                _message = "Loading Player Data";
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     LoadPlayerData();
@@ -148,7 +150,7 @@ namespace WillowWoodRefuge
             }
             else if(_loadingPlayerDone && !_loadingCampStarted)
             {
-                Debug.WriteLine("Camp loading started");
+                _message = "Loading Camp Scene";
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     LoadCampData();
@@ -159,10 +161,13 @@ namespace WillowWoodRefuge
             {
                 // finish camp load
                 (_states["CampState"] as GameplayState).PostConstruction();
-                if(_bakeStaticShadows)
+                if (_bakeStaticShadows)
+                {
+                    _message = "Baking Static Camp Lights";
                     (_states["CampState"] as GameplayState).BakeStaticLights();
+                }
 
-                Debug.WriteLine("Cave loading started");
+                _message = "Loading Cave Scene";
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     LoadCaveData();
@@ -174,9 +179,12 @@ namespace WillowWoodRefuge
                 // finish cave load
                 (_states["CaveState"] as GameplayState).PostConstruction();
                 if (_bakeStaticShadows)
+                {
+                    _message = "Baking Static Cave Lights";
                     (_states["CaveState"] as GameplayState).BakeStaticLights();
+                }
 
-                Debug.WriteLine("Loading done " + _loadTime);
+                _message = "Loading Complete";
                 Game1.instance.ChangeState("CampState");
 
                 // reset gameplay initialization, so game reloads when re-entering
