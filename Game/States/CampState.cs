@@ -22,6 +22,7 @@ namespace WillowWoodRefuge
 
             _cameraSize = new Vector2(240, 135);
             _playerCamBounds = new RectangleF(0, 0, 80f, 45f);
+            _stateName = "camp";
 
             // dialogue system
             _dialogueSystem.Load(_characters);
