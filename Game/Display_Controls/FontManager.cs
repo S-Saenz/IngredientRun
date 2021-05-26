@@ -28,9 +28,7 @@ namespace WillowWoodRefuge
             // Left aligned
             if (alignment == Alignment.Left)
             { 
-                spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 spriteBatch.DrawString(font, text, origin, color);
-                spriteBatch.End();
                 return;
             }
 
@@ -43,9 +41,7 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
-                    spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(font, line, origin + new Vector2(boxSize.X - lineSize.X, yOffset), color);
-                    spriteBatch.End();
                     yOffset += lineSize.Y;
                 }
                 return;
@@ -59,9 +55,7 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
-                    spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                     spriteBatch.DrawString(font, line, origin + new Vector2(-lineSize.X / 2, yOffset), color);
-                    spriteBatch.End();
                     yOffset += lineSize.Y;
                 }
                 return;

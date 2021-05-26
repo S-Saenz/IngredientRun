@@ -101,8 +101,10 @@ namespace WillowWoodRefuge
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             FontManager.PrintText(FontManager._bigdialogueFont, spriteBatch, _message + "\n" + MathF.Round(_loadTime, 2), 
                                   Game1.instance._cameraController._screenDimensions / 2, Alignment.Centered, Color.White, true);
+            spriteBatch.End();
         }
 
         public override void LoadContent()
