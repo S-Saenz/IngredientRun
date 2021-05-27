@@ -53,6 +53,7 @@ namespace WillowWoodRefuge
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
         public Dictionary<string, NPC> _characters { protected set; get; }
+        public static int _numInjured;
 
         // Backgrounds
         public TileMap _tileMap { protected set; get; }
@@ -120,6 +121,8 @@ namespace WillowWoodRefuge
             // Setup shader buffers
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+
+            _numInjured = 5;
         }
 
         abstract protected void LoadTilemap(ContentManager content);
@@ -217,6 +220,12 @@ namespace WillowWoodRefuge
             if(game.input.JustPressed("light"))
             {
                 _isDark = !_isDark;
+            }
+
+            // End state
+            if(_numInjured <= 0)
+            {
+                Game1.instance.RequestStateChange("MenuState");
             }
         }
 
