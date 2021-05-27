@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using MonoGame.Extended.Sprites;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,16 +17,18 @@ namespace WillowWoodRefuge
 
         string credits;
         string tools;
-        
+        Texture2D creditsImg;
+
         public CreditsState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
             : base(game, graphicsDevice, content, spritebatch)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls/Button");
+            var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
+            creditsImg = _content.Load<Texture2D>("bg/WWRCredits");
 
             var menuButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 100),
+                Position = new Vector2(50, 50),
                 Text = "To Menu",
             };
 
@@ -66,11 +69,8 @@ namespace WillowWoodRefuge
             game.GraphicsDevice.Clear(Color.Bisque);
 
             spriteBatch.Begin();
-
+            spriteBatch.Draw(creditsImg, Vector2.Zero, Color.White);
             _components[0].Draw(gameTime, spriteBatch);
-            
-            spriteBatch.DrawString(FontManager._bigdialogueFont, credits, new Vector2(100, 200), Color.Black);
-            spriteBatch.DrawString(FontManager._bigdialogueFont, tools, new Vector2(900, 200), Color.Black);
             spriteBatch.End();
         }
 

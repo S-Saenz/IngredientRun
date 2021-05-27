@@ -22,6 +22,10 @@ namespace WillowWoodRefuge
 
             _cameraSize = new Vector2(240, 135);
             _playerCamBounds = new RectangleF(0, 0, 80f, 45f);
+            _stateName = "camp";
+
+            // dialogue system
+            _dialogueSystem.Load(_characters);
         }
 
         protected override void LoadTilemap(ContentManager content)
@@ -38,6 +42,38 @@ namespace WillowWoodRefuge
             _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-3"), 0.06f, _tileMap._mapBounds));
             _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-2"), 0.04f, _tileMap._mapBounds));
             _backgroundLayers.Add(new Background(content.Load<Texture2D>("parallax/camp-scene-1"), 0.00f, _tileMap._mapBounds));
+
+            // characters
+            Area campArea = _tileMap.GetAreaObject("Camp")[0];
+            Random rand = new Random();
+            _characters = new Dictionary<string, NPC>();
+            _characters.Add("Lura", new NPC("lura",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
+            _characters.Add("Snäll", new NPC("snall",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
+            _characters.Add("Kall", new NPC("kall",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
+            _characters.Add("Arg", new NPC("arg",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
+            _characters.Add("Aiyo", new NPC("aiyo",
+                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
+                            _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
+
+            foreach (NPC character in _characters.Values)
+            {
+                character.Load(_content);
+                // character.Injure("mushroom_medicine");
+            }
+
+            _characters["Lura"].Injure("grilledFish");
+            _characters["Snäll"].Injure("appleMushroomSoup");
+            _characters["Kall"].Injure("carrotSoup");
+            _characters["Arg"].Injure("rabbitSoup");
+            _characters["Aiyo"].Injure("monsterSoup");
 
             // Setup lights
             // _staticLightManager.AddLight(new Vector2(64, 256), 50);
@@ -83,41 +119,6 @@ namespace WillowWoodRefuge
             base.LoadContent();
             //music
             game.sounds.playSong("forestSong");
-
-            // characters
-            Area campArea = _tileMap.GetAreaObject("Camp")[0];
-            Random rand = new Random();
-            _characters = new Dictionary<string, NPC>();
-            _characters.Add("Lura", new NPC("lura", 
-                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom), 
-                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
-            _characters.Add("Snäll", new NPC("snall",
-                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
-            _characters.Add("Kall", new NPC("kall",
-                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
-            _characters.Add("Arg", new NPC("arg",
-                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
-            _characters.Add("Aiyo", new NPC("aiyo",
-                            new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
-                            _physicsHandler, "camp", _tileMap._mapBounds, area: campArea));
-
-            foreach (NPC character in _characters.Values)
-            {
-                character.Load(_content);
-                // character.Injure("mushroom_medicine");
-            }
-
-            _characters["Lura"].Injure("grilledFish");
-            _characters["Snäll"].Injure("appleMushroomSoup");
-            _characters["Kall"].Injure("carrotSoup");
-            _characters["Arg"].Injure("rabbitSoup");
-            _characters["Aiyo"].Injure("monsterSoup");
-
-            // dialogue system
-            _dialogueSystem.Load(_characters);
 
             _isDark = false;
         }

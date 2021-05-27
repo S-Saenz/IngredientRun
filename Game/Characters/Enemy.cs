@@ -16,9 +16,9 @@ namespace WillowWoodRefuge
         float _attackDamage = 1;
         bool _isAttacking = false;
         float _attackDuration = 0.5f;
-        public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene,
+        public Enemy(string type, Vector2 pos, PhysicsHandler collisionHandler, string scene, TileMap tileMap,
                      RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null)
-                     : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, worldBounds, animationDict)
+                     : base(type, pos, "Enemy", new Vector2(), collisionHandler, scene, tileMap, worldBounds, animationDict)
         {
             _walkSpeed = 45;
             _runSpeed = 100;
@@ -38,8 +38,14 @@ namespace WillowWoodRefuge
                 _currState = AIState.Attack;
                 if (name.Equals("spider"))
                 {
-
+                    Game1.instance.sounds.spiderAttack(gameTime);
                 }
+            }
+
+            //ambient spider noise
+            if (Vector2.Distance(playerLoc, _pos) <= 300 && name.Equals("spider") && _currState == AIState.Wander)
+            {
+                Game1.instance.sounds.spiderAmbient(gameTime, Vector2.Distance(playerLoc, _pos));
             }
 
             _cooldownTimer += gameTime.GetElapsedSeconds();

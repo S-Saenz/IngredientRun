@@ -15,7 +15,7 @@ namespace WillowWoodRefuge
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
             : base(game, graphicsDevice, content, spritebatch)
         {
-            var buttonTexture = _content.Load<Texture2D>("Controls/Button");
+            var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
 
             var newGameButton = new MenuButton(buttonTexture, buttonFont)
@@ -101,7 +101,7 @@ namespace WillowWoodRefuge
 
         private void NewGameButton_Click(object sender, EventArgs e)
         {
-            game.ChangeState("CampState");
+            game.ChangeState("LoadingState");
         }
 
         private void TutorialButton_Click(object sender, EventArgs e)

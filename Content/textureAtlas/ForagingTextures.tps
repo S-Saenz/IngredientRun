@@ -221,8 +221,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../foraging/Mazanita1.png</key>
-            <key type="filename">../foraging/Mazanita2.png</key>
+            <key type="filename">../foraging/Manzanita1.png</key>
+            <key type="filename">../foraging/Manzanita2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

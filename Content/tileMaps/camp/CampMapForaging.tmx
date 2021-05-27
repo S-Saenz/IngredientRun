@@ -88,21 +88,12 @@
   <object id="14" name="state.Cave" x="1280" y="256" width="80" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="ItemObjects">
-  <object id="2" name="only.wood" x="1032" y="272">
-   <point/>
-  </object>
   <object id="3" name="only.water" x="904.667" y="272">
-   <point/>
-  </object>
-  <object id="4" name="only.carrot" x="768" y="272">
-   <point/>
-  </object>
-  <object id="5" name="only.apple" x="647.333" y="272">
    <point/>
   </object>
  </objectgroup>
  <objectgroup id="9" name="ForagingObjects">
-  <object id="17" name="only.Bay_Nut" x="702.333" y="272">
+  <object id="17" name="only.Bay_Nut" x="686.333" y="272">
    <point/>
   </object>
   <object id="18" name="only.Thimbleberry" x="1266.33" y="272">
@@ -111,25 +102,25 @@
   <object id="19" name="only.Huckleberry" x="833.333" y="272">
    <point/>
   </object>
-  <object id="20" name="only.Mazanita" x="964.333" y="272">
+  <object id="20" name="only.Manzanita" x="961" y="271.333">
    <point/>
   </object>
-  <object id="21" name="only.Calamint" x="1000.33" y="272">
+  <object id="21" name="only.Calamint" x="778.33" y="272">
    <point/>
   </object>
-  <object id="22" name="only.Nodding_Onion" x="1080.33" y="272">
+  <object id="22" name="only.Nodding_Onion" x="1039" y="272">
    <point/>
   </object>
-  <object id="23" name="only.Oyster_Mushroom" x="1134.33" y="272">
+  <object id="23" name="only.Oyster_Mushroom" x="1107" y="272">
    <point/>
   </object>
-  <object id="24" name="only.Toothwort" x="1167.33" y="272">
+  <object id="24" name="only.Toothwort" x="1160" y="272">
    <point/>
   </object>
   <object id="25" name="only.Wolfberry" x="1210.33" y="272">
    <point/>
   </object>
-  <object id="26" name="only.Mint" x="600.667" y="272.667">
+  <object id="26" name="only.Hummingbird_Sage" x="600.667" y="272">
    <point/>
   </object>
  </objectgroup>

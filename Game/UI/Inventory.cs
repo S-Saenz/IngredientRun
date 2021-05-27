@@ -90,30 +90,7 @@ namespace WillowWoodRefuge
             loaded = true;
             //initializeInventoryGrid();
            
-            //inventorySq = Content.Load<Texture2D>("ui/Temp Inventory"); //minecraft inventory
             inventorySq = Content.Load<Texture2D>("ui/Inventory/Inventory Backpack and Grid");
-
-            //load ingredient textures
-            /* Tecture Atlas makes this portion redundant and unnecessary
-            acorn = Content.Load<Texture2D>("Ingredient/acornScaled");
-            apple = Content.Load<Texture2D>("Ingredient/appleScaled");
-            appleMushroomSoup = Content.Load<Texture2D>("Ingredient/apple_mushroom_soupScaled");
-            carrot = Content.Load<Texture2D>("Ingredient/carrotScaled");
-            carrotSoup = Content.Load<Texture2D>("Ingredient/carrot_spice_soupScaled");
-            egg = Content.Load<Texture2D>("Ingredient/eggScaled");
-            gooseberry = Content.Load<Texture2D>("Ingredient/gooseberryScaled");
-            fish = Content.Load<Texture2D>("Ingredient/fishScaled");
-            grilledFish = Content.Load<Texture2D>("Ingredient/grilled_fishScaled");
-            meat = Content.Load<Texture2D>("Ingredient/meatScaled");
-            monsterSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soup (1)Scaled");
-            mouseMelon = Content.Load<Texture2D>("Ingredient/mousemelonScaled");
-            rabbitSoup = Content.Load<Texture2D>("Ingredient/rabbit_spice_soupScaled");
-            water = Content.Load<Texture2D>("Ingredient/waterjugScaled");
-            wood = Content.Load<Texture2D>("Ingredient/woodScaled");
-            */
-
-            // ingredientTextures = new List<Texture2D>() { acorn, apple, appleMushroomSoup, carrot, carrotSoup, egg, fish, gooseberry, grilledFish, meat, mouseMelon, rabbitSoup, water, wood };
-
 
             // addExampleInventory();
 
@@ -125,20 +102,24 @@ namespace WillowWoodRefuge
                 ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
             */
 
+
+            Single singleScale = Convert.ToSingle(Game1.instance._cameraController._screenScale);
             //create exit button
-            Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
+            //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
             Vector2 buttonPos = new Vector2( (int)Game1.instance._cameraController._screenDimensions.X - 100, 23);
-            xButton = new UIButton(ButtonTexture, buttonPos);
-            xButton.Depth = .01f;
-            xButton.Scale = 3f;
+            buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
+            xButton = new UIButton("x-button", buttonPos);
+            //xButton.Depth = .01f;
+            xButton._scale = 3f;
             xButton.Click += xButton_Click;
 
             //create exit button
-            ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
+            //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
             buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
-            _confirmButton = new UIButton(ButtonTexture, buttonPos);
-            _confirmButton.Depth = .01f;
-            _confirmButton.Scale = 4f;
+            buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
+            _confirmButton = new UIButton("confirmButton", buttonPos);
+            //_confirmButton.Depth = .01f;
+            _confirmButton._scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
         }
 
@@ -149,6 +130,7 @@ namespace WillowWoodRefuge
             //Game1.instance.inventory.showInv = false;
             Game1.instance.UI.SwitchState(UIState.None);
 
+            //DEREK - insert exit-button sound
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -157,9 +139,12 @@ namespace WillowWoodRefuge
             if(result) // was cured
             {
                 removeIngredient(_selected);
+                //DEREK - insert fanfare or ding or positive affirmation
             }
             Debug.WriteLine("Give " + _selected._name);
             Game1.instance.UI.SwitchState(UIState.None);
+
+            
         }
 
         public void Update(MouseState mouseState, KeyboardState keyState)
@@ -196,10 +181,12 @@ namespace WillowWoodRefuge
                 //use mouse to move ingredient if it's in the clicked Box
                 //if(boxDict[ingredient.index] == clickedBox)
                 // update for given state, gifting or moving
-                if (_gifting)
-                    SelectIngredient(ingredient, mouseState);
-                else
+
+                if (!_gifting)
                     MoveIngredient(ingredient, mouseState);
+                //else
+
+                SelectIngredient(ingredient, mouseState);
 
                 //rotate objects when space bar pressed
                 if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
@@ -233,6 +220,7 @@ namespace WillowWoodRefuge
                     {
                         //ingredient.pos.Y += 10;
                         ingredient.pos = new Vector2(ingredient.pos.X, ingredient.pos.Y + 5);
+                        //DEREK - ingredient is sliding down inventory
                     }
 
                     //ingredient has fallen to target!
@@ -242,6 +230,7 @@ namespace WillowWoodRefuge
                         //assign ingredient to that box in the inventory
                         ingredient.index = targetBox;
                         ingredient.pos = boxDict[targetBox];
+                        //DEREK - ingredient is no longer sliding down inventory and has landed in its respective square
                     }
                 }
                 else
@@ -283,8 +272,9 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
             // Debug.WriteLine("Inventory being drawn");
-            int width = (int)Game1.instance._cameraController._screenDimensions.X;
-            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+            int dynamicScreenScale = (int)Game1.instance._cameraController._screenScale;
+            int width = (int)Game1.instance._cameraController._screenDimensions.X * dynamicScreenScale;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y * dynamicScreenScale;
 
             //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
@@ -310,12 +300,44 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
                 Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
                 TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+                if(_selected != null)
+                    _confirmButton.Draw(spriteBatch);
             }
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
                 spriteBatch.DrawRectangle(_selected.pos - (Vector2)size / 2, size, Color.White);
-                _confirmButton.Draw(spriteBatch);
+
+                //draw selected item on right hand side
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _selected._name, new Vector2(width * 0.65f, height * 0.22f), Color.White, new Vector2(5f)*dynamicScreenScale, true);
+                
+                //draw name        
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._name, new Vector2(width * 0.71f, height * 0.13f), Color.White, 0f, Vector2.Zero, new Vector2(3, 3), SpriteEffects.None, 0.01f);
+
+                //draw star levels
+                int starCounter = _selected._stars;
+                while(starCounter > 0)
+                {
+                    Vector2 starPos = new Vector2(width * 0.71f + (starCounter -1) * 0.025f * width, height * 0.23f);
+                    //Vector2 starPos = new Vector2(100, 100);
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Filled_Star", starPos, Color.White, new Vector2(2.5f)*dynamicScreenScale);
+                    starCounter--;
+                }
+
+                int emptyStarCounter = 3 - _selected._stars;
+                while(emptyStarCounter > 0)
+                {
+                    Vector2 emptyStarPos = new Vector2(width * 0.71f + emptyStarCounter * 0.025f * width, height * 0.23f);
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Unfilled_Star", emptyStarPos, Color.White, new Vector2(2.5f)*dynamicScreenScale);
+                    emptyStarCounter--;
+                }
+
+                //possible recipes
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.62f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.62f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
+
+                //description 
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.62f, height * 4.5f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
             }
         }
 
@@ -338,10 +360,12 @@ namespace WillowWoodRefuge
                     {
                         ing.holding = true;
                         handsFull = true;
+                        //DEREK - ingredient is selected
                     }
                     else
                     {
                         //Debug.WriteLine($"{ing.img} is stacked on and can't be moved!");
+                        //DEREK - ingredient cannot be moved because it's not on top
                     }
                 }
             }
@@ -362,6 +386,8 @@ namespace WillowWoodRefuge
                 ing.pos = closestEmptyBox(ing);
                 ing.index = findGridIndex(ing.pos);
                 //Debug.WriteLine($"{ing.img} - {ing.index}"); //ingredient snaps where?
+
+                //DEREK - ingredient is let go after being moved
             }
         }
 
@@ -379,6 +405,7 @@ namespace WillowWoodRefuge
                     _selected = ing;
                     Debug.WriteLine(ing._name);
                 }
+                //DEREK - selection sound? Ingredient has been selected
             }
         }
 
@@ -412,6 +439,8 @@ namespace WillowWoodRefuge
                     assignDistinctSpace(ingredient);
                 }
             }
+
+            //DEREK - bag shaking sound
         }
 
         //create the inventory grid and populate the boxDict
@@ -489,11 +518,14 @@ namespace WillowWoodRefuge
             {
                 Debug.WriteLine("Inventory Full!");
                 return false;
+                //DEREK - inventory is full!
             }
 
             Ingredient newIngredient = new Ingredient(randomBox(), name);
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
+
+            //DEREK - ingredient added!
             return true;
         }
 
@@ -501,10 +533,12 @@ namespace WillowWoodRefuge
         public void removeIngredient(Ingredient ingredient)
         {
             ingredientList.Remove(ingredient);
+            //DEREK - ingredient has been discarded!
         }
 
         public void removeIngredient(string name)
         {
+            //DEREK - ingredient has been discarded!
             bool done = false; //ensure only one ingredient is removed if there are duplicates
             foreach (Ingredient ingredient in ingredientList.ToList())
             {
