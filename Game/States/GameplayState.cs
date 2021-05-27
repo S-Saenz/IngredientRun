@@ -20,6 +20,7 @@ namespace WillowWoodRefuge
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
         static protected bool _occlusion = true;
+        static protected bool _isDarkEnabled = true;
         protected string _stateName;
 
         // Camera zoom
@@ -219,7 +220,7 @@ namespace WillowWoodRefuge
             // Toggle lighting
             if(game.input.JustPressed("light"))
             {
-                _isDark = !_isDark;
+                _isDarkEnabled = !_isDarkEnabled;
             }
 
             // End state
@@ -257,7 +258,7 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // render shadow target
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
@@ -337,7 +338,7 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
                 _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
