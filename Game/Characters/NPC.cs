@@ -90,6 +90,7 @@ namespace WillowWoodRefuge
                 return false;
 
             _isCured = true;
+            --GameplayState._numInjured;
             Debug.WriteLine(name + " cured with " + item);
             return true;
         }

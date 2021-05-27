@@ -189,6 +189,15 @@ namespace WillowWoodRefuge
 
         protected void MoveUpdate(GameTime gameTime)
         {
+            if(_target == null)
+            {
+                _abandonTimer = 0;
+                _timerStopped = false;
+                _isMoving = false;
+                Debug.WriteLine("Something went wrong with " + name);
+                return;
+            }
+
             Update(gameTime, new Vector2(_pos.X < _target._location.X ? 1 : -1, 0), true);
             float newDist = Vector2.Distance(_pos + new Vector2(0, _collisionBox._bounds.Height / 2), _target._location);
 
