@@ -297,9 +297,9 @@
             <filename>../foraging/Bay_Nut1.png</filename>
             <filename>../foraging/Bay_Nut2.png</filename>
             <filename>../foraging/Bay_Nut3.png</filename>
-            <filename>../foraging/Mazanita1.png</filename>
-            <filename>../foraging/Mazanita2.png</filename>
             <filename>../foraging/Mint1.png</filename>
+            <filename>../foraging/Manzanita1.png</filename>
+            <filename>../foraging/Manzanita2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
