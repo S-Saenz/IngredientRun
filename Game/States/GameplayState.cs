@@ -19,6 +19,7 @@ namespace WillowWoodRefuge
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+        protected int _shadowOpacity = 255;
         static protected bool _occlusion = true;
         static protected bool _isDarkEnabled = true;
         protected string _stateName;
@@ -341,7 +342,7 @@ namespace WillowWoodRefuge
             if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, new Color(Color.White, _shadowOpacity));
                 _spriteBatch.End();
             }
 
