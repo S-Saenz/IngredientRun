@@ -60,11 +60,7 @@ namespace WillowWoodRefuge
         private static void LoadContentData()
         {
             Game1.instance.stateConditions = new StateConditions();
-            //whenever a new state is added, it will need to be added to this list
-            _states.Add("colorState", new colorState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
-            _states.Add("CreditsState", new CreditsState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
-            _states.Add("TutorialState", new TutorialState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
-
+            
             _instance._loadingDataDone = true;
         }
 
