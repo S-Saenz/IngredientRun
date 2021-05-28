@@ -31,7 +31,7 @@ namespace WillowWoodRefuge
         protected override void LoadTilemap(ContentManager content)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/camp/CampMapForaging", _content, game.GraphicsDevice, _physicsHandler, "camp");
+            _tileMap = new TileMap("tilemaps/camp/TempCampMap", _content, game.GraphicsDevice, _physicsHandler, "camp");
 
             _isDark = false;
 
