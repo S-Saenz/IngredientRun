@@ -2,7 +2,7 @@
 
 {
 	"filename": "Background_Opacity.png",
-	"frame": {"x":165,"y":0,"w":47,"h":26},
+	"frame": {"x":975,"y":0,"w":47,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":47,"h":26},
@@ -10,7 +10,7 @@
 },
 {
 	"filename": "backPackTiny.png",
-	"frame": {"x":132,"y":0,"w":33,"h":25},
+	"frame": {"x":942,"y":0,"w":33,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":25},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "Black Plus.png",
-	"frame": {"x":62,"y":0,"w":23,"h":22},
+	"frame": {"x":872,"y":0,"w":23,"h":22},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":22},
@@ -26,7 +26,7 @@
 },
 {
 	"filename": "Burnt.png",
-	"frame": {"x":967,"y":0,"w":219,"h":40},
+	"frame": {"x":0,"y":33,"w":219,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":219,"h":40},
@@ -34,7 +34,7 @@
 },
 {
 	"filename": "ButtonNormal.png",
-	"frame": {"x":773,"y":0,"w":64,"h":30},
+	"frame": {"x":1583,"y":0,"w":64,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":30},
@@ -42,7 +42,7 @@
 },
 {
 	"filename": "ButtonPressed.png",
-	"frame": {"x":837,"y":0,"w":64,"h":30},
+	"frame": {"x":1647,"y":0,"w":64,"h":30},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":30},
@@ -50,7 +50,7 @@
 },
 {
 	"filename": "campfire-1.png",
-	"frame": {"x":576,"y":121,"w":140,"h":140},
+	"frame": {"x":1261,"y":33,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -58,7 +58,7 @@
 },
 {
 	"filename": "campfire-2.png",
-	"frame": {"x":1136,"y":121,"w":140,"h":140},
+	"frame": {"x":0,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -66,7 +66,7 @@
 },
 {
 	"filename": "campfire-3.png",
-	"frame": {"x":1276,"y":121,"w":140,"h":140},
+	"frame": {"x":140,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "campfire-4.png",
-	"frame": {"x":1416,"y":121,"w":140,"h":140},
+	"frame": {"x":280,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -82,7 +82,7 @@
 },
 {
 	"filename": "campfire-5.png",
-	"frame": {"x":1556,"y":121,"w":140,"h":140},
+	"frame": {"x":420,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -90,7 +90,7 @@
 },
 {
 	"filename": "campfire-6.png",
-	"frame": {"x":0,"y":261,"w":140,"h":140},
+	"frame": {"x":560,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -98,7 +98,7 @@
 },
 {
 	"filename": "campfire-7.png",
-	"frame": {"x":140,"y":261,"w":140,"h":140},
+	"frame": {"x":700,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -106,7 +106,7 @@
 },
 {
 	"filename": "campfire-8.png",
-	"frame": {"x":280,"y":261,"w":140,"h":140},
+	"frame": {"x":840,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -114,7 +114,7 @@
 },
 {
 	"filename": "campfire-9.png",
-	"frame": {"x":420,"y":261,"w":140,"h":140},
+	"frame": {"x":980,"y":173,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -122,7 +122,7 @@
 },
 {
 	"filename": "campfire-10.png",
-	"frame": {"x":716,"y":121,"w":140,"h":140},
+	"frame": {"x":1401,"y":33,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -130,7 +130,7 @@
 },
 {
 	"filename": "campfire-11.png",
-	"frame": {"x":856,"y":121,"w":140,"h":140},
+	"frame": {"x":1541,"y":33,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -138,7 +138,7 @@
 },
 {
 	"filename": "campfire-12.png",
-	"frame": {"x":996,"y":121,"w":140,"h":140},
+	"frame": {"x":1681,"y":33,"w":140,"h":140},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":140},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "confirmButton.png",
-	"frame": {"x":30,"y":0,"w":32,"h":16},
+	"frame": {"x":840,"y":0,"w":32,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":16},
@@ -154,7 +154,7 @@
 },
 {
 	"filename": "Cooking-UI-2.png",
-	"frame": {"x":0,"y":531,"w":640,"h":360},
+	"frame": {"x":480,"y":394,"w":640,"h":360},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":360},
@@ -162,7 +162,7 @@
 },
 {
 	"filename": "CureScreen.png",
-	"frame": {"x":474,"y":121,"w":102,"h":130},
+	"frame": {"x":1159,"y":33,"w":102,"h":130},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":130},
@@ -178,7 +178,7 @@
 },
 {
 	"filename": "Food_Container.png",
-	"frame": {"x":212,"y":0,"w":26,"h":26},
+	"frame": {"x":1022,"y":0,"w":26,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":26},
@@ -186,7 +186,7 @@
 },
 {
 	"filename": "Green-Button-2.png",
-	"frame": {"x":0,"y":41,"w":172,"h":43},
+	"frame": {"x":685,"y":33,"w":172,"h":43},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":172,"h":43},
@@ -194,7 +194,7 @@
 },
 {
 	"filename": "Hot_Zone.png",
-	"frame": {"x":238,"y":0,"w":87,"h":26},
+	"frame": {"x":1048,"y":0,"w":87,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":87,"h":26},
@@ -202,7 +202,7 @@
 },
 {
 	"filename": "Hottest_Zone.png",
-	"frame": {"x":325,"y":0,"w":7,"h":26},
+	"frame": {"x":1135,"y":0,"w":7,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":26},
@@ -210,7 +210,7 @@
 },
 {
 	"filename": "Inventory Backpack and Grid.png",
-	"frame": {"x":0,"y":891,"w":1742,"h":806},
+	"frame": {"x":0,"y":754,"w":1742,"h":806},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":1742,"h":806},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "Main_Container.png",
-	"frame": {"x":332,"y":0,"w":78,"h":26},
+	"frame": {"x":1142,"y":0,"w":78,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":78,"h":26},
@@ -226,7 +226,7 @@
 },
 {
 	"filename": "Main_Inventory_UI.png",
-	"frame": {"x":764,"y":261,"w":480,"h":221},
+	"frame": {"x":1324,"y":173,"w":480,"h":221},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":480,"h":221},
@@ -234,7 +234,7 @@
 },
 {
 	"filename": "Main_Inventory_UI_Scaled.png",
-	"frame": {"x":1244,"y":261,"w":480,"h":270},
+	"frame": {"x":0,"y":394,"w":480,"h":270},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":480,"h":270},
@@ -242,7 +242,7 @@
 },
 {
 	"filename": "Menu.png",
-	"frame": {"x":560,"y":261,"w":204,"h":204},
+	"frame": {"x":1120,"y":173,"w":204,"h":204},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":204,"h":204},
@@ -250,7 +250,7 @@
 },
 {
 	"filename": "Meter_Container.png",
-	"frame": {"x":410,"y":0,"w":303,"h":26},
+	"frame": {"x":1220,"y":0,"w":303,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":303,"h":26},
@@ -258,7 +258,7 @@
 },
 {
 	"filename": "Meter_End.png",
-	"frame": {"x":713,"y":0,"w":26,"h":26},
+	"frame": {"x":1523,"y":0,"w":26,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":26},
@@ -266,7 +266,7 @@
 },
 {
 	"filename": "needle.png",
-	"frame": {"x":464,"y":41,"w":10,"h":66},
+	"frame": {"x":1149,"y":33,"w":10,"h":66},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":66},
@@ -274,7 +274,7 @@
 },
 {
 	"filename": "Nice.png",
-	"frame": {"x":1186,"y":0,"w":179,"h":40},
+	"frame": {"x":219,"y":33,"w":179,"h":40},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":179,"h":40},
@@ -282,183 +282,447 @@
 },
 {
 	"filename": "Perfect.png",
-	"frame": {"x":1365,"y":0,"w":287,"h":41},
+	"frame": {"x":398,"y":33,"w":287,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":287,"h":41},
 	"sourceSize": {"w":287,"h":41}
 },
 {
-	"filename": "progress0.png",
-	"frame": {"x":237,"y":121,"w":79,"h":82},
+	"filename": "ProgressBar+1.png",
+	"frame": {"x":14,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":82},
-	"sourceSize": {"w":79,"h":82}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress1.png",
-	"frame": {"x":474,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+2.png",
+	"frame": {"x":164,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress2.png",
-	"frame": {"x":1269,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+3.png",
+	"frame": {"x":179,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress3.png",
-	"frame": {"x":1348,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+4.png",
+	"frame": {"x":194,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress4.png",
-	"frame": {"x":1427,"y":41,"w":80,"h":80},
+	"filename": "ProgressBar+5.png",
+	"frame": {"x":209,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
-	"sourceSize": {"w":80,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress5.png",
-	"frame": {"x":1507,"y":41,"w":82,"h":80},
+	"filename": "ProgressBar+6.png",
+	"frame": {"x":224,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":80},
-	"sourceSize": {"w":82,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress6.png",
-	"frame": {"x":1589,"y":41,"w":80,"h":80},
+	"filename": "ProgressBar+7.png",
+	"frame": {"x":239,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
-	"sourceSize": {"w":80,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress7.png",
-	"frame": {"x":0,"y":121,"w":79,"h":80},
+	"filename": "ProgressBar+8.png",
+	"frame": {"x":254,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress8.png",
-	"frame": {"x":79,"y":121,"w":79,"h":80},
+	"filename": "ProgressBar+9.png",
+	"frame": {"x":269,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress9.png",
-	"frame": {"x":158,"y":121,"w":79,"h":80},
+	"filename": "ProgressBar+10.png",
+	"frame": {"x":29,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress10.png",
-	"frame": {"x":316,"y":121,"w":79,"h":82},
+	"filename": "ProgressBar+11.png",
+	"frame": {"x":44,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":82},
-	"sourceSize": {"w":79,"h":82}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress11.png",
-	"frame": {"x":553,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+12.png",
+	"frame": {"x":59,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress12.png",
-	"frame": {"x":632,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+13.png",
+	"frame": {"x":74,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress13.png",
-	"frame": {"x":711,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+14.png",
+	"frame": {"x":89,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress14.png",
-	"frame": {"x":790,"y":41,"w":80,"h":80},
+	"filename": "ProgressBar+15.png",
+	"frame": {"x":104,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
-	"sourceSize": {"w":80,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress15.png",
-	"frame": {"x":870,"y":41,"w":82,"h":80},
+	"filename": "ProgressBar+16.png",
+	"frame": {"x":119,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":80},
-	"sourceSize": {"w":82,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress16.png",
-	"frame": {"x":952,"y":41,"w":80,"h":80},
+	"filename": "ProgressBar+17.png",
+	"frame": {"x":134,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":80},
-	"sourceSize": {"w":80,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress17.png",
-	"frame": {"x":1032,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar+18.png",
+	"frame": {"x":149,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress18.png",
-	"frame": {"x":1111,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar1.png",
+	"frame": {"x":284,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress19.png",
-	"frame": {"x":1190,"y":41,"w":79,"h":80},
+	"filename": "ProgressBar2.png",
+	"frame": {"x":434,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":80},
-	"sourceSize": {"w":79,"h":80}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
-	"filename": "progress20.png",
-	"frame": {"x":395,"y":121,"w":79,"h":82},
+	"filename": "ProgressBar3.png",
+	"frame": {"x":449,"y":0,"w":15,"h":15},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":79,"h":82},
-	"sourceSize": {"w":79,"h":82}
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar4.png",
+	"frame": {"x":464,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar5.png",
+	"frame": {"x":479,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar6.png",
+	"frame": {"x":494,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar7.png",
+	"frame": {"x":509,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar8.png",
+	"frame": {"x":524,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar9.png",
+	"frame": {"x":539,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar10.png",
+	"frame": {"x":299,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar11.png",
+	"frame": {"x":314,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar12.png",
+	"frame": {"x":329,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar13.png",
+	"frame": {"x":344,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar14.png",
+	"frame": {"x":359,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar15.png",
+	"frame": {"x":374,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar16.png",
+	"frame": {"x":389,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar17.png",
+	"frame": {"x":404,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBar18.png",
+	"frame": {"x":419,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro1.png",
+	"frame": {"x":554,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro2.png",
+	"frame": {"x":704,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro3.png",
+	"frame": {"x":719,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro4.png",
+	"frame": {"x":734,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro5.png",
+	"frame": {"x":749,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro6.png",
+	"frame": {"x":764,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro7.png",
+	"frame": {"x":779,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro8.png",
+	"frame": {"x":794,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro9.png",
+	"frame": {"x":809,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro10.png",
+	"frame": {"x":569,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro11.png",
+	"frame": {"x":584,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro12.png",
+	"frame": {"x":599,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro13.png",
+	"frame": {"x":614,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro14.png",
+	"frame": {"x":629,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro15.png",
+	"frame": {"x":644,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro16.png",
+	"frame": {"x":659,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro17.png",
+	"frame": {"x":674,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "ProgressBaro18.png",
+	"frame": {"x":689,"y":0,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
 },
 {
 	"filename": "QuestionMark.png",
-	"frame": {"x":400,"y":41,"w":64,"h":64},
+	"frame": {"x":1085,"y":33,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -466,7 +730,7 @@
 },
 {
 	"filename": "Raw.png",
-	"frame": {"x":172,"y":41,"w":228,"h":50},
+	"frame": {"x":857,"y":33,"w":228,"h":50},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":50},
@@ -474,7 +738,7 @@
 },
 {
 	"filename": "Shuffle_Button.png",
-	"frame": {"x":901,"y":0,"w":33,"h":33},
+	"frame": {"x":1711,"y":0,"w":33,"h":33},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":33},
@@ -482,7 +746,7 @@
 },
 {
 	"filename": "Spoon.png",
-	"frame": {"x":739,"y":0,"w":7,"h":26},
+	"frame": {"x":1549,"y":0,"w":7,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":7,"h":26},
@@ -490,7 +754,7 @@
 },
 {
 	"filename": "Trash_Can.png",
-	"frame": {"x":934,"y":0,"w":33,"h":33},
+	"frame": {"x":1744,"y":0,"w":33,"h":33},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":33},
@@ -498,7 +762,7 @@
 },
 {
 	"filename": "UI Container.png",
-	"frame": {"x":640,"y":531,"w":640,"h":360},
+	"frame": {"x":1120,"y":394,"w":640,"h":360},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":640,"h":360},
@@ -506,7 +770,7 @@
 },
 {
 	"filename": "Unfilled_Star.png",
-	"frame": {"x":14,"y":0,"w":16,"h":16},
+	"frame": {"x":824,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -514,7 +778,7 @@
 },
 {
 	"filename": "x-button.png",
-	"frame": {"x":108,"y":0,"w":24,"h":22},
+	"frame": {"x":918,"y":0,"w":24,"h":22},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":22},
@@ -522,7 +786,7 @@
 },
 {
 	"filename": "X_Button.png",
-	"frame": {"x":746,"y":0,"w":27,"h":26},
+	"frame": {"x":1556,"y":0,"w":27,"h":26},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":27,"h":26},
@@ -530,7 +794,7 @@
 },
 {
 	"filename": "Yellow Plus.png",
-	"frame": {"x":85,"y":0,"w":23,"h":22},
+	"frame": {"x":895,"y":0,"w":23,"h":22},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":23,"h":22},
@@ -541,8 +805,8 @@
 	"version": "1.0",
 	"image": "uiTextures.png",
 	"format": "RGBA8888",
-	"size": {"w":1742,"h":1697},
+	"size": {"w":1821,"h":1560},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e465eb536e7a3a27e8910509249a51ac:c9c8f4b5590694edc1b1b054dc6f410f:2f8c81028f9da77ea81f6b26ee9fc217$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a678ed9154d994430f79015d38695ade:3a072900c159f479e219d33825f4c572:2f8c81028f9da77ea81f6b26ee9fc217$"
 }
 }
