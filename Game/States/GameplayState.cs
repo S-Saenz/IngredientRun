@@ -20,7 +20,7 @@ namespace WillowWoodRefuge
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
         static protected bool _occlusion = true;
-        protected string _stateName;
+        public string _stateName { get; protected set; }
 
         // Camera zoom
         protected Vector2 _cameraSize;
@@ -48,7 +48,8 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<SpawnItem> _items = new List<SpawnItem>();
+        public List<SpawnItem> _spawnItems = new List<SpawnItem>();
+        public List<PickupItem> _pickupItems = new List<PickupItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
@@ -127,7 +128,7 @@ namespace WillowWoodRefuge
         public override void LoadContent()
         {
             // Temp, just respawns objects and enemies
-            _tileMap.SpawnPickups(ref _items);
+            _tileMap.SpawnPickups(ref _spawnItems);
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
@@ -189,6 +190,9 @@ namespace WillowWoodRefuge
             {
                 spot.Update(gameTime);
             }
+
+            // Update dropped items
+            PickupItem.UpdateAll(gameTime);
 
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
@@ -315,6 +319,7 @@ namespace WillowWoodRefuge
             _tileMap.DrawEnemies(spriteBatch);
             _tileMap.DrawPickups(spriteBatch);
             _tileMap.DrawForage(spriteBatch);
+            PickupItem.DrawAll(spriteBatch, _stateName);
 
             // Draw player
             if (_player != null)
@@ -377,11 +382,11 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (SpawnItem item in _items)
+            foreach (SpawnItem item in _spawnItems)
             {
                 item.RemoveCollision(_physicsHandler);
             }
-            _items.Clear();
+            _spawnItems.Clear();
 
             // remove NPC hitboxes
             // foreach (NPC character in _characters.Values)
