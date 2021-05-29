@@ -100,6 +100,10 @@ namespace WillowWoodRefuge
             // load sprite fonts
             FontManager.Initialize(Content);
 
+            //whenever a new state is added, it will need to be added to this list
+            _states.Add("colorState", new colorState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("CreditsState", new CreditsState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("TutorialState", new TutorialState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("LoadingState", new LoadingState(this, Content, _spriteBatch, _states));
             _states.Add("MenuState", new MenuState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             
@@ -116,7 +120,7 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
-            if (_currentStateName != "MenuState" && _currentStateName != "LoadingState")
+            if (_currentState as GameplayState != null)
             {
                 input.Update(gameTime);
                 //Debug.WriteLine();

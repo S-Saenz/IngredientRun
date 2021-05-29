@@ -72,12 +72,13 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
+            Vector2 offset = new Vector2(0, 5);
             animationDict = new Dictionary<string, Animation>();
-            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runLeft", new Animation(_texture, 1, 1, 100));
-            animationDict.Add("runRight", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("idle", new Animation(Content.Load<Texture2D>("animations/" + name + "_side_left"), 1, 1, 0, offset));
+            animationDict.Add("idleLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_side_left"), 1, 1, 0, offset));
+            animationDict.Add("idleRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_side_right"), 1, 1, 0, offset));
+            animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 8, 100, offset));
+            animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 8, 100, offset));
         }
 
         private void onOverlap(OverlapInfo info)
