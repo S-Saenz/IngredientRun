@@ -19,8 +19,10 @@ namespace WillowWoodRefuge
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+        protected int _shadowOpacity = 255;
         static protected bool _occlusion = true;
-        protected string _stateName;
+        static protected bool _isDarkEnabled = true;
+        public string _stateName;
 
         // Camera zoom
         protected Vector2 _cameraSize;
@@ -48,11 +50,13 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<SpawnItem> _items = new List<SpawnItem>();
+        public List<SpawnItem> _spawnItems = new List<SpawnItem>();
+        public List<PickupItem> _pickupItems = new List<PickupItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
         public Dictionary<string, NPC> _characters { protected set; get; }
+        public static int _numInjured;
 
         // Backgrounds
         public TileMap _tileMap { protected set; get; }
@@ -120,6 +124,8 @@ namespace WillowWoodRefuge
             // Setup shader buffers
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
+
+            _numInjured = 5;
         }
 
         abstract protected void LoadTilemap(ContentManager content);
@@ -127,7 +133,7 @@ namespace WillowWoodRefuge
         public override void LoadContent()
         {
             // Temp, just respawns objects and enemies
-            _tileMap.SpawnPickups(ref _items);
+            _tileMap.SpawnPickups(ref _spawnItems);
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
@@ -190,6 +196,9 @@ namespace WillowWoodRefuge
                 spot.Update(gameTime);
             }
 
+            // Update dropped items
+            PickupItem.UpdateAll(gameTime);
+
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
 
@@ -216,7 +225,13 @@ namespace WillowWoodRefuge
             // Toggle lighting
             if(game.input.JustPressed("light"))
             {
-                _isDark = !_isDark;
+                _isDarkEnabled = !_isDarkEnabled;
+            }
+
+            // End state
+            if(_numInjured <= 0)
+            {
+                Game1.instance.RequestStateChange("MenuState");
             }
         }
 
@@ -248,7 +263,7 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // render shadow target
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
@@ -315,6 +330,7 @@ namespace WillowWoodRefuge
             _tileMap.DrawEnemies(spriteBatch);
             _tileMap.DrawPickups(spriteBatch);
             _tileMap.DrawForage(spriteBatch);
+            PickupItem.DrawAll(spriteBatch, _stateName);
 
             // Draw player
             if (_player != null)
@@ -328,10 +344,10 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, new Color(Color.White, _shadowOpacity));
                 _spriteBatch.End();
             }
 
@@ -377,11 +393,11 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (SpawnItem item in _items)
+            foreach (SpawnItem item in _spawnItems)
             {
                 item.RemoveCollision(_physicsHandler);
             }
-            _items.Clear();
+            _spawnItems.Clear();
 
             // remove NPC hitboxes
             // foreach (NPC character in _characters.Values)

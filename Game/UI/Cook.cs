@@ -221,8 +221,9 @@ namespace WillowWoodRefuge
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, new Vector2(width / 1000), true);
 
             //progress bar
-            string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 630.0f), true);
+            // string progressBar = "progress" + (int)Math.Min(_progress / 100 * (17 * 4),(17 * 4));
+            DrawProgressBar(spriteBatch, new Vector2(width / 2, height / 8), _progress / 100);
+            // TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 630.0f), true);
 
             //hot zones
             Vector2 zonePos = new Vector2(_zoneX, height * 0.45f);
@@ -359,6 +360,28 @@ namespace WillowWoodRefuge
                 
                 this.fireTexture = chooseFireTexture();
             }
+        }
+
+        void DrawProgressBar(SpriteBatch spriteBatch, Vector2 center, float percentage)
+        {
+            int frame = (int)Math.Min(((18 * 4 - 1) * percentage + 1), 18 * 4);
+            float width = (int)Game1.instance._cameraController._screenDimensions.X / 200;
+            Debug.WriteLine(frame);
+
+            for (int quadrant = 0; quadrant < 4 && frame > 0; ++quadrant)
+            {
+                TextureAtlasManager.DrawTexture(spriteBatch, "UI", "ProgressBar" + Math.Min(frame, 18), center, Color.LawnGreen,
+                                                new Vector2(width), false, -quadrant * (MathF.PI / 2), new Vector2(1));
+                frame -= 18;
+
+                if(frame <= 0)
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "ProgressBaro" + (frame + 18), center, Color.LawnGreen,
+                                                new Vector2(width), false, -quadrant * (MathF.PI / 2), new Vector2(1));
+                }
+            }
+
+            // spriteBatch.DrawPoint(center, Color.Red, 3);
         }
 
         void doneAnimation()
