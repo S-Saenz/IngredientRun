@@ -121,9 +121,14 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
+            input.Update(gameTime);
+
+            // toggle windowed/fullscreen
+            if (input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
+                _cameraController.ToggleFullscreen();
+
             if (_currentState as GameplayState != null)
             {
-                input.Update(gameTime);
                 //Debug.WriteLine();
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     Exit();
@@ -153,9 +158,7 @@ namespace WillowWoodRefuge
                     _changeRequest = null;
                 }
 
-                // toggle windowed/fullscreen
-                if (input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
-                    _cameraController.ToggleFullscreen();
+                
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                         Keyboard.GetState().IsKeyDown(Keys.D2) ||
@@ -171,7 +174,7 @@ namespace WillowWoodRefuge
                 }
             }
 
-                base.Update(gameTime);
+            base.Update(gameTime);
 
             // this.UI.Update(gameTime);
         }

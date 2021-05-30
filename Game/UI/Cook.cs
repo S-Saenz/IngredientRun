@@ -211,7 +211,7 @@ namespace WillowWoodRefuge
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
             //Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
-            float foodScale = 4; //reuse the scale value from the recipe menu
+            float foodScale = 4 * Game1.instance._cameraController._screenScale; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2;// - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
             TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, new Vector2(foodScale * .7f), true);
@@ -226,13 +226,13 @@ namespace WillowWoodRefuge
             // TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 630.0f), true);
 
             //hot zones
-            Vector2 zonePos = new Vector2(_zoneX, height * 0.45f);
+            Vector2 zonePos = new Vector2(_zoneX * Game1.instance._cameraController._screenScale, height * 0.45f);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, new Vector2(width / 450), true);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, new Vector2(width / 450), true);
 
             //needle
             //spriteBatch.Draw(needle, new Vector2(_needleX, _screenHeight * 0.317f), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX, height * (.45f)), Color.White, new Vector2(width / 300), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX * Game1.instance._cameraController._screenScale, height * (.45f)), Color.White, new Vector2(width / 300), true);
 
             // temp tutorial text
             Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!");

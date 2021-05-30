@@ -50,6 +50,7 @@ namespace WillowWoodRefuge
             this._position = pos;
             this._texture = texture;
             //this.pos = pos
+            Game1.instance._cameraController.AddResizeListener(onResize);
         }
         
 
@@ -57,6 +58,7 @@ namespace WillowWoodRefuge
         {
             //this.img = texture;
             this._texture = texture;
+            Game1.instance._cameraController.AddResizeListener(onResize);
         }
         
 
@@ -86,7 +88,11 @@ namespace WillowWoodRefuge
         {
             screenScale = Game1.instance._cameraController._screenScale;
 
-            Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
+            Size2 textureSize;
+            if (_texture == null)
+                textureSize = TextureAtlasManager.GetSize("UI", _name);
+            else
+                textureSize = _texture.Bounds.Size;
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale *_scale), (int)(textureSize.Height * screenScale *_scale));
             if (_isCentered)
             {
@@ -154,7 +160,7 @@ namespace WillowWoodRefuge
             if (_texture == null)
                 TextureAtlasManager.DrawTexture(spriteBatch, "UI", _name, _rectangle, colour);
             else
-                spriteBatch.Draw(_texture, _position, null, colour, 0f, Vector2.Zero, (_scale * Game1.instance._cameraController._screenScale), SpriteEffects.None, 0.01f);
+                spriteBatch.Draw(_texture, _rectangle, null, colour);
             if (_text.Length > 0)
                 FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _text, (Point2)_rectangle.Center, Alignment.Centered, Color.Black, true);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
