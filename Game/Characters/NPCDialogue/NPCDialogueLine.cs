@@ -114,11 +114,18 @@ namespace WillowWoodRefuge
         public bool Draw(OrthographicCamera camera, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
             string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
-            Vector2 loc = characters[_character].GetDialogueLoc(camera);
-            Vector2 size = FontManager._dialogueFont.MeasureString(_character + "\n" + _speech);
-            loc.Y -= size.Y;
-            spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
-            spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
+            Vector2 size = TextureAtlasManager.GetSize("UI", "Container and Stem");
+            float scale = 0.75f * Game1.instance._cameraController._screenScale;
+            Vector2 loc = characters[_character].GetDialogueLoc(camera) - new Vector2((100 - size.X / 2) * scale, (size.Y / 2) * scale);
+            Vector2 nameBoxLoc = loc - new Vector2(0, (size.Y - 10) / 2 * scale);
+            // Vector2 size = FontManager._dialogueFont.MeasureString(_character + "\n" + _speech);
+            // loc.Y -= size.Y;
+            // spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Container and Stem", loc, Color.White, new Vector2(scale), centered: true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Name Box", nameBoxLoc, Color.White, new Vector2(scale), centered: true);
+            FontManager.PrintText(FontManager._dialogueFont, spriteBatch, speech, loc - new Vector2(0, 30 * scale), Alignment.Centered, Color.White, true);
+            FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _character, nameBoxLoc, Alignment.Centered, Color.White, true);
+            // spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
             if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
             {
                 return true;

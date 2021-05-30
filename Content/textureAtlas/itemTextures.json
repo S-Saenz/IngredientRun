@@ -2,7 +2,7 @@
 
 {
 	"filename": "acorn.png",
-	"frame": {"x":0,"y":152,"w":32,"h":32},
+	"frame": {"x":32,"y":184,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -10,7 +10,7 @@
 },
 {
 	"filename": "apple.png",
-	"frame": {"x":32,"y":152,"w":32,"h":32},
+	"frame": {"x":0,"y":216,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -18,7 +18,7 @@
 },
 {
 	"filename": "appleMushroomSoup.png",
-	"frame": {"x":0,"y":184,"w":32,"h":32},
+	"frame": {"x":32,"y":216,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -34,38 +34,6 @@
 },
 {
 	"filename": "beetle.png",
-	"frame": {"x":32,"y":184,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "berries.png",
-	"frame": {"x":0,"y":472,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64}
-},
-{
-	"filename": "carrot.png",
-	"frame": {"x":0,"y":216,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "carrotSoup.png",
-	"frame": {"x":32,"y":216,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "cricket.png",
 	"frame": {"x":0,"y":248,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -73,7 +41,23 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "egg.png",
+	"filename": "berries.png",
+	"frame": {"x":0,"y":536,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64}
+},
+{
+	"filename": "Calamint.png",
+	"frame": {"x":32,"y":24,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "carrot.png",
 	"frame": {"x":32,"y":248,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -81,7 +65,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "fish.png",
+	"filename": "carrotSoup.png",
 	"frame": {"x":0,"y":280,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -89,7 +73,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "glowing_plant.png",
+	"filename": "cricket.png",
 	"frame": {"x":32,"y":280,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -97,7 +81,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "gooseberry.png",
+	"filename": "egg.png",
 	"frame": {"x":0,"y":312,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -105,7 +89,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "grilledFish.png",
+	"filename": "fish.png",
 	"frame": {"x":32,"y":312,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -113,8 +97,32 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
+	"filename": "glowing_plant.png",
+	"frame": {"x":0,"y":344,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "gooseberry.png",
+	"frame": {"x":32,"y":344,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "grilledFish.png",
+	"frame": {"x":0,"y":376,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
 	"filename": "honey.png",
-	"frame": {"x":0,"y":536,"w":64,"h":64},
+	"frame": {"x":0,"y":600,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -129,55 +137,7 @@
 	"sourceSize": {"w":26,"h":24}
 },
 {
-	"filename": "Manzanita.png",
-	"frame": {"x":32,"y":24,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "meat.png",
-	"frame": {"x":0,"y":344,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "monsterSoup.png",
-	"frame": {"x":32,"y":344,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "mousemelon.png",
-	"frame": {"x":0,"y":376,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "mushroom.png",
-	"frame": {"x":32,"y":376,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "mushroom_medicine.png",
-	"frame": {"x":0,"y":408,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "Nodding_Onion.png",
+	"filename": "Hummingbird_Sage.png",
 	"frame": {"x":0,"y":56,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -185,7 +145,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "Oyster_Mushroom.png",
+	"filename": "Manzanita.png",
 	"frame": {"x":32,"y":56,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -193,7 +153,15 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "Penny_Bun_Mushroom.png",
+	"filename": "meat.png",
+	"frame": {"x":32,"y":376,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Mint.png",
 	"frame": {"x":0,"y":88,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -201,7 +169,15 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "rabbitSoup.png",
+	"filename": "monsterSoup.png",
+	"frame": {"x":0,"y":408,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "mousemelon.png",
 	"frame": {"x":32,"y":408,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -209,7 +185,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "snail.png",
+	"filename": "mushroom.png",
 	"frame": {"x":0,"y":440,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -217,23 +193,7 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "Thimbleberry.png",
-	"frame": {"x":32,"y":88,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "Toothwort.png",
-	"frame": {"x":0,"y":120,"w":32,"h":32},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
-	"sourceSize": {"w":32,"h":32}
-},
-{
-	"filename": "water.png",
+	"filename": "mushroom_medicine.png",
 	"frame": {"x":32,"y":440,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
@@ -241,8 +201,72 @@
 	"sourceSize": {"w":32,"h":32}
 },
 {
-	"filename": "Wolfberry.png",
+	"filename": "Nodding_Onion.png",
+	"frame": {"x":32,"y":88,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Oyster_Mushroom.png",
+	"frame": {"x":0,"y":120,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Penny_Bun_Mushroom.png",
 	"frame": {"x":32,"y":120,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "rabbitSoup.png",
+	"frame": {"x":0,"y":472,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "snail.png",
+	"frame": {"x":32,"y":472,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Thimbleberry.png",
+	"frame": {"x":0,"y":152,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Toothwort.png",
+	"frame": {"x":32,"y":152,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "water.png",
+	"frame": {"x":0,"y":504,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "Wolfberry.png",
+	"frame": {"x":0,"y":184,"w":32,"h":32},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
@@ -261,8 +285,8 @@
 	"version": "1.0",
 	"image": "itemTextures.png",
 	"format": "RGBA8888",
-	"size": {"w":64,"h":600},
+	"size": {"w":64,"h":664},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:d750cdd287f995f821cfa8d2647d7b00:a4610bc31aef564803e3f02776342492:a929daae8872cfde4d11c7f5443a9c91$"
+	"smartupdate": "$TexturePacker:SmartUpdate:f6b0e076a0efc2bd5db6e38b04a82469:2f6758a295e03514ca5a78846bd85546:a929daae8872cfde4d11c7f5443a9c91$"
 }
 }
