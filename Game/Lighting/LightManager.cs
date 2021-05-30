@@ -6,7 +6,7 @@ namespace WillowWoodRefuge
     public partial class LightManager
     {
         // Light constants
-        private static int MAX_AREA_LIGHTS = 10;
+        private static int MAX_AREA_LIGHTS = 30;
         private static int MAX_DIRECTIONAL_LIGHTS = 10;
 
         // Shader that lights are applied to

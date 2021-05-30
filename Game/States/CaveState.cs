@@ -12,12 +12,13 @@ namespace WillowWoodRefuge
         {
             _cameraSize = new Vector2(480, 270);
             _playerCamBounds = new RectangleF(0, 0, 160f, 90f);
+            _stateName = "cave";
         }
 
         protected override void LoadTilemap(ContentManager content)
         {
             // Setup Tilemap
-            _tileMap = new TileMap("tilemaps/cave/CollisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
+            _tileMap = new TileMap("tilemaps/cave/collisionTestMap", _content, game.GraphicsDevice, _physicsHandler, "cave");
 
             _isDark = true;
 

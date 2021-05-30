@@ -48,6 +48,7 @@ namespace WillowWoodRefuge
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
         public float _yClearance = 16;
+        private PhysicsHandler _physicsHandler;
 
         private string previousMoveType;
         private string previousDirection;
@@ -60,6 +61,7 @@ namespace WillowWoodRefuge
         {
             graphics = graphic;
             _pos = pos;
+            _physicsHandler = collisionHandler;
 
             _overlap = new RectangleF();
         }
@@ -337,7 +339,6 @@ namespace WillowWoodRefuge
             if (landCheck && _collisionBox._downBlocked)
             {
                 landCheck = false;
-                Debug.WriteLine("landed");
                 Game1.instance.sounds.landSound(_maxFallSpeed, _collisionBox._maxSpeed.Y);
                 _maxFallSpeed = 0;
             }
@@ -416,22 +417,40 @@ namespace WillowWoodRefuge
                     }
                 }
 
-                // check if pickup item
-                SpawnItem obj = item._other as SpawnItem;
-                if (obj != null)
+                // check if spawn item
+                SpawnItem spawnItem = item._other as SpawnItem;
+                if (spawnItem != null)
                 {
-                    Debug.WriteLine(obj._name);
+                    Debug.WriteLine(spawnItem._name);
                     // TODO: try adding to inventory, returning whether successful or not
-                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(obj._name))
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(spawnItem._name))
                     {
-                        (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                        obj._spawn.Despawn();
+                        (Game1.instance._currentState as GameplayState)._spawnItems.Remove(spawnItem);
+                        spawnItem._spawn.Despawn();
                         actionComplete = true;
                     }
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "pick up " + obj._name;
+                        _overlapName = "pick up " + spawnItem._name;
+                    }
+                }
+
+                // check if pickup item
+                PickupItem pickup = item._other as PickupItem;
+                if (pickup != null)
+                {
+                    Debug.WriteLine(pickup._name);
+                    // TODO: try adding to inventory, returning whether successful or not
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(pickup._name))
+                    {
+                        pickup.Pickup();
+                        actionComplete = true;
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "pick up " + pickup._name;
                     }
                 }
 
@@ -714,6 +733,13 @@ namespace WillowWoodRefuge
         public void Hit(float attackDamage)
         {
             Debug.WriteLine("Hit -" + attackDamage);
+            for(int i = 0; i < attackDamage && Game1.instance.inventory.ingredientList.Count > 0; ++i)
+            {
+                int chosen = new Random().Next(0, Game1.instance.inventory.ingredientList.Count);
+                string dropped = Game1.instance.inventory.ingredientList[chosen]._name;
+                Game1.instance.inventory.ingredientList.RemoveAt(chosen);
+                new PickupItem(dropped, _collisionBox._bounds.BottomRight, _physicsHandler, (Game1.instance._currentState as GameplayState)._stateName);
+            }
         }
     }
 }

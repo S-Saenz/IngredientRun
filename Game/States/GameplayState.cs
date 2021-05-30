@@ -14,12 +14,15 @@ namespace WillowWoodRefuge
     abstract class GameplayState : State
     {
         // Shaders
-        protected Effect _shadowEffect;
-        protected Effect _ditherOpacityEffect;
+        static protected Effect _shadowEffect;
+        static protected Effect _ditherOpacityEffect;
         protected LightManager _staticLightManager;
         protected LightManager _dynamicLightManager;
         protected Color _shadowColor = new Color(26, 17, 7, 255);
+        protected int _shadowOpacity = 255;
         static protected bool _occlusion = true;
+        static protected bool _isDarkEnabled = true;
+        public string _stateName;
 
         // Camera zoom
         protected Vector2 _cameraSize;
@@ -28,13 +31,12 @@ namespace WillowWoodRefuge
         // Render targets
         public RenderTarget2D _backgroundBuffer;
         public RenderTarget2D _foregroundBuffer;
-        public RenderTarget2D _casterBuffer;
-        public RenderTarget2D _bakedShadowBuffer;
         public RenderTarget2D _shadowBuffer;
         public RenderTarget2D _ditherShadowBuffer;
 
         // Saved shader textures
-        protected Texture2D _blankTexture;
+        protected Texture2D _bakedShadows;
+        protected Texture2D _bakedCasters;
 
         // Light info
         protected bool _isDark = false;
@@ -48,11 +50,13 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<SpawnItem> _items = new List<SpawnItem>();
+        public List<SpawnItem> _spawnItems = new List<SpawnItem>();
+        public List<PickupItem> _pickupItems = new List<PickupItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
         public Dictionary<string, NPC> _characters { protected set; get; }
+        public static int _numInjured;
 
         // Backgrounds
         public TileMap _tileMap { protected set; get; }
@@ -98,11 +102,13 @@ namespace WillowWoodRefuge
             _characters = new Dictionary<string, NPC>();
 
             // Setup light shader
-            _shadowEffect = content.Load<Effect>("shaders/CastShadows");
+            if(_shadowEffect == null)
+                _shadowEffect = content.Load<Effect>("shaders/CastShadows");
             _dynamicLightManager = new LightManager(_shadowEffect);
             _staticLightManager = new LightManager(_shadowEffect);
 
-            _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
+            if (_ditherOpacityEffect == null)
+                _ditherOpacityEffect = content.Load<Effect>("shaders/DitherOpacity");
             _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
 
             // Add player light
@@ -118,7 +124,8 @@ namespace WillowWoodRefuge
             // Setup shader buffers
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            PostConstruction();
+
+            _numInjured = 5;
         }
 
         abstract protected void LoadTilemap(ContentManager content);
@@ -126,7 +133,7 @@ namespace WillowWoodRefuge
         public override void LoadContent()
         {
             // Temp, just respawns objects and enemies
-            _tileMap.SpawnPickups(ref _items);
+            _tileMap.SpawnPickups(ref _spawnItems);
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
@@ -148,10 +155,12 @@ namespace WillowWoodRefuge
             game._cameraController.SetPlayerBounds(_playerCamBounds);
 
             // Setup lighting
+            _bakedShadows = _content.Load<Texture2D>("bakedShadows/" + _stateName + "Shadows");
+            _bakedCasters = _content.Load<Texture2D>("levelCasters/" + _stateName + "Casters");
             _dynamicLightManager.CreateShaderArrays();
             _shadowEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
             _ditherOpacityEffect.Parameters["TextureDimensions"].SetValue(new Vector2(_tileMap._mapBounds.Width, _tileMap._mapBounds.Height));
-            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
+            _shadowEffect.Parameters["CasterTexture"].SetValue(_bakedCasters);
         }
 
         public override void Update(GameTime gameTime)
@@ -187,6 +196,9 @@ namespace WillowWoodRefuge
                 spot.Update(gameTime);
             }
 
+            // Update dropped items
+            PickupItem.UpdateAll(gameTime);
+
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
 
@@ -213,7 +225,13 @@ namespace WillowWoodRefuge
             // Toggle lighting
             if(game.input.JustPressed("light"))
             {
-                _isDark = !_isDark;
+                _isDarkEnabled = !_isDarkEnabled;
+            }
+
+            // End state
+            if(_numInjured <= 0)
+            {
+                Game1.instance.RequestStateChange("MenuState");
             }
         }
 
@@ -245,14 +263,14 @@ namespace WillowWoodRefuge
             spriteBatch.End();
 
             // render shadow target
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 game.GraphicsDevice.SetRenderTarget(_shadowBuffer);
                 game.GraphicsDevice.Clear(Color.Transparent);
 
                 // Render dynamic lights
                 _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
-                _spriteBatch.Draw(_bakedShadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.Draw(_bakedShadows, Vector2.Zero, Color.White);
                 _spriteBatch.End();
 
                 game.GraphicsDevice.SetRenderTarget(_ditherShadowBuffer);
@@ -312,6 +330,7 @@ namespace WillowWoodRefuge
             _tileMap.DrawEnemies(spriteBatch);
             _tileMap.DrawPickups(spriteBatch);
             _tileMap.DrawForage(spriteBatch);
+            PickupItem.DrawAll(spriteBatch, _stateName);
 
             // Draw player
             if (_player != null)
@@ -325,10 +344,10 @@ namespace WillowWoodRefuge
             _spriteBatch.Draw(_foregroundBuffer, Vector2.Zero, Color.White);
             _spriteBatch.End();
 
-            if (_isDark && !(_showMiniDebug || _showFullDebug))
+            if (_isDark && _isDarkEnabled && !(_showMiniDebug || _showFullDebug))
             {
                 _spriteBatch.Begin(transformMatrix: game._cameraController.GetViewMatrix(), sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, Color.White);
+                _spriteBatch.Draw(_ditherShadowBuffer, Vector2.Zero, new Color(Color.White, _shadowOpacity));
                 _spriteBatch.End();
             }
 
@@ -374,18 +393,18 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (SpawnItem item in _items)
+            foreach (SpawnItem item in _spawnItems)
             {
                 item.RemoveCollision(_physicsHandler);
             }
-            _items.Clear();
+            _spawnItems.Clear();
 
             // remove NPC hitboxes
-            foreach (NPC character in _characters.Values)
-            {
-                character.Destroy(_physicsHandler);
-            }
-            _characters.Clear();
+            // foreach (NPC character in _characters.Values)
+            // {
+            //     character.Destroy(_physicsHandler);
+            // }
+            // _characters.Clear();
         }
 
         void UpdateDebug()
@@ -500,7 +519,7 @@ namespace WillowWoodRefuge
             }
         }
 
-        protected void PostConstruction()
+        public void PostConstruction()
         {
             // set up secondary render buffers
             _backgroundBuffer = new RenderTarget2D(
@@ -517,21 +536,7 @@ namespace WillowWoodRefuge
                 false,
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
-            _casterBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
             _shadowBuffer = new RenderTarget2D(
-                game.GraphicsDevice,
-                (int)_tileMap._mapBounds.Width,
-                (int)_tileMap._mapBounds.Height,
-                false,
-                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
-            _bakedShadowBuffer = new RenderTarget2D(
                 game.GraphicsDevice,
                 (int)_tileMap._mapBounds.Width,
                 (int)_tileMap._mapBounds.Height,
@@ -546,44 +551,10 @@ namespace WillowWoodRefuge
                 game.GraphicsDevice.PresentationParameters.BackBufferFormat,
                 DepthFormat.Depth24);
 
-            // populate shadow as black
-            _blankTexture = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
-            Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
-            for (int i = 0; i < data.Length; ++i)
-            {
-                data[i] = _shadowColor;
-                // data[i] = new Color((float)(i % _blankTexture.Width) / _blankTexture.Width, 0, (float)(i / _blankTexture.Width) / _blankTexture.Height);
-            }
-            _blankTexture.SetData(data);
-
-            // setup caster texture
-            game.GraphicsDevice.SetRenderTarget(_casterBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-            _tileMap.DrawLayer(_spriteBatch, "Walls");
-            _tileMap.DrawLayer(_spriteBatch, "Foreground");
-            _spriteBatch.End();
-
-            _shadowEffect.Parameters["CasterTexture"].SetValue(_casterBuffer);
             //dither effect loader
             _ditherOpacityEffect.Parameters["ditherMap"].SetValue(_content.Load<Texture2D>("dither/dithersheet"));
 
             _staticLightManager.CreateShaderArrays();
-
-            // bake static lights
-            game.GraphicsDevice.SetRenderTarget(_bakedShadowBuffer);
-            game.GraphicsDevice.Clear(Color.Transparent);
-
-            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
-            _spriteBatch.Draw(_blankTexture, Vector2.Zero, Color.White);
-            _spriteBatch.End();
-
-            game.GraphicsDevice.SetRenderTarget(null);
-
-            // Stream stream = File.Create("shadow.png");
-            // _bakedShadowBuffer.SaveAsPng(stream, _bakedShadowBuffer.Width, _bakedShadowBuffer.Height);
-            // stream.Dispose();
         }
 
         public void LockPlayerPos()
@@ -594,6 +565,67 @@ namespace WillowWoodRefuge
         public void UnlockPlayerPos()
         {
             _player.UnlockPos();
+        }
+
+        public void BakeStaticLights()
+        {
+            RenderTarget2D casterBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+
+            // setup caster texture
+            game.GraphicsDevice.SetRenderTarget(casterBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            _tileMap.DrawLayer(_spriteBatch, "Walls");
+            _tileMap.DrawLayer(_spriteBatch, "Foreground");
+            _spriteBatch.End();
+
+            Stream stream = File.Create("../../../Content/levelCasters/" + _stateName + "Casters.png");
+            casterBuffer.SaveAsPng(stream, casterBuffer.Width, casterBuffer.Height);
+            stream.Dispose();
+
+            _bakedCasters = casterBuffer;
+            _shadowEffect.Parameters["CasterTexture"].SetValue(casterBuffer);
+
+            // populate shadow
+            Texture2D blankTexture = new Texture2D(game.GraphicsDevice, (int)_tileMap._mapBounds.Width, (int)_tileMap._mapBounds.Height);
+            Color[] data = new Color[(int)_tileMap._mapBounds.Width * (int)_tileMap._mapBounds.Height];
+            for (int i = 0; i < data.Length; ++i)
+            {
+                data[i] = _shadowColor;
+                // data[i] = new Color((float)(i % _blankTexture.Width) / _blankTexture.Width, 0, (float)(i / _blankTexture.Width) / _blankTexture.Height);
+            }
+            blankTexture.SetData(data);
+
+            RenderTarget2D bakedShadowBuffer = new RenderTarget2D(
+                game.GraphicsDevice,
+                (int)_tileMap._mapBounds.Width,
+                (int)_tileMap._mapBounds.Height,
+                false,
+                game.GraphicsDevice.PresentationParameters.BackBufferFormat,
+                DepthFormat.Depth24);
+
+            // bake static lights
+            game.GraphicsDevice.SetRenderTarget(bakedShadowBuffer);
+            game.GraphicsDevice.Clear(Color.Transparent);
+
+            _spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp, effect: _shadowEffect);
+            _spriteBatch.Draw(blankTexture, Vector2.Zero, Color.White);
+            _spriteBatch.End();
+
+            game.GraphicsDevice.SetRenderTarget(null);
+
+            stream = File.Create("../../../Content/bakedShadows/" + _stateName + "Shadows.png");
+            bakedShadowBuffer.SaveAsPng(stream, bakedShadowBuffer.Width, bakedShadowBuffer.Height);
+            stream.Dispose();
+
+            _bakedShadows = bakedShadowBuffer;
         }
     }
 }

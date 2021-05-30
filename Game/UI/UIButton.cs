@@ -82,6 +82,14 @@ namespace WillowWoodRefuge
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale *_scale), (int)(textureSize.Height * screenScale *_scale));
         }
 
+
+        public void reScale(float newScale)
+        {
+            this._scale = newScale;
+            Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
+            this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale * _scale), (int)(textureSize.Height * screenScale * _scale));
+        }
+
         public void Load(ContentManager Content)
         {
 
@@ -124,6 +132,7 @@ namespace WillowWoodRefuge
             else
                 spriteBatch.Draw(_texture, _position, null, Color.White, 0f, Vector2.Zero, (_scale * Game1.instance._cameraController._screenScale), SpriteEffects.None, 0.01f);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
+            // spriteBatch.DrawRectangle(_rectangle, Color.Red);
         }
     }   
 }

@@ -114,10 +114,10 @@ namespace WillowWoodRefuge
             xButton.Click += xButton_Click;
 
             //create exit button
-            Texture2D ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
+            //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
             buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
-            _confirmButton = new UIButton(ButtonTexture, buttonPos);
+            _confirmButton = new UIButton("confirmButton", buttonPos);
             //_confirmButton.Depth = .01f;
             _confirmButton._scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
@@ -181,10 +181,12 @@ namespace WillowWoodRefuge
                 //use mouse to move ingredient if it's in the clicked Box
                 //if(boxDict[ingredient.index] == clickedBox)
                 // update for given state, gifting or moving
-                if (_gifting)
-                    SelectIngredient(ingredient, mouseState);
-                else
+
+                if (!_gifting)
                     MoveIngredient(ingredient, mouseState);
+                //else
+
+                SelectIngredient(ingredient, mouseState);
 
                 //rotate objects when space bar pressed
                 if (ingredient.holding && oldKeyState.IsKeyUp(Keys.Space) && keyState.IsKeyDown(Keys.Space))
@@ -298,12 +300,44 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
                 Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
                 TextureAtlasManager.DrawTexture(spriteBatch, "Item", _recipient._cureItem, new Vector2(messageSize.X / 2 - itemSize.X / 2 + 16, messageSize.Y + 2 + 16), Color.White);
+                if(_selected != null)
+                    _confirmButton.Draw(spriteBatch);
             }
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
                 spriteBatch.DrawRectangle(_selected.pos - (Vector2)size / 2, size, Color.White);
-                _confirmButton.Draw(spriteBatch);
+
+                //draw selected item on right hand side
+                TextureAtlasManager.DrawTexture(spriteBatch, "Item", _selected._name, new Vector2(width * 0.65f, height * 0.22f), Color.White, new Vector2(5f)*dynamicScreenScale, true);
+                
+                //draw name        
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._name, new Vector2(width * 0.71f, height * 0.13f), Color.White, 0f, Vector2.Zero, new Vector2(3, 3), SpriteEffects.None, 0.01f);
+
+                //draw star levels
+                int starCounter = _selected._stars;
+                while(starCounter > 0)
+                {
+                    Vector2 starPos = new Vector2(width * 0.71f + (starCounter -1) * 0.025f * width, height * 0.23f);
+                    //Vector2 starPos = new Vector2(100, 100);
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Filled_Star", starPos, Color.White, new Vector2(2.5f)*dynamicScreenScale);
+                    starCounter--;
+                }
+
+                int emptyStarCounter = 3 - _selected._stars;
+                while(emptyStarCounter > 0)
+                {
+                    Vector2 emptyStarPos = new Vector2(width * 0.71f + emptyStarCounter * 0.025f * width, height * 0.23f);
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Unfilled_Star", emptyStarPos, Color.White, new Vector2(2.5f)*dynamicScreenScale);
+                    emptyStarCounter--;
+                }
+
+                //possible recipes
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.62f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.62f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
+
+                //description 
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.62f, height * 4.5f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
             }
         }
 
