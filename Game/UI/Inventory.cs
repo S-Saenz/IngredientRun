@@ -154,7 +154,7 @@ namespace WillowWoodRefuge
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             xButton.Update(mouseState);
-            if (_selected != null) // allow click on gifting option if object is
+            if (_selected != null && _recipient != null) // allow click on gifting option if object is
                 _confirmButton.Update(mouseState);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
