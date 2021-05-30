@@ -25,10 +25,12 @@ namespace WillowWoodRefuge
         public Texture2D _texture = null;
 
         private string _name;
+        private string _text = "";
 
         public float _scale = 1;
         public Vector2 _position;
         public Rectangle _rectangle;
+        bool _isCentered;
 
         public event EventHandler Click;
         public bool _clicked;
@@ -59,15 +61,21 @@ namespace WillowWoodRefuge
         
 
         //this constructor will use the texture atlas
-        public UIButton(String textureName, Vector2 pos)
+        public UIButton(string textureName, Vector2 pos, string text = "", bool isCentered = false)
         {
             this._name = textureName;
             this._position = pos;
+            _text = text;
+            _isCentered = isCentered;
 
             Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
             screenScale = Game1.instance._cameraController._screenScale;
             this._rectangle = new Rectangle((int)(pos.X * screenScale), (int)(pos.Y * screenScale), (int)(textureSize.Width * screenScale *_scale), (int)(textureSize.Height * screenScale *_scale));
-
+            if(isCentered)
+            {
+                _rectangle.X -= _rectangle.Width / 2;
+                _rectangle.Y -= _rectangle.Height / 2;
+            }
 
             Game1.instance._cameraController.AddResizeListener(onResize);
         }
@@ -80,6 +88,11 @@ namespace WillowWoodRefuge
 
             Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale *_scale), (int)(textureSize.Height * screenScale *_scale));
+            if (_isCentered)
+            {
+                _rectangle.X -= _rectangle.Width / 2;
+                _rectangle.Y -= _rectangle.Height / 2;
+            }
         }
 
 
@@ -88,6 +101,12 @@ namespace WillowWoodRefuge
             this._scale = newScale;
             Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale * _scale), (int)(textureSize.Height * screenScale * _scale));
+
+            if (_isCentered)
+            {
+                _rectangle.X -= _rectangle.Width / 2;
+                _rectangle.Y -= _rectangle.Height / 2;
+            }
         }
 
         public void Load(ContentManager Content)
@@ -127,10 +146,17 @@ namespace WillowWoodRefuge
         //add draw function for texture atlas
         public void Draw(SpriteBatch spriteBatch)
         {
+            Color colour = Color.White;
+
+            if (_isHovering)
+                colour = Color.Gray;
+
             if (_texture == null)
-                TextureAtlasManager.DrawTexture(spriteBatch, "UI", _name, _rectangle, Color.White);
+                TextureAtlasManager.DrawTexture(spriteBatch, "UI", _name, _rectangle, colour);
             else
-                spriteBatch.Draw(_texture, _position, null, Color.White, 0f, Vector2.Zero, (_scale * Game1.instance._cameraController._screenScale), SpriteEffects.None, 0.01f);
+                spriteBatch.Draw(_texture, _position, null, colour, 0f, Vector2.Zero, (_scale * Game1.instance._cameraController._screenScale), SpriteEffects.None, 0.01f);
+            if (_text.Length > 0)
+                FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _text, (Point2)_rectangle.Center, Alignment.Centered, Color.Black, true);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
             // spriteBatch.DrawRectangle(_rectangle, Color.Red);
         }

@@ -96,6 +96,10 @@ namespace WillowWoodRefuge
             {
                 Keys.L
             };
+            List<Keys> escape = new List<Keys>()
+            {
+                Keys.Escape
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -116,6 +120,7 @@ namespace WillowWoodRefuge
             _buttons.Add("restartState", new Button(restartState));
             _buttons.Add("performance", new Button(togglePerformance));
             _buttons.Add("light", new Button(toggleLight));
+            _buttons.Add("escape", new Button(escape));
         }
 
         public void Update(GameTime time)

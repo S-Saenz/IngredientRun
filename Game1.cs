@@ -30,6 +30,7 @@ namespace WillowWoodRefuge
         public Cook cookingGame;
         public RecipeSelection recipeMenu;
         public HUD gameHUD;
+        public PauseMenu pauseMenu;
 
 
         // create vatiable for the state manager
@@ -129,8 +130,8 @@ namespace WillowWoodRefuge
 
                 stateConditions.ConditionUpdate(gameTime);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    ChangeState("MenuState");
+                // if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                //     ChangeState("MenuState");
             }
 
             if (_nextState != null)

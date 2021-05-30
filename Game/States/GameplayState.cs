@@ -167,9 +167,19 @@ namespace WillowWoodRefuge
             
             UpdateDebug();
 
-            // Exit to main menu TODO: change to pause/settings menu
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                game.Exit();
+            // either minimize current window or 
+            if (Game1.instance.input.JustPressed("escape"))
+            {
+                UIState currState = Game1.instance.UI._currState;
+                if (currState == UIState.None)
+                {
+                    Game1.instance.UI.SwitchState(UIState.PauseMenu);
+                }
+                else if(currState == UIState.Inventory || currState == UIState.PauseMenu || currState == UIState.RecipeMenu)
+                {
+                    Game1.instance.UI.SwitchState(UIState.None);
+                }
+            }
 
             // Update enemies
             foreach (Enemy enemy in _enemies)
