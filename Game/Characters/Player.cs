@@ -413,7 +413,7 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "give to " + character.name;
+                        _overlapName = "E to give to " + character._screenName;
                     }
                 }
 
@@ -432,7 +432,7 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "pick up " + spawnItem._name;
+                        _overlapName = "E to pick up " + spawnItem._name;
                     }
                 }
 
@@ -450,7 +450,7 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "pick up " + pickup._name;
+                        _overlapName = "E to pick up " + pickup._name;
                     }
                 }
 
@@ -460,7 +460,7 @@ namespace WillowWoodRefuge
                 {
                     if (Game1.instance.input.JustPressed("interact"))
                     {
-                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // Debug.WriteLine(ForageInfo._forageInfo[forage._currSpawn]._screenName + " is " + (forage._isRipe ? "ripe." : "not ripe."));
                         // TODO: check if inventory is empty before harvesting
                         if (forage._isRipe)
                         {
@@ -475,7 +475,10 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "forage " + forage._spawnType;
+                        if(forage._isRipe)
+                            _overlapName = "E to forage " + ForageInfo._forageInfo[forage._currSpawn]._screenName;
+                        else
+                            _overlapName = ForageInfo._forageInfo[forage._currSpawn]._screenName + " is not ripe";
                     }
                 }
 
@@ -495,7 +498,7 @@ namespace WillowWoodRefuge
                         else
                         {
                             _overlappingInteractable = true;
-                            _overlapName = "cook";
+                            _overlapName = "E to cook";
                         }
                     }
                     else if (area._name.Contains("state"))
@@ -510,7 +513,7 @@ namespace WillowWoodRefuge
                             else
                             {
                                 _overlappingInteractable = true;
-                                _overlapName = "go to cave";
+                                _overlapName = "E to go to cave";
                             }
                         }
                         else if (area._name.Contains("Camp"))
@@ -523,7 +526,7 @@ namespace WillowWoodRefuge
                             else
                             {
                                 _overlappingInteractable = true;
-                                _overlapName = "go to camp";
+                                _overlapName = "E to go to camp";
                             }
                         }
                     }

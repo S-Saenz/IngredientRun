@@ -363,7 +363,7 @@ namespace WillowWoodRefuge
             if (_player != null && _player._overlappingInteractable)
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                spriteBatch.DrawString(FontManager._dialogueFont, "Press E to " + _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Color.White);
+                FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Alignment.Centered, Color.White, true);
                 spriteBatch.End();
             }
 
