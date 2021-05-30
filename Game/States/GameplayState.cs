@@ -231,7 +231,7 @@ namespace WillowWoodRefuge
             // End state
             if(_numInjured <= 0)
             {
-                Game1.instance.RequestStateChange("MenuState");
+                Game1.instance.RequestStateChange("MenuState");//change this to endState
             }
         }
 
