@@ -14,6 +14,9 @@ namespace WillowWoodRefuge
         public int columns { get; set; }
         public int currentFrame { get; private set; }
         public int totalFrames { get; private set; }
+
+        public int numLoops = 0;
+
         private Vector2? offset = null;
 
         //slow down frame animation
@@ -47,7 +50,10 @@ namespace WillowWoodRefuge
                 currentFrame++;
                 timeSinceLastFrame = 0;
                 if (currentFrame == totalFrames)
+                {
                     currentFrame = 0;
+                    numLoops ++;
+                }
             }
         }
 
@@ -65,9 +71,23 @@ namespace WillowWoodRefuge
                 new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2), scale, SpriteEffects.None, 0.5f);
         }
 
+        public void Draw(SpriteBatch spriteBatch, Rectangle destinationRectangle, Color? color = null)
+        {
+            int width = texture.Width / columns;
+            int height = texture.Height / rows;
+            int row = (int)((float)currentFrame / (float)columns);
+            int column = currentFrame % columns;
+
+            Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, color.HasValue ? color.Value : Color.White);
+            spriteBatch.End();
+        }
+
         public void reset()
         {
             currentFrame = 0;
+            numLoops = 0;
         }
     }
 }

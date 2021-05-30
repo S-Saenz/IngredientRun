@@ -422,6 +422,8 @@ namespace WillowWoodRefuge
                 game.RequestStateChange("CaveState");
             else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeCampState"))
                 game.RequestStateChange("CampState");
+            //else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeIntroState"))
+            //    game.RequestStateChange("IntroState");
             else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("restartState"))
                 game.RequestStateChange(game._currentStateName);
         }

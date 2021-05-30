@@ -64,6 +64,7 @@ namespace WillowWoodRefuge
             _states.Add("colorState", new colorState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
             _states.Add("CreditsState", new CreditsState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
             _states.Add("TutorialState", new TutorialState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
+            _states.Add("IntroState", new IntroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
 
             _instance._loadingDataDone = true;
         }
@@ -187,7 +188,7 @@ namespace WillowWoodRefuge
                 }
 
                 _message = "Loading Complete";
-                Game1.instance.ChangeState("CampState");
+                Game1.instance.ChangeState("IntroState");
 
                 // reset gameplay initialization, so game reloads when re-entering
                 _loadingPlayerStarted = 
