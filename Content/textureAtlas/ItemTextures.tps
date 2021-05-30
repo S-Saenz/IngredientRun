@@ -293,7 +293,6 @@
             <filename>../Ingredient/mushroom_medicine.png</filename>
             <filename>../Ingredient/rabbitSoup.png</filename>
             <filename>../Ingredient/snail.png</filename>
-            <filename>../Ingredient/water.png</filename>
             <filename>../Ingredient/wood.png</filename>
             <filename>../Ingredient/Huckleberry.png</filename>
             <filename>../Ingredient/Nodding_Onion.png</filename>
@@ -304,6 +303,7 @@
             <filename>../Ingredient/Wolfberry.png</filename>
             <filename>../Ingredient/Bay_Nut.png</filename>
             <filename>../Ingredient/Manzanita.png</filename>
+            <filename>../Ingredient/water.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

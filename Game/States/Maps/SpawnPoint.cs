@@ -44,7 +44,7 @@ namespace WillowWoodRefuge
 
                 if (_object as SpawnItem != null)
                 {
-                    state._items.Remove(_object as SpawnItem);
+                    state._spawnItems.Remove(_object as SpawnItem);
                 }
                 else if(_object as Enemy != null)
                 {

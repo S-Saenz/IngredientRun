@@ -48,6 +48,7 @@ namespace WillowWoodRefuge
         public bool _grabLeft = false;   // which side player currently grabbing in (should probably combine with _currentDirection at some point
         public float _grabDist = 10f; // amount of top of hit box used for grab
         public float _yClearance = 16;
+        private PhysicsHandler _physicsHandler;
 
         private string previousMoveType;
         private string previousDirection;
@@ -60,6 +61,7 @@ namespace WillowWoodRefuge
         {
             graphics = graphic;
             _pos = pos;
+            _physicsHandler = collisionHandler;
 
             _overlap = new RectangleF();
         }
@@ -411,26 +413,44 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "give to " + character.name;
+                        _overlapName = "E to give to " + character._screenName;
                     }
                 }
 
-                // check if pickup item
-                SpawnItem obj = item._other as SpawnItem;
-                if (obj != null)
+                // check if spawn item
+                SpawnItem spawnItem = item._other as SpawnItem;
+                if (spawnItem != null)
                 {
-                    Debug.WriteLine(obj._name);
+                    Debug.WriteLine(spawnItem._name);
                     // TODO: try adding to inventory, returning whether successful or not
-                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(obj._name))
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(spawnItem._name))
                     {
-                        (Game1.instance._currentState as GameplayState)._items.Remove(obj);
-                        obj._spawn.Despawn();
+                        (Game1.instance._currentState as GameplayState)._spawnItems.Remove(spawnItem);
+                        spawnItem._spawn.Despawn();
                         actionComplete = true;
                     }
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "pick up " + obj._name;
+                        _overlapName = "E to pick up " + spawnItem._name;
+                    }
+                }
+
+                // check if pickup item
+                PickupItem pickup = item._other as PickupItem;
+                if (pickup != null)
+                {
+                    Debug.WriteLine(pickup._name);
+                    // TODO: try adding to inventory, returning whether successful or not
+                    if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(pickup._name))
+                    {
+                        pickup.Pickup();
+                        actionComplete = true;
+                    }
+                    else
+                    {
+                        _overlappingInteractable = true;
+                        _overlapName = "E to pick up " + pickup._name;
                     }
                 }
 
@@ -440,7 +460,7 @@ namespace WillowWoodRefuge
                 {
                     if (Game1.instance.input.JustPressed("interact"))
                     {
-                        Debug.WriteLine(forage._currSpawn + " is " + (forage._isRipe ? "ripe." : "not ripe."));
+                        // Debug.WriteLine(ForageInfo._forageInfo[forage._currSpawn]._screenName + " is " + (forage._isRipe ? "ripe." : "not ripe."));
                         // TODO: check if inventory is empty before harvesting
                         if (forage._isRipe)
                         {
@@ -455,7 +475,10 @@ namespace WillowWoodRefuge
                     else
                     {
                         _overlappingInteractable = true;
-                        _overlapName = "forage " + forage._spawnType;
+                        if(forage._isRipe)
+                            _overlapName = "E to forage " + ForageInfo._forageInfo[forage._currSpawn]._screenName;
+                        else
+                            _overlapName = ForageInfo._forageInfo[forage._currSpawn]._screenName + " is not ripe";
                     }
                 }
 
@@ -475,7 +498,7 @@ namespace WillowWoodRefuge
                         else
                         {
                             _overlappingInteractable = true;
-                            _overlapName = "cook";
+                            _overlapName = "E to cook";
                         }
                     }
                     else if (area._name.Contains("state"))
@@ -490,7 +513,7 @@ namespace WillowWoodRefuge
                             else
                             {
                                 _overlappingInteractable = true;
-                                _overlapName = "go to cave";
+                                _overlapName = "E to go to cave";
                             }
                         }
                         else if (area._name.Contains("Camp"))
@@ -503,7 +526,7 @@ namespace WillowWoodRefuge
                             else
                             {
                                 _overlappingInteractable = true;
-                                _overlapName = "go to camp";
+                                _overlapName = "E to go to camp";
                             }
                         }
                     }
@@ -713,6 +736,13 @@ namespace WillowWoodRefuge
         public void Hit(float attackDamage)
         {
             Debug.WriteLine("Hit -" + attackDamage);
+            for(int i = 0; i < attackDamage && Game1.instance.inventory.ingredientList.Count > 0; ++i)
+            {
+                int chosen = new Random().Next(0, Game1.instance.inventory.ingredientList.Count);
+                string dropped = Game1.instance.inventory.ingredientList[chosen]._name;
+                Game1.instance.inventory.ingredientList.RemoveAt(chosen);
+                new PickupItem(dropped, _collisionBox._bounds.BottomRight, _physicsHandler, (Game1.instance._currentState as GameplayState)._stateName);
+            }
         }
     }
 }

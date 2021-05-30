@@ -22,7 +22,7 @@ namespace WillowWoodRefuge
         protected int _shadowOpacity = 255;
         static protected bool _occlusion = true;
         static protected bool _isDarkEnabled = true;
-        protected string _stateName;
+        public string _stateName;
 
         // Camera zoom
         protected Vector2 _cameraSize;
@@ -50,7 +50,8 @@ namespace WillowWoodRefuge
 
         // Spawnable instances
         public List<Enemy> _enemies = new List<Enemy>();
-        public List<SpawnItem> _items = new List<SpawnItem>();
+        public List<SpawnItem> _spawnItems = new List<SpawnItem>();
+        public List<PickupItem> _pickupItems = new List<PickupItem>();
 
         // NPC Parameters
         protected NPCDialogueSystem _dialogueSystem = null;
@@ -132,7 +133,7 @@ namespace WillowWoodRefuge
         public override void LoadContent()
         {
             // Temp, just respawns objects and enemies
-            _tileMap.SpawnPickups(ref _items);
+            _tileMap.SpawnPickups(ref _spawnItems);
             _tileMap.SpawnEnemies(ref _enemies);
 
             // Setup player
@@ -204,6 +205,9 @@ namespace WillowWoodRefuge
             {
                 spot.Update(gameTime);
             }
+
+            // Update dropped items
+            PickupItem.UpdateAll(gameTime);
 
             // Update camera
             game._cameraController.Update(gameTime, _player._pos);
@@ -336,6 +340,7 @@ namespace WillowWoodRefuge
             _tileMap.DrawEnemies(spriteBatch);
             _tileMap.DrawPickups(spriteBatch);
             _tileMap.DrawForage(spriteBatch);
+            PickupItem.DrawAll(spriteBatch, _stateName);
 
             // Draw player
             if (_player != null)
@@ -368,7 +373,7 @@ namespace WillowWoodRefuge
             if (_player != null && _player._overlappingInteractable)
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                spriteBatch.DrawString(FontManager._dialogueFont, "Press E to " + _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Color.White);
+                FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _player._overlapName, Game1.instance._cameraController._camera.WorldToScreen(_player._pos - new Vector2(0,18)), Alignment.Centered, Color.White, true);
                 spriteBatch.End();
             }
 
@@ -398,11 +403,11 @@ namespace WillowWoodRefuge
             _enemies.Clear();
 
             // Remove pickup item hitboxes
-            foreach (SpawnItem item in _items)
+            foreach (SpawnItem item in _spawnItems)
             {
                 item.RemoveCollision(_physicsHandler);
             }
-            _items.Clear();
+            _spawnItems.Clear();
 
             // remove NPC hitboxes
             // foreach (NPC character in _characters.Values)
