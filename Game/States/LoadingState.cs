@@ -62,6 +62,7 @@ namespace WillowWoodRefuge
             Game1.instance.stateConditions = new StateConditions();
             //whenever a new state is added, it will need to be added to this list
             _states.Add("IntroState", new IntroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
+            _states.Add("OutroState", new OutroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
 
             _instance._loadingDataDone = true;
         }

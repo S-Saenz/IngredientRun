@@ -231,7 +231,7 @@ namespace WillowWoodRefuge
             // End state
             if(_numInjured <= 0)
             {
-                Game1.instance.RequestStateChange("MenuState");//change this to endState
+                Game1.instance.RequestStateChange("OutroState");//change this to OutroState
             }
         }
 
@@ -440,6 +440,8 @@ namespace WillowWoodRefuge
                 game.RequestStateChange("CampState");
             //else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeIntroState"))
             //    game.RequestStateChange("IntroState");
+            else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("changeOutroState"))
+                game.RequestStateChange("OutroState");
             else if ((_showFullDebug || _showMiniDebug) && Game1.instance.input.JustPressed("restartState"))
                 game.RequestStateChange(game._currentStateName);
         }
