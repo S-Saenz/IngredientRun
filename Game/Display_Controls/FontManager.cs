@@ -27,7 +27,10 @@ namespace WillowWoodRefuge
 
             // Left aligned
             if (alignment == Alignment.Left)
-            { 
+            {
+                // round to nearest int so letters don't get cut
+                origin.X = (int)origin.X;
+                origin.Y = (int)origin.Y;
                 spriteBatch.DrawString(font, text, origin, color);
                 return;
             }
@@ -41,7 +44,11 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
-                    spriteBatch.DrawString(font, line, origin + new Vector2(boxSize.X - lineSize.X, yOffset), color);
+                    Vector2 pos = origin + new Vector2(boxSize.X - lineSize.X, yOffset);
+                    // round to nearest int so letters don't get cut
+                    pos.X = (int)pos.X;
+                    pos.Y = (int)pos.Y;
+                    spriteBatch.DrawString(font, line, pos, color);
                     yOffset += lineSize.Y;
                 }
                 return;
@@ -55,7 +62,11 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
-                    spriteBatch.DrawString(font, line, origin + new Vector2(-lineSize.X / 2, yOffset), color);
+                    Vector2 pos = origin + new Vector2(-lineSize.X / 2, yOffset);
+                    // round to nearest int so letters don't get cut
+                    pos.X = (int)pos.X;
+                    pos.Y = (int)pos.Y;
+                    spriteBatch.DrawString(font, line, pos, color);
                     yOffset += lineSize.Y;
                 }
                 return;
