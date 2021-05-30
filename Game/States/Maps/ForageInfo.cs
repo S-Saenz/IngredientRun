@@ -21,6 +21,7 @@ namespace WillowWoodRefuge
             { "Thimbleberry",     new ForageInfo(2,      10,      false) },
             { "Toothwort",        new ForageInfo(1,      10,      true ) },
             { "Wolfberry",        new ForageInfo(2,      10,      false) },
+            { "water",            new ForageInfo(1,       0,      true ) },
         };
         public static Dictionary<string, ForageInfo> _forageInfo
         {

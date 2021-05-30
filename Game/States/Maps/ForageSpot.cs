@@ -79,7 +79,7 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
             int currPhase = (int)Math.Floor(_growPercent * (_numPhases - 1)) + (_fromEmpty ? 0 : 1);
-            if (_isRipe) // fully grown/harvestable
+            if (_isRipe || ForageInfo._forageInfo[_spawnType]._growDuration == 0) // fully grown/harvestable
                 currPhase = _numPhases;
 
             if (currPhase != 0)
