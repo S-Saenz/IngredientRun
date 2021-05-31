@@ -525,13 +525,15 @@ namespace WillowWoodRefuge
         // returns whether a particular recipe can be cooked or not based on inventory state (by recipe)
         bool CanCook(Recipe recipe)
         {
+            bool[] counted = new bool[_inventory.ingredientList.Count];
             foreach (string ingredient in recipe._ingredients)
             {
                 bool found = false;
                 for (int i = 0; i < _inventory.ingredientList.Count && !found; ++i)
                 {
-                    if (_inventory.ingredientList[i]._name == ingredient) // found
+                    if (_inventory.ingredientList[i]._name == ingredient && !counted[i]) // found
                     {
+                        counted[i] = true;
                         found = true;
                     }
                 }
