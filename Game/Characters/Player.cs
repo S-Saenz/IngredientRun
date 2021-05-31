@@ -421,7 +421,7 @@ namespace WillowWoodRefuge
                 SpawnItem spawnItem = item._other as SpawnItem;
                 if (spawnItem != null)
                 {
-                    Debug.WriteLine(spawnItem._name);
+                    // Debug.WriteLine(spawnItem._name);
                     // TODO: try adding to inventory, returning whether successful or not
                     if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(spawnItem._name))
                     {
@@ -440,7 +440,7 @@ namespace WillowWoodRefuge
                 PickupItem pickup = item._other as PickupItem;
                 if (pickup != null)
                 {
-                    Debug.WriteLine(pickup._name);
+                    // Debug.WriteLine(pickup._name);
                     // TODO: try adding to inventory, returning whether successful or not
                     if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(pickup._name))
                     {
