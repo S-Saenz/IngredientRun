@@ -87,7 +87,7 @@ namespace WillowWoodRefuge
         protected override void Initialize()
         {
             _spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-
+            Game1.instance.sounds = new SoundManager(Game1.instance.Content);
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(240, 135), new Vector2(1728, 972));

@@ -131,6 +131,7 @@ namespace WillowWoodRefuge
             Game1.instance.UI.SwitchState(UIState.None);
 
             //DEREK - insert exit-button sound
+            
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -526,6 +527,7 @@ namespace WillowWoodRefuge
             assignDistinctSpace(newIngredient);
 
             //DEREK - ingredient added!
+            Game1.instance.sounds.addItemSound();
             return true;
         }
 
@@ -533,7 +535,9 @@ namespace WillowWoodRefuge
         public void removeIngredient(Ingredient ingredient)
         {
             ingredientList.Remove(ingredient);
+
             //DEREK - ingredient has been discarded!
+            Game1.instance.sounds.discardItemSound();
         }
 
         public void removeIngredient(string name)

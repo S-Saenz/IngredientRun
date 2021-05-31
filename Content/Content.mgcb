@@ -827,6 +827,48 @@
 /processorParam:DebugMode=Auto
 /build:shaders/DitherOpacity.fx
 
+#begin soundEffects/Fixed_Broken_Sounds/Bag_AddItem.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Bag_AddItem.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Bag_Discard.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Bag_Discard.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Bag_Full.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Bag_Full.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Cooking_Failure.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Cooking_Failure.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Menu_Affirmative.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Menu_Affirmative.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Menu_Navigation.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Menu_Navigation.wav
+
+#begin soundEffects/Fixed_Broken_Sounds/Menu_Negative.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:soundEffects/Fixed_Broken_Sounds/Menu_Negative.wav
+
 #begin soundEffects/Player_Hit.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
