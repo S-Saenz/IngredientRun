@@ -24,7 +24,6 @@ namespace WillowWoodRefuge
             if (currentScene < animationList.Count)
             {
                 spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
-                // spriteBatch.Draw(slide1, Vector2.Zero, null, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
                 animationList[currentScene].Draw(spriteBatch, new Rectangle(0, 0, (int)Game1.instance._cameraController._screenDimensions.X, (int)Game1.instance._cameraController._screenDimensions.Y));
                 spriteBatch.End();
             }

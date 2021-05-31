@@ -989,7 +989,7 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
-#begin outro/scene1_outro.png
+#begin outro/scene10a_outro.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -999,9 +999,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:outro/scene1_outro.png
+/build:outro/scene10a_outro.png
 
-#begin outro/scene10_outro.png
+#begin outro/scene10b_outro.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -1011,7 +1011,31 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:outro/scene10_outro.png
+/build:outro/scene10b_outro.png
+
+#begin outro/scene1a_outro.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:outro/scene1a_outro.png
+
+#begin outro/scene1b_outro.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:outro/scene1b_outro.png
 
 #begin outro/scene2_outro.png
 /importer:TextureImporter
