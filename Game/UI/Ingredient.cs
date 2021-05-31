@@ -30,6 +30,12 @@ namespace WillowWoodRefuge
         public bool doubleSquare = false;           //does this ingredient occupy more than one square? 
         public Vector2 index2 = new Vector2(1, 0);  //index of the other square your ingredient occupies 
 
+        //right side inventory data
+        public int _stars = 1;
+        public string _ingredient_Or_Dish;
+        public string _use;
+        public string _description = "Lorem ipsum dolor sit amet, \nconsectetuer adipiscing elit. \nsed diam nonummy nibh eu-\nismod tincidunt ut laoreet \ndolore magna aliquam erat \nvolutpat. Ut wisi enim ad ";
+
         // public Texture2D img;
 
         public Ingredient(Vector2 position, string name)
@@ -54,7 +60,8 @@ namespace WillowWoodRefuge
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, pos, Color.White, Scale, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, pos * Game1.instance._cameraController._screenScale, Color.White,
+                                            new Vector2(Scale) * Game1.instance._cameraController._screenScale, true);
             // spriteBatch.Draw(img, pos, null, Color.White, Rotation, Origin, scale, SpriteEffects.None, 1f);
 
             //spriteBatch.Draw(myTexture, position, null, Color.White, rotation, origin, scale, SpriteEffects.FlipHorizontally, layer);
@@ -110,14 +117,15 @@ namespace WillowWoodRefuge
         }
         public Rectangle Bounds()
         {
-            Rectangle rect = new Rectangle(new Point((int)pos.X, (int)pos.Y), (Point)TextureAtlasManager.GetSize("Item", _name));
+            Rectangle rect = new Rectangle(new Point((int)(pos.X * Game1.instance._cameraController._screenScale), (int)(pos.Y * Game1.instance._cameraController._screenScale)), 
+                                           (Point)(TextureAtlasManager.GetSize("Item", _name) * Game1.instance._cameraController._screenScale));
             return rect;
         }
 
         public void SetPosByMouse(Point p)
         {
             //pos = new Vector2(p.X-(img.Width/2*scale), p.Y+20-(img.Height/2*scale));
-            pos = new Vector2(p.X, p.Y);
+            pos = new Vector2(p.X, p.Y) / Game1.instance._cameraController._screenScale;
         }
 
         public bool IsPointOver(Point point)

@@ -22,13 +22,16 @@ namespace WillowWoodRefuge
             // _texture = ItemTextures.GetTexture(type);
             Size2 size = TextureAtlasManager.GetSize("Item", _name);
             _loc = position - new Vector2(size.Width * _scale / 2, size.Height * _scale);
-            _collisionBox = new CollisionBox(new RectangleF(_loc.X, _loc.Y, size.Width * _scale, size.Height * _scale), physicsHandler, this);
+            _collisionBox = new CollisionBox(new Rectangle((int)(_loc.X + size.Width / 2), (int)(_loc.Y + size.Height / 2), 16, 16), physicsHandler, this);
             physicsHandler.AddObject("Pickup", _collisionBox);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, _loc, Color.White);
+            Vector2 size = TextureAtlasManager.GetSize("Item", _name);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", _name, 
+                                new Rectangle((int)(_loc.X + size.X / 2), (int)(_loc.Y + size.Y / 2), 16, 16), 
+                                Color.White);
         }
 
         public bool RemoveCollision(PhysicsHandler collisionHandler)

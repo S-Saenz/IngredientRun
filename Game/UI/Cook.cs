@@ -82,6 +82,7 @@ namespace WillowWoodRefuge
 
         public void Update(MouseState mouseState, KeyboardState keyState, GameTime gameTime)
         {
+            Game1.instance.sounds.cookingSound(gameTime, _progress > 100 & _attemptRemaining);
 
             if (_progress > 100 & _attemptRemaining)
             {
@@ -100,15 +101,23 @@ namespace WillowWoodRefuge
 
             //press ENTER while needle is in the hottest zone for a lil jump
             if (Game1.instance.input.JustPressed("superCook") && _needleX <= (_zoneX + 25) && _needleX >= (_zoneX - 25))
+            {
+                //derek - little jump in cooking progress, maybe cooking gets extra sizzly or something to convey like a surge in progress
                 _progress += 15;
-
+            }
             //don't let needle move past the end of the meter
             if (_needleX > _meterEnd)
+            {
+                //derek - needle collides with edge of meter, maybe like a bonk sound?
                 _needleX = _meterEnd;
+            }
 
             //don't let it pass behind the beginning either
             else if (_needleX < _meterStart)
+            {
+                //derek - needle collides with edge of meter, maybe like a bonk sound?
                 _needleX = _meterStart;
+            }
 
 
             //how size is determined in the draw function
@@ -147,7 +156,8 @@ namespace WillowWoodRefuge
 
             if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
             {
-                _progress += 0.075f;
+                //derek - cooking sound
+                _progress += 0.085f;
                 Console.WriteLine(_progress);
             }
 
@@ -194,35 +204,36 @@ namespace WillowWoodRefuge
             int height = (int)Game1.instance._cameraController._screenDimensions.Y;
 
             //TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Rectangle(0, 0, width / 2, height / 5), Color.White);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Vector2(width / 2, height / 3), Color.White, width / 100, true);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Meter_Container", new Vector2(width / 2, height * (.45f)), Color.White, width / 400, true);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Food_Container", new Vector2(width / 2, height / 8), Color.White, width / 200, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Vector2(width / 2, height / 3), Color.White, new Vector2(width / 100), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Meter_Container", new Vector2(width / 2, height * (.45f)), Color.White, new Vector2(width / 400), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Food_Container", new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 200), true);
 
 
             //food being cooked
             //float foodScale = foodImage.ToString() == "Ingredient/acornScaled" ? 0.5f : .15f; //scale for an acorn or the grilled fish
             //Size2 foodSize = TextureAtlasManager.GetSize("Item", foodName);
-            float foodScale = 4; //reuse the scale value from the recipe menu
+            float foodScale = 4 * Game1.instance._cameraController._screenScale; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2;// - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, foodScale * .7f, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, new Vector2(foodScale * .7f), true);
 
             //fire 
             //string fireTexture = this.chooseFireTexture();
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, width / 1000, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, new Vector2(width / 1000), true);
 
             //progress bar
-            string progressBar = "progress" + (int)Math.Min(_progress / 5,20);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, width/630.0f, true);
+            // string progressBar = "progress" + (int)Math.Min(_progress / 100 * (17 * 4),(17 * 4));
+            DrawProgressBar(spriteBatch, new Vector2(width / 2, height / 8), _progress / 100);
+            // TextureAtlasManager.DrawTexture(spriteBatch, "UI", progressBar, new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 630.0f), true);
 
             //hot zones
-            Vector2 zonePos = new Vector2(_zoneX, height * 0.45f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, width / 450, true);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, width / 450, true);
+            Vector2 zonePos = new Vector2(_zoneX * Game1.instance._cameraController._screenScale, height * 0.45f);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, new Vector2(width / 450), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, new Vector2(width / 450), true);
 
             //needle
             //spriteBatch.Draw(needle, new Vector2(_needleX, _screenHeight * 0.317f), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX, height * (.45f)), Color.White, width / 300, true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX * Game1.instance._cameraController._screenScale, height * (.45f)), Color.White, new Vector2(width / 300), true);
 
             // temp tutorial text
             Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!");
@@ -246,6 +257,8 @@ namespace WillowWoodRefuge
         //inspired from - https://stackoverflow.com/questions/13394892/how-to-create-a-timer-counter-in-c-sharp-xna
         void CookingFinished(GameTime gameTime)
         {
+            //derek - cooking is finished! success sound
+
             //for the timer to turn the UI off
             //int counter = 1;
             //int limit = 3;
@@ -348,6 +361,28 @@ namespace WillowWoodRefuge
                 
                 this.fireTexture = chooseFireTexture();
             }
+        }
+
+        void DrawProgressBar(SpriteBatch spriteBatch, Vector2 center, float percentage)
+        {
+            int frame = (int)Math.Min(((18 * 4 - 1) * percentage + 1), 18 * 4);
+            float width = (int)Game1.instance._cameraController._screenDimensions.X / 200;
+            Debug.WriteLine(frame);
+
+            for (int quadrant = 0; quadrant < 4 && frame > 0; ++quadrant)
+            {
+                TextureAtlasManager.DrawTexture(spriteBatch, "UI", "ProgressBar" + Math.Min(frame, 18), center, Color.LawnGreen,
+                                                new Vector2(width), false, -quadrant * (MathF.PI / 2), new Vector2(1));
+                frame -= 18;
+
+                if(frame <= 0)
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", "ProgressBaro" + (frame + 18), center, Color.LawnGreen,
+                                                new Vector2(width), false, -quadrant * (MathF.PI / 2), new Vector2(1));
+                }
+            }
+
+            // spriteBatch.DrawPoint(center, Color.Red, 3);
         }
 
         void doneAnimation()

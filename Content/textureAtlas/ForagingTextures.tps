@@ -199,10 +199,10 @@
                 <false/>
             </struct>
             <key type="filename">../foraging/Calamint1.png</key>
-            <key type="filename">../foraging/Calamint2.png</key>
             <key type="filename">../foraging/Huckleberry1.png</key>
             <key type="filename">../foraging/Huckleberry2.png</key>
             <key type="filename">../foraging/Hummingbird_Sage1.png</key>
+            <key type="filename">../foraging/Mint1.png</key>
             <key type="filename">../foraging/Thimbleberry1.png</key>
             <key type="filename">../foraging/Thimbleberry2.png</key>
             <key type="filename">../foraging/Wolfberry1.png</key>
@@ -274,11 +274,25 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../foraging/water1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>4,4,8,7</rect>
+                <key>scale9Paddings</key>
+                <rect>4,4,8,7</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>../foraging/Calamint1.png</filename>
-            <filename>../foraging/Calamint2.png</filename>
             <filename>../foraging/Huckleberry1.png</filename>
             <filename>../foraging/Huckleberry2.png</filename>
             <filename>../foraging/Hummingbird_Sage1.png</filename>
@@ -298,8 +312,10 @@
             <filename>../foraging/Bay_Nut1.png</filename>
             <filename>../foraging/Bay_Nut2.png</filename>
             <filename>../foraging/Bay_Nut3.png</filename>
+            <filename>../foraging/Mint1.png</filename>
             <filename>../foraging/Manzanita1.png</filename>
             <filename>../foraging/Manzanita2.png</filename>
+            <filename>../foraging/water1.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

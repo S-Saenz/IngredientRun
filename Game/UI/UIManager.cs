@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace WillowWoodRefuge
 {
     //gameState can check state to see if player input for movement should be ignored. 
-    public enum UIState { None, Inventory, RecipeMenu, CookingGame }; //put it here to make it glcbal 
+    public enum UIState { None, Inventory, RecipeMenu, CookingGame, PauseMenu }; //put it here to make it glcbal 
 
     public class UIManager
     {
@@ -51,6 +51,9 @@ namespace WillowWoodRefuge
                     //same as ^
                     Game1.instance.cookingGame.Update(Mouse.GetState(), Keyboard.GetState(), gametime);
                     break;
+                case UIState.PauseMenu:
+                    Game1.instance.pauseMenu.Update(Mouse.GetState(), Keyboard.GetState(), gametime);
+                    break;
             }
 
             DevShortCuts(); //allow dev shortcuts for UI
@@ -83,6 +86,9 @@ namespace WillowWoodRefuge
                 case UIState.CookingGame:
                     //Game1.cookingGame.Draw(spriteBatch);
                     Game1.instance.cookingGame.Draw(spriteBatch);
+                    break;
+                case UIState.PauseMenu:
+                    Game1.instance.pauseMenu.Draw(spriteBatch);
                     break;
             }
 
@@ -118,6 +124,9 @@ namespace WillowWoodRefuge
                 case UIState.CookingGame:
 
                     break;
+                case UIState.PauseMenu:
+
+                    break;
             }
 
             // Logic that you know will be called any time a given
@@ -148,6 +157,9 @@ namespace WillowWoodRefuge
                 case UIState.CookingGame:
                     if (!Game1.instance.cookingGame.loaded)
                         Game1.instance.cookingGame.Load(Game1.instance.Content);
+                    break;
+                case UIState.PauseMenu:
+
                     break;
             }
 

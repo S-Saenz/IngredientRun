@@ -181,191 +181,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>12,7,23,13</rect>
-                <key>scale9Paddings</key>
-                <rect>12,7,23,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Food_Container.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Meter_End.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/X_Button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>7,7,13,13</rect>
-                <key>scale9Paddings</key>
-                <rect>7,7,13,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Hot_Zone.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>22,7,43,13</rect>
-                <key>scale9Paddings</key>
-                <rect>22,7,43,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Hottest_Zone.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Spoon.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>2,7,3,13</rect>
-                <key>scale9Paddings</key>
-                <rect>2,7,3,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Main_Container.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,7,39,13</rect>
-                <key>scale9Paddings</key>
-                <rect>20,7,39,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Meter_Container.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>76,7,151,13</rect>
-                <key>scale9Paddings</key>
-                <rect>76,7,151,13</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress0.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress10.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress20.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,21,39,41</rect>
-                <key>scale9Paddings</key>
-                <rect>20,21,39,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress1.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress11.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress12.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress13.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress17.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress18.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress19.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress2.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress3.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress7.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress8.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,20,39,40</rect>
-                <key>scale9Paddings</key>
-                <rect>20,20,39,40</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress14.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress16.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress4.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress6.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,20,40,40</rect>
-                <key>scale9Paddings</key>
-                <rect>20,20,40,40</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress15.png</key>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress5.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>21,20,41,40</rect>
-                <key>scale9Paddings</key>
-                <rect>21,20,41,40</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../ARTG 170/IngredientRun/UI/Inventory/Redesign Assets/Main_Inventory_UI_Scaled.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>120,68,240,135</rect>
-                <key>scale9Paddings</key>
-                <rect>120,68,240,135</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">../ui/ButtonNormal.png</key>
             <key type="filename">../ui/ButtonPressed.png</key>
             <struct type="IndividualSpriteSettings">
@@ -383,6 +198,60 @@
                 <false/>
             </struct>
             <key type="filename">../ui/Inventory/Filled_Star.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+1.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+10.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+11.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+12.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+13.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+14.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+15.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+16.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+17.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+18.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+2.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+3.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+4.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+5.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+6.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+7.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+8.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar+9.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar1.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar10.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar11.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar12.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar13.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar14.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar15.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar16.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar17.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar18.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar2.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar3.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar4.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar5.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar6.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar7.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar8.png</key>
+            <key type="filename">../ui/progressBar/ProgressBar9.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro1.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro10.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro11.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro12.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro13.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro14.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro15.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro16.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro17.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro18.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro2.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro3.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro4.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro5.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro6.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro7.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro8.png</key>
+            <key type="filename">../ui/progressBar/ProgressBaro9.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -424,6 +293,21 @@
                 <rect>120,55,240,111</rect>
                 <key>scale9Paddings</key>
                 <rect>120,55,240,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Inventory/Main_Inventory_UI_Scaled.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>120,68,240,135</rect>
+                <key>scale9Paddings</key>
+                <rect>120,68,240,135</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -565,6 +449,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../ui/cooking/Background_Opacity.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,7,23,13</rect>
+                <key>scale9Paddings</key>
+                <rect>12,7,23,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/cooking/Campfire Frames/campfire-1.png</key>
             <key type="filename">../ui/cooking/Campfire Frames/campfire-10.png</key>
             <key type="filename">../ui/cooking/Campfire Frames/campfire-11.png</key>
@@ -591,6 +490,23 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../ui/cooking/Food_Container.png</key>
+            <key type="filename">../ui/cooking/Meter_End.png</key>
+            <key type="filename">../ui/cooking/X_Button.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,7,13,13</rect>
+                <key>scale9Paddings</key>
+                <rect>7,7,13,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/cooking/Green-Button-2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -603,6 +519,67 @@
                 <rect>43,11,86,21</rect>
                 <key>scale9Paddings</key>
                 <rect>43,11,86,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/cooking/Hot_Zone.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,7,43,13</rect>
+                <key>scale9Paddings</key>
+                <rect>22,7,43,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/cooking/Hottest_Zone.png</key>
+            <key type="filename">../ui/cooking/Spoon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,7,3,13</rect>
+                <key>scale9Paddings</key>
+                <rect>2,7,3,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/cooking/Main_Container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,7,39,13</rect>
+                <key>scale9Paddings</key>
+                <rect>20,7,39,13</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/cooking/Meter_Container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>76,7,151,13</rect>
+                <key>scale9Paddings</key>
+                <rect>76,7,151,13</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -718,36 +695,6 @@
             <filename>../ui/Recipe/QuestionMark.png</filename>
             <filename>../ui/ButtonNormal.png</filename>
             <filename>../ui/ButtonPressed.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress0.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress1.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress10.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress11.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress12.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress13.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress14.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress15.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress16.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress17.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress18.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress19.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress2.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress20.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress3.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress4.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress5.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress6.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress7.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress8.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Progress Bar/progress9.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Food_Container.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Hot_Zone.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Hottest_Zone.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Main_Container.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Meter_Container.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Meter_End.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Spoon.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/X_Button.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Cooking Redesign/Cooking Assets/Background_Opacity.png</filename>
             <filename>../ui/Inventory/Main_Inventory_UI.png</filename>
             <filename>../ui/Inventory/Shuffle_Button.png</filename>
             <filename>../ui/Inventory/Trash_Can.png</filename>
@@ -765,7 +712,70 @@
             <filename>../ui/cooking/Campfire Frames/campfire-7.png</filename>
             <filename>../ui/cooking/Campfire Frames/campfire-8.png</filename>
             <filename>../ui/cooking/Campfire Frames/campfire-9.png</filename>
-            <filename>../../../ARTG 170/IngredientRun/UI/Inventory/Redesign Assets/Main_Inventory_UI_Scaled.png</filename>
+            <filename>../ui/cooking/Background_Opacity.png</filename>
+            <filename>../ui/cooking/Food_Container.png</filename>
+            <filename>../ui/cooking/Hot_Zone.png</filename>
+            <filename>../ui/cooking/Hottest_Zone.png</filename>
+            <filename>../ui/cooking/Main_Container.png</filename>
+            <filename>../ui/Inventory/Main_Inventory_UI_Scaled.png</filename>
+            <filename>../ui/cooking/Meter_Container.png</filename>
+            <filename>../ui/cooking/Meter_End.png</filename>
+            <filename>../ui/cooking/Spoon.png</filename>
+            <filename>../ui/cooking/X_Button.png</filename>
+            <filename>../ui/progressBar/ProgressBar+1.png</filename>
+            <filename>../ui/progressBar/ProgressBar+10.png</filename>
+            <filename>../ui/progressBar/ProgressBar+11.png</filename>
+            <filename>../ui/progressBar/ProgressBar+12.png</filename>
+            <filename>../ui/progressBar/ProgressBar+13.png</filename>
+            <filename>../ui/progressBar/ProgressBar+14.png</filename>
+            <filename>../ui/progressBar/ProgressBar+15.png</filename>
+            <filename>../ui/progressBar/ProgressBar+16.png</filename>
+            <filename>../ui/progressBar/ProgressBar+17.png</filename>
+            <filename>../ui/progressBar/ProgressBar+18.png</filename>
+            <filename>../ui/progressBar/ProgressBar+2.png</filename>
+            <filename>../ui/progressBar/ProgressBar+3.png</filename>
+            <filename>../ui/progressBar/ProgressBar+4.png</filename>
+            <filename>../ui/progressBar/ProgressBar+5.png</filename>
+            <filename>../ui/progressBar/ProgressBar+6.png</filename>
+            <filename>../ui/progressBar/ProgressBar+7.png</filename>
+            <filename>../ui/progressBar/ProgressBar+8.png</filename>
+            <filename>../ui/progressBar/ProgressBar+9.png</filename>
+            <filename>../ui/progressBar/ProgressBar1.png</filename>
+            <filename>../ui/progressBar/ProgressBar10.png</filename>
+            <filename>../ui/progressBar/ProgressBar11.png</filename>
+            <filename>../ui/progressBar/ProgressBar12.png</filename>
+            <filename>../ui/progressBar/ProgressBar13.png</filename>
+            <filename>../ui/progressBar/ProgressBar14.png</filename>
+            <filename>../ui/progressBar/ProgressBar15.png</filename>
+            <filename>../ui/progressBar/ProgressBar16.png</filename>
+            <filename>../ui/progressBar/ProgressBar17.png</filename>
+            <filename>../ui/progressBar/ProgressBar18.png</filename>
+            <filename>../ui/progressBar/ProgressBar2.png</filename>
+            <filename>../ui/progressBar/ProgressBar3.png</filename>
+            <filename>../ui/progressBar/ProgressBar4.png</filename>
+            <filename>../ui/progressBar/ProgressBar5.png</filename>
+            <filename>../ui/progressBar/ProgressBar6.png</filename>
+            <filename>../ui/progressBar/ProgressBar7.png</filename>
+            <filename>../ui/progressBar/ProgressBar8.png</filename>
+            <filename>../ui/progressBar/ProgressBar9.png</filename>
+            <filename>../ui/progressBar/ProgressBaro1.png</filename>
+            <filename>../ui/progressBar/ProgressBaro10.png</filename>
+            <filename>../ui/progressBar/ProgressBaro11.png</filename>
+            <filename>../ui/progressBar/ProgressBaro12.png</filename>
+            <filename>../ui/progressBar/ProgressBaro13.png</filename>
+            <filename>../ui/progressBar/ProgressBaro14.png</filename>
+            <filename>../ui/progressBar/ProgressBaro15.png</filename>
+            <filename>../ui/progressBar/ProgressBaro16.png</filename>
+            <filename>../ui/progressBar/ProgressBaro17.png</filename>
+            <filename>../ui/progressBar/ProgressBaro18.png</filename>
+            <filename>../ui/progressBar/ProgressBaro2.png</filename>
+            <filename>../ui/progressBar/ProgressBaro3.png</filename>
+            <filename>../ui/progressBar/ProgressBaro4.png</filename>
+            <filename>../ui/progressBar/ProgressBaro5.png</filename>
+            <filename>../ui/progressBar/ProgressBaro6.png</filename>
+            <filename>../ui/progressBar/ProgressBaro7.png</filename>
+            <filename>../ui/progressBar/ProgressBaro8.png</filename>
+            <filename>../ui/progressBar/ProgressBaro9.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

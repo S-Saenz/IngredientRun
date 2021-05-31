@@ -15,12 +15,15 @@ namespace WillowWoodRefuge
         public bool _isCured { get; private set; }
         private float _displayTime = 3;
         private float _currTime = -1;
+        public string _screenName { get; private set; }
 
-        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene,
+
+        public NPC(string name, string screenName, Vector2 pos, PhysicsHandler collisionHandler, string scene, TileMap tileMap,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
-                     : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, worldBounds, animationDict, area)
+                     : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, tileMap, worldBounds, animationDict, area)
         {
+            _screenName = screenName;
             _walkSpeed = 25;
             _runSpeed = 120;
             _collisionBox._friction = 0.5f;
@@ -41,11 +44,13 @@ namespace WillowWoodRefuge
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            base.Draw(spriteBatch, _isCured ? Color.White : Color.Gray);
-            if (_currTime >= 0 && _currTime < _displayTime)
+            if (_currTime >= 0 && _currTime < _displayTime && !_isCured)
             {
-                string statement = _isCured ? (name + " cured!") : ("incorrect item");
-                spriteBatch.DrawString(FontManager._dialogueFont, statement, _pos, Color.Black);
+                base.Draw(spriteBatch, Color.Red);
+            }
+            else
+            {
+                base.Draw(spriteBatch, _isCured ? Color.White : Color.Gray);
             }
         }
 
@@ -62,19 +67,9 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager Content)
         {
-            if (name == "aiyo")
-            {
-                animationDict = new Dictionary<string, Animation>();
-                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkLeft", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkRight", new Animation(_texture, 1, 1, 100));
-            }
-            else
-            {
-                animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
-                animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
-                animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
-            }
+            animationDict.Add("idle", new Animation(_texture, 1, 1, 100));
+            animationDict.Add("walkLeft", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_left"), 1, 12, 100));
+            animationDict.Add("walkRight", new Animation(Content.Load<Texture2D>("animations/" + name + "_walk_right"), 1, 12, 100));
         }
 
         // Adds an "injury" to npc, along with assigning what item is needed to remove the injury.
@@ -97,6 +92,7 @@ namespace WillowWoodRefuge
                 return false;
 
             _isCured = true;
+            --GameplayState._numInjured;
             Debug.WriteLine(name + " cured with " + item);
             return true;
         }
