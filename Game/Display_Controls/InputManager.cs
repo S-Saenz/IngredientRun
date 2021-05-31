@@ -32,6 +32,10 @@ namespace WillowWoodRefuge
                 Keys.Up,
                 Keys.W
             };
+            List<Keys> spaceKeys = new List<Keys>()
+            {
+                Keys.Space
+            };
             List<Keys> jumpKeys = new List<Keys>()
             {
                 Keys.Space,
@@ -96,11 +100,16 @@ namespace WillowWoodRefuge
             {
                 Keys.L
             };
+            List<Keys> escape = new List<Keys>()
+            {
+                Keys.Escape
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
             _buttons.Add("down", new Button(downKeys));
             _buttons.Add("up", new Button(upKeys));
+            _buttons.Add("space", new Button(spaceKeys));
             _buttons.Add("jump", new Button(jumpKeys));
             _buttons.Add("cook", new Button(cookKeys));
             _buttons.Add("superCook", new Button(superCookKeys));
@@ -116,6 +125,7 @@ namespace WillowWoodRefuge
             _buttons.Add("restartState", new Button(restartState));
             _buttons.Add("performance", new Button(togglePerformance));
             _buttons.Add("light", new Button(toggleLight));
+            _buttons.Add("escape", new Button(escape));
         }
 
         public void Update(GameTime time)

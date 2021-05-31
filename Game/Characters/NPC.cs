@@ -15,13 +15,15 @@ namespace WillowWoodRefuge
         public bool _isCured { get; private set; }
         private float _displayTime = 3;
         private float _currTime = -1;
+        public string _screenName { get; private set; }
 
 
-        public NPC(string name, Vector2 pos, PhysicsHandler collisionHandler, string scene, TileMap tileMap,
+        public NPC(string name, string screenName, Vector2 pos, PhysicsHandler collisionHandler, string scene, TileMap tileMap,
                              RectangleF worldBounds = new RectangleF(), Dictionary<string, Animation> animationDict = null,
                              Area area = null)
                      : base(name, pos, "NPC", new Vector2(), collisionHandler, scene, tileMap, worldBounds, animationDict, area)
         {
+            _screenName = screenName;
             _walkSpeed = 25;
             _runSpeed = 120;
             _collisionBox._friction = 0.5f;

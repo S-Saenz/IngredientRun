@@ -169,8 +169,16 @@
 	"sourceSize": {"w":25,"h":23}
 },
 {
+	"filename": "water1.png",
+	"frame": {"x":80,"y":846,"w":16,"h":14},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":14},
+	"sourceSize": {"w":16,"h":14}
+},
+{
 	"filename": "Wolfberry1.png",
-	"frame": {"x":80,"y":846,"w":55,"h":28},
+	"frame": {"x":96,"y":846,"w":55,"h":28},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":28},
@@ -178,7 +186,7 @@
 },
 {
 	"filename": "Wolfberry2.png",
-	"frame": {"x":135,"y":846,"w":55,"h":28},
+	"frame": {"x":151,"y":846,"w":55,"h":28},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":28},
@@ -189,8 +197,8 @@
 	"version": "1.0",
 	"image": "foragingTextures.png",
 	"format": "RGBA8888",
-	"size": {"w":202,"h":874},
+	"size": {"w":206,"h":874},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:001ee2c047e4b7e99428e4e893c7af8a:b4071c698c16cc90dc20918f2f32524d:72fa8ca7bb2802248e27e35c9487bd0f$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c26cf8bcea689378df5ed6c34d8a8a87:02d60b775e959a1b5f9dead2532add46:72fa8ca7bb2802248e27e35c9487bd0f$"
 }
 }

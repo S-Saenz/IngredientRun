@@ -155,7 +155,7 @@ namespace WillowWoodRefuge
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             xButton.Update(mouseState);
-            if (_selected != null) // allow click on gifting option if object is
+            if (_selected != null && _recipient != null) // allow click on gifting option if object is
                 _confirmButton.Update(mouseState);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -164,7 +164,7 @@ namespace WillowWoodRefuge
 
                 //Print mouse cursor position to debug console
 
-                Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
+                // Debug.WriteLine($"{mouseState.Position.X} {mouseState.Position.Y}");
 
 
                 //boxClicked = !closestBoxToMouse(mouseState).Equals(new Vector2(-1, -1));              
@@ -273,9 +273,9 @@ namespace WillowWoodRefuge
         public void Draw(SpriteBatch spriteBatch)
         {
             // Debug.WriteLine("Inventory being drawn");
-            int dynamicScreenScale = (int)Game1.instance._cameraController._screenScale;
-            int width = (int)Game1.instance._cameraController._screenDimensions.X * dynamicScreenScale;
-            int height = (int)Game1.instance._cameraController._screenDimensions.Y * dynamicScreenScale;
+            float dynamicScreenScale = Game1.instance._cameraController._screenScale;
+            int width = (int)Game1.instance._cameraController._screenDimensions.X;
+            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
 
             //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
@@ -296,7 +296,7 @@ namespace WillowWoodRefuge
 
             if (_gifting)
             {
-                string message = "Select item to give to " + _recipient.name + "\n(cured by " + _recipient._cureItem + ")";
+                string message = "Select item to give to " + _recipient._screenName + "\n(cured by " + _recipient._cureItem + ")";
                 Vector2 messageSize = FontManager._bigdialogueFont.MeasureString(message);
                 spriteBatch.DrawString(FontManager._bigdialogueFont, message, new Vector2(16, 16), Color.White);
                 Vector2 itemSize = TextureAtlasManager.GetSize("Item", _recipient._cureItem);
@@ -307,7 +307,7 @@ namespace WillowWoodRefuge
             if (_selected != null)
             {
                 Size2 size = TextureAtlasManager.GetSize("Item", _selected._name) * _selected.Scale;
-                spriteBatch.DrawRectangle(_selected.pos - (Vector2)size / 2, size, Color.White);
+                spriteBatch.DrawRectangle((_selected.pos - (Vector2)size / 2) * Game1.instance._cameraController._screenScale, size, Color.White);
 
                 //draw selected item on right hand side
                 TextureAtlasManager.DrawTexture(spriteBatch, "Item", _selected._name, new Vector2(width * 0.65f, height * 0.22f), Color.White, new Vector2(5f)*dynamicScreenScale, true);
@@ -695,7 +695,7 @@ namespace WillowWoodRefuge
 
         public Vector2 closestBoxToMouse(MouseState mouseState)
         {
-            Vector2 mousePoint = new Vector2(mouseState.Position.X, mouseState.Position.Y);
+            Vector2 mousePoint = new Vector2(mouseState.Position.X / Game1.instance._cameraController._screenScale, mouseState.Position.Y / Game1.instance._cameraController._screenScale);
             Vector2 closestBox = randomBox();
             float closestDistance = Vector2.Distance(mousePoint, closestBox);
 
