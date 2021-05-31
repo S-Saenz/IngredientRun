@@ -82,7 +82,7 @@ namespace WillowWoodRefuge
 
         public void Update(MouseState mouseState, KeyboardState keyState, GameTime gameTime)
         {
-            Game1.instance.sounds.cookingSound(gameTime);
+            Game1.instance.sounds.cookingSound(gameTime, _progress > 100 & _attemptRemaining);
 
             if (_progress > 100 & _attemptRemaining)
             {

@@ -15,6 +15,7 @@ namespace WillowWoodRefuge
         List<SoundEffect> soundeffects;
         List<SoundEffect> monsterSounds;
         List<SoundEffect> UISounds;
+        SoundEffectInstance sizzle;
         Random random = new Random();
         int walkTimer = 0;
         int spiderTimer1 = 0;
@@ -59,6 +60,7 @@ namespace WillowWoodRefuge
             UISounds.Add(Content.Load<SoundEffect>("soundEffects/Fixed_Broken_Sounds/Menu_Navigation"));
             // 3
             UISounds.Add(Content.Load<SoundEffect>("soundEffects/WWR_UISFX/Cooking"));
+            sizzle = UISounds[3].CreateInstance();
             // Sound effects end
         }
         public void playSong(string name)
@@ -148,12 +150,17 @@ namespace WillowWoodRefuge
             UISounds[2].Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
         }
 
-        public void cookingSound(GameTime gameTime)
+        public void cookingSound(GameTime gameTime, Boolean finished)
         {
             if (gameTime.TotalGameTime.TotalMilliseconds - cookTimer >= UISounds[3].Duration.TotalMilliseconds)
             {
-                UISounds[3].Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
+                //UISounds[3].Play(volume: 1.0f, pitch: 0.0f, pan: 0.0f);
+                sizzle.Play();
                 cookTimer = (int)gameTime.TotalGameTime.TotalMilliseconds;
+            }
+            if (finished)
+            {
+                sizzle.Stop();
             }
         }
 
