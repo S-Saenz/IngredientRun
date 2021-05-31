@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace WillowWoodRefuge
 {
@@ -79,9 +80,7 @@ namespace WillowWoodRefuge
             int column = currentFrame % columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             spriteBatch.Draw(texture, destinationRectangle, sourceRectangle, color.HasValue ? color.Value : Color.White);
-            spriteBatch.End();
         }
 
         public void reset()
