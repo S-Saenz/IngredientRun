@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +11,7 @@ namespace WillowWoodRefuge
 {
     class MenuState : State
     {
-        private List<Component> _components;
+        private List<UIButton> _components;
         Texture2D menuBackground;
 
         public MenuState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch)
@@ -20,39 +21,23 @@ namespace WillowWoodRefuge
             menuBackground = _content.Load<Texture2D>("bg/TitleScreen");
             var buttonFont = FontManager._dialogueFont;
 
-            var newGameButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 550),
-                Text = "New Game",
-            };
-
+            var newGameButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 550), "New Game");
+            newGameButton.reScale(2f);
             newGameButton.Click += NewGameButton_Click;
 
-            var creditsButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 625),
-                Text = "Credits",
-            };
-
+            var creditsButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 625), "Credits");
+            creditsButton.reScale(2f);
             creditsButton.Click += creditsButton_Click;
 
-            var TutorialButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, 550),
-                Text = "Tutorial",
-            };
-
+            var TutorialButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2, 550), "Tutorial");
+            TutorialButton.reScale(2f);
             TutorialButton.Click += TutorialButton_Click;
 
-            var quitGameButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, 625),
-                Text = "Quit Game",
-            };
-
+            var quitGameButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2, 625), "Quit Game");
+            quitGameButton.reScale(2f);
             quitGameButton.Click += QuitGameButton_Click;
 
-            _components = new List<Component>()
+            _components = new List<UIButton>()
             {
                 newGameButton,
                 creditsButton,
@@ -67,7 +52,7 @@ namespace WillowWoodRefuge
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
             spriteBatch.Draw(menuBackground, new Rectangle(0, 0, (int)Game1.instance._cameraController._screenDimensions.X, (int)Game1.instance._cameraController._screenDimensions.Y), Color.White);
             foreach (var component in _components)
-                component.Draw(gameTime, spriteBatch);
+                component.Draw(spriteBatch);
 
             spriteBatch.End();
         }
@@ -91,7 +76,7 @@ namespace WillowWoodRefuge
         {
 
             foreach (var component in _components)
-                component.Update(gameTime);
+                component.Update(Mouse.GetState());
         }
 
         private void creditsButton_Click(object sender, EventArgs e)
