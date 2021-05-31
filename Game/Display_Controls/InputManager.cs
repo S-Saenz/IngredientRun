@@ -88,6 +88,14 @@ namespace WillowWoodRefuge
             {
                 Keys.D2
             };
+            List<Keys> changeIntroState = new List<Keys>()
+            {
+                Keys.D3
+            };
+            List<Keys> changeOutroState = new List<Keys>()
+            {
+                Keys.D4
+            };
             List<Keys> restartState = new List<Keys>()
             {
                 Keys.R
@@ -122,6 +130,8 @@ namespace WillowWoodRefuge
             _buttons.Add("toggleWindowed", new Button(toggleWindowed));
             _buttons.Add("changeCampState", new Button(changeCampState));
             _buttons.Add("changeCaveState", new Button(changeCaveState));
+            _buttons.Add("changeIntroState", new Button(changeIntroState));
+            _buttons.Add("changeOutroState", new Button(changeOutroState));
             _buttons.Add("restartState", new Button(restartState));
             _buttons.Add("performance", new Button(togglePerformance));
             _buttons.Add("light", new Button(toggleLight));

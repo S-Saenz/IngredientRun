@@ -60,6 +60,9 @@ namespace WillowWoodRefuge
         private static void LoadContentData()
         {
             Game1.instance.stateConditions = new StateConditions();
+            
+            _states.Add("IntroState", new IntroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
+            _states.Add("OutroState", new OutroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
 
             _instance._loadingDataDone = true;
         }
@@ -185,7 +188,7 @@ namespace WillowWoodRefuge
                 }
 
                 _message = "Loading Complete";
-                Game1.instance.ChangeState("CampState");
+                Game1.instance.ChangeState("IntroState");
 
                 // reset gameplay initialization, so game reloads when re-entering
                 _loadingPlayerStarted = 
