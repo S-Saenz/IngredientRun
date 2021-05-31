@@ -30,6 +30,7 @@ namespace WillowWoodRefuge
         public Cook cookingGame;
         public RecipeSelection recipeMenu;
         public HUD gameHUD;
+        public PauseMenu pauseMenu;
 
 
         // create vatiable for the state manager
@@ -87,7 +88,7 @@ namespace WillowWoodRefuge
         protected override void Initialize()
         {
             _spriteBatch = new SpriteBatch(graphics.GraphicsDevice);
-
+            Game1.instance.sounds = new SoundManager(Game1.instance.Content);
             // setup camera controller
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(640, 360), new Vector2(1728, 972));
             // _cameraController = new CameraController(graphics, new Vector2(16, 9), new Vector2(240, 135), new Vector2(1728, 972));
@@ -120,17 +121,22 @@ namespace WillowWoodRefuge
 
         protected override void Update(GameTime gameTime)
         {
+            input.Update(gameTime);
+
+            // toggle windowed/fullscreen
+            if (input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
+                _cameraController.ToggleFullscreen();
+
             if (_currentState as GameplayState != null)
             {
-                input.Update(gameTime);
                 //Debug.WriteLine();
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                     Exit();
 
                 stateConditions.ConditionUpdate(gameTime);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    ChangeState("MenuState");
+                // if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                //     ChangeState("MenuState");
             }
 
             if (_nextState != null)
@@ -152,9 +158,7 @@ namespace WillowWoodRefuge
                     _changeRequest = null;
                 }
 
-                // toggle windowed/fullscreen
-                if (input.IsDown("alternate") && input.JustPressed("toggleWindowed"))
-                    _cameraController.ToggleFullscreen();
+                
 
                 if (Keyboard.GetState().IsKeyDown(Keys.D1) ||
                         Keyboard.GetState().IsKeyDown(Keys.D2) ||
@@ -170,7 +174,7 @@ namespace WillowWoodRefuge
                 }
             }
 
-                base.Update(gameTime);
+            base.Update(gameTime);
 
             // this.UI.Update(gameTime);
         }
