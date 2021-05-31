@@ -136,6 +136,7 @@ namespace WillowWoodRefuge
             Game1.instance.UI.SwitchState(UIState.None);
 
             //DEREK - insert exit-button sound
+            
         }
 
         private void ConfirmButton_Click(object sender, EventArgs e)
@@ -159,7 +160,7 @@ namespace WillowWoodRefuge
             //Vector2 clickedBox = new Vector2(-1,-1); //just give it a dummy temp value
 
             xButton.Update(mouseState);
-            if (_selected != null) // allow click on gifting option if object is
+            if (_selected != null && _recipient != null) // allow click on gifting option if object is
                 _confirmButton.Update(mouseState);
 
             if (mouseState.LeftButton == ButtonState.Pressed)
@@ -534,6 +535,7 @@ namespace WillowWoodRefuge
             //add additional info to ingredient! Such as stars, description, who it's for, etc.
 
             //DEREK - ingredient added!
+            Game1.instance.sounds.addItemSound();
             return true;
         }
 
@@ -541,7 +543,9 @@ namespace WillowWoodRefuge
         public void removeIngredient(Ingredient ingredient)
         {
             ingredientList.Remove(ingredient);
+
             //DEREK - ingredient has been discarded!
+            Game1.instance.sounds.discardItemSound();
         }
 
         public void removeIngredient(string name)

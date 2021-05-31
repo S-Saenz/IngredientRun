@@ -421,7 +421,7 @@ namespace WillowWoodRefuge
                 SpawnItem spawnItem = item._other as SpawnItem;
                 if (spawnItem != null)
                 {
-                    Debug.WriteLine(spawnItem._name);
+                    // Debug.WriteLine(spawnItem._name);
                     // TODO: try adding to inventory, returning whether successful or not
                     if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(spawnItem._name))
                     {
@@ -440,7 +440,7 @@ namespace WillowWoodRefuge
                 PickupItem pickup = item._other as PickupItem;
                 if (pickup != null)
                 {
-                    Debug.WriteLine(pickup._name);
+                    // Debug.WriteLine(pickup._name);
                     // TODO: try adding to inventory, returning whether successful or not
                     if (Game1.instance.input.JustPressed("interact") && Game1.instance.inventory.addIngredient(pickup._name))
                     {
@@ -689,7 +689,8 @@ namespace WillowWoodRefuge
         {
             if (Game1.instance.input.JustPressed("down") || // let go of ledge
                     (_grabLeft && Game1.instance.input.JustPressed("right")) ||
-                    (!_grabLeft && Game1.instance.input.JustPressed("left")))
+                    (!_grabLeft && Game1.instance.input.JustPressed("left")) ||
+                    Game1.instance.input.JustPressed("space"))
             {
                 _collisionBox._posLock = false;
                 _collisionBox._hasGravity = true;
@@ -697,7 +698,9 @@ namespace WillowWoodRefuge
             }
             else if (Game1.instance.input.JustPressed("up") && // climb up on top of ledge
                      _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
-                                                      _anchorPoint.Value.Y - _collisionBox._bounds.Height)))
+                                                      _anchorPoint.Value.Y - _collisionBox._bounds.Height)) ||
+                     (_grabLeft && Game1.instance.input.JustPressed("left")) ||
+                     (!_grabLeft && Game1.instance.input.JustPressed("right")))
             {
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
