@@ -117,9 +117,9 @@ namespace WillowWoodRefuge
             //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
             buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
             buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
-            _confirmButton = new UIButton("confirmButton", buttonPos);
+            _confirmButton = new UIButton("ButtonNormal", buttonPos, "Give?");
             //_confirmButton.Depth = .01f;
-            _confirmButton._scale = 4f;
+            _confirmButton._scale = 3f;
             _confirmButton.Click += ConfirmButton_Click;
         }
 

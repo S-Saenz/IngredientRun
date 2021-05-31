@@ -21,9 +21,9 @@ namespace WillowWoodRefuge
 
         public void Load(ContentManager contentManager)
         {
-            _toGame = new UIButton("ButtonNormal", Game1.instance._cameraController._screenDimensions / 2 + new Vector2(0, 100), "Return to Game", true);
+            _toGame = new UIButton("ButtonNormal", Game1.instance._cameraController._screenDimensions / 2 - new Vector2(0, 75), "Return to Game", true);
             _toGame.reScale(_buttonScale);
-            _toMainMenu = new UIButton("ButtonNormal", Game1.instance._cameraController._screenDimensions / 2 - new Vector2(0, 100), "Exit to Main Menu", true);
+            _toMainMenu = new UIButton("ButtonNormal", Game1.instance._cameraController._screenDimensions / 2 + new Vector2(0, 75), "Exit to Main Menu", true);
             _toMainMenu.reScale(_buttonScale);
 
             _toGame.Click += ReturnToGame;
