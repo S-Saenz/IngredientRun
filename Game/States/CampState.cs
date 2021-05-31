@@ -47,19 +47,19 @@ namespace WillowWoodRefuge
             Area campArea = _tileMap.GetAreaObject("Camp")[0];
             Random rand = new Random();
             _characters = new Dictionary<string, NPC>();
-            _characters.Add("Lura", new NPC("lura",
+            _characters.Add("Lura", new NPC("lura", "Lura",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
-            _characters.Add("Snäll", new NPC("snall",
+            _characters.Add("Snäll", new NPC("snall", "Snäll",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
-            _characters.Add("Kall", new NPC("kall",
+            _characters.Add("Kall", new NPC("kall", "Kall",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
-            _characters.Add("Arg", new NPC("arg",
+            _characters.Add("Arg", new NPC("arg", "Arg",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
-            _characters.Add("Aiyo", new NPC("aiyo",
+            _characters.Add("Aiyo", new NPC("aiyo", "Aiyo",
                             new Vector2(rand.Next() % (campArea._bounds.Width - 16) + campArea._bounds.Left + 8, campArea._bounds.Bottom),
                             _physicsHandler, "camp", _tileMap, _tileMap._mapBounds, area: campArea));
 
