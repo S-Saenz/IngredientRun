@@ -22,7 +22,7 @@ namespace WillowWoodRefuge
 
             var newGameButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 200),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 550),
                 Text = "New Game",
             };
 
@@ -30,7 +30,7 @@ namespace WillowWoodRefuge
 
             var creditsButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 300),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 160, 625),
                 Text = "Credits",
             };
 
@@ -38,7 +38,7 @@ namespace WillowWoodRefuge
 
             var TutorialButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 400),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, 550),
                 Text = "Tutorial",
             };
 
@@ -46,13 +46,11 @@ namespace WillowWoodRefuge
 
             var quitGameButton = new MenuButton(buttonTexture, buttonFont)
             {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 500),
+                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2, 625),
                 Text = "Quit Game",
             };
 
             quitGameButton.Click += QuitGameButton_Click;
-
-            
 
             _components = new List<Component>()
             {
