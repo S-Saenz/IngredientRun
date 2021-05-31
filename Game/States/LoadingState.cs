@@ -133,7 +133,6 @@ namespace WillowWoodRefuge
             else if(_initializationDone && !_loadingDataStarted)
             {
                 _message = "Loading Content Data";
-                Game1.instance.sounds = new SoundManager(Game1.instance.Content);
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     LoadContentData();
