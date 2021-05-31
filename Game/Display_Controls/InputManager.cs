@@ -112,6 +112,11 @@ namespace WillowWoodRefuge
             {
                 Keys.Escape
             };
+            List<Keys> skip = new List<Keys>()
+            {
+                Keys.Space,
+                Keys.Escape
+            };
 
             _buttons.Add("left", new Button(leftKeys));
             _buttons.Add("right", new Button(rightKeys));
@@ -136,6 +141,7 @@ namespace WillowWoodRefuge
             _buttons.Add("performance", new Button(togglePerformance));
             _buttons.Add("light", new Button(toggleLight));
             _buttons.Add("escape", new Button(escape));
+            _buttons.Add("skip", new Button(skip));
         }
 
         public void Update(GameTime time)
