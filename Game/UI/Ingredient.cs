@@ -46,6 +46,14 @@ namespace WillowWoodRefuge
             _name = name;
         }
 
+        public Ingredient(Vector2 position, string name, string description)
+        {
+            pos = position;
+            Scale = 4f;
+            _name = name;
+            _description = description == "" ? _description : description;
+        }
+
         // public Ingredient(Texture2D image)
         // {
         //     img = image;

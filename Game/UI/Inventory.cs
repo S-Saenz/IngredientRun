@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -32,6 +34,7 @@ namespace WillowWoodRefuge
         public NPC _recipient = null;
 
         public List<Ingredient> ingredientList = new List<Ingredient>();
+        private Dictionary<string, string> descriptions = new Dictionary<string, string>();
         List<Vector2> boxes = new List<Vector2>();
         Dictionary<Vector2, Vector2> boxDict = new Dictionary<Vector2, Vector2>(); // key = [i,j], value = (x,y)
 
@@ -121,6 +124,8 @@ namespace WillowWoodRefuge
             //_confirmButton.Depth = .01f;
             _confirmButton._scale = 4f;
             _confirmButton.Click += ConfirmButton_Click;
+
+            LoadItemDescriptions();
         }
 
         //when xButton is clicked, close inventory
@@ -333,11 +338,11 @@ namespace WillowWoodRefuge
                 }
 
                 //possible recipes
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.62f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.62f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.61f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.61f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
 
                 //description 
-                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.62f, height * 4.5f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Color.White, 0f, Vector2.Zero, new Vector2(1.7f,1.7f), SpriteEffects.None, 0.01f);
             }
         }
 
@@ -521,9 +526,12 @@ namespace WillowWoodRefuge
                 //DEREK - inventory is full!
             }
 
-            Ingredient newIngredient = new Ingredient(randomBox(), name);
+            //Ingredient newIngredient = new Ingredient(randomBox(), name);
+            Ingredient newIngredient = new Ingredient(randomBox(), name, descriptions.ContainsKey(name) ? descriptions[name] : "");
             ingredientList.Add(newIngredient);
             assignDistinctSpace(newIngredient);
+
+            //add additional info to ingredient! Such as stars, description, who it's for, etc.
 
             //DEREK - ingredient added!
             return true;
@@ -708,6 +716,29 @@ namespace WillowWoodRefuge
                 closestBox = new Vector2(-1, -1); //we'll know if the player clicked outside the inventory by returning a negative distance
 
             return closestBox;
+        }
+
+
+        //ripped from Alec's LoadRecipes() in RecipeSelection.cs
+        void LoadItemDescriptions()
+        {
+            //set up stream
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("WillowWoodRefuge.Content.dialogue.ItemDescriptions.tsv");
+            
+            //grow system from file
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                //throw away the first line (headers)
+                string line = reader.ReadLine();
+
+                while(!reader.EndOfStream)
+                {
+                    line = reader.ReadLine();
+
+                    string[] parsed = line.Split('\t');
+                    descriptions.Add(parsed[0], parsed[1]);
+                }
+            }
         }
 
 
