@@ -71,9 +71,9 @@ namespace WillowWoodRefuge
 
             _characters["Lura"].Injure("grilledFish");
             _characters["Snäll"].Injure("appleMushroomSoup");
-            _characters["Kall"].Injure("carrotSoup");
-            _characters["Arg"].Injure("rabbitSoup");
-            _characters["Aiyo"].Injure("monsterSoup");
+            _characters["Kall"].Injure("omelet");
+            _characters["Arg"].Injure("mushroomOnionSalad");
+            _characters["Aiyo"].Injure("cracker");
 
             // Setup lights
             // _staticLightManager.AddLight(new Vector2(64, 256), 50);

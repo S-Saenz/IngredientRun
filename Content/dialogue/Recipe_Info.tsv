@@ -1,6 +1,10 @@
-Display Name	Name	Cures	Description 	Ingredient	
-Grilled Fish	grilledFish	Lura	Something about grilled fish	fish	
-Apple Mushroom Soup	appleMushroomSoup	Snäll	Something about apple mushroom soup	apple	water
-Carrot Soup	carrotSoup	Kall	Something about carrot soup	carrot	water
-Rabbit Soup	rabbitSoup	Arg	Something about rabbit soup	meat	water
-Monster Soup	monsterSoup	Aiyo	Something about monster soup	meat	water
+Display Name	Name	Cures	Description 	Ingredient		
+Grilled Fish	grilledFish	Lura	A grilled fish.  Reminds you of your mother’s cooking. Sure to raise anyone’s spirits!	fish		
+Apple Mushroom Soup	appleMushroomSoup	Snäll	A soup with apples and mushrooms as its broth.  It’s warmth penetrates through your cold, quiet exterior and gives you a feeling of homeliness.	apple	water	
+Carrot Soup	carrotSoup		A simple soup made with carrots and water.  Carrot-y!	carrot	water	
+Mushroom and Onion Salad	mushroomOnionSalad	Arg	A salad mixed with oyster mushrooms and nodding onions.  Easy to make, which is a welcome change right now.	mazanita	oyster_mushroom	nodding_onion
+Monster Soup	monsterSoup		a hearty soup made with the meat you found in the cave.  The meat in it is a bit tough, but it’s the best you can do with what you have.	meat	water	
+Cracker	cracker	Aiyo	Tasty looking crackers made from bay nuts and calamint. They also increase the body’s natural healing, so they’re great for healing minor aches and pains.	bay_nut	calamint	
+Omelet	omelet	Kall	An omelet with nodding onions inside.  A staple meal, and one that is surprisingly tasty.	egg	nodding_onion	
+Wolfberry Deluxe	wolfberryMeal		A bunch of dried wolfberries.  Due to its strong flavor, no other ingredients are needed.	wolfberry	wolfberry	
+Thimbleberry Pie	thimbleberryPie		A delicious thimbleberry pie.  It’s very hard to make, but sometimes you have to treat yourself for surviving during these times.	thimbleberry	bay_nut	
