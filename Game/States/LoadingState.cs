@@ -61,20 +61,26 @@ namespace WillowWoodRefuge
         {
             Game1.instance.stateConditions = new StateConditions();
             
+            _states.Add("IntroState", new IntroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
+            _states.Add("OutroState", new OutroState(Game1.instance, Game1.instance.graphics.GraphicsDevice, Game1.instance.Content, _spriteBatch));
+
             _instance._loadingDataDone = true;
         }
 
         private static void LoadPlayerData()
         {
+            // Load UI interfaces
             Game1.instance.UI = new UIManager();
             Game1.instance.inventory = new Inventory();
             Game1.instance.cookingGame = new Cook();
             Game1.instance.recipeMenu = new RecipeSelection(Game1.instance);
             Game1.instance.gameHUD = new HUD();
+            Game1.instance.pauseMenu = new PauseMenu();
 
             // load inventory
             Game1.instance.inventory.Load(Game1.instance.Content);
             Game1.instance.gameHUD.Load(Game1.instance.Content);
+            Game1.instance.pauseMenu.Load(Game1.instance.Content);
 
             _instance._loadingPlayerDone = true;
         }
@@ -130,7 +136,6 @@ namespace WillowWoodRefuge
             else if(_initializationDone && !_loadingDataStarted)
             {
                 _message = "Loading Content Data";
-                Game1.instance.sounds = new SoundManager(Game1.instance.Content);
                 ThreadPool.QueueUserWorkItem(state =>
                 {
                     LoadContentData();
@@ -183,7 +188,7 @@ namespace WillowWoodRefuge
                 }
 
                 _message = "Loading Complete";
-                Game1.instance.ChangeState("CampState");
+                Game1.instance.ChangeState("IntroState");
 
                 // reset gameplay initialization, so game reloads when re-entering
                 _loadingPlayerStarted = 
