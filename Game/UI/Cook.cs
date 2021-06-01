@@ -123,7 +123,7 @@ namespace WillowWoodRefuge
             //how size is determined in the draw function
             Size2 zoneSize = TextureAtlasManager.GetSize("UI", "Hot_Zone");
             float zoneWidth = zoneSize.Width * Game1.instance._cameraController._screenDimensions.X / 450;
-
+            
             if (_attemptRemaining)
                 _zoneX += _zoneVelocity;
 
@@ -157,7 +157,7 @@ namespace WillowWoodRefuge
             if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
             {
                 //derek - cooking sound
-                _progress += 0.085f;
+                _progress += 0.1f;
                 Console.WriteLine(_progress);
             }
 

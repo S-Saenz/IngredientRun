@@ -343,7 +343,9 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.61f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
 
                 //description 
-                spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Color.White, 0f, Vector2.Zero, new Vector2(1.7f,1.7f), SpriteEffects.None, 0.01f);
+                FontManager.PrintText(FontManager._bigdialogueFont, spriteBatch, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Alignment.Left, Color.White, false);
+                //FontManager.PrintText(FontManager._dialogueFont, spriteBatch, speech, loc - new Vector2(60 * scale, 30 * scale), Alignment.Left, Color.White, true);
+                //spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Color.White, 0f, Vector2.Zero, new Vector2(1.7f,1.7f), SpriteEffects.None, 0.01f);
             }
         }
 
