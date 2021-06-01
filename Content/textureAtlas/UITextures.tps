@@ -181,6 +181,53 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">../../../../../Downloads/aiyo_head.png</key>
+            <key type="filename">../../../../../Downloads/arg_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../../Downloads/kall_head.png</key>
+            <key type="filename">../../../../../Downloads/lura_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,2,5,3</rect>
+                <key>scale9Paddings</key>
+                <rect>3,2,5,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../../Downloads/snall_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,2,6,3</rect>
+                <key>scale9Paddings</key>
+                <rect>3,2,6,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/ButtonNormal.png</key>
             <key type="filename">../ui/ButtonPressed.png</key>
             <struct type="IndividualSpriteSettings">
@@ -776,6 +823,11 @@
             <filename>../ui/progressBar/ProgressBaro7.png</filename>
             <filename>../ui/progressBar/ProgressBaro8.png</filename>
             <filename>../ui/progressBar/ProgressBaro9.png</filename>
+            <filename>../../../../../Downloads/aiyo_head.png</filename>
+            <filename>../../../../../Downloads/arg_head.png</filename>
+            <filename>../../../../../Downloads/kall_head.png</filename>
+            <filename>../../../../../Downloads/lura_head.png</filename>
+            <filename>../../../../../Downloads/snall_head.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
