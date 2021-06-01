@@ -14,7 +14,8 @@ namespace WillowWoodRefuge
         Dictionary<float, string> _actions; // list of actions taken by player, in order of execution. key: time, value: action
         float _speed; // speed at which the dialogue plays
         float _currTime = 0;
-        static float _maxLineWidth = 256;
+        static float _maxLineWidth = 350;
+        Size2 _textSize;
 
         static Dictionary<int, float> _typeSpeed = new Dictionary<int, float>()
         {
@@ -45,6 +46,7 @@ namespace WillowWoodRefuge
             int end = values[1].LastIndexOf('\"');
 
             ParseDialogue(values[1].Substring(start + 1, end - start - 1));
+            _textSize = FontManager._dialogueFont.MeasureString(_speech);
         }
 
         private void ParseDialogue(string unparsed)
@@ -124,7 +126,7 @@ namespace WillowWoodRefuge
             // spriteBatch.FillRectangle(new RectangleF(loc.X, loc.Y, size.X, size.Y), Color.Bisque);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Container and Stem", loc, Color.White, new Vector2(scale), centered: true);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Name Box", nameBoxLoc, Color.White, new Vector2(scale), centered: true);
-            FontManager.PrintText(FontManager._dialogueFont, spriteBatch, speech, loc - new Vector2(0, 30 * scale), Alignment.Centered, Color.White, true);
+            FontManager.PrintText(FontManager._dialogueFont, spriteBatch, speech, loc - (Vector2)_textSize / 2 - new Vector2(10, 25), Alignment.Left, Color.White, false);
             FontManager.PrintText(FontManager._dialogueFont, spriteBatch, _character, nameBoxLoc, Alignment.Centered, Color.White, true);
             // spriteBatch.DrawString(FontManager._dialogueFont, _character + "\n" + speech, loc, Color.Black);
             if ((int)MathF.Floor(_currTime / _speed) > _speech.Length + 10)
