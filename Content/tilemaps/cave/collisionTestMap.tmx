@@ -153,10 +153,10 @@
 </data>
  </layer>
  <objectgroup id="2" name="ItemObjects">
-  <object id="9" name="only.mushroom" x="1089" y="368">
+  <object id="9" name="only.Nodding_Onion" x="1089" y="368">
    <point/>
   </object>
-  <object id="17" name="only.mushroom" x="713" y="780.333">
+  <object id="17" name="only.Nodding_Onion" x="713" y="780.333">
    <point/>
   </object>
   <object id="22" name="only.fish" x="411" y="472">
@@ -171,37 +171,31 @@
   <object id="26" name="only.water" x="110" y="501">
    <point/>
   </object>
-  <object id="27" name="only.glowing_plant" x="740" y="271">
+  <object id="27" name="only.Calamint" x="740" y="271">
    <point/>
   </object>
-  <object id="28" name="only.mushroom" x="88" y="623.333">
+  <object id="28" name="only.Wolfberry" x="88" y="623.333">
    <point/>
   </object>
-  <object id="29" name="only.mushroom" x="1481" y="337.333">
+  <object id="29" name="only.Calamint" x="1454.65" y="338.838">
    <point/>
   </object>
-  <object id="30" name="only.mushroom" x="1520" y="353.333">
+  <object id="30" name="only.Oyster_Mushroom" x="1381.5" y="259.996">
    <point/>
   </object>
-  <object id="31" name="only.mushroom" x="1427" y="270.333">
+  <object id="33" name="only.Manzanita" x="972.611" y="466.591">
    <point/>
   </object>
-  <object id="32" name="only.mushroom" x="1451" y="334.333">
-   <point/>
-  </object>
-  <object id="33" name="only.mushroom" x="1011" y="464.333">
-   <point/>
-  </object>
-  <object id="34" name="only.mushroom" x="730" y="176.333">
+  <object id="34" name="only.Bay_Nut" x="730" y="176.333">
    <point/>
   </object>
   <object id="35" name="only.fish" x="864.333" y="1079">
    <point/>
   </object>
-  <object id="36" name="only.mushroom" x="317" y="797.333">
+  <object id="36" name="only.Bay_Nut" x="317" y="797.333">
    <point/>
   </object>
-  <object id="37" name="only.mushroom" x="304" y="942">
+  <object id="37" name="only.Thimbleberry" x="304" y="942">
    <point/>
   </object>
  </objectgroup>
