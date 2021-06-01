@@ -309,10 +309,9 @@ namespace WillowWoodRefuge
 
                 // tell the player who the recipe is for
                 string name = _recipes[_recipesDisplay[_hoverOver.Value]]._cures;
-                name = name.Trim();
-                name = name == "snäll" ? "snall" : name;
                 string headTexture = camelCaseToRegular(name) + "_head";
-                //headTexture = headTexture.TrimStart();//there is a space right before the name, so trim it out!
+                headTexture = headTexture.TrimStart();//there is a space right before the name, so trim it out!
+                headTexture = headTexture == "snäll_head" ? "snall_head" : headTexture;
                 TextureAtlasManager.DrawTexture(spriteBatch, "UI", headTexture, new Vector2(_screenWidth * 0.65f, _screenHeight * 0.59f), Color.White, new Vector2(17f) * screenScale, true);
                 spriteBatch.DrawString(FontManager._bigdialogueFont, camelCaseToRegular(name) + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.68f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
             }
