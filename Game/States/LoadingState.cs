@@ -188,7 +188,7 @@ namespace WillowWoodRefuge
                 }
 
                 _message = "Loading Complete";
-                Game1.instance.ChangeState("IntroState");
+                Game1.instance.ChangeState("CampState");
 
                 // reset gameplay initialization, so game reloads when re-entering
                 _loadingPlayerStarted = 
