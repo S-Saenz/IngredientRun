@@ -34,7 +34,7 @@ namespace WillowWoodRefuge
         public int _stars = 1;
         public string _ingredient_Or_Dish;
         public string _use;
-        public string _description = "Lorem ipsum dolor sit amet, \nconsectetuer adipiscing elit. \nsed diam nonummy nibh eu-\nismod tincidunt ut laoreet \ndolore magna aliquam erat \nvolutpat. Ut wisi enim ad ";
+        public string _description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad ";
 
         // public Texture2D img;
 

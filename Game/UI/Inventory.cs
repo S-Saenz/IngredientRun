@@ -279,8 +279,8 @@ namespace WillowWoodRefuge
         {
             // Debug.WriteLine("Inventory being drawn");
             float dynamicScreenScale = Game1.instance._cameraController._screenScale;
-            int width = (int)Game1.instance._cameraController._screenDimensions.X;
-            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+            int width = (int)(Game1.instance._cameraController._screenDimensions.X * dynamicScreenScale);
+            int height = (int)(Game1.instance._cameraController._screenDimensions.Y * dynamicScreenScale);
 
             //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
@@ -339,11 +339,12 @@ namespace WillowWoodRefuge
                 }
 
                 //possible recipes
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.61f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
-                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.61f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Use in:", new Vector2(width * 0.63f, height * 0.3f), Color.White, 0f, Vector2.Zero, new Vector2(2, 2), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, "Gift to:", new Vector2(width * 0.63f, height * 0.375f), Color.White, 0f, Vector2.Zero, new Vector2(2,2), SpriteEffects.None, 0.01f);
 
                 //description 
-                FontManager.PrintText(FontManager._bigdialogueFont, spriteBatch, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Alignment.Left, Color.White, false);
+                string formattedDescription = FontManager.AddLineBreaks(_selected._description, FontManager._descriptionFont, width*0.33f);
+                FontManager.PrintText(FontManager._descriptionFont, spriteBatch, formattedDescription, new Vector2(width * 0.63f, height * 0.49f), Alignment.Left, Color.White, false);
                 //FontManager.PrintText(FontManager._dialogueFont, spriteBatch, speech, loc - new Vector2(60 * scale, 30 * scale), Alignment.Left, Color.White, true);
                 //spriteBatch.DrawString(FontManager._bigdialogueFont, _selected._description, new Vector2(width * 0.61f, height * 0.48f), Color.White, 0f, Vector2.Zero, new Vector2(1.7f,1.7f), SpriteEffects.None, 0.01f);
             }
