@@ -11,11 +11,15 @@ namespace WillowWoodRefuge
     {
         static public SpriteFont _dialogueFont { private set; get; }
         static public SpriteFont _bigdialogueFont { private set; get; }
+        static public SpriteFont _descriptionFont { private set; get; }
+        static public SpriteFont _giantdialogueFont { private set; get; }
 
         static public void Initialize(ContentManager content)
         {
             _dialogueFont = content.Load<SpriteFont>("fonts/NPCDialogue");
             _bigdialogueFont = content.Load<SpriteFont>("fonts/NPCDialogueBigBoi");
+            _descriptionFont = content.Load<SpriteFont>("fonts/NPCDialogueBiggerBoi");
+            _giantdialogueFont = content.Load<SpriteFont>("fonts/NPCDialogueGiant");
         }
 
         // Parses a given single line of text into multiple lines within the given max line length in pixels using the given font

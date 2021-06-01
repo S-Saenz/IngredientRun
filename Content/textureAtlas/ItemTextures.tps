@@ -207,8 +207,10 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../Ingredient/Calamint.png</key>
             <key type="filename">../Ingredient/Huckleberry.png</key>
             <key type="filename">../Ingredient/Manzanita.png</key>
+            <key type="filename">../Ingredient/Mint.png</key>
             <key type="filename">../Ingredient/Nodding_Onion.png</key>
             <key type="filename">../Ingredient/Oyster_Mushroom.png</key>
             <key type="filename">../Ingredient/Penny_Bun_Mushroom.png</key>
@@ -304,6 +306,8 @@
             <filename>../Ingredient/Bay_Nut.png</filename>
             <filename>../Ingredient/Manzanita.png</filename>
             <filename>../Ingredient/water.png</filename>
+            <filename>../Ingredient/Calamint.png</filename>
+            <filename>../Ingredient/Mint.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

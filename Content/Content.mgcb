@@ -689,6 +689,20 @@
 /processorParam:TextureFormat=Compressed
 /build:fonts/NPCDialogueBigBoi.spritefont
 
+#begin fonts/NPCDialogueBiggerBoi.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/NPCDialogueBiggerBoi.spritefont
+
+#begin fonts/NPCDialogueGiant.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/NPCDialogueGiant.spritefont
+
 #begin intro/scene10.png
 /importer:TextureImporter
 /processor:TextureProcessor
