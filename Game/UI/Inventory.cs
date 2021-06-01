@@ -105,12 +105,9 @@ namespace WillowWoodRefuge
                 ing.Origin = new Vector2(ing.img.Bounds.Center.X, ing.img.Bounds.Center.Y);
             */
 
-
-            Single singleScale = Convert.ToSingle(Game1.instance._cameraController._screenScale);
             //create exit button
             //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2( (int)Game1.instance._cameraController._screenDimensions.X - 100, 23);
-            buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
+            Vector2 buttonPos = new Vector2( ((int)Game1.instance._cameraController._screenDimensions.X - 100) / Game1.instance._cameraController._screenScale, 23);
             xButton = new UIButton("x-button", buttonPos);
             //xButton.Depth = .01f;
             xButton._scale = 3f;
@@ -118,11 +115,11 @@ namespace WillowWoodRefuge
 
             //create exit button
             //Texture2D ButtonTexture = Content.Load<Texture2D>("ui/confirmButton");
-            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2, Game1.instance._cameraController._screenDimensions.Y - 100);
-            buttonPos = Vector2.Multiply(buttonPos, singleScale); //adjust for screen scale
-            _confirmButton = new UIButton("confirmButton", buttonPos);
+            buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 / Game1.instance._cameraController._screenScale, 
+                                    (Game1.instance._cameraController._screenDimensions.Y - 100) / Game1.instance._cameraController._screenScale);
+            _confirmButton = new UIButton("ButtonNormal", buttonPos, "Give?");
             //_confirmButton.Depth = .01f;
-            _confirmButton._scale = 4f;
+            _confirmButton._scale = 3f;
             _confirmButton.Click += ConfirmButton_Click;
 
             LoadItemDescriptions();

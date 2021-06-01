@@ -45,7 +45,7 @@ namespace WillowWoodRefuge
             float padding = 30f; //px
             backpackButton._position = new Vector2(_screenWidth - backpackButton._texture.Width * backpackButton._scale - padding, 
                                                     padding);
-            backpackButton._position *= _screenScale;
+            // backpackButton._position *= _screenScale;
 
             //because we haven't used the texture atlas for this button yet, we will manually create the rectangle
             backpackButton._rectangle = new Rectangle((int)backpackButton._position.X, 
