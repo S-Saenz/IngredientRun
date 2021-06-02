@@ -20,12 +20,14 @@ namespace WillowWoodRefuge
 
         private string tut;
 
+        public string _returnTo;
+
         public TutorialState(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, SpriteBatch spritebatch) : base(game, graphicsDevice, content, spritebatch)
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
 
-            var menuButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 100), "To Menu");
+            var menuButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 100), "Return");
             menuButton.reScale(2f);
 
             menuButton.Click += menuButton_Click;
@@ -85,7 +87,7 @@ namespace WillowWoodRefuge
 
         private void menuButton_Click(object sender, EventArgs e)
         {
-            game.ChangeState("MenuState");
+            game.ChangeState(_returnTo);
         }
     }
 }
