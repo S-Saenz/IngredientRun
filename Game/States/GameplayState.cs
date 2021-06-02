@@ -42,7 +42,7 @@ namespace WillowWoodRefuge
         protected bool _isDark = false;
 
         // Player instance
-        protected Player _player;
+        public Player _player;
         protected int _playerLightIndex = -1;
 
         // Start location
