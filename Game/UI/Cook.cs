@@ -373,7 +373,7 @@ namespace WillowWoodRefuge
         void DrawProgressBar(SpriteBatch spriteBatch, Vector2 center, float percentage)
         {
             int frame = (int)Math.Min(((18 * 4 - 1) * percentage + 1), 18 * 4);
-            float width = (int)Game1.instance._cameraController._screenDimensions.X / 200;
+            float width = Game1.instance._cameraController._screenDimensions.X / 200;
             // Debug.WriteLine(frame);
 
             for (int quadrant = 0; quadrant < 4 && frame > 0; ++quadrant)
