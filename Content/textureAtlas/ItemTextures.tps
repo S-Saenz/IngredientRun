@@ -217,13 +217,18 @@
             <key type="filename">../Ingredient/Thimbleberry.png</key>
             <key type="filename">../Ingredient/Toothwort.png</key>
             <key type="filename">../Ingredient/Wolfberry.png</key>
+            <key type="filename">../Ingredient/cracker.png</key>
             <key type="filename">../Ingredient/fish.png</key>
             <key type="filename">../Ingredient/gooseberry.png</key>
             <key type="filename">../Ingredient/meat.png</key>
             <key type="filename">../Ingredient/mousemelon.png</key>
             <key type="filename">../Ingredient/mushroom.png</key>
+            <key type="filename">../Ingredient/mushroomOnionSalad.png</key>
             <key type="filename">../Ingredient/mushroom_medicine.png</key>
+            <key type="filename">../Ingredient/omelet.png</key>
+            <key type="filename">../Ingredient/thimbleberryPie.png</key>
             <key type="filename">../Ingredient/water.png</key>
+            <key type="filename">../Ingredient/wolfberryMeal.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -308,6 +313,11 @@
             <filename>../Ingredient/water.png</filename>
             <filename>../Ingredient/Calamint.png</filename>
             <filename>../Ingredient/Mint.png</filename>
+            <filename>../Ingredient/cracker.png</filename>
+            <filename>../Ingredient/mushroomOnionSalad.png</filename>
+            <filename>../Ingredient/omelet.png</filename>
+            <filename>../Ingredient/thimbleberryPie.png</filename>
+            <filename>../Ingredient/wolfberryMeal.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
