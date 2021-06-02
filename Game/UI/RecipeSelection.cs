@@ -307,8 +307,20 @@ namespace WillowWoodRefuge
                 //lower container text
                 spriteBatch.DrawString(FontManager._bigdialogueFont, "Can heal wounds caused\nby searing magic", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.41f), Color.White, 0f, Vector2.Zero, new Vector2(1.5f, 1.5f), SpriteEffects.None, 0.01f);
 
+                // tell the player who the recipe is for
                 string name = _recipes[_recipesDisplay[_hoverOver.Value]]._cures;
-                spriteBatch.DrawString(FontManager._bigdialogueFont, name + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.55f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                string headTexture = camelCaseToRegular(name) + "_head";
+                headTexture = headTexture.TrimStart();//there is a space right before the name, so trim it out!
+                headTexture = headTexture == "snäll_head" ? "snall_head" : headTexture;
+                if (headTexture != "_head")
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", headTexture, new Vector2(_screenWidth * 0.65f, _screenHeight * 0.59f), Color.White, new Vector2(17f) * screenScale, true);
+                    spriteBatch.DrawString(FontManager._bigdialogueFont, camelCaseToRegular(name) + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.68f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                }
+                else
+                {
+                    spriteBatch.DrawString(FontManager._bigdialogueFont, "no one needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.68f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                }
             }
             
             Point loc;

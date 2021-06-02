@@ -2041,6 +2041,30 @@
 /processorParam:TextureFormat=Color
 /build:ui/paper.png
 
+#begin ui/Recipe/aiyo_head.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Recipe/aiyo_head.png
+
+#begin ui/Recipe/arg_head.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Recipe/arg_head.png
+
 #begin ui/Recipe/Black Plus.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2125,6 +2149,30 @@
 /processorParam:TextureFormat=Color
 /build:ui/Recipe/Ingredient Box Single.png
 
+#begin ui/Recipe/kall_head.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Recipe/kall_head.png
+
+#begin ui/Recipe/lura_head.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Recipe/lura_head.png
+
 #begin ui/Recipe/Prototype Screenshot.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2136,6 +2184,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/Recipe/Prototype Screenshot.png
+
+#begin ui/Recipe/snall_head.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/Recipe/snall_head.png
 
 #begin ui/Recipe/Yellow Plus.png
 /importer:TextureImporter

@@ -116,7 +116,7 @@ namespace WillowWoodRefuge
         // returns whether line ended or not
         public bool Draw(OrthographicCamera camera, SpriteBatch spriteBatch, Dictionary<string, NPC> characters)
         {
-            string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length));
+            string speech = _speech.Substring(0, (int)Math.Clamp(MathF.Floor(_currTime / _speed), 0, _speech.Length)).TrimStart();
             Vector2 size = TextureAtlasManager.GetSize("UI", "Container and Stem");
             float scale = 0.75f * Game1.instance._cameraController._screenScale;
             Vector2 loc = characters[_character].GetDialogueLoc(camera) - new Vector2((100 - size.X / 2) * scale, (size.Y / 2) * scale);
