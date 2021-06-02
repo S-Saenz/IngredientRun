@@ -601,6 +601,9 @@ namespace WillowWoodRefuge
         {
             string[] values = unparsed.Split('\t');
 
+            foreach (string str in values) // just check if it's going to throw an error because of unknown ascii characters
+                FontManager._dialogueFont.MeasureString(str);
+
             // add all listed ingredients
             List<string> ingredients = new List<string>();
             for(int i = 4; i < values.Length; ++i)
