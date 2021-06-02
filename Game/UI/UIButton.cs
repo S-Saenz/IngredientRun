@@ -35,7 +35,7 @@ namespace WillowWoodRefuge
         public event EventHandler Click;
         public bool _clicked;
 
-        private float screenScale; //just a local copy of cameraController._screenScale
+        private float screenScale = 1; //just a local copy of cameraController._screenScale
 
         public bool mouseClicked()
         {
@@ -44,11 +44,12 @@ namespace WillowWoodRefuge
         }
 
         //we used these when we inherited from sprite
-        public UIButton(Texture2D texture, Vector2 pos)
+        public UIButton(Texture2D texture, Vector2 pos, string text = "")
         {
             //this.img = texture; //Sprite.img
             this._position = pos;
             this._texture = texture;
+            _text = text;
             //this.pos = pos
             Game1.instance._cameraController.AddResizeListener(onResize);
         }
@@ -105,7 +106,11 @@ namespace WillowWoodRefuge
         public void reScale(float newScale)
         {
             this._scale = newScale;
-            Size2 textureSize = TextureAtlasManager.GetSize("UI", _name);
+            Size2 textureSize;
+            if (_texture == null)
+                textureSize = TextureAtlasManager.GetSize("UI", _name);
+            else
+                textureSize = _texture.Bounds.Size;
             this._rectangle = new Rectangle((int)(_position.X * screenScale), (int)(_position.Y * screenScale), (int)(textureSize.Width * screenScale * _scale), (int)(textureSize.Height * screenScale * _scale));
 
             if (_isCentered)
@@ -145,6 +150,7 @@ namespace WillowWoodRefuge
                 //Debug.WriteLine("Backpack clicked!");
                 //not completely sure how this works, but following Alex's lead
                 Click?.Invoke(this, new EventArgs());
+                Game1.instance.sounds.buttonSound();
             }
 
         }

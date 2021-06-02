@@ -123,7 +123,7 @@ namespace WillowWoodRefuge
             //how size is determined in the draw function
             Size2 zoneSize = TextureAtlasManager.GetSize("UI", "Hot_Zone");
             float zoneWidth = zoneSize.Width * Game1.instance._cameraController._screenDimensions.X / 450;
-
+            
             if (_attemptRemaining)
                 _zoneX += _zoneVelocity;
 
@@ -157,7 +157,7 @@ namespace WillowWoodRefuge
             if (_needleX > (_zoneX - zoneWidth / 2) && _needleX < (_zoneX + zoneWidth / 2))
             {
                 //derek - cooking sound
-                _progress += 0.085f;
+                _progress += 0.1f;
                 Console.WriteLine(_progress);
             }
 
@@ -200,12 +200,12 @@ namespace WillowWoodRefuge
             float newScale = Game1.instance._cameraController._screenDimensions.X / 100;
             //TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", center, Color.White, newScale);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Background_Opacity", new Rectangle(0, 0, (int)Game1.instance._cameraController._screenDimensions.X, (int)Game1.instance._cameraController._screenDimensions.Y), Color.White);
-            int width = (int)Game1.instance._cameraController._screenDimensions.X;
-            int height = (int)Game1.instance._cameraController._screenDimensions.Y;
+            float width = Game1.instance._cameraController._screenDimensions.X;
+            float height = Game1.instance._cameraController._screenDimensions.Y;
 
             //TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Rectangle(0, 0, width / 2, height / 5), Color.White);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Container", new Vector2(width / 2, height / 3), Color.White, new Vector2(width / 100), true);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Meter_Container", new Vector2(width / 2, height * (.45f)), Color.White, new Vector2(width / 400), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Meter_Container", new Vector2(width / 2, height * (.45f)), Color.White, new Vector2(width / 437), true);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Food_Container", new Vector2(width / 2, height / 8), Color.White, new Vector2(width / 200), true);
 
 
@@ -215,11 +215,12 @@ namespace WillowWoodRefuge
             float foodScale = 4 * Game1.instance._cameraController._screenScale; //reuse the scale value from the recipe menu
             float foodX = _screenWidth / 2;// - foodSize.Width / 2 * foodScale;
             // spriteBatch.Draw(foodImage, new Vector2(foodX, _screenHeight / 7), null, Color.White * cookingOpacity, 0f, Vector2.Zero, foodScale, SpriteEffects.None, 1f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8), Color.White, new Vector2(foodScale * .7f), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "Item", foodName, new Vector2(foodX, height / 8) * Game1.instance._cameraController._screenScale, 
+                                            Color.White, new Vector2(foodScale * .9f * Game1.instance._cameraController._screenScale), true);
 
             //fire 
             //string fireTexture = this.chooseFireTexture();
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, new Vector2(width / 1000), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", fireTexture, new Vector2(width/2, height*0.27f), Color.White, new Vector2(width / 1500), true);
 
             //progress bar
             // string progressBar = "progress" + (int)Math.Min(_progress / 100 * (17 * 4),(17 * 4));
@@ -228,18 +229,24 @@ namespace WillowWoodRefuge
 
             //hot zones
             Vector2 zonePos = new Vector2(_zoneX * Game1.instance._cameraController._screenScale, height * 0.45f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, new Vector2(width / 450), true);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, new Vector2(width / 450), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hot_Zone", zonePos, Color.White, new Vector2(width / 520), true);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Hottest_Zone", zonePos, Color.White, new Vector2(width / 520), true);
 
             //needle
             //spriteBatch.Draw(needle, new Vector2(_needleX, _screenHeight * 0.317f), null, Color.White, 0f, Vector2.Zero, _scale, SpriteEffects.None, 1f);
             TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Spoon", new Vector2(_needleX * Game1.instance._cameraController._screenScale, height * (.45f)), Color.White, new Vector2(width / 300), true);
+            // Debug.WriteLine(_needleX * Game1.instance._cameraController._screenScale + " " + new Vector2(width / 2, height * (.45f)));
 
             // temp tutorial text
             Vector2 textSize = FontManager._bigdialogueFont.MeasureString("Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!");
             spriteBatch.DrawString(FontManager._bigdialogueFont, "Keep the spoon in the hot zone with SPACE to make food!\nPress ENTER while in the sweet spot to cook faster!", 
                                    new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - textSize.X / 2, Game1.instance._cameraController._screenDimensions.Y * 0.75f),
                                    Color.White);
+
+            // spriteBatch.DrawRectangle(_meterStart * Game1.instance._cameraController._screenScale, 200, (_meterEnd - _meterStart) * Game1.instance._cameraController._screenScale, 50, Color.Red);
+            // Debug.WriteLine(_meterStart * Game1.instance._cameraController._screenScale);
+            // Debug.WriteLine(TextureAtlasManager.GetSize("UI", "Meter_Container") * (width / 400) + " " + (_meterEnd - _meterStart) * Game1.instance._cameraController._screenScale);
+            // Debug.WriteLine(width / 400);
         }
 
         void debug(string message)
@@ -367,7 +374,7 @@ namespace WillowWoodRefuge
         {
             int frame = (int)Math.Min(((18 * 4 - 1) * percentage + 1), 18 * 4);
             float width = (int)Game1.instance._cameraController._screenDimensions.X / 200;
-            Debug.WriteLine(frame);
+            // Debug.WriteLine(frame);
 
             for (int quadrant = 0; quadrant < 4 && frame > 0; ++quadrant)
             {

@@ -34,7 +34,7 @@ namespace WillowWoodRefuge
         public int _stars = 1;
         public string _ingredient_Or_Dish;
         public string _use;
-        public string _description = "Lorem ipsum dolor sit amet, \nconsectetuer adipiscing elit. \nsed diam nonummy nibh eu-\nismod tincidunt ut laoreet \ndolore magna aliquam erat \nvolutpat. Ut wisi enim ad ";
+        public string _description = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad ";
 
         // public Texture2D img;
 
@@ -44,6 +44,14 @@ namespace WillowWoodRefuge
             Scale = 4f;
             // Origin = new Vector2(img.Bounds.Center.X, img.Bounds.Center.Y);
             _name = name;
+        }
+
+        public Ingredient(Vector2 position, string name, string description)
+        {
+            pos = position;
+            Scale = 4f;
+            _name = name;
+            _description = description == "" ? _description : description;
         }
 
         // public Ingredient(Texture2D image)
