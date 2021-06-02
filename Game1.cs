@@ -107,6 +107,7 @@ namespace WillowWoodRefuge
             _states.Add("TutorialState", new TutorialState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             _states.Add("LoadingState", new LoadingState(this, Content, _spriteBatch, _states));
             _states.Add("MenuState", new MenuState(this, graphics.GraphicsDevice, Content, _spriteBatch));
+            _states.Add("ArtistStatement", new ArtistStatementState(this, graphics.GraphicsDevice, Content, _spriteBatch));
             
             ChangeState("MenuState");
 

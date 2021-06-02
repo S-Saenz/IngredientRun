@@ -1,0 +1,6 @@
+﻿Willow Wood Refuge was made using the Monogame Framework
+
+Monogame is a basic C# cross-platform framework implementing the XNA API. We chose this framework
+rather than an engine like Unity in order to learn by essentially building our own engine to best
+fit our game. With this in mind we created many of the libraries in this project from scratch rather
+than using pre-existing libraries.
