@@ -17,9 +17,9 @@ namespace WillowWoodRefuge
         private string _customLibs = "";
         private string _externLibs = "";
 
-        private Vector2 _statePos = new Vector2(1728 / 2, 300);
-        private Vector2 _customPos = new Vector2(100, 500);
-        private Vector2 _externPos = new Vector2(1000, 500);
+        private Vector2 _statePos = new Vector2(1728 / 2, 350);
+        private Vector2 _customPos = new Vector2(100, 550);
+        private Vector2 _externPos = new Vector2(1000, 550);
 
         Color _bgColor = new Color(203, 170, 142);
 
