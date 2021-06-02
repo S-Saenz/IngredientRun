@@ -51,6 +51,8 @@ namespace WillowWoodRefuge
             scene16.reset();
             scene17a.reset();
             scene17b.reset();
+
+            currentScene = 0;
         }
         public void LoadScenes(ContentManager Content)
         {
@@ -79,15 +81,15 @@ namespace WillowWoodRefuge
             scene1a = new Animation(slide1a, 1, 6, 200);
             scene1b = new Animation(slide1b, 1, 6, 200);
             scene2 = new Animation(slide2, 1, 10, 200);
-            scene3 = new Animation(slide3, 1, 10, 200);
+            scene3 = new Animation(slide3, 1, 10, 100);
             scene4 = new Animation(slide4, 1, 6, 200);
             scene5a = new Animation(slide5a, 1, 7, 200);
             scene5b = new Animation(slide5b, 1, 7, 200);
-            scene6 = new Animation(slide6, 1, 2, 200);
-            scene7 = new Animation(slide7, 1, 2, 200);
-            scene8 = new Animation(slide8, 1, 2, 300);
-            scene9 = new Animation(slide9, 1, 2, 300);
-            scene10 = new Animation(slide10, 1, 2, 300);
+            scene6 = new Animation(slide6, 1, 2, 400);
+            scene7 = new Animation(slide7, 1, 2, 400);
+            scene8 = new Animation(slide8, 1, 2, 400);
+            scene9 = new Animation(slide9, 1, 2, 400);
+            scene10 = new Animation(slide10, 1, 2, 400);
             scene11 = new Animation(slide11, 1, 2, 300);
             scene12 = new Animation(slide12, 1, 2, 300);
             scene13 = new Animation(slide13, 1, 6, 300);
@@ -139,7 +141,7 @@ namespace WillowWoodRefuge
                 if (currentScene == animationList.Count)
                 {
                     toCamp();
-                    currentScene = 0;
+                    //currentScene = 0;
                 }
             }
         }
