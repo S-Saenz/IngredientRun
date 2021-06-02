@@ -740,7 +740,11 @@ namespace WillowWoodRefuge
                     line = reader.ReadLine();
 
                     string[] parsed = line.Split('\t');
-                    descriptions.Add(parsed[0], parsed[1]);
+                    foreach(string str in parsed) // just check if it's going to throw an error because of unknown ascii characters
+                        FontManager._dialogueFont.MeasureString(str); 
+                    
+                    if (parsed.Length >= 2)
+                        descriptions.Add(parsed[0], parsed[1]);
                 }
             }
         }

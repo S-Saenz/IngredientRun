@@ -1,0 +1,9 @@
+﻿External libraries/tools:
+
+    - MonoGame
+    - MonoGame.Extended
+    - Tiled
+    - TexturePacker
+    - Aesprite
+    - Piskel
+    - Photoshop

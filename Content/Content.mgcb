@@ -1015,6 +1015,12 @@
 /processorParam:Quality=Best
 /build:music/spooky1test2.mp3
 
+#begin music/WWR_Intro.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:music/WWR_Intro.mp3
+
 #begin outro/scene10a_outro.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -2208,6 +2214,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:ui/Recipe/Yellow Plus.png
+
+#begin ui/showcaseCircle.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:ui/showcaseCircle.png
 
 #begin ui/Temp Inventory.png
 /importer:TextureImporter

@@ -53,6 +53,9 @@ namespace WillowWoodRefuge
             scene17b.reset();
 
             currentScene = 0;
+
+            //music
+            game.sounds.playSong("introSong");
         }
         public void LoadScenes(ContentManager Content)
         {

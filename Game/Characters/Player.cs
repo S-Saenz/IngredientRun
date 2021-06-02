@@ -139,6 +139,10 @@ namespace WillowWoodRefuge
             {
                 ReadInputs(gameTime);
             }
+            else if(!jumpSquatLanding)
+            {
+                _collisionBox.TryMoveHorizontal(0);
+            }
             
 
             _pos = _collisionBox.Update(gameTime) + new Vector2(_collisionBox._bounds.Width / 2, _collisionBox._bounds.Height / 2);
@@ -302,6 +306,17 @@ namespace WillowWoodRefuge
         public bool RemoveCollision(PhysicsHandler collisionHandler)
         {
             return collisionHandler.RemoveObject(_collisionBox);
+        }
+
+        public void DisableInput()
+        {
+            interuptInputUpdate = true;
+            _collisionBox.TryMoveHorizontal(0);
+        }
+
+        public void EnableInput()
+        {
+            interuptInputUpdate = false;
         }
 
         private void ReadInputs(GameTime gameTime)

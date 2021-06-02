@@ -104,6 +104,7 @@ namespace WillowWoodRefuge
             switch (_currState)
             {
                 case UIState.None:
+
                     //unload none
                     break;
                 case UIState.Inventory:
@@ -115,11 +116,6 @@ namespace WillowWoodRefuge
                 case UIState.RecipeMenu:
                     //mostly handled in RecipeMenu.SwitchToCooking()
                     //Game1.instance.recipeMenu.chosenRecipe = Game1.instance.cookingGame.foodToCook;
-
-                    GameplayState gameState = Game1.instance._currentState as GameplayState;
-                    if (gameState != null && nextState != UIState.CookingGame)
-                        gameState.UnlockPlayerPos();
-
                     break;
                 case UIState.CookingGame:
 
@@ -133,33 +129,37 @@ namespace WillowWoodRefuge
             // state is changed to, in order to set things up for
             // drawing and interacting. Could be moved to a separate
             // method if things get to be more than a few lines
+            GameplayState gameState = Game1.instance._currentState as GameplayState;
             switch (nextState)
             {
                 case UIState.None:
+                    if (gameState != null)
+                        gameState._player.EnableInput();
                     //load none
-                    
+
                     break;
                 case UIState.Inventory:
+                    if (gameState != null)
+                        gameState._player.DisableInput();
                     //load inventory
                     if (!Game1.instance.inventory.loaded)
                         Game1.instance.inventory.Load(Game1.instance.Content);
                     break;
                 case UIState.RecipeMenu:
+                    if (gameState != null)
+                        gameState._player.DisableInput();
                     //load recipe menu
-                    if(!Game1.instance.recipeMenu.loaded)
+                    if (!Game1.instance.recipeMenu.loaded)
                         Game1.instance.recipeMenu.Load(Game1.instance.Content);
                     Game1.instance.recipeMenu.UpdatePossibleRecipes();
-
-                    GameplayState gameState = Game1.instance._currentState as GameplayState;
-                    if (gameState != null)
-                        gameState.LockPlayerPos();
                     break;
                 case UIState.CookingGame:
                     if (!Game1.instance.cookingGame.loaded)
                         Game1.instance.cookingGame.Load(Game1.instance.Content);
                     break;
                 case UIState.PauseMenu:
-
+                    if (gameState != null)
+                        gameState._player.DisableInput();
                     break;
             }
 
