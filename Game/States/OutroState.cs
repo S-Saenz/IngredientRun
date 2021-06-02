@@ -43,6 +43,7 @@ namespace WillowWoodRefuge
             scene9.reset();
             scene10a.reset();
             scene10b.reset();
+            currentScene = 0;
         }
         public void LoadScenes(ContentManager Content)
         {
@@ -62,19 +63,21 @@ namespace WillowWoodRefuge
             //artists/animators, change number in the back to speed/slow down scenes.
             scene1a = new Animation(slide1a, 1, 6, 200);
             scene1b = new Animation(slide1b, 1, 6, 200);
-            scene2 = new Animation(slide2, 1, 2, 200);
-            scene3 = new Animation(slide3, 1, 8, 200);
+            scene2 = new Animation(slide2, 1, 2, 300);
+            scene3 = new Animation(slide3, 1, 8, 100);
             scene4 = new Animation(slide4, 1, 8, 200);
             scene5 = new Animation(slide5, 1, 8, 200);
             scene6 = new Animation(slide6, 1, 6, 200);
             scene7 = new Animation(slide7, 1, 5, 200);
             scene8 = new Animation(slide8, 1, 4, 300);
-            scene9 = new Animation(slide9, 1, 8, 300);
-            scene10a = new Animation(slide10a, 1, 6, 300);
-            scene10b = new Animation(slide10b, 1, 6, 300);
+            scene9 = new Animation(slide9, 1, 8, 100);
+            scene10a = new Animation(slide10a, 1, 6, 200);
+            scene10b = new Animation(slide10b, 1, 6, 200);
 
             animationList.Add(scene1a); // index 0
             animationList.Add(scene1b);
+            animationList.Add(scene2);
+            animationList.Add(scene2);
             animationList.Add(scene2);
             animationList.Add(scene3);
             animationList.Add(scene4);
@@ -82,6 +85,7 @@ namespace WillowWoodRefuge
             animationList.Add(scene6);
             animationList.Add(scene7);
             animationList.Add(scene8);
+            animationList.Add(scene9);
             animationList.Add(scene9);
             animationList.Add(scene10a);
             animationList.Add(scene10b);
@@ -112,17 +116,17 @@ namespace WillowWoodRefuge
             {
                 animationList[currentScene].reset();
                 currentScene++;
-                if (currentScene == 10)
+                if (currentScene == animationList.Count)
                 {
                     toMenu();
-                    currentScene = 0;
+                    //currentScene = 0;
                 }
             }
         }
 
         private void toMenu()
         {
-            Game1.instance.ChangeState("MenuState");
+            Game1.instance.ChangeState("CreditsState");
         }
     }
 }
