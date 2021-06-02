@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Sprites;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace WillowWoodRefuge
     class CreditsState : State
         
     {
-        private List<Component> _components;
+        private List<UIButton> _components;
 
         string credits;
         string tools;
@@ -26,15 +27,12 @@ namespace WillowWoodRefuge
             var buttonFont = FontManager._dialogueFont;
             creditsImg = _content.Load<Texture2D>("bg/WWRCredits");
 
-            var menuButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(50, 50),
-                Text = "To Menu",
-            };
+            var menuButton = new UIButton(buttonTexture, new Vector2(50, 50), "To Menu");
+            menuButton.reScale(2f);
 
             menuButton.Click += menuButton_Click;
 
-            _components = new List<Component>()
+            _components = new List<UIButton>()
             {
                 menuButton
             };
@@ -68,9 +66,9 @@ namespace WillowWoodRefuge
         {
             game.GraphicsDevice.Clear(Color.Bisque);
 
-            spriteBatch.Begin();
-            spriteBatch.Draw(creditsImg, Vector2.Zero, Color.White);
-            _components[0].Draw(gameTime, spriteBatch);
+            spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
+            spriteBatch.Draw(creditsImg, new Rectangle(0, 0, (int)Game1.instance._cameraController._screenDimensions.X, (int)Game1.instance._cameraController._screenDimensions.Y), Color.White);
+            _components[0].Draw(spriteBatch);
             spriteBatch.End();
         }
 
@@ -91,7 +89,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
-            _components[0].Update(gameTime);
+            _components[0].Update(Mouse.GetState());
         }
 
         private void menuButton_Click(object sender, EventArgs e)

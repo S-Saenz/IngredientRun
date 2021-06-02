@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace WillowWoodRefuge
 {
     class TutorialState : State
     {
-        private List<Component> _components;
+        private List<UIButton> _components;
 
         private Animation tutorial;
 
@@ -24,15 +25,12 @@ namespace WillowWoodRefuge
             var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
 
-            var menuButton = new MenuButton(buttonTexture, buttonFont)
-            {
-                Position = new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 100),
-                Text = "To Menu",
-            };
+            var menuButton = new UIButton(buttonTexture, new Vector2(game.GraphicsDevice.Viewport.Width / 2 - 80, 100), "To Menu");
+            menuButton.reScale(2f);
 
             menuButton.Click += menuButton_Click;
 
-            _components = new List<Component>()
+            _components = new List<UIButton>()
             {
                 menuButton
             };
@@ -59,7 +57,7 @@ namespace WillowWoodRefuge
 
             spriteBatch.Begin(sortMode: SpriteSortMode.Immediate, samplerState: SamplerState.PointClamp);
 
-            _components[0].Draw(gameTime, spriteBatch);
+            _components[0].Draw(spriteBatch);
 
             tutorial.Draw(spriteBatch, new Vector2 (game.GraphicsDevice.Viewport.Width/2 + 500, game.GraphicsDevice.Viewport.Height / 2), 2f);
 
@@ -81,7 +79,7 @@ namespace WillowWoodRefuge
 
         public override void Update(GameTime gameTime)
         {
-            _components[0].Update(gameTime);
+            _components[0].Update(Mouse.GetState());
             tutorial.Update(gameTime);
         }
 

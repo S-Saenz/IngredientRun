@@ -134,6 +134,14 @@ namespace WillowWoodRefuge
         public override void Update(GameTime gameTime)
         {
             animationList[currentScene].Update(gameTime);
+
+            // skip cutscene
+            if(Game1.instance.input.JustPressed("skip"))
+            {
+                toCamp();
+                currentScene = 0;
+            }
+
             if(animationList[currentScene].numLoops > 0)//goes through the scenes
             {
                 animationList[currentScene].reset();

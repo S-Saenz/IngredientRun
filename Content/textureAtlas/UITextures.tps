@@ -197,6 +197,36 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../ui/Dialogue/Container and Stem.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>134,59,268,117</rect>
+                <key>scale9Paddings</key>
+                <rect>134,59,268,117</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Dialogue/Name Box.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,10,75,21</rect>
+                <key>scale9Paddings</key>
+                <rect>38,10,75,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">../ui/Inventory/Filled_Star.png</key>
             <key type="filename">../ui/progressBar/ProgressBar+1.png</key>
             <key type="filename">../ui/progressBar/ProgressBar+10.png</key>
@@ -415,6 +445,53 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Recipe/aiyo_head.png</key>
+            <key type="filename">../ui/Recipe/arg_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,4,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Recipe/kall_head.png</key>
+            <key type="filename">../ui/Recipe/lura_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,2,5,3</rect>
+                <key>scale9Paddings</key>
+                <rect>3,2,5,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../ui/Recipe/snall_head.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>3,2,6,3</rect>
+                <key>scale9Paddings</key>
+                <rect>3,2,6,3</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -776,6 +853,13 @@
             <filename>../ui/progressBar/ProgressBaro7.png</filename>
             <filename>../ui/progressBar/ProgressBaro8.png</filename>
             <filename>../ui/progressBar/ProgressBaro9.png</filename>
+            <filename>../ui/Recipe/aiyo_head.png</filename>
+            <filename>../ui/Recipe/arg_head.png</filename>
+            <filename>../ui/Recipe/kall_head.png</filename>
+            <filename>../ui/Recipe/lura_head.png</filename>
+            <filename>../ui/Recipe/snall_head.png</filename>
+            <filename>../ui/Dialogue/Container and Stem.png</filename>
+            <filename>../ui/Dialogue/Name Box.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

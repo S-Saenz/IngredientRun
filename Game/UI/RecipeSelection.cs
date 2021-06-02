@@ -143,9 +143,9 @@ namespace WillowWoodRefuge
             //create exit button
 
             //Texture2D xButtonTexture = Content.Load<Texture2D>("ui/x-button");
-            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.90f,
-                                            Game1.instance._cameraController._screenDimensions.Y * 0.05f);
-            buttonPos = Vector2.Multiply(buttonPos, Convert.ToSingle(Game1.instance._cameraController._screenScale));
+            Vector2 buttonPos = new Vector2(Game1.instance._cameraController._screenDimensions.X * 0.90f / Game1.instance._cameraController._screenScale,
+                                            Game1.instance._cameraController._screenDimensions.Y * 0.05f / Game1.instance._cameraController._screenScale);
+            // buttonPos = Vector2.Multiply(buttonPos, Convert.ToSingle(Game1.instance._cameraController._screenScale));
             xButton = new UIButton("x-button", buttonPos);
             //xButton.Depth = .01f;
             //xButton._scale = 3f;
@@ -293,17 +293,34 @@ namespace WillowWoodRefuge
                 spriteBatch.DrawRectangle(new RectangleF(_screenWidth * 0.50f, _screenHeight * 0.39f, _screenWidth * 0.3f, _screenHeight * 0.37f), Color.White, 3);
 
                 //upper container text
-                spriteBatch.DrawString(FontManager._bigdialogueFont, _recipes[_recipesDisplay[_hoverOver.Value]]._name, new Vector2(_screenWidth * 0.51f, _screenHeight * 0.21f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                spriteBatch.DrawString(FontManager._bigdialogueFont, camelCaseToRegular(_recipes[_recipesDisplay[_hoverOver.Value]]._name), new Vector2(_screenWidth * 0.51f, _screenHeight * 0.21f), Color.White, 0f, Vector2.Zero, new Vector2(1.8f, 1.8f), SpriteEffects.None, 0.01f);
                 spriteBatch.DrawString(FontManager._bigdialogueFont, "Ingredients:", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.315f), Color.White, 0f, Vector2.Zero, new Vector2(1f, 1f), SpriteEffects.None, 0.01f);
 
                 //ingredient images
-                
+                int counter = 0;
+                foreach (string ingredient in _recipes[_recipesDisplay[_hoverOver.Value]]._ingredients)
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "Item", ingredient, new Vector2(_screenWidth * 0.635f + counter * _screenWidth * 0.06f, _screenHeight * 0.325f) * screenScale, Color.White, new Vector2(3f), true);
+                    counter++;
+                }
 
                 //lower container text
                 spriteBatch.DrawString(FontManager._bigdialogueFont, "Can heal wounds caused\nby searing magic", new Vector2(_screenWidth * 0.51f, _screenHeight * 0.41f), Color.White, 0f, Vector2.Zero, new Vector2(1.5f, 1.5f), SpriteEffects.None, 0.01f);
 
+                // tell the player who the recipe is for
                 string name = _recipes[_recipesDisplay[_hoverOver.Value]]._cures;
-                spriteBatch.DrawString(FontManager._bigdialogueFont, name + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.55f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                string headTexture = camelCaseToRegular(name) + "_head";
+                headTexture = headTexture.TrimStart();//there is a space right before the name, so trim it out!
+                headTexture = headTexture == "snäll_head" ? "snall_head" : headTexture;
+                if (headTexture != "_head")
+                {
+                    TextureAtlasManager.DrawTexture(spriteBatch, "UI", headTexture, new Vector2(_screenWidth * 0.65f, _screenHeight * 0.59f), Color.White, new Vector2(17f) * screenScale, true);
+                    spriteBatch.DrawString(FontManager._bigdialogueFont, camelCaseToRegular(name) + " needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.68f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                }
+                else
+                {
+                    spriteBatch.DrawString(FontManager._bigdialogueFont, "no one needs this", new Vector2(_screenWidth * 0.525f, _screenHeight * 0.68f), Color.White, 0f, Vector2.Zero, new Vector2(2f, 2f), SpriteEffects.None, 0.01f);
+                }
             }
             
             Point loc;
@@ -606,5 +623,30 @@ namespace WillowWoodRefuge
 
             return new Recipe(values[0], values[1], values[2], values[3], ingredients, false, pos);
         }
+
+        //will take a camelCased string and return a completely lower case string with word-separating spaces
+        string camelCaseToRegular(string camelCase)
+        {
+            string regular = "";
+
+            char[] camelCaseChars = camelCase.ToCharArray();
+
+            foreach(char c in camelCaseChars)
+            {
+                //toLower() only works on strings not chars, so we have to convert back and forth lol
+                string lowerCaseString = c.ToString().ToLower(); //convert char c into a lowercase string
+                char lowerCaseChar = lowerCaseString.ToCharArray()[0]; //convert back to char after lowercasing
+
+                bool isLowerCase = c.Equals(lowerCaseChar);
+                regular = regular
+                        + (isLowerCase ? "" : " ") //add a space if the char was originally capitalized
+                        + lowerCaseString;
+            }
+
+
+            return regular;
+
+        }
+    
     }
 }
