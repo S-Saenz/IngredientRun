@@ -25,7 +25,7 @@ namespace WillowWoodRefuge
             var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var buttonFont = FontManager._dialogueFont;
 
-            var menuButton = new UIButton(buttonTexture, new Vector2((game.GraphicsDevice.Viewport.Width - buttonTexture.Width * 3) / 2, 50), "Return to main");
+            var menuButton = new UIButton(buttonTexture, new Vector2((game.GraphicsDevice.Viewport.Width - buttonTexture.Width * 3) / 2, 50), "Return");
             menuButton.reScale(3f);
 
             menuButton.Click += menuButton_Click;
