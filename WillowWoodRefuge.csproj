@@ -10,8 +10,11 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Content\dialogue\artistStatement.txt" />
     <None Remove="Content\dialogue\credits.txt" />
     <None Remove="Content\dialogue\credits_tools.txt" />
+    <None Remove="Content\dialogue\customLibraries.txt" />
+    <None Remove="Content\dialogue\externalLibraries.txt" />
     <None Remove="Content\dialogue\ItemDescriptions.tsv" />
     <None Remove="Content\dialogue\NPCDialogue.tsv" />
     <None Remove="Content\dialogue\Recipe_Info.tsv" />
@@ -24,6 +27,9 @@
     <None Remove="Icon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Content\dialogue\externalLibraries.txt" />
+    <EmbeddedResource Include="Content\dialogue\customLibraries.txt" />
+    <EmbeddedResource Include="Content\dialogue\artistStatement.txt" />
     <EmbeddedResource Include="Content\dialogue\credits.txt" />
     <EmbeddedResource Include="Content\dialogue\credits_tools.txt" />
     <EmbeddedResource Include="Content\dialogue\ItemDescriptions.tsv" />

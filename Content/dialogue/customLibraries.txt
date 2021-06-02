@@ -1,0 +1,11 @@
+﻿Custom libraries created by us: 
+
+    - Physics engine
+    - Scene state machine
+    - Dialogue system
+    - Camera management
+    - UI system
+    - Multi-thread content loading
+    - Light shader
+    - Animation objects
+    - Texture atlas

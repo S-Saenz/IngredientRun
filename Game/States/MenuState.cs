@@ -37,12 +37,18 @@ namespace WillowWoodRefuge
             quitGameButton.reScale(2f);
             quitGameButton.Click += QuitGameButton_Click;
 
+            var showcaseTexture = _content.Load<Texture2D>("ui/showcaseCircle");
+            var showcaseButton = new UIButton(showcaseTexture, new Vector2(game.GraphicsDevice.Viewport.Width - showcaseTexture.Width * .05f - 10, 10));
+            showcaseButton.reScale(.05f);
+            showcaseButton.Click += ShowcaseButton_Click;
+
             _components = new List<UIButton>()
             {
                 newGameButton,
                 creditsButton,
                 TutorialButton,
                 quitGameButton,
+                showcaseButton,
             };
         }
 
@@ -97,6 +103,11 @@ namespace WillowWoodRefuge
         private void QuitGameButton_Click(object sender, EventArgs e)
         {
             game.Exit();
+        }
+
+        private void ShowcaseButton_Click(object sender, EventArgs e)
+        {
+            game.ChangeState("ArtistStatement");
         }
     }
 }

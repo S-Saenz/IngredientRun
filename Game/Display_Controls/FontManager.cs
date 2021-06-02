@@ -77,6 +77,8 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
+                    if (lineSize.Y == 0)
+                        lineSize.Y = font.MeasureString("|").Y;
                     Vector2 pos = origin + new Vector2(boxSize.X - lineSize.X, yOffset);
                     // round to nearest int so letters don't get cut
                     pos.X = (int)pos.X;
@@ -95,6 +97,8 @@ namespace WillowWoodRefuge
                 foreach (string line in values)
                 {
                     Vector2 lineSize = font.MeasureString(line);
+                    if(lineSize.Y == 0)
+                        lineSize.Y = font.MeasureString("|").Y;
                     Vector2 pos = origin + new Vector2(-lineSize.X / 2, yOffset);
                     // round to nearest int so letters don't get cut
                     pos.X = (int)pos.X;
