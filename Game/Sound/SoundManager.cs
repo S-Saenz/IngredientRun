@@ -33,6 +33,7 @@ namespace WillowWoodRefuge
             // Song names
             songs.Add("forestSong", Content.Load<Song>("music/forestSong"));
             songs.Add("caveSong", Content.Load<Song>("music/spooky1test2"));
+            songs.Add("introSong", Content.Load<Song>("music/WWR_Intro"));
             // song names end
 
             // sound effects
