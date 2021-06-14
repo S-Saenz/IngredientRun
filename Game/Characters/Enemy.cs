@@ -11,7 +11,7 @@ namespace WillowWoodRefuge
 {
     public class Enemy : AICharacter, ISpawnable
     {
-        float _attackCooldown = 2;
+        float _attackCooldown = 1;
         float _cooldownTimer = 0;
         float _attackDamage = 1;
         bool _isAttacking = false;
