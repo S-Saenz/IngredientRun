@@ -51,6 +51,12 @@ namespace WillowWoodRefuge
             sounds?.stop();
             _nextState = _states[sState];
             _currentState?.unloadState();
+
+            if(sState == "TutorialState")
+            {
+                (_states[sState] as TutorialState)._returnTo = _currentStateName;
+            }
+
             GameplayState state = _nextState as GameplayState;
             if (state != null) // next state is gameplay state
             {

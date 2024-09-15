@@ -166,7 +166,7 @@ namespace WillowWoodRefuge
         public override void Update(GameTime gameTime)
         {
             
-            UpdateDebug();
+            // UpdateDebug();
 
             // either minimize current window or 
             if (Game1.instance.input.JustPressed("escape"))
@@ -226,17 +226,17 @@ namespace WillowWoodRefuge
             }
 
             // Toggle performance (wall occlusion for shader)
-            if (game.input.JustPressed("performance"))
-            {
-                _occlusion = !_occlusion;
-                _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
-            }
+            // if (game.input.JustPressed("performance"))
+            // {
+            //     _occlusion = !_occlusion;
+            //     _shadowEffect.Parameters["Occlusion"].SetValue(_occlusion);
+            // }
 
             // Toggle lighting
-            if(game.input.JustPressed("light"))
-            {
-                _isDarkEnabled = !_isDarkEnabled;
-            }
+            // if(game.input.JustPressed("light"))
+            // {
+            //     _isDarkEnabled = !_isDarkEnabled;
+            // }
 
             // End state
             if(_numInjured <= 0)

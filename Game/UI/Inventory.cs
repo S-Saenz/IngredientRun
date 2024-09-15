@@ -276,11 +276,11 @@ namespace WillowWoodRefuge
         {
             // Debug.WriteLine("Inventory being drawn");
             float dynamicScreenScale = Game1.instance._cameraController._screenScale;
-            int width = (int)(Game1.instance._cameraController._screenDimensions.X * dynamicScreenScale);
-            int height = (int)(Game1.instance._cameraController._screenDimensions.Y * dynamicScreenScale);
+            float width = Game1.instance._cameraController._screenDimensions.X;
+            float height = Game1.instance._cameraController._screenDimensions.Y;
 
             //spriteBatch.Draw(inventorySq, new Vector2(0, 0), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.4f);
-            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, width, height), Color.White);
+            TextureAtlasManager.DrawTexture(spriteBatch, "UI", "Main_Inventory_UI_Scaled", new Rectangle(0, 0, (int)width, (int)height), Color.White);
 
             //for (int i=0; i < ings.Count; i++)
             //{

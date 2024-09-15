@@ -28,7 +28,7 @@ namespace WillowWoodRefuge
         {
             var buttonTexture = _content.Load<Texture2D>("Controls/ButtonNormal");
             var menuButton = new UIButton(buttonTexture, 
-                 new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - buttonTexture.Width, 75), "To Menu");
+                 new Vector2(Game1.instance._cameraController._screenDimensions.X / 2 - buttonTexture.Width, 75), "Return");
             menuButton.reScale(2f);
 
             menuButton.Click += menuButton_Click;

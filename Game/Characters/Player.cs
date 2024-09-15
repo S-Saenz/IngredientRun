@@ -704,8 +704,7 @@ namespace WillowWoodRefuge
         {
             if (Game1.instance.input.JustPressed("down") || // let go of ledge
                     (_grabLeft && Game1.instance.input.JustPressed("right")) ||
-                    (!_grabLeft && Game1.instance.input.JustPressed("left")) ||
-                    Game1.instance.input.JustPressed("space"))
+                    (!_grabLeft && Game1.instance.input.JustPressed("left")))
             {
                 _collisionBox._posLock = false;
                 _collisionBox._hasGravity = true;
@@ -715,7 +714,8 @@ namespace WillowWoodRefuge
                      _collisionBox.CanFit(new Point2(_anchorPoint.Value.X - (_grabLeft ? _collisionBox._bounds.Width : 0),
                                                       _anchorPoint.Value.Y - _collisionBox._bounds.Height)) ||
                      (_grabLeft && Game1.instance.input.JustPressed("left")) ||
-                     (!_grabLeft && Game1.instance.input.JustPressed("right")))
+                     (!_grabLeft && Game1.instance.input.JustPressed("right")) ||
+                    Game1.instance.input.JustPressed("space"))
             {
                 interuptAnimationUpdate = true;
                 interuptInputUpdate = true;
